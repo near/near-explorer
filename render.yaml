@@ -35,26 +35,6 @@ services:
           type: web
           name: backend/testnet
           property: host
-      - key: NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__SHARDNET
-        fromService:
-          type: web
-          name: backend/shardnet
-          envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__SHARDNET
-        fromService:
-          type: web
-          name: backend/shardnet
-          property: host
-      - key: NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__GUILDNET
-        fromService:
-          type: web
-          name: backend/guildnet
-          envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__GUILDNET
-        fromService:
-          type: web
-          name: backend/guildnet
-          property: host
 
       - fromGroup: frontend
 
@@ -74,18 +54,6 @@ services:
               "explorerLink": "https://explorer.testnet.near.org/",
               "aliases": ["explorer.testnet.near.org", "explorer.testnet.nearprotocol.com"],
               "nearWalletProfilePrefix": "https://wallet.testnet.near.org/profile"
-            },
-            "shardnet": {
-              "explorerLink": "https://explorer.shardnet.near.org/",
-              "offline": true,
-              "aliases": ["explorer.shardnet.near.org"],
-              "nearWalletProfilePrefix": "https://wallet.shardnet.near.org/profile"
-            }, 
-            "guildnet": {
-              "explorerLink": "https://explorer.guildnet.near.org/",
-              "offline": true,
-              "aliases": ["explorer.guildnet.near.org"],
-              "nearWalletProfilePrefix": "https://wallet.openshards.io/profile"
             }
           }
 
@@ -120,32 +88,6 @@ services:
       - fromGroup: backend
       - fromGroup: backend/testnet
       - fromGroup: backend/testnet/secret
-
-  ## Explorer backend [shardnet]
-  - type: web
-    name: backend/shardnet
-    env: node
-    repo: https://github.com/near/near-explorer.git
-    buildCommand: npm clean-install && npm run -w backend build
-    startCommand: npm run -w backend start
-    healthCheckPath: /ping
-    envVars:
-      - fromGroup: backend
-      - fromGroup: backend/shardnet
-      - fromGroup: backend/shardnet/secret
-
-  ## Explorer backend [guildnet]
-  - type: web
-    name: backend/guildnet
-    env: node
-    repo: https://github.com/near/near-explorer.git
-    buildCommand: npm clean-install && npm run -w backend build
-    startCommand: npm run -w backend start
-    healthCheckPath: /ping
-    envVars:
-      - fromGroup: backend
-      - fromGroup: backend/guildnet
-      - fromGroup: backend/guildnet/secret
 
 envVarGroups:
   - name: frontend
@@ -202,47 +144,3 @@ envVarGroups:
         value: 35.241.197.241
       - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
         value: telemetry_testnet
-  - name: backend/shardnet
-    envVars:
-      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
-        value: shardnet
-      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
-        value: http://34.147.104.174:3030/
-      - key: NEAR_EXPLORER_CONFIG__OFFLINE
-        value: true
-
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
-        value: 34.150.152.210
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
-        value: telemetry_shardnet
-  - name: backend/guildnet
-    envVars:
-      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
-        value: guildnet
-      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
-        value: https://rpc.openshards.io
-      - key: NEAR_EXPLORER_CONFIG__OFFLINE
-        value: true
-
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__HOST
-        value: 159.89.46.95
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__DATABASE
-        value: guildnet_explorer
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__USER
-        value: public_readonly
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__PASSWORD
-        value: nearprotocol
-
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__HOST
-        value: 35.205.19.192
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__DATABASE
-        value: indexer_analytics_guildnet
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__USER
-        value: public_readonly
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__PASSWORD
-        value: nearprotocol
-
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
-        value: 35.205.19.192
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
-        value: telemetry_guildnet
