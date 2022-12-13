@@ -15,12 +15,14 @@ import { styled } from "../../libraries/styles";
 import * as React from "react";
 import { trpc } from "../../libraries/trpc";
 import { useRouter } from "next/router";
+import { default as BetaTransactionPage } from "../beta/transactions/[hash]";
+import { useBeta } from "../../hooks/use-beta";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
 });
 
-const TransactionDetailsPage: NextPage = React.memo(() => {
+const TransactionDetailsPage = React.memo(() => {
   const hash = useRouter().query.hash as string;
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
@@ -82,4 +84,12 @@ const TransactionDetailsPage: NextPage = React.memo(() => {
   );
 });
 
-export default TransactionDetailsPage;
+const TransactionDetailsWithBeta: NextPage = () => {
+  const isBeta = useBeta();
+  if (isBeta) {
+    return <BetaTransactionPage />;
+  }
+  return <TransactionDetailsPage />;
+};
+
+export default TransactionDetailsWithBeta;

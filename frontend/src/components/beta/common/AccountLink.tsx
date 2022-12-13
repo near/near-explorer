@@ -13,7 +13,7 @@ export interface Props {
 
 const AccountLink: React.FC<Props> = React.memo(({ accountId }) => {
   return (
-    <Link href={`/beta/accounts/${accountId}`} passHref>
+    <Link href={`/accounts/${accountId}`} passHref>
       <AccountLinkWrapper>{shortenString(accountId)}</AccountLinkWrapper>
     </Link>
   );

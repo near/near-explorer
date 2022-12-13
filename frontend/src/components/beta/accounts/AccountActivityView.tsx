@@ -114,7 +114,7 @@ const getActionLink = (action: AccountActivityElementAction) => {
 };
 
 const getAccountLink = (account: string) => {
-  return `/beta/accounts/${account}`;
+  return `/accounts/${account}`;
 };
 
 const ActivityItemActionWrapper = styled("div", {

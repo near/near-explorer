@@ -16,6 +16,8 @@ import LanguageToggle from "./LanguageToggle";
 import { styled } from "../../libraries/styles";
 import { ServiceStatusView } from "./ServiceStatus";
 import { useNetworkContext } from "../../hooks/use-network-context";
+import { useBetaOptions } from "../../hooks/use-beta-options";
+import { BetaSwitch } from "./BetaSwitch";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",
@@ -64,6 +66,7 @@ const Header: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const router = useRouter();
   const { network } = useNetworkContext();
+  const [betaOptions] = useBetaOptions();
 
   return (
     <HeaderContainer fluid>
@@ -121,15 +124,20 @@ const Header: React.FC = React.memo(() => {
           md="auto"
         >
           <Row>
-            <Col md="3" className="align-self-center">
+            {betaOptions ? (
+              <Col md="3" className="align-self-center">
+                <BetaSwitch />
+              </Col>
+            ) : null}
+            <Col md={betaOptions ? 2 : 3} className="align-self-center">
               <LanguageToggle />
             </Col>
-            <Col md="4" className="align-self-center">
+            <Col md={betaOptions ? 3 : 4} className="align-self-center">
               <Link href="/" passHref>
                 <HeaderHome>{t("component.utils.Header.home")}</HeaderHome>
               </Link>
             </Col>
-            <Col md="5" className="align-self-center">
+            <Col md={betaOptions ? 4 : 5} className="align-self-center">
               <HeaderNavDropdown />
             </Col>
           </Row>
