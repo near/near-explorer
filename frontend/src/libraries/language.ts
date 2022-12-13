@@ -5,7 +5,8 @@
  * - https://github.com/near/near-wallet/blob/master/src/utils/getUserLocale.js
  */
 
-import Cookies from "universal-cookie";
+import { IncomingMessage } from "http";
+import { getCookiesFromReq } from "./cookie";
 import { DEFAULT_LANGUAGE, Language } from "./i18n";
 
 export const LANGUAGE_COOKIE = "NEXT_LOCALE";
@@ -116,10 +117,10 @@ const isLanguage = (input: string): input is Language =>
 
 export function getLanguage(
   languages: readonly Language[],
-  cookies?: string,
+  req: IncomingMessage,
   acceptedLanguages?: string
 ): Language {
-  const parsedCookies = new Cookies(cookies);
+  const parsedCookies = getCookiesFromReq(req);
   const languageCookie = parsedCookies.get(LANGUAGE_COOKIE);
   if (languageCookie && isLanguage(languageCookie)) {
     return languageCookie;

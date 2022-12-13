@@ -24,17 +24,18 @@ import { getBranch, getShortCommitSha, SSR_TIMEOUT } from "../libraries/common";
 import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
 import { getDateLocale } from "../libraries/date-locale";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
-import { createI18n, LANGUAGES } from "../libraries/i18n";
-import { AppType } from "next/dist/shared/lib/utils";
+import { createI18n, Language, LANGUAGES } from "../libraries/i18n";
+import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
 import { LanguageContext } from "../context/LanguageContext";
 import { i18n } from "i18next";
 import { MINUTE, YEAR } from "../libraries/time";
 import { globalCss, styled } from "../libraries/styles";
 import { getBackendUrl } from "../libraries/transport";
-import { useLanguageCookie } from "../hooks/use-language-context";
 import { useDateLocale } from "../hooks/use-date-locale";
 import { useI18n } from "../hooks/use-i18n";
 import { ToastController } from "../components/utils/ToastController";
+import { useCookie } from "../hooks/use-cookie";
+import { CookieContext, getCookiesFromString } from "../libraries/cookie";
 
 const globalStyles = globalCss({
   body: {
@@ -90,6 +91,7 @@ declare module "next/app" {
   type ServerAppInitialProps = {
     i18n: i18n;
     locale: LanguageContext["locale"];
+    cookies: string;
   };
 
   type ExtraAppInitialProps = {
@@ -135,92 +137,116 @@ const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
 
 let extraAppInitialPropsCache: Omit<ExtraAppInitialProps, "getServerProps">;
 
-const App: AppType = React.memo(({ Component, pageProps }) => {
-  const {
-    networkName,
-    language: initialLanguage,
-    deployInfo,
-    getServerProps,
-    ...restPageProps
-  } = pageProps;
-  extraAppInitialPropsCache = {
-    language: initialLanguage,
-    deployInfo,
-    networkName,
-  };
-  const serverProps = getServerProps?.();
-
-  const router = useRouter();
-  React.useEffect(() => {
-    router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
-    router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
-  }, [router]);
-
-  const [language, setLanguage] = React.useState(initialLanguage);
-  useLanguageCookie(language);
-  const locale = useDateLocale(serverProps?.locale, language);
-  useI18n(serverProps?.i18n || (() => createI18n(language)), language);
-
-  useAnalyticsInit();
-  globalStyles();
-
-  const networkState = React.useMemo(
-    () => ({
+const InnerApp: React.FC<AppPropsType> = React.memo(
+  ({ Component, pageProps }) => {
+    const {
       networkName,
-      networks: nearNetworks,
-    }),
-    [networkName, nearNetworks]
-  );
-  const currentNetwork = nearNetworks[networkName];
-  const offline = Boolean(currentNetwork?.offline);
+      language: initialLanguage,
+      deployInfo,
+      getServerProps,
+      ...restPageProps
+    } = pageProps;
+    extraAppInitialPropsCache = {
+      language: initialLanguage,
+      deployInfo,
+      networkName,
+    };
+    const serverProps = getServerProps?.();
 
-  const languageContext = React.useMemo(
-    () => ({ language, setLanguage, locale }),
-    [language, setLanguage, locale]
-  );
+    const router = useRouter();
+    React.useEffect(() => {
+      router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
+      router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
+    }, [router]);
 
-  return (
-    <>
-      <Head>
-        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <AppContextWrapper
-        networkState={networkState}
-        languageContext={languageContext}
-      >
-        <AppWrapper>
-          <Header />
-          <ToastController />
-          <BackgroundImage src="/static/images/explorer-bg.svg" />
-          {offline ? <OfflineSplash /> : <Component {...restPageProps} />}
-        </AppWrapper>
-        <Footer />
-        <DeployInfo client={deployInfo} />
-        <ReactQueryDevtools />
-      </AppContextWrapper>
-      {googleAnalytics ? (
-        <>
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+    const [language, setLanguage] = useCookie<Language>(LANGUAGE_COOKIE, {
+      defaultValue: initialLanguage,
+    });
+
+    const locale = useDateLocale(serverProps?.locale, language);
+    useI18n(serverProps?.i18n || (() => createI18n(language)), language);
+
+    useAnalyticsInit();
+    globalStyles();
+
+    const networkState = React.useMemo(
+      () => ({
+        networkName,
+        networks: nearNetworks,
+      }),
+      [networkName, nearNetworks]
+    );
+    const currentNetwork = nearNetworks[networkName];
+    const offline = Boolean(currentNetwork?.offline);
+
+    const languageContext = React.useMemo(
+      () => ({ language, setLanguage, locale }),
+      [language, setLanguage, locale]
+    );
+
+    return (
+      <>
+        <Head>
+          <link
+            rel="shortcut icon"
+            type="image/png"
+            href="/static/favicon.ico"
           />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <AppContextWrapper
+          networkState={networkState}
+          languageContext={languageContext}
+        >
+          <AppWrapper>
+            <Header />
+            <ToastController />
+            <BackgroundImage src="/static/images/explorer-bg.svg" />
+            {offline ? <OfflineSplash /> : <Component {...restPageProps} />}
+          </AppWrapper>
+          <Footer />
+          <DeployInfo client={deployInfo} />
+          <ReactQueryDevtools />
+        </AppContextWrapper>
+        {googleAnalytics ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
                 gtag('config', '${googleAnalytics}');
               `,
-            }}
-          />
-        </>
-      ) : null}
-    </>
+              }}
+            />
+          </>
+        ) : null}
+      </>
+    );
+  }
+);
+
+const App: AppType = (props) => {
+  const [cookies] = React.useState(() =>
+    getCookiesFromString(
+      props.pageProps.getServerProps?.().cookies ?? document.cookie
+    )
   );
-});
+  return (
+    <CookieContext.Provider value={cookies}>
+      <InnerApp {...props} />
+    </CookieContext.Provider>
+  );
+};
 
 App.getInitialProps = async (appContext) => {
   const req = appContext.ctx.req;
@@ -229,7 +255,7 @@ App.getInitialProps = async (appContext) => {
     // Being server-side can be detected with 'req' existence
     const language = getLanguage(
       LANGUAGES,
-      req.headers.cookie,
+      req,
       req.headers["accept-language"]
     );
     let deployInfo: DeployInfoProps;
@@ -257,6 +283,7 @@ App.getInitialProps = async (appContext) => {
     const serverProps: ServerAppInitialProps = {
       i18n: createI18n(language),
       locale: await getDateLocale(language),
+      cookies: req.headers.cookie ?? "",
     };
     initialProps = {
       deployInfo,
