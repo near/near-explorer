@@ -24,6 +24,7 @@ export interface ExplorerConfig {
     backendConfig: BackendConfig;
     googleAnalytics?: string;
     segmentWriteKey: string;
+    gleapKey?: string;
   };
 }
 

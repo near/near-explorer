@@ -13,6 +13,11 @@ export const router = trpc.router<Context>().query("deployInfo", {
         instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
         serviceId: process.env.RENDER_SERVICE_ID || "unknown",
         serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
+        environment: process.env.RENDER_SERVICE_ID
+          ? process.env.RENDER_SERVICE_ID.includes("pr")
+            ? ("staging" as const)
+            : ("prod" as const)
+          : ("dev" as const),
       };
     } else {
       const [branch, commit] = await Promise.all([
@@ -25,6 +30,7 @@ export const router = trpc.router<Context>().query("deployInfo", {
         instanceId: "local",
         serviceId: "local",
         serviceName: `backend/${config.networkName}`,
+        environment: "dev" as const,
       };
     }
   },

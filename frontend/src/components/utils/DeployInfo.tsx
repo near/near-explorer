@@ -1,4 +1,5 @@
 import React from "react";
+import Gleap from "gleap";
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import { DeployInfo as DeployInfoProps } from "../../types/common";
@@ -51,6 +52,10 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
     () => setExpanded((expanded) => !expanded),
     [setExpanded]
   );
+
+  React.useEffect(() => {
+    Gleap.setEnvironment(client.environment);
+  }, [client.environment]);
   const { data: server } = trpc.useQuery(["utils.deployInfo"], {
     enabled: expanded,
   });

@@ -12,6 +12,7 @@ const config: ExplorerConfig & NextConfig = {
     backendConfig,
     googleAnalytics: "",
     segmentWriteKey: "",
+    gleapKey: undefined,
   },
   serverRuntimeConfig: {
     backendConfig,
