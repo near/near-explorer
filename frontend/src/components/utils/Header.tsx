@@ -18,6 +18,7 @@ import { ServiceStatusView } from "./ServiceStatus";
 import { useNetworkContext } from "../../hooks/use-network-context";
 import { useBetaOptions } from "../../hooks/use-beta-options";
 import { BetaSwitch } from "./BetaSwitch";
+import { useIsBetaPage } from "../../hooks/use-is-beta-page";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",
@@ -67,6 +68,8 @@ const Header: React.FC = React.memo(() => {
   const router = useRouter();
   const { network } = useNetworkContext();
   const [betaOptions] = useBetaOptions();
+  const isBetaPage = useIsBetaPage();
+  const shouldShowSwitch = Boolean(betaOptions) && isBetaPage;
 
   return (
     <HeaderContainer fluid>
@@ -124,20 +127,20 @@ const Header: React.FC = React.memo(() => {
           md="auto"
         >
           <Row>
-            {betaOptions ? (
+            {shouldShowSwitch ? (
               <Col md="3" className="align-self-center">
                 <BetaSwitch />
               </Col>
             ) : null}
-            <Col md={betaOptions ? 2 : 3} className="align-self-center">
+            <Col md={shouldShowSwitch ? 2 : 3} className="align-self-center">
               <LanguageToggle />
             </Col>
-            <Col md={betaOptions ? 3 : 4} className="align-self-center">
+            <Col md={shouldShowSwitch ? 3 : 4} className="align-self-center">
               <Link href="/" passHref>
                 <HeaderHome>{t("component.utils.Header.home")}</HeaderHome>
               </Link>
             </Col>
-            <Col md={betaOptions ? 4 : 5} className="align-self-center">
+            <Col md={shouldShowSwitch ? 4 : 5} className="align-self-center">
               <HeaderNavDropdown />
             </Col>
           </Row>
