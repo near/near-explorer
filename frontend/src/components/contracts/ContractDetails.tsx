@@ -10,6 +10,7 @@ import TransactionLink from "../utils/TransactionLink";
 import { Trans, useTranslation } from "react-i18next";
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
+import CopyToClipboard from "../utils/CopyToClipboard";
 
 const ContractInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",
@@ -79,12 +80,20 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                 />
               }
               text={
-                contractInfo.timestamp
-                  ? format(
+                contractInfo.timestamp ? (
+                  <>
+                    {format(
                       contractInfo.timestamp,
                       t("common.date_time.date_time_format")
-                    )
-                  : t("common.state.not_available")
+                    )}
+                    <CopyToClipboard
+                      text={String(contractInfo.timestamp)}
+                      css={{ marginLeft: 8 }}
+                    />
+                  </>
+                ) : (
+                  t("common.state.not_available")
+                )
               }
               className="border-0"
             />

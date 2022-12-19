@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useSubscription } from "../../hooks/use-subscription";
 import { Block } from "../../types/common";
 import { styled } from "../../libraries/styles";
+import CopyToClipboard from "../utils/CopyToClipboard";
 
 const BlockInfoContainer = styled(Col, {
   border: "solid 4px #e6e6e6",
@@ -148,10 +149,18 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                   text={t("component.blocks.BlockDetails.created.text")}
                 />
               }
-              text={format(
-                block.timestamp,
-                t("common.date_time.date_time_format")
-              )}
+              text={
+                <>
+                  {format(
+                    block.timestamp,
+                    t("common.date_time.date_time_format")
+                  )}
+                  <CopyToClipboard
+                    text={String(block.timestamp)}
+                    css={{ marginLeft: 8 }}
+                  />
+                </>
+              }
               className="border-0"
             />
           </Col>

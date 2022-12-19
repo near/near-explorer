@@ -16,6 +16,7 @@ import { useNetworkContext } from "../../hooks/use-network-context";
 import { trpc } from "../../libraries/trpc";
 import { AccountOld } from "../../types/common";
 import { styled } from "../../libraries/styles";
+import CopyToClipboard from "../utils/CopyToClipboard";
 
 const AccountInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",
@@ -262,6 +263,10 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                       account.created.timestamp,
                       t("common.date_time.date_time_format")
                     )}
+                    <CopyToClipboard
+                      text={String(account.created.timestamp)}
+                      css={{ marginLeft: 8 }}
+                    />
                   </>
                 )
               }
@@ -316,6 +321,10 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                     account.deleted.timestamp,
                     t("common.date_time.date_time_format")
                   )}
+                  <CopyToClipboard
+                    text={String(account.deleted.timestamp)}
+                    css={{ marginLeft: 8 }}
+                  />
                 </>
               }
               className="border-0"

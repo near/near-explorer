@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
 import { shortenString } from "../../../libraries/formatting";
 
-import CopyToClipboard from "../../beta/common/CopyToClipboard";
+import CopyToClipboard from "../../utils/CopyToClipboard";
 import { NearAmount } from "../../utils/NearAmount";
 import TransactionStatus from "./TransactionStatus";
 import { Transaction } from "../../../types/common";
@@ -144,6 +144,10 @@ const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
                 t("common.date_time.transaction_date_format")
               )}
               <UtcLabel />
+              <CopyToClipboard
+                css={{ marginLeft: 8 }}
+                text={String(transaction.timestamp)}
+              />
             </CenteredContainer>
           </Amount>
         </div>

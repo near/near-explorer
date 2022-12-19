@@ -1,4 +1,8 @@
-import { createStitches, PropertyValue } from "@stitches/react";
+import {
+  createStitches,
+  PropertyValue,
+  CSS as GenericCSS,
+} from "@stitches/react";
 
 const stitches = createStitches({
   utils: {
@@ -28,5 +32,7 @@ const stitches = createStitches({
     }),
   },
 });
+
+export type CSS = GenericCSS<typeof stitches["config"]>;
 
 export const { styled, globalCss, getCssText, css, keyframes } = stitches;
