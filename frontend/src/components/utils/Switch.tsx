@@ -65,6 +65,7 @@ const StyledSwitch = styled(RawSwitch, {
   cursor: "pointer",
   transition: "all .3s cubic-bezier(0.35, 0, 0.25, 1)",
   overflow: "hidden",
+  flexShrink: 0,
 
   "&-inner": {
     display: "none",
