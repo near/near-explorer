@@ -29,4 +29,4 @@ const stitches = createStitches({
   },
 });
 
-export const { styled, globalCss, getCssText, css } = stitches;
+export const { styled, globalCss, getCssText, css, keyframes } = stitches;

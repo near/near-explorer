@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import { styled } from "../../libraries/styles";
 import { StyledComponent } from "@stitches/react/types/styled-component";
+import { BetaSwitch } from "./BetaSwitch";
+import { useBetaOptions } from "../../hooks/use-beta-options";
 
 const Icon = styled("svg", {
   width: 16,
@@ -157,6 +159,8 @@ const MobileNavDropdown: React.FC = React.memo(() => {
     return () => document.removeEventListener("click", closeMenu);
   }, [isMenuShown, closeMenu]);
 
+  const [betaOptions] = useBetaOptions();
+
   return (
     <>
       <MobileHeaderNav
@@ -206,6 +210,11 @@ const MobileNavDropdown: React.FC = React.memo(() => {
             <MobileNav>
               <LanguageToggle mobile />
             </MobileNav>
+            {betaOptions ? (
+              <MobileNav>
+                <BetaSwitch />
+              </MobileNav>
+            ) : null}
           </DropdownContent>
         ) : null}
       </MobileHeaderNav>

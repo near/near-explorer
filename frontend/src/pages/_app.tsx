@@ -36,6 +36,7 @@ import { useI18n } from "../hooks/use-i18n";
 import { ToastController } from "../components/utils/ToastController";
 import { useCookie } from "../hooks/use-cookie";
 import { CookieContext, getCookiesFromString } from "../libraries/cookie";
+import { useWatchBeta } from "../hooks/use-watch-beta";
 
 const globalStyles = globalCss({
   body: {
@@ -183,6 +184,8 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
       () => ({ language, setLanguage, locale }),
       [language, setLanguage, locale]
     );
+
+    useWatchBeta();
 
     return (
       <>

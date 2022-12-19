@@ -18,6 +18,13 @@ import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-tr
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
+import {
+  getServerSideProps as getBetaServerSideProps,
+  default as BetaAccountPage,
+} from "../beta/accounts/[...slug]";
+import { useAccountPageOptions } from "../../hooks/use-account-page-options";
+import { getBetaOptionsFromReq } from "../../libraries/beta";
+import { useBeta } from "../../hooks/use-beta";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -25,8 +32,8 @@ const TransactionIcon = styled(TransactionIconSvg, {
 
 const TRANSACTIONS_PER_PAGE = 10;
 
-const AccountDetail: NextPage = React.memo(() => {
-  const accountId = useRouter().query.id as string;
+const AccountDetail = React.memo(() => {
+  const { accountId } = useAccountPageOptions();
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Account", {
     accountId,
@@ -87,9 +94,12 @@ const AccountDetail: NextPage = React.memo(() => {
 
 export const getServerSideProps: GetServerSideProps<
   {},
-  { id: string }
-> = async ({ params }) => {
-  const accountId = params?.id ?? "";
+  { slug: string[] }
+> = async (context) => {
+  if (getBetaOptionsFromReq(context.req)?.enabled) {
+    return getBetaServerSideProps(context);
+  }
+  const accountId = context.params?.slug[0] ?? "";
   if (/[A-Z]/.test(accountId)) {
     return {
       redirect: {
@@ -101,4 +111,12 @@ export const getServerSideProps: GetServerSideProps<
   return { props: {} };
 };
 
-export default AccountDetail;
+const AccountDetailsWithBeta: NextPage = React.memo(() => {
+  const isBeta = useBeta();
+  if (isBeta) {
+    return <BetaAccountPage />;
+  }
+  return <AccountDetail />;
+});
+
+export default AccountDetailsWithBeta;

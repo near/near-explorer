@@ -14,20 +14,16 @@ import TransactionActionsList from "../../../components/beta/transactions/Transa
 import { trpc } from "../../../libraries/trpc";
 import { styled } from "../../../libraries/styles";
 
-type Props = {
-  hash: string;
-};
-
 const Wrapper = styled("div", {
   backgroundColor: "#fff",
   padding: "12px 6vw",
   fontFamily: "Manrope",
 });
 
-const TransactionPage: NextPage<Props> = React.memo((props) => {
+const TransactionPage: NextPage = React.memo(() => {
   const hash = useRouter().query.hash as string;
   useAnalyticsTrackOnMount("Explorer Beta | Individual Transaction Page", {
-    transaction_hash: props.hash,
+    transaction_hash: hash,
   });
 
   const transactionQuery = trpc.useQuery(["transaction.byHash", { hash }]);
@@ -42,7 +38,7 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
         rel="stylesheet"
       />
       <Wrapper>
-        <TransactionQueryView {...transactionQuery} hash={props.hash} />
+        <TransactionQueryView {...transactionQuery} hash={hash} />
       </Wrapper>
     </>
   );

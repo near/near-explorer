@@ -81,12 +81,7 @@ const getAccountTabParts = (options: AccountPageOptions) => {
 };
 
 export const buildAccountUrl = (options: AccountPageOptions) => {
-  return [
-    "/beta",
-    "accounts",
-    options.accountId,
-    ...getAccountTabParts(options),
-  ]
+  return ["accounts", options.accountId, ...getAccountTabParts(options)]
     .filter(Boolean)
     .join("/");
 };
@@ -94,7 +89,10 @@ export const buildAccountUrl = (options: AccountPageOptions) => {
 export const useAccountPageOptions = (): AccountPageOptions => {
   const router = useRouter();
   const pathElements = router.pathname.split("/").filter(Boolean);
-  if (pathElements[1] !== "accounts") {
+  const isRegularAccountPage = pathElements[0] === "accounts";
+  const isBetaAccountPage =
+    pathElements[0] === "beta" && pathElements[1] === "accounts";
+  if (!isRegularAccountPage && !isBetaAccountPage) {
     throw new Error(
       "useAccountPageOptions hook is used in non-account subpage!"
     );
