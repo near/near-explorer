@@ -42,6 +42,8 @@ services:
         value: UA-100373569-14
       - key: NEAR_EXPLORER_CONFIG__SEGMENT_WRITE_KEY
         value: HyPKyainIhsaHvjkOGTIxn3x8JBDpEmy
+      - key: NEAR_EXPLORER_CONFIG__GLEAP_KEY
+        value: CSjNAbQnKXhYOtqLjCTVH4wx11y3muUX
       - key: NEAR_EXPLORER_CONFIG__NETWORKS
         value: |
           {

@@ -36,6 +36,7 @@ const config = merge(
     networks: {} as Partial<Record<NetworkName, NearNetwork>>,
     googleAnalytics: undefined,
     segmentWriteKey: "",
+    gleapKey: undefined,
   },
   getOverrides("NEAR_EXPLORER_CONFIG")
 );
@@ -49,6 +50,7 @@ const nextConfig: ExplorerConfig & NextConfig = {
     backendConfig: config.backend,
     googleAnalytics: config.googleAnalytics,
     segmentWriteKey: config.segmentWriteKey,
+    gleapKey: config.gleapKey,
   },
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module

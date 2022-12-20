@@ -6,6 +6,7 @@ import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { splitLink } from "@trpc/client/links/splitLink";
 import { TRPCLink } from "@trpc/client";
 import Head from "next/head";
+import Gleap from "gleap";
 import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -84,8 +85,12 @@ const AppWrapper = styled("div", {
 });
 
 const {
-  publicRuntimeConfig: { nearNetworks, googleAnalytics },
+  publicRuntimeConfig: { nearNetworks, googleAnalytics, gleapKey },
 } = getConfig();
+
+if (typeof window !== "undefined" && gleapKey) {
+  Gleap.initialize(gleapKey);
+}
 
 declare module "next/app" {
   // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
@@ -166,6 +171,10 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
 
     const locale = useDateLocale(serverProps?.locale, language);
     useI18n(serverProps?.i18n || (() => createI18n(language)), language);
+
+    React.useEffect(() => {
+      Gleap.setLanguage(language);
+    }, [language]);
 
     useAnalyticsInit();
     globalStyles();
@@ -269,6 +278,11 @@ App.getInitialProps = async (appContext) => {
         instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
         serviceId: process.env.RENDER_SERVICE_ID || "unknown",
         serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
+        environment: process.env.RENDER_SERVICE_ID
+          ? process.env.RENDER_SERVICE_ID.includes("pr")
+            ? ("staging" as const)
+            : ("prod" as const)
+          : ("dev" as const),
       };
     } else {
       const [branch, commit] = await Promise.all([
@@ -281,6 +295,7 @@ App.getInitialProps = async (appContext) => {
         instanceId: "local",
         serviceId: "local",
         serviceName: "frontend",
+        environment: "dev" as const,
       };
     }
     const serverProps: ServerAppInitialProps = {
