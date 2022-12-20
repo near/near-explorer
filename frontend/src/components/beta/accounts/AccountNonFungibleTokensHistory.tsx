@@ -13,6 +13,7 @@ import NFTMedia from "../common/NFTMedia";
 import AccountLink from "../../utils/AccountLink";
 import ReceiptLink from "../../utils/ReceiptLink";
 import { useFormatDistance } from "../../../hooks/use-format-distance";
+import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {
   width: 380,
@@ -174,7 +175,9 @@ const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
         <Description>{token.ownerId}</Description>
 
         <Heading>History</Heading>
-        {tokenHistoryQuery.status === "loading" ? <div>loading....</div> : null}
+        {tokenHistoryQuery.status === "loading" ? (
+          <Spinner animation="border" />
+        ) : null}
         {elements.map((element) => (
           <AccountNonFungibleTokensHistoryElement
             key={`${element.receiptId}_${element.tokenId}`}

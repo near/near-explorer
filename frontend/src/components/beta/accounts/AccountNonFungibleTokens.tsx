@@ -12,6 +12,7 @@ import {
 import { NonFungibleTokensAccountPageOptions } from "../../../hooks/use-account-page-options";
 import AccountNonFungibleTokensHistory from "./AccountNonFungibleTokensHistory";
 import NFTMedia from "../common/NFTMedia";
+import { Spinner } from "react-bootstrap";
 
 const TOKENS_PER_PAGE = 4;
 
@@ -225,6 +226,13 @@ const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
       { accountId: options.accountId },
     ]);
     const contracts = query.data || [];
+    if (query.status === "loading") {
+      return (
+        <Wrapper>
+          <Spinner animation="border" />
+        </Wrapper>
+      );
+    }
 
     if (contracts.length === 0) {
       return <div>No collectibles yet!</div>;

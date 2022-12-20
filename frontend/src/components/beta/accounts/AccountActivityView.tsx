@@ -18,6 +18,7 @@ import Link from "../../utils/Link";
 import CopyToClipboard from "../../utils/CopyToClipboard";
 import { trpc } from "../../../libraries/trpc";
 import { useDateFormat } from "../../../hooks/use-date-format";
+import { Spinner } from "react-bootstrap";
 
 const ACCOUNT_CHANGES_PER_PAGE = 20;
 
@@ -330,7 +331,7 @@ const AccountActivityView: React.FC<Props> = ({ accountId }) => {
       <ListHandler query={query} parser={parser}>
         {(items) => {
           if (query.isLoading && items.length === 0) {
-            return <div>Loading..</div>;
+            return <Spinner animation="border" />;
           }
           return (
             <TableWrapper>

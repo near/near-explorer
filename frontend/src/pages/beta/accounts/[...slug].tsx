@@ -18,6 +18,7 @@ import {
   AccountPageOptions,
   buildAccountUrl,
 } from "../../../hooks/use-account-page-options";
+import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",
@@ -82,7 +83,7 @@ const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
         </div>
       );
     case "loading":
-      return <div>Loading...</div>;
+      return <Spinner animation="border" />;
     default:
       return null;
   }

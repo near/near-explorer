@@ -12,7 +12,7 @@ import LinkWrapper from "../../utils/Link";
 import AccountFungibleTokenHistory from "./AccountFungibleTokenHistory";
 import { TokenAmount } from "../../utils/TokenAmount";
 import { shortenString } from "../../../libraries/formatting";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
 const Wrapper = styled("div", {
   display: "flex",
@@ -145,6 +145,13 @@ const AccountFungibleTokensView: React.FC<Props> = React.memo(({ options }) => {
     "account.fungibleTokens",
     { accountId: options.accountId },
   ]);
+  if (tokensQuery.status === "loading") {
+    return (
+      <Wrapper>
+        <Spinner animation="border" />
+      </Wrapper>
+    );
+  }
   const tokens = tokensQuery.data || [];
   if (tokens.length === 0) {
     return <div>No fungible tokens yet!</div>;

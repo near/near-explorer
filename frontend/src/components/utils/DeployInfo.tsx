@@ -2,6 +2,7 @@ import React from "react";
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import { DeployInfo as DeployInfoProps } from "../../types/common";
+import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {
   position: "fixed",
@@ -77,7 +78,7 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
               <div>Service name: {server.serviceName}</div>
             </>
           ) : (
-            <div>loading..</div>
+            <Spinner animation="border" />
           )}
         </Section>
         <CloseButton onClick={switchExpanded}>❌</CloseButton>

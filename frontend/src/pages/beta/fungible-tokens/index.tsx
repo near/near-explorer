@@ -9,6 +9,7 @@ import { trpc } from "../../../libraries/trpc";
 import { id } from "../../../libraries/common";
 import { FungibleTokenItem } from "../../../types/common";
 import { TokenAmount } from "../../../components/utils/TokenAmount";
+import { Spinner } from "react-bootstrap";
 
 const Tokens = styled("div", {
   borderLeft: "1px solid black",
@@ -71,7 +72,7 @@ const FungibleTokens: NextPage = React.memo(() => {
         <ListHandler<FungibleTokenItem> query={fungibleTokensQuery} parser={id}>
           {(items) => {
             if (items.length === 0) {
-              return <div>Loading..</div>;
+              return <Spinner animation="border" />;
             }
             return (
               <Tokens>

@@ -5,9 +5,7 @@ const PaginationSpinner: React.FC = React.memo(() => (
   <div>
     <Row>
       <Col xs="auto" className="mx-auto">
-        <Spinner animation="grow" />
-        <Spinner animation="grow" />
-        <Spinner animation="grow" />
+        <Spinner animation="border" />
       </Col>
     </Row>
   </div>

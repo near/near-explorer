@@ -14,6 +14,7 @@ import { TokenAmount } from "../../utils/TokenAmount";
 import LinkWrapper from "../../utils/Link";
 import { buildAccountUrl } from "../../../hooks/use-account-page-options";
 import CopyToClipboard from "../../utils/CopyToClipboard";
+import { Spinner } from "react-bootstrap";
 
 const TableWrapper = styled("div", {
   display: "flex",
@@ -149,7 +150,7 @@ const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
     ]);
     if (tokenHistoryQuery.status !== "success") {
       if (tokenHistoryQuery.status === "loading") {
-        return <div>loading..</div>;
+        return <Spinner animation="border" />;
       }
       return null;
     }

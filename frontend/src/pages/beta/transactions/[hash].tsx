@@ -13,6 +13,7 @@ import TransactionHeader from "../../../components/beta/transactions/Transaction
 import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
 import { trpc } from "../../../libraries/trpc";
 import { styled } from "../../../libraries/styles";
+import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",
@@ -71,7 +72,7 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
     case "error":
       return <div>{t("page.transactions.error.transaction_fetching")}</div>;
     case "loading":
-      return <div>Loading...</div>;
+      return <Spinner animation="border" />;
     default:
       return null;
   }
