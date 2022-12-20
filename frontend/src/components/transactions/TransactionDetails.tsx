@@ -21,6 +21,7 @@ import {
   TransactionOld,
 } from "../../types/common";
 import * as BI from "../../libraries/bigint";
+import CopyToClipboard from "../utils/CopyToClipboard";
 
 const HeaderRow = styled(Row);
 
@@ -294,10 +295,18 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 href={"https://docs.near.org/docs/concepts/transaction"}
               />
             }
-            text={format(
-              transaction.blockTimestamp,
-              t("common.date_time.date_time_format")
-            )}
+            text={
+              <>
+                {format(
+                  transaction.blockTimestamp,
+                  t("common.date_time.date_time_format")
+                )}
+                <CopyToClipboard
+                  text={String(transaction.blockTimestamp)}
+                  css={{ marginLeft: 8 }}
+                />
+              </>
+            }
             className="border-0"
           />
         </Col>

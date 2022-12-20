@@ -8,6 +8,7 @@ import Link from "../utils/Link";
 import { useTranslation } from "react-i18next";
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
+import CopyToClipboard from "../utils/CopyToClipboard";
 
 const TransactionRow = styled(Row, {
   paddingVertical: 10,
@@ -84,6 +85,10 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
                 <TransactionRowTimer>
                   {t("component.accounts.AccountRow.deleted_on")}{" "}
                   {format(accountInfo.deleted.timestamp, "PPP")}
+                  <CopyToClipboard
+                    text={String(accountInfo.deleted.timestamp)}
+                    css={{ marginLeft: 8 }}
+                  />
                 </TransactionRowTimer>
               ) : (
                 <>
@@ -92,9 +97,17 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
                   />
                   <TransactionRowTimer>
                     {t("component.accounts.AccountRow.created_on")}{" "}
-                    {accountInfo.created
-                      ? format(accountInfo.created.timestamp, "PPP")
-                      : "Genesis"}
+                    {accountInfo.created ? (
+                      <>
+                        {format(accountInfo.created.timestamp, "PPP")}
+                        <CopyToClipboard
+                          text={String(accountInfo.created.timestamp)}
+                          css={{ marginLeft: 8 }}
+                        />
+                      </>
+                    ) : (
+                      "Genesis"
+                    )}
                   </TransactionRowTimer>
                 </>
               )

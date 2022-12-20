@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { TokenAmount } from "../../utils/TokenAmount";
 import LinkWrapper from "../../utils/Link";
 import { buildAccountUrl } from "../../../hooks/use-account-page-options";
+import CopyToClipboard from "../../utils/CopyToClipboard";
 
 const TableWrapper = styled("div", {
   display: "flex",
@@ -125,6 +126,10 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
         </Link>
         <TableElement>
           {format(item.timestamp, t("common.date_time.date_format"))}
+          <CopyToClipboard
+            css={{ marginLeft: 8 }}
+            text={String(item.timestamp)}
+          />
         </TableElement>
       </TableRow>
     );

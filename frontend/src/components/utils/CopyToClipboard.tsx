@@ -1,6 +1,6 @@
 import * as React from "react";
 import { CopyToClipboard as RawCopyToClipboard } from "react-copy-to-clipboard";
-import { styled } from "../../libraries/styles";
+import { styled, CSS } from "../../libraries/styles";
 
 const Wrapper = styled("div", {
   cursor: "pointer",
@@ -10,6 +10,7 @@ const Wrapper = styled("div", {
 type Props = {
   text: string;
   onCopy?: (text: string, result: boolean) => void;
+  css?: CSS;
 };
 
 const SHOW_COPY_OK_TIME = 2000;
@@ -33,7 +34,7 @@ const CopyToClipboard: React.FC<Props> = React.memo((props) => {
     }
   }, [copiedCounter, setCopiedCounter]);
   return (
-    <Wrapper>
+    <Wrapper css={props.css}>
       <RawCopyToClipboard text={props.text} onCopy={onCopy}>
         {copiedCounter ? (
           <svg height=".6em" width=".6em" viewBox="0 0 16 16">
