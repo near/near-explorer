@@ -11,7 +11,7 @@ import {
 import { styled } from "../../../libraries/styles";
 import { Account } from "../../../types/common";
 import { NearAmount } from "../../utils/NearAmount";
-import CopyToClipboard from "../common/CopyToClipboard";
+import CopyToClipboard from "../../utils/CopyToClipboard";
 import * as BI from "../../../libraries/bigint";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Timer from "../../utils/Timer";

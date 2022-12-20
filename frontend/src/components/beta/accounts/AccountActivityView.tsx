@@ -15,7 +15,7 @@ import { NearAmount } from "../../utils/NearAmount";
 import ListHandler from "../../utils/ListHandler";
 import * as BI from "../../../libraries/bigint";
 import Link from "../../utils/Link";
-import CopyToClipboard from "../common/CopyToClipboard";
+import CopyToClipboard from "../../utils/CopyToClipboard";
 import { trpc } from "../../../libraries/trpc";
 import { useDateFormat } from "../../../hooks/use-date-format";
 

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { shortenString } from "../../../libraries/formatting";
 import { styled } from "../../../libraries/styles";
 import { AccountActivityAction } from "../../../types/common";
-import CopyToClipboard from "../common/CopyToClipboard";
+import CopyToClipboard from "../../utils/CopyToClipboard";
 
 type Props = {
   action: AccountActivityAction;
