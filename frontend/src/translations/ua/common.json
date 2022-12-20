@@ -120,15 +120,44 @@
           "balance": "Баланс",
           "staked": "У стейкінгу",
           "transactions": "Транзакції"
+        },
+        "contract": {
+          "lockedStatus": "Locked status",
+          "codeHash": "Code hash",
+          "updatedTimestamp": "Updated at",
+          "updatedTransaction": "Updated in",
+          "status": {
+            "locked": "locked",
+            "unlocked": "unlocked"
+          }
         }
       },
       "tabs": {
-        "activity": "Активність",
-        "activityDetails": "(${transactionsQuantity})",
+        "transactions": "Транзакції",
+        "transactionsQuantity": "(${quantity})",
         "tokens": "Токени",
         "collectibles": "Колекціонування",
+        "collectiblesQuantity": "(${quantity})",
         "accessKeys": "Ключі",
         "lockedUp": "Заблоковано"
+      },
+      "transactions": {
+        "functions": {
+          "transfer": {
+            "incoming": "Transferred <amount/> from <signerId/>",
+            "outcoming": "Transferred <amount/> to <receiverId/>"
+          },
+          "stake": "Staked <amount/> with <shorten>${publicKey}</shorten>",
+          "functionCall": "Called method: '${methodName}' in contract: <contract />",
+          "addKey": {
+            "fullAccess": "New key added for <contract/>: <shorten>${publicKey}</shorten> with full access permission",
+            "partialAccess": "<receiver /> added an access key (<shorten>${publicKey}</shorten>) that can be used only to call functions on <contract/> contract"
+          },
+          "createAccount": "New account created: <account/>",
+          "deleteAccount": "Delete account <account/> and transfer remaining funds to <benefeciar/>",
+          "deleteKey": "Key deleted: <shorten>${publicKey}</shorten>",
+          "deployContract": "Contract deployed: <account/>"
+        }
       },
       "activity": {
         "type": {

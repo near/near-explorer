@@ -20,9 +20,6 @@ export type AccountNonFungibleTokenHistoryElement =
 export type AccountActivity = TRPCQueryOutput<"account.activity">;
 export type AccountActivityElement = AccountActivity["items"][number];
 export type AccountActivityElementAction = AccountActivityElement["action"];
-export type AccountActivityRelatedAction = NonNullable<
-  AccountActivityElement["action"]["parentAction"]
->;
 type InferAccountActivityAction<T extends AccountActivityElementAction> =
   T extends { kind: "batch" } ? T["actions"][number] : never;
 export type AccountActivityAction =

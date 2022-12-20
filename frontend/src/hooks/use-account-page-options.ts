@@ -9,8 +9,8 @@ export type FungibleTokensAccountPageOptions = BaseAccountPageOptions & {
   token?: string;
 };
 
-export type ActivityAccountPageOptions = BaseAccountPageOptions & {
-  tab: "activity";
+export type TransactionsAccountPageOptions = BaseAccountPageOptions & {
+  tab: "transactions";
 };
 
 export type NonFungibleTokensAccountPageOptions = BaseAccountPageOptions & {
@@ -19,7 +19,7 @@ export type NonFungibleTokensAccountPageOptions = BaseAccountPageOptions & {
 
 export type AccountPageOptions =
   | FungibleTokensAccountPageOptions
-  | ActivityAccountPageOptions
+  | TransactionsAccountPageOptions
   | NonFungibleTokensAccountPageOptions;
 
 export type AccountTab = AccountPageOptions["tab"];
@@ -47,7 +47,7 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
         }
         return {
           accountId,
-          tab: "activity",
+          tab: "transactions",
         };
       }
       case "collectibles": {
@@ -65,7 +65,7 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
   }
   return {
     accountId,
-    tab: "activity",
+    tab: "transactions",
   };
 };
 
@@ -73,7 +73,7 @@ const getAccountTabParts = (options: AccountPageOptions) => {
   switch (options.tab) {
     case "fungible-tokens":
       return [options.tab, options.token];
-    case "activity":
+    case "transactions":
       return [];
     case "collectibles":
       return [options.tab];

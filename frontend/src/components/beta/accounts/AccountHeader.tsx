@@ -15,6 +15,10 @@ import CopyToClipboard from "../../utils/CopyToClipboard";
 import * as BI from "../../../libraries/bigint";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Timer from "../../utils/Timer";
+import { trpc } from "../../../libraries/trpc";
+import TransactionLink from "../common/TransactionLink";
+import Timestamp from "../common/Timestamp";
+import ShortenValue from "../common/ShortenValue";
 
 type Props = {
   account: Account;
@@ -24,8 +28,16 @@ const Wrapper = styled("div", {
   padding: 28,
   borderRadius: 8,
   backgroundColor: "#000",
+  color: "#fff",
+});
+
+const HorizontalBlock = styled("div", {
   display: "flex",
   justifyContent: "space-between",
+
+  "& + &": {
+    marginTop: 32,
+  },
 
   "@media (max-width: 1000px)": {
     flexDirection: "column",
@@ -39,6 +51,18 @@ const BaseInfo = styled("div", {
   "@media (max-width: 1000px)": {
     marginRight: 0,
     marginBottom: 48,
+  },
+});
+
+const ContractInfo = styled("div", {
+  display: "flex",
+  flexWrap: "wrap",
+
+  "> *": {
+    marginRight: 24,
+  },
+  "> *:last-child": {
+    marginRight: 0,
   },
 });
 
@@ -112,7 +136,7 @@ const NumericInfo = styled("div", {
   alignItems: "center",
 });
 
-const QuantityHeader = styled("div", {
+const SmallHeader = styled("div", {
   fontSize: 12,
   color: "#c9c9c9",
 });
@@ -134,100 +158,144 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
           props.account.transactionsQuantity.toString(),
           6
         );
+  const contractQuery = trpc.useQuery([
+    "contract.byId",
+    { id: props.account.id },
+  ]);
   return (
     <Wrapper>
-      <BaseInfo>
-        <Avatar />
-        <div>
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip id="accountId">{props.account.id}</Tooltip>}
-          >
-            <AccountId>
-              {shortenString(props.account.id)}
-              <AccountCopy>
-                <CopyToClipboard text={props.account.id} />
-              </AccountCopy>
-            </AccountId>
-          </OverlayTrigger>
-          <BaseInfoDetails>
-            <CreatedBy
-              as={props.account.created ? "a" : undefined}
-              href={
-                props.account.created
-                  ? `/transactions/${props.account.created.hash}`
-                  : undefined
-              }
+      <HorizontalBlock>
+        <BaseInfo>
+          <Avatar />
+          <div>
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip id="accountId">{props.account.id}</Tooltip>}
             >
-              {props.account.created ? (
-                <Trans
-                  i18nKey="pages.account.header.createdAt"
-                  t={t}
-                  components={{
-                    Timer: <Timer time={props.account.created.timestamp} />,
-                  }}
-                />
-              ) : (
-                t("common.terms.genesis")
-              )}
-            </CreatedBy>
-            <InfoLineGap />
-            <InfoLine>
-              {t("pages.account.header.storageUsed", {
-                amount: formatBytes(props.account.storageUsed),
-              })}
-            </InfoLine>
-            <InfoLineGap />
-            <AccountTypeBadge
-              type={props.account.isContract ? "contract" : "user"}
-            >
-              {props.account.isContract
-                ? t("pages.account.header.accountType.contract")
-                : t("pages.account.header.accountType.user")}
-            </AccountTypeBadge>
-          </BaseInfoDetails>
-        </div>
-      </BaseInfo>
-      <NumericInfo>
-        <div>
-          <QuantityHeader>
-            {t("pages.account.header.amounts.balance")}
-          </QuantityHeader>
-          <Quantity>
-            <NearAmount
-              amount={props.account.nonStakedBalance}
-              decimalPlaces={2}
-            />
-          </Quantity>
-        </div>
-        <NumericDivider />
-        {!JSBI.equal(JSBI.BigInt(props.account.stakedBalance), BI.zero) ? (
-          <>
-            <div>
-              <QuantityHeader>
-                {t("pages.account.header.amounts.staked")}
-              </QuantityHeader>
-              <Quantity>
-                <NearAmount
-                  amount={props.account.stakedBalance}
-                  decimalPlaces={2}
-                />
-              </Quantity>
-            </div>
-            <NumericDivider />
-          </>
-        ) : null}
-        <div>
-          <QuantityHeader>
-            {t("pages.account.header.amounts.transactions")}
-          </QuantityHeader>
-          {transactionsQuantity ? (
-            <Quantity>{`${transactionsQuantity.quotient}${
-              BASIC_DENOMINATION[transactionsQuantity.prefix]
-            }`}</Quantity>
+              <AccountId>
+                {shortenString(props.account.id)}
+                <AccountCopy>
+                  <CopyToClipboard text={props.account.id} />
+                </AccountCopy>
+              </AccountId>
+            </OverlayTrigger>
+            <BaseInfoDetails>
+              <CreatedBy
+                as={props.account.created ? "a" : undefined}
+                href={
+                  props.account.created
+                    ? `/transactions/${props.account.created.hash}`
+                    : undefined
+                }
+              >
+                {props.account.created ? (
+                  <Trans
+                    i18nKey="pages.account.header.createdAt"
+                    t={t}
+                    components={{
+                      Timer: <Timer time={props.account.created.timestamp} />,
+                    }}
+                  />
+                ) : (
+                  t("common.terms.genesis")
+                )}
+              </CreatedBy>
+              <InfoLineGap />
+              <InfoLine>
+                {t("pages.account.header.storageUsed", {
+                  amount: formatBytes(props.account.storageUsed),
+                })}
+              </InfoLine>
+              <InfoLineGap />
+              <AccountTypeBadge
+                type={props.account.isContract ? "contract" : "user"}
+              >
+                {props.account.isContract
+                  ? t("pages.account.header.accountType.contract")
+                  : t("pages.account.header.accountType.user")}
+              </AccountTypeBadge>
+            </BaseInfoDetails>
+          </div>
+        </BaseInfo>
+        <NumericInfo>
+          <div>
+            <SmallHeader>
+              {t("pages.account.header.amounts.balance")}
+            </SmallHeader>
+            <Quantity>
+              <NearAmount
+                amount={props.account.nonStakedBalance}
+                decimalPlaces={2}
+              />
+            </Quantity>
+          </div>
+          <NumericDivider />
+          {!JSBI.equal(JSBI.BigInt(props.account.stakedBalance), BI.zero) ? (
+            <>
+              <div>
+                <SmallHeader>
+                  {t("pages.account.header.amounts.staked")}
+                </SmallHeader>
+                <Quantity>
+                  <NearAmount
+                    amount={props.account.stakedBalance}
+                    decimalPlaces={2}
+                  />
+                </Quantity>
+              </div>
+              <NumericDivider />
+            </>
           ) : null}
-        </div>
-      </NumericInfo>
+          <div>
+            <SmallHeader>
+              {t("pages.account.header.amounts.transactions")}
+            </SmallHeader>
+            {transactionsQuantity ? (
+              <Quantity>{`${transactionsQuantity.quotient}${
+                BASIC_DENOMINATION[transactionsQuantity.prefix]
+              }`}</Quantity>
+            ) : null}
+          </div>
+        </NumericInfo>
+      </HorizontalBlock>
+      {contractQuery.data ? (
+        <HorizontalBlock>
+          <ContractInfo>
+            <div>
+              <SmallHeader>
+                {t("pages.account.header.contract.lockedStatus")}
+              </SmallHeader>
+              <span>
+                {contractQuery.data.locked
+                  ? t("pages.account.header.contract.status.locked")
+                  : t("pages.account.header.contract.status.unlocked")}
+              </span>
+            </div>
+            <div>
+              <SmallHeader>
+                {t("pages.account.header.contract.codeHash")}
+              </SmallHeader>
+              <ShortenValue>{contractQuery.data.codeHash}</ShortenValue>
+            </div>
+            {contractQuery.data.timestamp ? (
+              <div>
+                <SmallHeader>
+                  {t("pages.account.header.contract.updatedTimestamp")}
+                </SmallHeader>
+                <Timestamp timestamp={contractQuery.data.timestamp} />
+              </div>
+            ) : null}
+            {contractQuery.data.transactionHash ? (
+              <div>
+                <SmallHeader>
+                  {t("pages.account.header.contract.updatedTransaction")}
+                </SmallHeader>
+                <TransactionLink hash={contractQuery.data.transactionHash} />
+              </div>
+            ) : null}
+          </ContractInfo>
+        </HorizontalBlock>
+      ) : null}
     </Wrapper>
   );
 });
