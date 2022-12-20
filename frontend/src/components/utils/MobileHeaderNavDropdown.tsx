@@ -13,6 +13,7 @@ import { styled } from "../../libraries/styles";
 import { StyledComponent } from "@stitches/react/types/styled-component";
 import { BetaSwitch } from "./BetaSwitch";
 import { useBetaOptions } from "../../hooks/use-beta-options";
+import { useIsBetaPage } from "../../hooks/use-is-beta-page";
 
 const Icon = styled("svg", {
   width: 16,
@@ -160,6 +161,7 @@ const MobileNavDropdown: React.FC = React.memo(() => {
   }, [isMenuShown, closeMenu]);
 
   const [betaOptions] = useBetaOptions();
+  const isBetaPage = useIsBetaPage();
 
   return (
     <>
@@ -210,7 +212,7 @@ const MobileNavDropdown: React.FC = React.memo(() => {
             <MobileNav>
               <LanguageToggle mobile />
             </MobileNav>
-            {betaOptions ? (
+            {betaOptions && isBetaPage ? (
               <MobileNav>
                 <BetaSwitch />
               </MobileNav>
