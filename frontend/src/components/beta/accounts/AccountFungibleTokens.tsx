@@ -11,6 +11,8 @@ import {
 import LinkWrapper from "../../utils/Link";
 import AccountFungibleTokenHistory from "./AccountFungibleTokenHistory";
 import { TokenAmount } from "../../utils/TokenAmount";
+import { shortenString } from "../../../libraries/formatting";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Wrapper = styled("div", {
   display: "flex",
@@ -71,6 +73,13 @@ const TokenLogo = styled("div", {
   height: 30,
 });
 
+const TokenEmptyLogo = styled("div", {
+  width: "100%",
+  height: "100%",
+  background: "#ccc",
+  borderRadius: "50%",
+});
+
 const TokenName = styled("div", {
   fontWeight: 700,
   fontSize: 18,
@@ -102,9 +111,21 @@ const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(
         <Token selected={selected}>
           <TokenHeader>
             <TokenLogo>
-              {token.icon ? <Image src={token.icon} layout="fill" /> : null}
+              {token.icon ? (
+                <Image src={token.icon} layout="fill" />
+              ) : (
+                <TokenEmptyLogo />
+              )}
             </TokenLogo>
-            <TokenName>{token.name}</TokenName>
+            {shortenString(token.name).length === token.name.length ? (
+              <TokenName>{token.name}</TokenName>
+            ) : (
+              <OverlayTrigger
+                overlay={<Tooltip id="token-name">{token.name}</Tooltip>}
+              >
+                <TokenName>{shortenString(token.name)}</TokenName>
+              </OverlayTrigger>
+            )}
           </TokenHeader>
           <TokenAmountWrapper>
             <TokenAmount token={token} />
