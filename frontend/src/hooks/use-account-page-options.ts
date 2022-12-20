@@ -81,7 +81,7 @@ const getAccountTabParts = (options: AccountPageOptions) => {
 };
 
 export const buildAccountUrl = (options: AccountPageOptions) => {
-  return ["accounts", options.accountId, ...getAccountTabParts(options)]
+  return ["/accounts", options.accountId, ...getAccountTabParts(options)]
     .filter(Boolean)
     .join("/");
 };
