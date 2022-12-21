@@ -1,14 +1,10 @@
 import * as React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { shortenString } from "../../../libraries/formatting";
 import { styled } from "../../../libraries/styles";
 import { AccountActivityAction } from "../../../types/common";
-import CopyToClipboard from "../../utils/CopyToClipboard";
 
 type Props = {
   action: AccountActivityAction;
-  href?: string;
 };
 
 const Wrapper = styled("div", {
@@ -19,14 +15,9 @@ const Wrapper = styled("div", {
   alignItems: "center",
   justifyContent: "center",
   fontSize: 12,
+  marginRight: 8,
 
   variants: {
-    as: {
-      a: {
-        cursor: "pointer",
-      },
-    },
-
     kind: {
       transfer: {
         backgroundColor: "#F0FFEE",
@@ -62,27 +53,13 @@ const Wrapper = styled("div", {
   },
 });
 
-const AccountActivityBadge: React.FC<Props> = React.memo(({ action, href }) => {
+const AccountActivityBadge: React.FC<Props> = React.memo(({ action }) => {
   const { t } = useTranslation();
   return (
-    <Wrapper kind={action.kind} as={href ? "a" : undefined} href={href}>
-      {action.kind === "functionCall" ? (
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip id="methodName">{action.args.methodName}</Tooltip>}
-        >
-          <div style={{ display: "inline-flex" }}>
-            {shortenString(action.args.methodName)}
-            <div style={{ marginLeft: 16 }}>
-              <CopyToClipboard text={action.args.methodName} />
-            </div>
-          </div>
-        </OverlayTrigger>
-      ) : (
-        t(`pages.account.activity.type.${action.kind}`, {
-          quantity: action.kind === "batch" ? action.actions.length : undefined,
-        })
-      )}
+    <Wrapper kind={action.kind}>
+      {t(`pages.account.activity.type.${action.kind}`, {
+        quantity: action.kind === "batch" ? action.actions.length : undefined,
+      })}
     </Wrapper>
   );
 });

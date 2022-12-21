@@ -9,7 +9,7 @@ import { styled } from "../../../libraries/styles";
 import { Tabs } from "../common/Tabs";
 import AccountFungibleTokens from "./AccountFungibleTokens";
 import { Account } from "../../../types/common";
-import AccountActivityView from "./AccountActivityView";
+import AccountTransactionsView from "./AccountTransactionsView";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
@@ -61,14 +61,14 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
       initialSelectedId={options.tab}
       tabs={[
         {
-          id: "activity",
+          id: "transactions",
           label: (
             <TabLabel>
-              {t("pages.account.tabs.activity")}
+              {t("pages.account.tabs.transactions")}
               {transactionsQuantity === undefined ? undefined : (
                 <TabDetails>
-                  {t("pages.account.tabs.activityDetails", {
-                    transactionsQuantity: `${transactionsQuantity.quotient}${
+                  {t("pages.account.tabs.transactionsQuantity", {
+                    quantity: `${transactionsQuantity.quotient}${
                       BASIC_DENOMINATION[transactionsQuantity.prefix]
                     }`,
                   })}
@@ -76,7 +76,7 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
               )}
             </TabLabel>
           ),
-          node: <AccountActivityView accountId={options.accountId} />,
+          node: <AccountTransactionsView accountId={options.accountId} />,
         },
         {
           id: "fungible-tokens",
@@ -93,8 +93,8 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
               {t("pages.account.tabs.collectibles")}
               {collectiblesQuantity ? (
                 <TabDetails>
-                  {t("pages.account.tabs.activityDetails", {
-                    transactionsQuantity: `${collectiblesQuantity.quotient}${
+                  {t("pages.account.tabs.collectiblesQuantity", {
+                    quantity: `${collectiblesQuantity.quotient}${
                       BASIC_DENOMINATION[collectiblesQuantity.prefix]
                     }`,
                   })}

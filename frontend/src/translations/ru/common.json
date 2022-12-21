@@ -120,15 +120,44 @@
           "balance": "Баланс",
           "staked": "В стейкинге",
           "transactions": "Транзакций"
+        },
+        "contract": {
+          "lockedStatus": "Неизменямость",
+          "codeHash": "Хеш",
+          "updatedTimestamp": "Обновлен",
+          "updatedTransaction": "Транзакция",
+          "status": {
+            "locked": "неизменяем",
+            "unlocked": "изменяем"
+          }
         }
       },
       "tabs": {
-        "activity": "Активность",
-        "activityDetails": "(${transactionsQuantity})",
+        "transactions": "Транзакции",
+        "transactionsQuantity": "(${quantity})",
         "tokens": "Токены",
         "collectibles": "Коллекционирование",
+        "collectiblesQuantity": "(${quantity})",
         "accessKeys": "Ключи",
         "lockedUp": "Locked up"
+      },
+      "transactions": {
+        "functions": {
+          "transfer": {
+            "incoming": "Переведено <amount/> от аккаунта <signerId/>",
+            "outcoming": "Переведено <amount/> на аккаунт <receiverId/>"
+          },
+          "stake": "Застейкано <amount/> с ключом <shorten>${publicKey}</shorten>",
+          "functionCall": "Вызван метод: '${methodName}' в контракте <contract />",
+          "addKey": {
+            "fullAccess": "Ключ с полным доступом <shorten>${publicKey}</shorten> добавлен для контракта <contract/>",
+            "partialAccess": "<receiver /> добавил ключ (<shorten>${publicKey}</shorten>), который может быть использовать для вызова методов в контракте <contract/>"
+          },
+          "createAccount": "Аккаунт <account/> создан",
+          "deleteAccount": "Аккаунт <account/> удален, оставшиеся средства переведены на аккаунт <benefeciar/>",
+          "deleteKey": "Ключ <shorten>${publicKey}</shorten> удален",
+          "deployContract": "Контракт <account/> обновлен"
+        }
       },
       "activity": {
         "type": {
