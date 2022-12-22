@@ -85,7 +85,7 @@ const TransactionActionsList: React.FC<Props> = React.memo(
         <Wrapper>
           <TitleWrapper>
             <div>
-              <Title>{t("pages.transaction.execution_plan")}</Title>
+              <Title>{t("pages.transaction.executionPlan")}</Title>
               <span>
                 {t("pages.transaction.processed", {
                   time: pending,
@@ -93,7 +93,7 @@ const TransactionActionsList: React.FC<Props> = React.memo(
               </span>
             </div>
             <Expand onClick={expandAllReceipts}>
-              {t("pages.transaction.expand_all")}
+              {t("pages.transaction.expandAll")}
               <span>+</span>
             </Expand>
           </TitleWrapper>

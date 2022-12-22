@@ -188,8 +188,8 @@
         "success": "Успішно"
       },
       "processed": "Виконано за ${time}",
-      "execution_plan": "План виконання",
-      "expand_all": "Розкрити всі",
+      "executionPlan": "План виконання",
+      "expandAll": "Розкрити всі",
       "tabs": {
         "output": "Підсумок",
         "inspect": "Огляд"

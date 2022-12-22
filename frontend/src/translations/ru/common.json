@@ -188,8 +188,8 @@
         "success": "Успешно"
       },
       "processed": "Выполнено за ${time}",
-      "execution_plan": "План выполнения",
-      "expand_all": "Раскрыть все",
+      "executionPlan": "План выполнения",
+      "expandAll": "Раскрыть все",
       "tabs": {
         "output": "Итог",
         "inspect": "Обзор"
