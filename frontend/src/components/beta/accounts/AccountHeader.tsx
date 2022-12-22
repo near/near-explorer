@@ -66,15 +66,6 @@ const ContractInfo = styled("div", {
   },
 });
 
-const Avatar = styled("div", {
-  size: 60,
-  backgroundColor: "#c4c4c4",
-  opacity: 0.2,
-  borderRadius: "50%",
-  marginRight: 16,
-  flexShrink: 0,
-});
-
 const AccountId = styled("h1", {
   fontSize: 36,
   fontWeight: 700,
@@ -166,7 +157,6 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
     <Wrapper>
       <HorizontalBlock>
         <BaseInfo>
-          <Avatar />
           <div>
             <OverlayTrigger
               placement="top"

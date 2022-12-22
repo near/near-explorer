@@ -24,10 +24,18 @@ const Wrapper = styled("div", {
   backgroundColor: "#1b1d1f",
   padding: 28,
   borderRadius: 8,
+
+  "@media (max-width: 1000px)": {
+    flexDirection: "column",
+  },
 });
 
 const BaseInfo = styled("div", {
   display: "flex",
+
+  "@media (max-width: 1000px)": {
+    marginBottom: 24,
+  },
 });
 
 const CenteredContainer = styled("div", {
@@ -40,13 +48,6 @@ const Author = styled(CenteredContainer, {
   fontWeight: 700,
   fontSize: 30,
   lineHeight: "150%",
-});
-const Avatar = styled("div", {
-  size: AVATAR_SIZE,
-  backgroundColor: "#c4c4c4",
-  opacity: 0.2,
-  borderRadius: "50%",
-  marginRight: AVATAR_MARGIN,
 });
 
 const Divider = styled("img", {
@@ -62,6 +63,10 @@ const TransactionHash = styled("h1", {
   marginRight: 14,
   marginLeft: AVATAR_SIZE + AVATAR_MARGIN,
   marginBottom: 0,
+
+  "@media (max-width: 1000px)": {
+    marginLeft: 0,
+  },
 });
 
 const TransactionCopy = styled("span", {
@@ -100,12 +105,10 @@ const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
         <div>
           <CenteredContainer>
             <Author>
-              <Avatar />
               <span>{shortenString(transaction.signerId)}</span>
             </Author>
             <Divider src="/static/images/icon-from-arrow-right.svg" />
             <Author>
-              <Avatar />
               <span>{shortenString(transaction.receiverId)}</span>
             </Author>
           </CenteredContainer>
