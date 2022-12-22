@@ -21,7 +21,7 @@ const Wrapper = styled("div", {
   display: "flex",
   justifyContent: "space-between",
   width: "100%",
-  backgroundColor: "#1b1d1f",
+  backgroundColor: "#000",
   padding: 28,
   borderRadius: 8,
 
