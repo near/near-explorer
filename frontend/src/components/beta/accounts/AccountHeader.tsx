@@ -13,12 +13,12 @@ import { Account } from "../../../types/common";
 import { NearAmount } from "../../utils/NearAmount";
 import CopyToClipboard from "../../utils/CopyToClipboard";
 import * as BI from "../../../libraries/bigint";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Timer from "../../utils/Timer";
 import { trpc } from "../../../libraries/trpc";
 import TransactionLink from "../common/TransactionLink";
 import Timestamp from "../common/Timestamp";
 import ShortenValue from "../common/ShortenValue";
+import StringConditionalOverlay from "../common/StringConditionalOverlay";
 
 type Props = {
   account: Account;
@@ -158,9 +158,9 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
       <HorizontalBlock>
         <BaseInfo>
           <div>
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip id="accountId">{props.account.id}</Tooltip>}
+            <StringConditionalOverlay
+              tooltipId="accountId"
+              value={props.account.id}
             >
               <AccountId>
                 {shortenString(props.account.id)}
@@ -168,7 +168,7 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
                   <CopyToClipboard text={props.account.id} />
                 </AccountCopy>
               </AccountId>
-            </OverlayTrigger>
+            </StringConditionalOverlay>
             <BaseInfoDetails>
               <CreatedBy
                 as={props.account.created ? "a" : undefined}

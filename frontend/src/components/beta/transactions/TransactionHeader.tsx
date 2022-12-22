@@ -9,6 +9,7 @@ import TransactionStatus from "./TransactionStatus";
 import { Transaction } from "../../../types/common";
 import UtcLabel from "../common/UtcLabel";
 import { useDateFormat } from "../../../hooks/use-date-format";
+import StringConditionalOverlay from "../common/StringConditionalOverlay";
 
 type Props = {
   transaction: Transaction;
@@ -104,13 +105,23 @@ const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
       <BaseInfo>
         <div>
           <CenteredContainer>
-            <Author>
-              <span>{shortenString(transaction.signerId)}</span>
-            </Author>
+            <StringConditionalOverlay
+              tooltipId="accountId"
+              value={transaction.signerId}
+            >
+              <Author>
+                <span>{shortenString(transaction.signerId)}</span>
+              </Author>
+            </StringConditionalOverlay>
             <Divider src="/static/images/icon-from-arrow-right.svg" />
-            <Author>
-              <span>{shortenString(transaction.receiverId)}</span>
-            </Author>
+            <StringConditionalOverlay
+              tooltipId="accountId"
+              value={transaction.receiverId}
+            >
+              <Author>
+                <span>{shortenString(transaction.receiverId)}</span>
+              </Author>
+            </StringConditionalOverlay>
           </CenteredContainer>
           <BaseInfoDetails>
             <TransactionHash>
