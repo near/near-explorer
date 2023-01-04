@@ -23,6 +23,10 @@ interface Props {
 const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ progress }) => {
   const { t } = useTranslation();
 
+  const productivityRatio =
+    (progress.blocks.produced + progress.chunks.produced) /
+    (progress.blocks.total + progress.chunks.total);
+
   return (
     <ValidatorNodesContentCell>
       <Row noGutters>
@@ -52,13 +56,7 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ progress }) => {
               </Tooltip>
             }
           >
-            <span>
-              {(
-                (progress.blocks.produced / progress.blocks.total) *
-                100
-              ).toFixed(3)}
-              %
-            </span>
+            <span>{(productivityRatio * 100).toFixed(3)}%</span>
           </OverlayTrigger>
         </Uptime>
       </Row>
