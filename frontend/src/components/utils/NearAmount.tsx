@@ -6,6 +6,7 @@ import {
   NearDecimalPower,
 } from "../../libraries/formatting";
 import { styled } from "../../libraries/styles";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Offsetted = styled("span", {
   marginLeft: "0.3em",
@@ -17,25 +18,55 @@ type Props = {
 };
 
 export const NearAmount: React.FC<Props> = (props) => {
-  const formattedAmount = formatToPowerOfTen<NearDecimalPower>(
-    props.amount,
-    11
-  );
-  return (
-    <>
+  let formattedAmount = formatToPowerOfTen<NearDecimalPower>(props.amount, 11);
+  const tooltipValue =
+    formattedAmount.prefix < 8
+      ? `${formattedAmount.quotient}${formattedAmount.remainder} ${NEAR_DENOMINATION["0"]}`
+      : undefined;
+  if (formattedAmount.prefix < 3) {
+    formattedAmount = {
+      ...formattedAmount,
+      quotient: formattedAmount.quotient + formattedAmount.remainder,
+      remainder: "",
+      prefix: 0,
+    };
+  } else if (formattedAmount.prefix < 8) {
+    formattedAmount = {
+      ...formattedAmount,
+      quotient: Number(
+        "0." + formattedAmount.quotient.padStart(3, "0")
+      ).toPrecision(props.decimalPlaces ?? 3),
+      prefix: 8,
+    };
+  }
+  const content = (
+    <span>
       {formattedAmount.quotient}
-      {formattedAmount.remainder
+      {formattedAmount.remainder && !formattedAmount.quotient.includes(".")
         ? Number("0." + formattedAmount.remainder)
             .toPrecision(props.decimalPlaces ?? 3)
             .slice(1)
         : ""}
 
-      {formattedAmount.quotient !== "0" || formattedAmount.remainder ? (
-        <Offsetted>
-          {NEAR_DENOMINATION[formattedAmount.prefix]}
+      <Offsetted>
+        {NEAR_DENOMINATION[formattedAmount.prefix]}
+        <NearIcon />
+      </Offsetted>
+    </span>
+  );
+  if (!tooltipValue) {
+    return content;
+  }
+  return (
+    <OverlayTrigger
+      overlay={
+        <Tooltip id="near-amount">
+          {tooltipValue}
           <NearIcon />
-        </Offsetted>
-      ) : null}
-    </>
+        </Tooltip>
+      }
+    >
+      {content}
+    </OverlayTrigger>
   );
 };
