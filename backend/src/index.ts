@@ -22,11 +22,17 @@ async function main(router: AppRouter): Promise<void> {
   const trpcOptions: RouterOptions = {
     router,
     createContext: () => context,
-    onError: ({ error, ctx, type, path }) => {
+    onError: ({ error, ctx, type, path, input }) => {
       if (!ctx) {
         return;
       }
-      console.error(`[${error.code}] ${type} "${path}": ${error.message}`);
+      console.error(
+        `[${error.code}] ${type} "${path}": ${
+          error.message
+        }\n[INPUT]: ${JSON.stringify(input).slice(0, 300)}\n[STACK]: ${
+          error.stack
+        }`
+      );
     },
     responseMeta: () => ({ status: 200 }),
   };
