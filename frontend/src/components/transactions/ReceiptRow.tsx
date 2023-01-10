@@ -75,6 +75,15 @@ const ReceiptRowStatus = styled(Col, {
   fontWeight: 500,
 });
 
+const NotFoundReceipt = styled(Col, {
+  paddingTop: 8,
+  marginVertical: 8,
+  borderColor: "#999999",
+  borderWidth: 0,
+  borderTopWidth: 1,
+  borderStyle: "solid",
+});
+
 export interface Props {
   receipt: NestedReceiptWithOutcome;
   transactionHash: string;
@@ -223,16 +232,24 @@ const ReceiptRow: React.FC<Props> = React.memo(
           </ReceiptRowSection>
 
           {receipt.outcome.nestedReceipts.length > 0 &&
-            receipt.outcome.nestedReceipts.map((executedReceipt) => (
-              <ExecutedReceiptRow noGutters key={executedReceipt.id}>
-                <Col>
-                  <ReceiptRow
-                    transactionHash={transactionHash}
-                    receipt={executedReceipt}
-                  />
-                </Col>
-              </ExecutedReceiptRow>
-            ))}
+            receipt.outcome.nestedReceipts.map((executedReceipt) =>
+              "outcome" in executedReceipt ? (
+                <ExecutedReceiptRow noGutters key={executedReceipt.id}>
+                  <Col>
+                    <ReceiptRow
+                      transactionHash={transactionHash}
+                      receipt={executedReceipt}
+                    />
+                  </Col>
+                </ExecutedReceiptRow>
+              ) : (
+                <ExecutedReceiptRow noGutters key={executedReceipt.id}>
+                  <NotFoundReceipt>
+                    Receipt {executedReceipt.id} not found
+                  </NotFoundReceipt>
+                </ExecutedReceiptRow>
+              )
+            )}
         </Col>
       </ReceiptRowWrapper>
     );

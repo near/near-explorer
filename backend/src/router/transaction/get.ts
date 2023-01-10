@@ -24,6 +24,8 @@ type ParsedReceiptOld = Omit<NestedReceiptWithOutcomeOld, "outcome"> & {
   };
 };
 
+type FailedToFindReceipt = { id: string };
+
 type NestedReceiptWithOutcomeOld = {
   id: string;
   predecessorId: string;
@@ -35,15 +37,18 @@ type NestedReceiptWithOutcomeOld = {
     gasBurnt: number;
     status: ReceiptExecutionStatus;
     logs: string[];
-    nestedReceipts: NestedReceiptWithOutcomeOld[];
+    nestedReceipts: (NestedReceiptWithOutcomeOld | FailedToFindReceipt)[];
   };
 };
 
 const collectNestedReceiptWithOutcomeOld = (
   idOrHash: string,
   parsedMap: Map<string, ParsedReceiptOld>
-): NestedReceiptWithOutcomeOld => {
+): NestedReceiptWithOutcomeOld | FailedToFindReceipt => {
   const parsedElement = parsedMap.get(idOrHash)!;
+  if (!parsedElement) {
+    return { id: idOrHash };
+  }
   const { receiptIds, ...restOutcome } = parsedElement.outcome;
   return {
     ...parsedElement,
@@ -221,7 +226,7 @@ export const router = trpc
         receipt: collectNestedReceiptWithOutcomeOld(
           rpcTransaction.transaction_outcome.outcome.receipt_ids[0],
           receiptsMap
-        ),
+        ) as NestedReceiptWithOutcomeOld,
         outcome: {
           gasBurnt: rpcTransaction.transaction_outcome.outcome.gas_burnt,
           tokensBurnt: rpcTransaction.transaction_outcome.outcome.tokens_burnt,
