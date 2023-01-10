@@ -73,7 +73,7 @@ const flattenReceiptOutcomes = (
   receipt.outcome.nestedReceipts.reduce<NestedReceiptWithOutcome["outcome"][]>(
     (acc, subReceipt) => [
       ...acc,
-      ...(subReceipt.outcome.nestedReceipts
+      ...("outcome" in subReceipt && subReceipt.outcome.nestedReceipts
         ? flattenReceiptOutcomes(subReceipt)
         : []),
     ],
