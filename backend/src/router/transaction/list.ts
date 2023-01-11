@@ -29,7 +29,7 @@ type TransactionPreview = {
 
 type TransactionList = {
   items: TransactionPreview[];
-  cursor: z.infer<typeof validators.transactionPagination>;
+  cursor?: z.infer<typeof validators.transactionPagination>;
 };
 
 const getTransactionList = async (
@@ -70,10 +70,6 @@ const getTransactionList = async (
   if (transactions.length === 0) {
     return {
       items: [],
-      cursor: {
-        timestamp: "",
-        indexInChunk: 0,
-      },
     };
   }
 
