@@ -51,4 +51,25 @@ export const callViewMethod = async function <T>(
   return JSON.parse(Buffer.from(rawResult.result).toString());
 };
 
+const isErrorWithMessage = (error: unknown): error is { message: string } => {
+  return Boolean(
+    typeof error === "object" &&
+      error &&
+      "message" in error &&
+      typeof (error as { message: unknown }).message === "string"
+  );
+};
+
+export const ignoreIfDoesNotExist = (error: unknown): null => {
+  if (
+    isErrorWithMessage(error) &&
+    (error.message.includes("doesn't exist") ||
+      error.message.includes("does not exist") ||
+      error.message.includes("MethodNotFound"))
+  ) {
+    return null;
+  }
+  throw error;
+};
+
 export * from "near-api-js";

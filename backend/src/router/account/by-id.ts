@@ -9,27 +9,7 @@ import * as nearApi from "../../utils/near";
 import { validators } from "../validators";
 import { config } from "../../config";
 import { getAccountTransactionsCount } from "./utils";
-
-const isErrorWithMessage = (error: unknown): error is { message: string } => {
-  return Boolean(
-    typeof error === "object" &&
-      error &&
-      "message" in error &&
-      typeof (error as { message: unknown }).message === "string"
-  );
-};
-
-const ignoreIfDoesNotExist = (error: unknown): null => {
-  if (
-    isErrorWithMessage(error) &&
-    (error.message.includes("doesn't exist") ||
-      error.message.includes("does not exist") ||
-      error.message.includes("MethodNotFound"))
-  ) {
-    return null;
-  }
-  throw error;
-};
+import { ignoreIfDoesNotExist } from "../../utils/near";
 
 const getLockupAccountId = async (
   accountId: string
@@ -174,10 +154,12 @@ export const router = trpc
       const [accountDetails, nearCoreAccount, transactionsCount] =
         await Promise.all([
           getAccountDetails(id),
-          nearApi.sendJsonRpcQuery("view_account", {
-            finality: "final",
-            account_id: id,
-          }),
+          nearApi
+            .sendJsonRpcQuery("view_account", {
+              finality: "final",
+              account_id: id,
+            })
+            .catch(ignoreIfDoesNotExist),
           getAccountTransactionsCount(id),
         ]);
       if (!accountDetails) {
@@ -185,8 +167,9 @@ export const router = trpc
       }
       return {
         id,
-        isContract:
-          nearCoreAccount.code_hash !== "11111111111111111111111111111111",
+        isContract: nearCoreAccount
+          ? nearCoreAccount.code_hash !== "11111111111111111111111111111111"
+          : false,
         created: accountInfo.created,
         storageUsed: accountDetails.storageUsage,
         nonStakedBalance: accountDetails.nonStakedBalance,

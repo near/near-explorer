@@ -113,12 +113,14 @@ const queryContractInfo = async (accountId: string) => {
 export const router = trpc.router<Context>().query("byId", {
   input: z.strictObject({ id: validators.accountId }),
   resolve: async ({ input: { id } }) => {
-    const account = await nearApi.sendJsonRpcQuery("view_account", {
-      finality: "final",
-      account_id: id,
-    });
+    const account = await nearApi
+      .sendJsonRpcQuery("view_account", {
+        finality: "final",
+        account_id: id,
+      })
+      .catch(nearApi.ignoreIfDoesNotExist);
     // see https://github.com/near/near-explorer/pull/841#discussion_r783205960
-    if (account.code_hash === "11111111111111111111111111111111") {
+    if (!account || account.code_hash === "11111111111111111111111111111111") {
       return null;
     }
     const [contractInfo, accessKeys] = await Promise.all([
