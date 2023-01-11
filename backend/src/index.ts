@@ -27,11 +27,9 @@ async function main(router: AppRouter): Promise<void> {
         return;
       }
       console.error(
-        `[${error.code}] ${type} "${path}": ${
-          error.message
-        }\n[INPUT]: ${JSON.stringify(input).slice(0, 300)}\n[STACK]: ${
-          error.stack
-        }`
+        `[${error.code}] ${type} "${path}": ${error.message}\n[INPUT]: ${(
+          JSON.stringify(input) || "undefined"
+        ).slice(0, 300)}\n[STACK]: ${error.stack}`
       );
     },
     responseMeta: () => ({ status: 200 }),
