@@ -6,6 +6,7 @@ import { connectWebsocketServer, createApp, RouterOptions } from "./server";
 import { config } from "./config";
 import { initGlobalState } from "./global-state";
 import { Context } from "./context";
+import { onError } from "./utils/error";
 
 async function main(router: AppRouter): Promise<void> {
   console.log("Starting Explorer backend...");
@@ -22,16 +23,7 @@ async function main(router: AppRouter): Promise<void> {
   const trpcOptions: RouterOptions = {
     router,
     createContext: () => context,
-    onError: ({ error, ctx, type, path, input }) => {
-      if (!ctx) {
-        return;
-      }
-      console.error(
-        `[${error.code}] ${type} "${path}": ${error.message}\n[INPUT]: ${(
-          JSON.stringify(input) || "undefined"
-        ).slice(0, 300)}\n[STACK]: ${error.stack}`
-      );
-    },
+    onError,
     responseMeta: () => ({ status: 200 }),
   };
 

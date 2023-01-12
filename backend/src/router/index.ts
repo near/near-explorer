@@ -10,9 +10,19 @@ import { router as contractRouter } from "./contract";
 import { router as receiptRouter } from "./receipt";
 import { router as utilsRouter } from "./utils";
 import { router as fungibleTokensRouter } from "./fungible-tokens";
+import { getEnvironment } from "../common";
 
 export const router = trpc
   .router<Context>()
+  // Stripping out the stack on production environment
+  .formatError(({ shape }) =>
+    getEnvironment() === "prod"
+      ? {
+          ...shape,
+          data: { ...shape.data, stack: undefined },
+        }
+      : shape
+  )
   .merge(subscriptionsRouter)
   .merge("utils.", utilsRouter)
   .merge("stats.", statsRouter)
