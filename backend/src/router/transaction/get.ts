@@ -318,21 +318,6 @@ export const router = trpc
       };
     },
   })
-  .query("byReceiptId", {
-    input: z.strictObject({ receiptId: validators.receiptId }),
-    resolve: async ({ input: { receiptId } }) => {
-      const transactionInfo = await indexerDatabase
-        .selectFrom("receipts")
-        .select([
-          "receipt_id as receiptId",
-          "originated_from_transaction_hash as transactionHash",
-        ])
-        .where("receipt_id", "=", receiptId)
-        .limit(1)
-        .executeTakeFirst();
-      return transactionInfo;
-    },
-  })
   .query("accountBalanceChange", {
     input: z.strictObject({
       accountId: validators.accountId,

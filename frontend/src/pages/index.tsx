@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Search, { getLookupPage } from "../components/utils/Search";
+import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
@@ -96,7 +96,16 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const networkName = getNearNetworkName(query, req.headers.host);
   const trpcClient = await getTrpcClient(networkName);
-  const redirectPage = await getLookupPage(trpcClient, query.query);
+  const searchQuery = query.query;
+  if (!searchQuery) {
+    return { props: {} };
+  }
+  const searchQueryValue = Array.isArray(searchQuery)
+    ? searchQuery[0]
+    : searchQuery;
+  const redirectPage = await trpcClient.query("utils.search", {
+    value: searchQueryValue.replace(/\s/g, ""),
+  });
   if (redirectPage) {
     return {
       redirect: {
