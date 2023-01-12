@@ -21,7 +21,12 @@ import { NetworkContext } from "../context/NetworkContext";
 import { DeployInfo } from "../components/utils/DeployInfo";
 import { DeployInfo as DeployInfoProps } from "../types/common";
 
-import { getBranch, getShortCommitSha, SSR_TIMEOUT } from "../libraries/common";
+import {
+  getBranch,
+  getEnvironment,
+  getShortCommitSha,
+  SSR_TIMEOUT,
+} from "../libraries/common";
 import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
 import { getDateLocale } from "../libraries/date-locale";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
@@ -278,11 +283,7 @@ App.getInitialProps = async (appContext) => {
         instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
         serviceId: process.env.RENDER_SERVICE_ID || "unknown",
         serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
-        environment: process.env.RENDER_SERVICE_ID
-          ? process.env.RENDER_SERVICE_ID.includes("pr")
-            ? ("staging" as const)
-            : ("prod" as const)
-          : ("dev" as const),
+        environment: getEnvironment(),
       };
     } else {
       const [branch, commit] = await Promise.all([

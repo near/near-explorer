@@ -30,3 +30,12 @@ export const getOverrides = <T extends Partial<Record<string, unknown>>>(
   }
   return overrides;
 };
+
+export type Environment = "prod" | "dev" | "staging";
+
+export const getEnvironment = (): Environment =>
+  process.env.RENDER_SERVICE_ID
+    ? process.env.RENDER_SERVICE_ID.includes("pr")
+      ? "staging"
+      : "prod"
+    : "dev";
