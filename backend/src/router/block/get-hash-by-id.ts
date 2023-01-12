@@ -7,18 +7,21 @@ import { indexerDatabase } from "../../database/databases";
 
 export const router = trpc.router<Context>().query("getHashById", {
   input: z.strictObject({
-    blockId: z.union([validators.blockHash, z.string().regex(/^\d+$/)]),
+    blockId: z.union([
+      z.preprocess((x) => Number(x), validators.blockHeight),
+      validators.blockHash,
+    ]),
   }),
   resolve: async ({ input: { blockId } }) => {
     let selection = indexerDatabase
       .selectFrom("blocks")
       .select("block_hash as hash");
-    if ([43, 44].indexOf(blockId.length) >= 0) {
-      selection = selection.where("block_hash", "=", blockId);
-    } else if (!isNaN(Number(blockId))) {
-      selection = selection.where("block_height", "=", blockId);
-    } else {
+    if (Number.isNaN(blockId)) {
       return null;
+    } else if (typeof blockId === "string") {
+      selection = selection.where("block_hash", "=", blockId);
+    } else {
+      selection = selection.where("block_height", "=", blockId.toString());
     }
     const block = await selection.limit(1).executeTakeFirst();
     if (block) {

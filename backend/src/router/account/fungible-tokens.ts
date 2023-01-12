@@ -68,7 +68,7 @@ export const router = trpc
   .query("fungibleTokenHistory", {
     input: z.strictObject({
       accountId: validators.accountId,
-      tokenAuthorAccountId: z.string(),
+      tokenAuthorAccountId: validators.accountId,
     }),
     resolve: async ({ input: { accountId, tokenAuthorAccountId } }) => {
       const elements = await indexerDatabase

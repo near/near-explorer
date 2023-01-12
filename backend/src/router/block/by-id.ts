@@ -9,7 +9,7 @@ import { count, div, sum } from "../../database/utils";
 export const router = trpc.router<Context>().query("byId", {
   input: z.union([
     z.strictObject({ hash: validators.blockHash }),
-    z.strictObject({ height: z.number() }),
+    z.strictObject({ height: validators.blockHeight }),
   ]),
   resolve: async ({ input }) => {
     const selection = await indexerDatabase
