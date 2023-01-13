@@ -7,7 +7,7 @@ import Balance from "../utils/Balance";
 
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
-import { TransactionOutcome } from "../../types/common";
+import { TransactionOutcomeOld } from "../../types/common";
 
 const TransactionOutcomeRow = styled(Row, {
   paddingTop: 10,
@@ -35,7 +35,7 @@ const TransactionOutcomeText = styled(Col, {
 });
 
 export interface Props {
-  outcome: TransactionOutcome;
+  outcome: TransactionOutcomeOld;
 }
 
 const TransactionOutcomeView: React.FC<Props> = React.memo(({ outcome }) => {

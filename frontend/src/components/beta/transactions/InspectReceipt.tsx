@@ -72,7 +72,10 @@ const InspectReceipt: React.FC<Props> = React.memo(
     const gasAttached = getGasAttached(receipt.actions);
     const refund =
       receipt.outcome.nestedReceipts
-        .filter((receipt) => receipt.predecessorId === "system")
+        .filter(
+          (receipt): receipt is TransactionReceipt =>
+            "outcome" in receipt && receipt.predecessorId === "system"
+        )
         .reduce(
           (acc, receipt) => JSBI.add(acc, getDeposit(receipt.actions)),
           BI.zero

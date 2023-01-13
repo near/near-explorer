@@ -14,7 +14,7 @@ import ActionRow from "./ActionRow";
 
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
-import { NestedReceiptWithOutcome } from "../../types/common";
+import { NestedReceiptWithOutcomeOld } from "../../types/common";
 import * as BI from "../../libraries/bigint";
 
 const ReceiptRowWrapper = styled(Row, {
@@ -85,7 +85,7 @@ const NotFoundReceipt = styled(Col, {
 });
 
 export interface Props {
-  receipt: NestedReceiptWithOutcome;
+  receipt: NestedReceiptWithOutcomeOld;
   transactionHash: string;
 }
 

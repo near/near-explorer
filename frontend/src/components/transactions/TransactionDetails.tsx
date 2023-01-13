@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 import {
-  NestedReceiptWithOutcome,
+  NestedReceiptWithOutcomeOld,
   RPC,
   TransactionOld,
 } from "../../types/common";
@@ -68,9 +68,11 @@ export interface State {
 }
 
 const flattenReceiptOutcomes = (
-  receipt: NestedReceiptWithOutcome
-): NestedReceiptWithOutcome["outcome"][] =>
-  receipt.outcome.nestedReceipts.reduce<NestedReceiptWithOutcome["outcome"][]>(
+  receipt: NestedReceiptWithOutcomeOld
+): NestedReceiptWithOutcomeOld["outcome"][] =>
+  receipt.outcome.nestedReceipts.reduce<
+    NestedReceiptWithOutcomeOld["outcome"][]
+  >(
     (acc, subReceipt) => [
       ...acc,
       ...("outcome" in subReceipt && subReceipt.outcome.nestedReceipts

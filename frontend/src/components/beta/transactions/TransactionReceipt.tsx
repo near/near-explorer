@@ -116,7 +116,8 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
     const remainingFellowOutgoingReceipts = fellowOutgoingReceipts.slice(0, -1);
     const lastFellowOutgoingReceipt = fellowOutgoingReceipts.at(-1);
     const filterRefundNestedReceipts = receipt.outcome.nestedReceipts.filter(
-      (receipt) => receipt.predecessorId !== "system"
+      (receipt): receipt is TransactionReceipt =>
+        "outcome" in receipt && receipt.predecessorId !== "system"
     );
     const nonRefundNestedReceipts = filterRefundNestedReceipts.slice(0, -1);
     const lastNonRefundNestedReceipt = filterRefundNestedReceipts.at(-1);

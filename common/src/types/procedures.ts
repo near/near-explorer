@@ -50,8 +50,8 @@ export type Action = TransactionPreview["actions"][number];
 export type TransactionOld = NonNullable<
   TRPCQueryOutput<"transaction.byHashOld">
 >;
-export type NestedReceiptWithOutcome = TransactionOld["receipt"];
-export type TransactionOutcome = TransactionOld["outcome"];
+export type NestedReceiptWithOutcomeOld = TransactionOld["receipt"];
+export type TransactionOutcomeOld = TransactionOld["outcome"];
 
 export type FungibleTokenItem = TRPCQueryOutput<"fungibleTokens.list">[number];
 
