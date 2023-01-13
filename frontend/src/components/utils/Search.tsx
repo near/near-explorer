@@ -176,64 +176,6 @@ interface Props {
   dashboard?: boolean;
 }
 
-export const getLookupPage = async (
-  trpcClient: TRPCClient,
-  query?: string | string[]
-) => {
-  if (!query) {
-    return;
-  }
-  const parsedQuery =
-    typeof query === "string" ? query : query[query.length - 1];
-  const cleanedSearchValue = parsedQuery.replace(/\s/g, "");
-
-  const promises = [
-    // Block hash
-    trpcClient
-      .query("block.getHashById", { blockId: cleanedSearchValue })
-      .then((block) => {
-        if (!block) {
-          throw new Error("No block found");
-        }
-        return "/blocks/" + block;
-      }),
-    // Transaction hash
-    trpcClient
-      .query("transaction.byHash", { hash: cleanedSearchValue })
-      .then((transaction) => {
-        if (!transaction) {
-          throw new Error("No transaction found");
-        }
-        return "/transactions/" + transaction.hash;
-      }),
-    // Account id
-    trpcClient
-      .query("account.byIdOld", {
-        id: cleanedSearchValue.toLowerCase(),
-      })
-      .then((result) => {
-        if (!result) {
-          throw new Error("No account found");
-        }
-        return "/accounts/" + result.accountId;
-      }),
-    // ReceiptId
-    trpcClient
-      .query("transaction.byReceiptId", { receiptId: cleanedSearchValue })
-      .then((receipt) => {
-        if (!receipt) {
-          throw new Error("No receipt found");
-        }
-        return `/transactions/${receipt.transactionHash}#${receipt.receiptId}`;
-      }),
-  ];
-  if (Promise.any) {
-    return Promise.any(promises).catch(() => undefined);
-  }
-  // In case of an old browser
-  return Promise.race(promises).catch(() => undefined);
-};
-
 const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const router = useRouter();
 
@@ -241,17 +183,27 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const track = useAnalyticsTrack();
 
   const [value, setValue] = useQueryParam("query");
+  const [searchValue, setSearchValue] = React.useState<string | undefined>(
+    undefined
+  );
+  trpc.useQuery(
+    ["utils.search", { value: searchValue?.replace(/\s/g, "") ?? "" }],
+    {
+      enabled: Boolean(searchValue),
+      onSuccess: (page) => {
+        if (!page) {
+          return alert("Result not found!");
+        }
+        track("Explorer Search", { page });
+        router.push(page);
+      },
+    }
+  );
   const trpcContext = trpc.useContext();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const page = await getLookupPage(trpcContext.client, value);
-      if (page) {
-        track("Explorer Search", { page });
-        router.push(page);
-      } else {
-        alert("Result not found!");
-      }
+      setSearchValue(value);
     },
     [value, trpcContext, router]
   );
