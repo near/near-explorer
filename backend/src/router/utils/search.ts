@@ -93,22 +93,11 @@ export const router = trpc.router<Context>().query("search", {
     value: z.string(),
   }),
   resolve: async ({ input: { value } }) => {
-    const result = await Promise.any([
+    return Promise.any([
       validateAndFetch(value, blockInput, getBlockHash),
       validateAndFetch(value, validators.transactionHash, getTransactionHash),
       validateAndFetch(value, validators.accountId, getAccountId),
       validateAndFetch(value, validators.receiptId, getReceiptId),
     ]);
-    if (!result) {
-      return;
-    } else if ("blockHash" in result) {
-      return "/blocks/" + result.blockHash;
-    } else if ("receiptId" in result) {
-      return `/transactions/${result.transactionHash}#${result.receiptId}`;
-    } else if ("transactionHash" in result) {
-      return "/transactions/" + result.transactionHash;
-    } else if ("accountId" in result) {
-      return "/accounts/" + result.accountId;
-    }
   },
 });

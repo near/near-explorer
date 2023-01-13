@@ -14,6 +14,7 @@ import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { getTrpcClient } from "../libraries/trpc";
 import { getNearNetworkName } from "../libraries/config";
+import { TRPCQueryOutput } from "../types/common";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -90,6 +91,22 @@ const Dashboard: NextPage = React.memo(() => {
   );
 });
 
+const getRedirectPage = (
+  result: TRPCQueryOutput<"utils.search">
+): string | undefined => {
+  if (!result) {
+    return;
+  } else if ("blockHash" in result) {
+    return "/blocks/" + result.blockHash;
+  } else if ("receiptId" in result) {
+    return `/transactions/${result.transactionHash}#${result.receiptId}`;
+  } else if ("transactionHash" in result) {
+    return "/transactions/" + result.transactionHash;
+  } else if ("accountId" in result) {
+    return "/accounts/" + result.accountId;
+  }
+};
+
 export const getServerSideProps: GetServerSideProps = async ({
   query,
   req,
@@ -103,9 +120,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   const searchQueryValue = Array.isArray(searchQuery)
     ? searchQuery[0]
     : searchQuery;
-  const redirectPage = await trpcClient.query("utils.search", {
+  const searchResult = await trpcClient.query("utils.search", {
     value: searchQueryValue.replace(/\s/g, ""),
   });
+  const redirectPage = getRedirectPage(searchResult);
   if (redirectPage) {
     return {
       redirect: {
