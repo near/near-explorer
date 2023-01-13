@@ -74,7 +74,7 @@ export const router = trpc
   })
   .query("nonFungibleTokens", {
     input: z.strictObject({
-      contractId: z.string(),
+      contractId: validators.accountId,
       accountId: validators.accountId,
       limit: validators.limit,
       cursor: z.number().optional(),
@@ -150,7 +150,7 @@ export const router = trpc
   .query("nonFungibleTokenHistory", {
     input: z.strictObject({
       tokenAuthorAccountId: validators.accountId,
-      tokenId: z.string(),
+      tokenId: validators.nonFungibleTokenId,
     }),
     resolve: async ({ input: { tokenAuthorAccountId, tokenId } }) => {
       const selection = await indexerDatabase

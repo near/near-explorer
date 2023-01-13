@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Search, { getLookupPage } from "../components/utils/Search";
+import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
@@ -14,6 +14,7 @@ import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { getTrpcClient } from "../libraries/trpc";
 import { getNearNetworkName } from "../libraries/config";
+import { TRPCQueryOutput } from "../types/common";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -90,13 +91,39 @@ const Dashboard: NextPage = React.memo(() => {
   );
 });
 
+const getRedirectPage = (
+  result: TRPCQueryOutput<"utils.search">
+): string | undefined => {
+  if (!result) {
+    return;
+  } else if ("blockHash" in result) {
+    return "/blocks/" + result.blockHash;
+  } else if ("receiptId" in result) {
+    return `/transactions/${result.transactionHash}#${result.receiptId}`;
+  } else if ("transactionHash" in result) {
+    return "/transactions/" + result.transactionHash;
+  } else if ("accountId" in result) {
+    return "/accounts/" + result.accountId;
+  }
+};
+
 export const getServerSideProps: GetServerSideProps = async ({
   query,
   req,
 }) => {
   const networkName = getNearNetworkName(query, req.headers.host);
   const trpcClient = await getTrpcClient(networkName);
-  const redirectPage = await getLookupPage(trpcClient, query.query);
+  const searchQuery = query.query;
+  if (!searchQuery) {
+    return { props: {} };
+  }
+  const searchQueryValue = Array.isArray(searchQuery)
+    ? searchQuery[0]
+    : searchQuery;
+  const searchResult = await trpcClient.query("utils.search", {
+    value: searchQueryValue.replace(/\s/g, ""),
+  });
+  const redirectPage = getRedirectPage(searchResult);
   if (redirectPage) {
     return {
       redirect: {

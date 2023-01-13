@@ -1,23 +1,46 @@
 import { z } from "zod";
 
+const accountId = z
+  .string()
+  .min(2)
+  .max(64)
+  .regex(/^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/);
+const nonFungibleTokenId = z.string();
+
+const blockHash = z.string().min(43).max(44);
+const blockHeight = z.number();
+
+const receiptId = z.string();
+const transactionHash = z.string();
+
+const nanoTimestamp = z.string();
+const milliTimestamp = z.number();
+
+const indexInChunk = z.number().gte(0);
+const shardId = z.number().gte(0);
+
+const limit = z.number().positive();
+
 export const validators = {
   transactionPagination: z.strictObject({
-    timestamp: z.string(),
-    indexInChunk: z.number().gte(0),
+    timestamp: nanoTimestamp,
+    indexInChunk,
   }),
   accountPagination: z.number(),
   accountActivityCursor: z.strictObject({
-    blockTimestamp: z.string(),
-    shardId: z.number(),
-    indexInChunk: z.number(),
+    blockTimestamp: nanoTimestamp,
+    shardId,
+    indexInChunk,
   }),
-  blockPagination: z.number(),
-  accountId: z.string(),
-  blockHash: z.string(),
-  blockId: z.union([z.string(), z.number()]),
-  receiptId: z.string(),
-  transactionHash: z.string(),
-  limit: z.number().positive(),
+  blockPagination: milliTimestamp,
+  accountId,
+  blockHash,
+  blockHeight,
+  blockId: z.union([blockHash, blockHeight]),
+  receiptId,
+  transactionHash,
+  nonFungibleTokenId,
+  limit,
   telemetryRequest: z.object({
     ipAddress: z.string(),
     signature: z.string().optional(),
@@ -35,11 +58,11 @@ export const validators = {
     }),
     chain: z.object({
       node_id: z.string(),
-      account_id: z.string().nullish(),
-      latest_block_height: z.number(),
+      account_id: accountId.nullish(),
+      latest_block_height: blockHeight,
       num_peers: z.number(),
       is_validator: z.boolean(),
-      latest_block_hash: z.string(),
+      latest_block_hash: blockHash,
       status: z.string(),
 
       block_production_tracking_delay: z.number().optional(),
