@@ -92,12 +92,11 @@ export const router = trpc.router<Context>().query("search", {
   input: z.strictObject({
     value: z.string(),
   }),
-  resolve: async ({ input: { value } }) => {
-    return Promise.any([
+  resolve: async ({ input: { value } }) =>
+    Promise.any([
       validateAndFetch(value, blockInput, getBlockHash),
       validateAndFetch(value, validators.transactionHash, getTransactionHash),
       validateAndFetch(value, validators.accountId, getAccountId),
       validateAndFetch(value, validators.receiptId, getReceiptId),
-    ]);
-  },
+    ]).catch(() => undefined),
 });
