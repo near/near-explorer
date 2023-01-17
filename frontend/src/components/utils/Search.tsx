@@ -190,12 +190,22 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
     ["utils.search", { value: searchValue?.replace(/\s/g, "") ?? "" }],
     {
       enabled: Boolean(searchValue),
-      onSuccess: (page) => {
-        if (!page) {
+      onSuccess: (result) => {
+        if (!result) {
           return alert("Result not found!");
         }
-        track("Explorer Search", { page });
-        router.push(page);
+        track("Explorer Search", { page: result });
+        if ("blockHash" in result) {
+          return router.push("/blocks/" + result.blockHash);
+        } else if ("receiptId" in result) {
+          return router.push(
+            `/transactions/${result.transactionHash}#${result.receiptId}`
+          );
+        } else if ("transactionHash" in result) {
+          return router.push("/transactions/" + result.transactionHash);
+        } else if ("accountId" in result) {
+          return router.push("/accounts/" + result.accountId);
+        }
       },
     }
   );
