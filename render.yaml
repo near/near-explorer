@@ -4,7 +4,7 @@ services:
   - type: web
     name: frontend
     env: node
-    plan: starter plus
+    plan: standard
     scaling:
       minInstances: 1
       maxInstances: 4
@@ -63,7 +63,7 @@ services:
   - type: web
     name: backend/mainnet
     env: node
-    plan: starter plus
+    plan: standard
     scaling:
       minInstances: 1
       maxInstances: 4
