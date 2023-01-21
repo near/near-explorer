@@ -1,13 +1,14 @@
-import { useRouter } from "next/router";
 import * as React from "react";
+
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import { useTranslation } from "react-i18next";
-import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
 import { TRPCClient } from "../../types/common";
+import { styled } from "../../libraries/styles";
+import { trpc } from "../../libraries/trpc";
+import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 import { useQueryParam } from "../../hooks/use-query-param";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 const SearchField = styled(FormControl, {
   background: "#ffffff",
@@ -182,10 +183,18 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
-  const [value, setValue] = useQueryParam("query");
+  const [queryParamQuery, setQueryParamQuery] = useQueryParam("query");
+  const [value, setValue] = React.useState<string>("");
   const [searchValue, setSearchValue] = React.useState<string | undefined>(
     undefined
   );
+
+  React.useEffect(() => {
+    if (queryParamQuery) {
+      setValue(queryParamQuery);
+    }
+  }, [queryParamQuery]);
+
   trpc.useQuery(
     ["utils.search", { value: searchValue?.replace(/\s/g, "") ?? "" }],
     {
@@ -218,8 +227,12 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
     [value, trpcContext, router]
   );
   const onChange = React.useCallback(
-    (event) => setValue(event.currentTarget.value),
-    [setValue]
+    (event) => {
+      const newValue = event.currentTarget.value;
+      setValue(event.currentTarget.value);
+      setQueryParamQuery(event.currentTarget.value);
+    },
+    [setValue, setQueryParamQuery]
   );
 
   const compact = !dashboard;
@@ -244,7 +257,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
             autoCapitalize="none"
             onChange={onChange}
             compact={compact}
-            value={value || ""}
+            value={value}
           />
 
           {dashboard && (
