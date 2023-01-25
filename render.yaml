@@ -82,6 +82,7 @@ services:
   - type: web
     name: backend/testnet
     env: node
+    plan: standard
     repo: https://github.com/near/near-explorer.git
     buildCommand: npm clean-install && npm run -w backend build
     startCommand: npm run -w backend start
