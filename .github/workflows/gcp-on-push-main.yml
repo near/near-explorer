@@ -1,0 +1,27 @@
+name: Deploy to Staging and PROD environment.
+on:
+  push:
+    branches:
+      - ecp88/update-instance-type
+
+jobs:
+  deploy-to-staging-cloud-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout backend-repo"
+        with:
+          ref: ${{ github.base_ref }}
+
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_FRONTNED_SA_STAGING_KEY }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+
+      - name: "Build Backend Image"
+        run: |
+          gcloud builds submit --quiet "./backend" --tag="us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:latest"\
+            --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"
