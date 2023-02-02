@@ -18,6 +18,7 @@ export default interface AccountChanges {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_id: AccountsId;
 
@@ -32,6 +33,7 @@ export default interface AccountChanges {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   changed_in_block_hash: BlocksId;
 
@@ -44,6 +46,7 @@ export default interface AccountChanges {
   /**
    * Index: account_changes_changed_in_caused_by_receipt_id_idx
    * Index: account_changes_receipt_uni_idx
+   * Index: index_2748565
    */
   caused_by_receipt_id: ReceiptsId | null;
 
@@ -51,6 +54,7 @@ export default interface AccountChanges {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   update_reason: StateChangeReasonKind;
 
@@ -58,6 +62,7 @@ export default interface AccountChanges {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_nonstaked_balance: string;
 
@@ -65,6 +70,7 @@ export default interface AccountChanges {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_staked_balance: string;
 
@@ -72,6 +78,7 @@ export default interface AccountChanges {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_storage_usage: string;
 
@@ -91,6 +98,7 @@ export interface AccountChangesInitializer {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_id: AccountsId;
 
@@ -105,6 +113,7 @@ export interface AccountChangesInitializer {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   changed_in_block_hash: BlocksId;
 
@@ -117,6 +126,7 @@ export interface AccountChangesInitializer {
   /**
    * Index: account_changes_changed_in_caused_by_receipt_id_idx
    * Index: account_changes_receipt_uni_idx
+   * Index: index_2748565
    */
   caused_by_receipt_id?: ReceiptsId | null;
 
@@ -124,6 +134,7 @@ export interface AccountChangesInitializer {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   update_reason: StateChangeReasonKind;
 
@@ -131,6 +142,7 @@ export interface AccountChangesInitializer {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_nonstaked_balance: string;
 
@@ -138,6 +150,7 @@ export interface AccountChangesInitializer {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_staked_balance: string;
 
@@ -145,6 +158,7 @@ export interface AccountChangesInitializer {
    * Index: account_changes_null_uni_idx
    * Index: account_changes_receipt_uni_idx
    * Index: account_changes_transaction_uni_idx
+   * Index: index_2748565
    */
   affected_account_storage_usage: string;
 
