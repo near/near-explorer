@@ -3,6 +3,8 @@
     "name": "NEAR 瀏覽器"
   },
   "common": {
+    "error": "Error",
+    "retry": "Retry",
     "accounts": {
       "account": "賬戶",
       "accounts": "賬戶"
@@ -90,7 +92,6 @@
     "accounts": {
       "account": "賬戶",
       "error": {
-        "account_fetching": "目前尚無資訊。請檢查賬戶名稱是否正確或稍後再次嘗試。",
         "account_not_found": "賬戶${account_id}無法查找。請檢查賬戶名稱是否正確或稍後再次嘗試。"
       }
     },

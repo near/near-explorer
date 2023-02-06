@@ -1,11 +1,10 @@
 import Head from "next/head";
 
 import * as React from "react";
-import * as ReactQuery from "react-query";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 
-import { Account } from "../../../types/common";
+import { TRPCQueryResult } from "../../../types/common";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
 
 import AccountHeader from "../../../components/beta/accounts/AccountHeader";
@@ -19,6 +18,7 @@ import {
   buildAccountUrl,
 } from "../../../hooks/use-account-page-options";
 import { Spinner } from "react-bootstrap";
+import ErrorMessage from "../../../components/utils/ErrorMessage";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",
@@ -45,25 +45,26 @@ const AccountPage: NextPage = React.memo(() => {
         rel="stylesheet"
       />
       <Wrapper>
-        <AccountQueryView {...accountQuery} options={options} />
+        <AccountQueryView query={accountQuery} options={options} />
       </Wrapper>
     </>
   );
 });
 
-type QueryProps = ReactQuery.UseQueryResult<Account | null> & {
+type QueryProps = {
+  query: TRPCQueryResult<"account.byId">;
   options: AccountPageOptions;
 };
 
 const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
   const { t } = useTranslation();
-  switch (props.status) {
+  switch (props.query.status) {
     case "success":
-      if (props.data) {
+      if (props.query.data) {
         return (
           <>
-            <AccountHeader account={props.data} />
-            <AccountTabs account={props.data} options={props.options} />
+            <AccountHeader account={props.query.data} />
+            <AccountTabs account={props.query.data} options={props.options} />
           </>
         );
       }
@@ -76,11 +77,9 @@ const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
       );
     case "error":
       return (
-        <div>
-          {t("page.accounts.error.account_fetching", {
-            account_id: props.options.accountId,
-          })}
-        </div>
+        <ErrorMessage onRetry={props.query.refetch}>
+          {props.query.error.message}
+        </ErrorMessage>
       );
     case "loading":
       return <Spinner animation="border" />;

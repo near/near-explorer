@@ -3,6 +3,8 @@
     "name": "Trình duyệt NEAR"
   },
   "common": {
+    "error": "Error",
+    "retry": "Retry",
     "accounts": {
       "account": "Tài khoản",
       "accounts": "Các tài khoản"
@@ -90,7 +92,6 @@
     "accounts": {
       "account": "Tài khoản",
       "error": {
-        "account_fetching": "Hiện tại chưa thấy thông tin. Xin vui lòng kiểm tra lại tên tài khoản, hoặc thử lại vào lúc khác.",
         "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
       }
     },
