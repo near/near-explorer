@@ -3,6 +3,8 @@
     "name": "NEAR 浏览器"
   },
   "common": {
+    "error": "Error",
+    "retry": "Retry",
     "accounts": {
       "account": "账户",
       "accounts": "账户"
@@ -90,7 +92,6 @@
     "accounts": {
       "account": "账户",
       "error": {
-        "account_fetching": "当前信息不可用。请检查账户名称是否正确或稍后再次尝试。",
         "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
       }
     },

@@ -3,6 +3,8 @@
     "name": "NEAR Explorer"
   },
   "common": {
+    "error": "Error",
+    "retry": "Retry",
     "accounts": {
       "account": "Account",
       "accounts": "Accounts"
@@ -90,7 +92,6 @@
     "accounts": {
       "account": "Account",
       "error": {
-        "account_fetching": "Information is not available at the moment. Please, check if the account name is correct or try later.",
         "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
       }
     },

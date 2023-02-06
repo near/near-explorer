@@ -1,7 +1,6 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 
-import { Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
 import ContractDetails from "../../components/contracts/ContractDetails";
@@ -25,12 +24,43 @@ import {
 import { useAccountPageOptions } from "../../hooks/use-account-page-options";
 import { getBetaOptionsFromReq } from "../../libraries/beta";
 import { useBeta } from "../../hooks/use-beta";
+import { TRPCQueryResult } from "../../types/common";
+import ErrorMessage from "../../components/utils/ErrorMessage";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
 });
 
 const TRANSACTIONS_PER_PAGE = 10;
+
+const InnerAccountDetail = React.memo<{
+  query: TRPCQueryResult<"account.byIdOld">;
+  accountId: string;
+}>(({ query, accountId }) => {
+  const { t } = useTranslation();
+  switch (query.status) {
+    case "loading":
+    case "idle":
+      return <Spinner animation="border" />;
+    case "success":
+      if (query.data) {
+        return <AccountDetails account={query.data} />;
+      }
+      return (
+        <>
+          {t("page.accounts.error.account_not_found", {
+            account_id: accountId,
+          })}
+        </>
+      );
+    case "error":
+      return (
+        <ErrorMessage onRetry={query.refetch}>
+          {query.error.message}
+        </ErrorMessage>
+      );
+  }
+});
 
 const AccountDetail = React.memo(() => {
   const { accountId } = useAccountPageOptions();
@@ -39,7 +69,7 @@ const AccountDetail = React.memo(() => {
     accountId,
   });
   const accountQuery = trpc.useQuery(["account.byIdOld", { id: accountId }]);
-  const query = trpc.useInfiniteQuery(
+  const transactionsQuery = trpc.useInfiniteQuery(
     [
       "transaction.listByAccountId",
       { accountId, limit: TRANSACTIONS_PER_PAGE },
@@ -61,21 +91,9 @@ const AccountDetail = React.memo(() => {
         }
         border={false}
       >
-        {accountQuery.status === "success" ? (
-          accountQuery.data ? (
-            <AccountDetails account={accountQuery.data} />
-          ) : (
-            t("page.accounts.error.account_not_found", {
-              account_id: accountId,
-            })
-          )
-        ) : (
-          t("page.accounts.error.account_fetching", {
-            account_id: accountId,
-          })
-        )}
+        <InnerAccountDetail query={accountQuery} accountId={accountId} />
       </Content>
-      {!accountQuery.data ? null : (
+      {accountQuery.status === "success" ? (
         <>
           <Container>
             <ContractDetails accountId={accountId} />
@@ -84,10 +102,10 @@ const AccountDetail = React.memo(() => {
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            <Transactions query={query} />
+            <Transactions query={transactionsQuery} />
           </Content>
         </>
-      )}
+      ) : null}
     </>
   );
 });
