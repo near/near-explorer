@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
@@ -21,7 +22,14 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "incremental": true,
-    "rootDir": "."
+    "paths": {
+      "@explorer/common/*": ["./common/src/*"],
+      "@explorer/backend/*": ["./backend/src/*"],
+      "@explorer/frontend/*": ["./frontend/src/*"]
+    }
   },
-  "include": ["**/*"]
+  "include": ["**/*"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

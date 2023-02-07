@@ -1,5 +1,5 @@
 {
-  "name": "near-explorer-backend",
+  "name": "@explorer/backend",
   "version": "0.0.1",
   "description": "NEAR blockchain explorer backend",
   "scripts": {
