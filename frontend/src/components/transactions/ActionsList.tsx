@@ -32,6 +32,7 @@ const ActionList: React.FC<Props> = React.memo(
     <>
       {actions.map((action, actionIndex) => (
         <ActionRow
+          // eslint-disable-next-line react/no-array-index-key
           key={signerId + actionIndex}
           action={action}
           signerId={signerId}

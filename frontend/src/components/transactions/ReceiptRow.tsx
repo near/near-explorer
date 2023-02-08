@@ -203,6 +203,7 @@ const ReceiptRow: React.FC<Props> = React.memo(
               {receipt.actions && receipt.actions.length > 0
                 ? receipt.actions.map((action, index) => (
                     <ActionRow
+                      // eslint-disable-next-line react/no-array-index-key
                       key={receipt.id + index}
                       action={action}
                       receiverId={receipt.receiverId}

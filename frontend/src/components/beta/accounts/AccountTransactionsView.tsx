@@ -269,6 +269,7 @@ const ActivityItemActionWrapper = styled("div", {
 const ActivityItemRow: React.FC<RowProps> = ({ item, accountId }) => (
   <>
     {item.actions.map((subAction, subIndex) => (
+      // eslint-disable-next-line react/no-array-index-key
       <TableRow key={`${item.hash}_${subIndex}`} noBorderTop={subIndex !== 0}>
         <TableCell>
           <AccountActivityBadge action={subAction} />

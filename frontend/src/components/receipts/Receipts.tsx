@@ -15,9 +15,9 @@ const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
   const { t } = useTranslation();
   return (
     <>
-      {receipts.map((receipt, index) => (
+      {receipts.map((receipt) => (
         <ActionGroup
-          key={`${receipt.id}_${index}`}
+          key={receipt.id}
           actionGroup={receipt}
           detailsLink={
             <ReceiptLink

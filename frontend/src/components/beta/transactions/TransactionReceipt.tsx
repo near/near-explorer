@@ -147,6 +147,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
           <ActionItems>
             {receipt.actions.map((action, index) => (
               <ReceiptKind
+                // eslint-disable-next-line react/no-array-index-key
                 key={`${action.kind}_${index}`}
                 action={action}
                 onClick={switchActiveTxType}
