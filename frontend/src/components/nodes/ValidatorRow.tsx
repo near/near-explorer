@@ -158,7 +158,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
         ownPercent: ownPercent / EXTRA_PRECISION_MULTIPLIER,
         cumulativePercent: cumulativeStakePercent / EXTRA_PRECISION_MULTIPLIER,
       };
-    }, [totalStake, currentStake, cumulativeStake]);
+    }, [validator.currentEpoch, currentStake, totalStake, cumulativeStake]);
 
     const stakingStatus = getStakingStatus(validator, seatPrice);
 

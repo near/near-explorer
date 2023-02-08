@@ -147,7 +147,7 @@ const SupplySubHeader = styled("div", {
 });
 
 const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const tokensSupplySub = useSubscription(["tokensSupply"]);
 
   const option = React.useMemo(() => {
@@ -159,7 +159,7 @@ const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
       t("component.stats.CirculatingSupplyStats.tooltip.circulating_supply"),
       tokensSupplySub.data
     );
-  }, [tokensSupplySub.data, i18n.language]);
+  }, [tokensSupplySub.data, t]);
 
   return (
     <>

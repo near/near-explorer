@@ -111,7 +111,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
       [setTxTypeActive]
     );
 
-    React.useEffect(() => switchActiveTxType, [expandAll]);
+    React.useEffect(() => switchActiveTxType, [expandAll, switchActiveTxType]);
 
     const remainingFellowOutgoingReceipts = fellowOutgoingReceipts.slice(0, -1);
     const lastFellowOutgoingReceipt = fellowOutgoingReceipts.at(-1);

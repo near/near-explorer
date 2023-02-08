@@ -42,9 +42,8 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
   const trpcContext = trpc.useContext();
 
   // We're getting prefetched and dehydrated data from query (see above)
-  const cachedData = React.useMemo(
-    () => trpcContext.getQueryData(pathAndInput as any),
-    pathAndInput
+  const cachedData = trpcContext.getQueryData(
+    pathAndInput as any
   ) as TRPCSubscriptionOutput<TPath>;
   const [value, setValue] = React.useState<
     TRPCSubscriptionOutput<TPath> | undefined
@@ -70,7 +69,9 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         setErrorUpdatedAt(Date.now());
       },
     ]);
-  }, [queryKey, enabled]);
+    // queryKey substitutes pathAndInput here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryKey, enabled, trpcContext.client]);
   const base = {
     dataUpdatedAt,
     errorUpdatedAt,

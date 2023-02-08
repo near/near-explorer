@@ -212,13 +212,12 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       },
     }
   );
-  const trpcContext = trpc.useContext();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setSearchValue(value);
     },
-    [value, trpcContext, router]
+    [value]
   );
   const onChange = React.useCallback(
     (event) => setValue(event.currentTarget.value),

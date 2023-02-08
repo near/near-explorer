@@ -90,7 +90,7 @@ const getOption = (
 });
 
 const ActiveAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const activeAccountsHistorySub = useSubscription(["activeAccountsHistory"]);
 
   const options = React.useMemo(() => {
@@ -113,7 +113,7 @@ const ActiveAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
         activeAccountsHistorySub.data.byWeek
       ),
     };
-  }, [activeAccountsHistorySub.data, i18n.language]);
+  }, [activeAccountsHistorySub.data, t]);
 
   return (
     <Tabs defaultActiveKey="daily" id="activeAccountsByDate">

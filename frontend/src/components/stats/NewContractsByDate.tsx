@@ -91,7 +91,7 @@ const getOption = (
 });
 
 const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const contractsHistorySub = useSubscription(["contractsHistory"]);
 
   const options = React.useMemo(() => {
@@ -123,7 +123,7 @@ const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
         )
       ),
     };
-  }, [contractsHistorySub.data, i18n.language]);
+  }, [contractsHistorySub.data, t]);
 
   return (
     <Tabs defaultActiveKey="daily" id="newContractsByDate">

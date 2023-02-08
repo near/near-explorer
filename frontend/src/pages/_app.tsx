@@ -197,7 +197,7 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
         networkName,
         networks: nearNetworks,
       }),
-      [networkName, nearNetworks]
+      [networkName]
     );
     const currentNetwork = nearNetworks[networkName];
     const offline = Boolean(currentNetwork?.offline);

@@ -92,7 +92,7 @@ export interface Props {
 
 const TransactionsByDateChart: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const transactionsHistorySub = useSubscription(["transactionsHistory"]);
 
     const options = React.useMemo(() => {
@@ -111,7 +111,7 @@ const TransactionsByDateChart: React.FC<Props> = React.memo(
           getCumulativeArray(transactionsHistorySub.data, ([count]) => count)
         ),
       };
-    }, [transactionsHistorySub.data, i18n.language]);
+    }, [transactionsHistorySub.data, t]);
 
     return (
       <Tabs defaultActiveKey="daily" id="transactionByDate">

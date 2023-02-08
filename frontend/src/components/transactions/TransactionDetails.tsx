@@ -134,7 +134,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
         JSBI.add(accumulator, JSBI.BigInt(args.gas.toString())),
       BI.zero
     );
-  }, [transaction.actions]);
+  }, [gasUsed, transaction.actions]);
 
   const latestBlockSub = useSubscription(["latestBlock"]);
   const format = useDateFormat();

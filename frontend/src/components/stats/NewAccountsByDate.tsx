@@ -91,7 +91,7 @@ const getOption = (
 });
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const accountsHistorySub = useSubscription(["accountsHistory"]);
 
   const options = React.useMemo(() => {
@@ -118,7 +118,7 @@ const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
         accountsHistorySub.data.liveAccounts
       ),
     };
-  }, [accountsHistorySub.data, i18n.language]);
+  }, [accountsHistorySub.data, t]);
 
   return (
     <Tabs defaultActiveKey="daily" id="newAccountsByDate">

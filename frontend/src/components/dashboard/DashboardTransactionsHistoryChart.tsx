@@ -123,7 +123,7 @@ const DashboardTransactionsHistoryChart: React.FC = React.memo(() => {
     "transactionsHistory",
     { amountOfDays: 14 },
   ]);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const option = React.useMemo(() => {
     if (!transactionHistorySub.data) {
@@ -138,7 +138,7 @@ const DashboardTransactionsHistoryChart: React.FC = React.memo(() => {
       ),
       transactionHistorySub.data
     );
-  }, [transactionHistorySub.data, i18n.language]);
+  }, [transactionHistorySub.data, t]);
   return (
     <TransactionCharts>
       <Col md="12">

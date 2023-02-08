@@ -44,7 +44,7 @@ const getOption = (
 });
 
 const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const activeContractsListSub = useSubscription(["activeContractsList"]);
 
   const option = React.useMemo(() => {
@@ -56,7 +56,7 @@ const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
       t("common.receipts.receipts"),
       activeContractsListSub.data.reverse()
     );
-  }, [activeContractsListSub.data, i18n.language]);
+  }, [activeContractsListSub.data, activeContractsListSub.status, t]);
 
   if (!option) {
     return <PaginationSpinner />;

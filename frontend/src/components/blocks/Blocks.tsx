@@ -30,14 +30,15 @@ const Blocks: React.FC = React.memo(() => {
     }
   );
 
-  const refetch = React.useCallback(() => query.refetch(), [query.refetch]);
+  const { refetch } = query;
+  const onRefetchClick = React.useCallback(() => refetch(), [refetch]);
 
   return (
     <ListHandler<BlockBase>
       query={query}
       parser={id}
       prependChildren={
-        <div onClick={refetch}>
+        <div onClick={onRefetchClick}>
           <Placeholder>
             {latestBlockSub.status === "success"
               ? t("utils.ListHandler.last_block", {

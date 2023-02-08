@@ -116,7 +116,7 @@ const getGasCostInNear = (
 };
 
 const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const latestGasPriceSub = useSubscription(["latestGasPrice"]);
   const gasUsedHistorySub = useSubscription(["gasUsedHistory"]);
 
@@ -142,7 +142,7 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
         )
       ),
     };
-  }, [gasUsedHistorySub.data, i18n.language]);
+  }, [gasUsedHistorySub.data, t]);
 
   const feeOption = React.useMemo(() => {
     if (!gasUsedHistorySub.data || !latestGasPriceSub.data) {
@@ -156,7 +156,7 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
         getGasCostInNear(latestGasPriceSub.data, teraGasUsed),
       ])
     );
-  }, [gasUsedHistorySub.data, latestGasPriceSub.data, i18n.language]);
+  }, [gasUsedHistorySub.data, latestGasPriceSub.data, t]);
 
   return (
     <Tabs defaultActiveKey="daily" id="gasUsedByDate">

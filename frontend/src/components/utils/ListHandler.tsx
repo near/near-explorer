@@ -51,10 +51,8 @@ const ListHandler = <T, R = T[]>({
       (acc, page) => [...acc, ...parser(page)],
       []
     ) ?? [];
-  const fetchMore = React.useCallback(
-    () => query.fetchNextPage(),
-    [query.fetchNextPage]
-  );
+  const { fetchNextPage } = query;
+  const fetchMore = React.useCallback(() => fetchNextPage(), [fetchNextPage]);
 
   if (query.isFetching && !query.isFetchingNextPage) {
     return <PaginationSpinner />;

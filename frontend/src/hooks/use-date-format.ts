@@ -26,6 +26,6 @@ export const useDateFormat = () => {
       }
       return format(date, dateFormat, { ...options, locale });
     },
-    [locale]
+    [locale, i18n.language]
   );
 };

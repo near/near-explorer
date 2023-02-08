@@ -29,7 +29,7 @@ export const useQueryParam = (paramName: string) => {
       }
       router.replace({ query: nextQuery }, undefined, { shallow: true });
     },
-    [currValue]
+    [currValue, paramName, router]
   );
   return [currValue, setValue] as const;
 };

@@ -87,7 +87,7 @@ const getOption = (
 });
 
 const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const activeContractsHistorySub = useSubscription(["activeContractsHistory"]);
 
   const option = React.useMemo(() => {
@@ -101,7 +101,7 @@ const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
       t("component.stats.ActiveContractsByDate.active_contracts"),
       activeContractsHistorySub.data
     );
-  }, [activeContractsHistorySub.data, i18n.language]);
+  }, [activeContractsHistorySub.data, t]);
 
   if (!option) {
     return <PaginationSpinner />;
