@@ -192,6 +192,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       enabled: Boolean(searchValue),
       onSuccess: (result) => {
         if (!result) {
+          // TODO: add popup with error instead of alert
+          // eslint-disable-next-line no-alert
           return alert("Result not found!");
         }
         track("Explorer Search", { page: result });
