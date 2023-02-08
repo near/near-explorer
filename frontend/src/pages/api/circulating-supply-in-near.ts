@@ -25,6 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
     const supplyInYoctoNEAR = latestCirculatingSupply.supply;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

@@ -27,6 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
       circulating_supply_in_yoctonear: response.supply,
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

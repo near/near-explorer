@@ -5,6 +5,8 @@ import path from "path";
 
 import { config } from "@explorer/backend/config";
 
+/* eslint-disable no-console */
+
 const run = async () => {
   for (const [database, dbConfig] of Object.entries(config.db)) {
     if (
@@ -43,5 +45,7 @@ const run = async () => {
     }
   }
 };
+
+/* eslint-enable no-console */
 
 void run();

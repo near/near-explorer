@@ -14,6 +14,7 @@ import { onError } from "@explorer/backend/utils/error";
 import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
 
 async function main(appRouter: AppRouter): Promise<void> {
+  // eslint-disable-next-line no-console
   console.log("Starting Explorer backend...");
   const context: Context = {
     state: initGlobalState(),
@@ -35,6 +36,7 @@ async function main(appRouter: AppRouter): Promise<void> {
   const app = createApp(trpcOptions);
 
   const server = app.listen(config.port, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server is running on port ${config.port}`);
   });
 
@@ -47,12 +49,15 @@ async function main(appRouter: AppRouter): Promise<void> {
   }
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {
+    // eslint-disable-next-line no-console
     console.log(`Got ${signal} signal, shutting down`);
     shutdownHandlers.forEach((handler) => handler());
     server.close((err) => {
       if (err) {
+        // eslint-disable-next-line no-console
         console.error("Error on server close", err);
       }
+      // eslint-disable-next-line no-console
       console.log(`Shut down ${err ? "with error" : "gracefully"}`);
       process.exit(err ? 1 : 0);
     });
@@ -60,6 +65,7 @@ async function main(appRouter: AppRouter): Promise<void> {
   process.on("SIGTERM", gracefulShutdown);
   process.on("SIGINT", gracefulShutdown);
 
+  // eslint-disable-next-line no-console
   console.log("Explorer backend started");
 }
 

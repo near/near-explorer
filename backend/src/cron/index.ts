@@ -45,6 +45,7 @@ export const runTasks = (context: Context) => {
       try {
         timeout = await task.fn(publish, context);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.warn(
           `Regular ${task.description} crashed due to:`,
           String(error)

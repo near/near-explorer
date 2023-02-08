@@ -31,6 +31,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
     res.send(resp);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

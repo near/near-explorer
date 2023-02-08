@@ -10,10 +10,12 @@ import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry"
 const getPgPool = (postgresConfig: PostgresDialectConfig): Pool => {
   const pool = new Pool(postgresConfig);
   pool.on("error", (error) => {
+    // eslint-disable-next-line no-console
     console.error(`Pool ${postgresConfig.database} failed: ${String(error)}`);
   });
   pool.on("connect", (connection) => {
     connection.on("error", (error) =>
+      // eslint-disable-next-line no-console
       console.error(
         `Client ${postgresConfig.database} failed: ${String(error)}`
       )

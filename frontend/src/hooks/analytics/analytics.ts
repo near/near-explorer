@@ -12,7 +12,7 @@ let anonymousId: string;
 
 const init = () => {
   if (segment) {
-    return console.log("Segment Analytics has already been initialized");
+    return;
   }
   anonymousId = uniqueId(`${Date.now()}_`);
   const {

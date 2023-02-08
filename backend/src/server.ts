@@ -21,6 +21,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const error = `Error on ${req.url}\n${String(err)}${
     err.stack ? `\n${err.stack}` : ""
   }`;
+  // eslint-disable-next-line no-console
   console.error(error);
   res.status(500).send(escapeHtml(error));
 };
