@@ -84,6 +84,9 @@ const nextConfig: ExplorerConfig & NextConfig = {
   experimental: {
     externalDir: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

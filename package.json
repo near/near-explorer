@@ -3,6 +3,8 @@
   "scripts": {
     "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
     "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
+    "lint": "eslint . --ext .js,.json,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --fix . --ext .js,.json,.jsx,.ts,.tsx",
     "docker:up:testnet": "ENV=testnet docker-compose up",
     "docker:up:mainnet": "ENV=mainnet docker-compose up",
     "docker:up:shardnet": "ENV=shardnet docker-compose up",
@@ -24,8 +26,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,json,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
+    ],
+    "*.{js,jsx,ts,tsx,json}": [
+      "eslint --fix"
     ]
   },
   "dependencies": {
@@ -34,8 +38,22 @@
     "patch-package": "^6.4.7"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
     "concurrently": "^7.2.1",
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-next": "^12.3.4",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-no-relative-import-paths": "^1.5.2",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^2.3.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^11.0.0",
     "prettier": "2.6.1",
     "start-server-and-test": "^1.14.0",

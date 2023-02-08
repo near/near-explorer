@@ -40,42 +40,4 @@ style.
 
 ## Code Style
 
-We use [prettier](https://prettier.io/) with the default config to ensure the code style for NEAR Explorer. We check for the code style on CI. However, we have some extra rules to make our code base even more consistent.
-
-### Imports Ordering and Grouping
-
-We use the following order to group our imports:
-
-1. standard JS/node.js library imports
-2. generic JS libraries
-3. framework imports
-4. framework core libraries
-5. external framework libraries
-6. common internal modules
-7. local internal modules (sorted from higher hierarchy to local scope)
-
-We maintain alphabetical order by a package/module name (the thing after `from` keyword) inside each group.
-
-Here is an artificial example:
-
-```javascript
-import url from "url";
-
-import JSBI from "jsbi";
-import * as dateFns from "date-fns";
-
-import Head from "next/head";
-import Link from "next/link";
-
-import * as React from "react";
-
-import { Row, Col } from "react-bootstrap";
-
-import FlipMove from "@explorer/frontend/components/utils/FlipMove";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import DashboardBlocksBlock from "@explorer/frontend/components/dashboard/DashboardBlocksBlock";
-```
-
-### Naming Conventions
-
-We follow [AirBnB Style Guide for Naming Conventions](https://github.com/airbnb/javascript#naming-conventions).
+We use [prettier](https://prettier.io/) and [ESLint](https://eslint.org/) to keep our codebase tidy.
