@@ -84,6 +84,8 @@ module.exports = {
             "error",
             { allowSameFolder: true },
         ],
+        // see https://github.com/airbnb/javascript/issues/1271#issuecomment-548688952
+        "no-restricted-syntax": "off",
     },
     overrides: [
         {
