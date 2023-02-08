@@ -221,16 +221,23 @@ export const ServiceStatusView: React.FC = () => {
     ]);
   }, [status, previousStatus, setRunningToasts, runningToasts]);
 
-  return (
-    <OverlayTrigger
-      placement="right"
-      overlay={(props) => (
-        <TooltipRight id="status" {...props}>
-          <Message type={status.type}>{status.message}</Message>{" "}
-          <Timer time={status.timestamp} />
-        </TooltipRight>
-      )}
+  const renderOverlay = React.useCallback<
+    Exclude<
+      React.ComponentProps<typeof OverlayTrigger>["overlay"],
+      React.ReactElement
     >
+  >(
+    (props) => (
+      <TooltipRight id="status" {...props}>
+        <Message type={status.type}>{status.message}</Message>{" "}
+        <Timer time={status.timestamp} />
+      </TooltipRight>
+    ),
+    [status.message, status.type, status.timestamp]
+  );
+
+  return (
+    <OverlayTrigger placement="right" overlay={renderOverlay}>
       <Wrapper>
         <Indicator type={status.type} />
       </Wrapper>

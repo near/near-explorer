@@ -12,7 +12,7 @@ const Wrapper = styled("div", {
   whiteSpace: "pre",
 });
 
-const ExpandComponent = styled("div", {
+const ExpanderComponent = styled("div", {
   cursor: "pointer",
   padding: 8,
   background: "inherit",
@@ -24,36 +24,41 @@ const CodePreviewWrapper = styled("div", {
   height: "100%",
 });
 
+const ExpandComponent = React.memo(
+  ({ isOverflown, collapsed, setCollapsed }) => {
+    const { t } = useTranslation();
+    if (!isOverflown) {
+      return null;
+    }
+    return (
+      <ExpanderComponent onClick={() => setCollapsed(!collapsed)}>
+        {collapsed ? t("button.show_more") : t("button.show_less")}
+      </ExpanderComponent>
+    );
+  }
+);
+
 export interface Props {
   value: string;
   collapseHeight: number;
   maxHeight: number;
 }
 
-const CodePreview: React.FC<Props> = React.memo((props) => {
-  const { t } = useTranslation();
-  return (
-    <Wrapper>
-      <Expandable
-        collapseHeight={props.collapseHeight}
-        expandComponent={({ isOverflown, collapsed, setCollapsed }) =>
-          isOverflown ? (
-            <ExpandComponent onClick={() => setCollapsed(!collapsed)}>
-              {collapsed ? t("button.show_more") : t("button.show_less")}
-            </ExpandComponent>
-          ) : null
-        }
-        dependencies={[props.value]}
-        maxHeight={props.maxHeight}
-      >
-        {(ref) => (
-          <CodePreviewWrapper ref={ref as React.RefObject<HTMLDivElement>}>
-            {props.value}
-          </CodePreviewWrapper>
-        )}
-      </Expandable>
-    </Wrapper>
-  );
-});
+const CodePreview: React.FC<Props> = React.memo((props) => (
+  <Wrapper>
+    <Expandable
+      collapseHeight={props.collapseHeight}
+      expandComponent={ExpandComponent}
+      dependencies={[props.value]}
+      maxHeight={props.maxHeight}
+    >
+      {(ref) => (
+        <CodePreviewWrapper ref={ref as React.RefObject<HTMLDivElement>}>
+          {props.value}
+        </CodePreviewWrapper>
+      )}
+    </Expandable>
+  </Wrapper>
+));
 
 export default CodePreview;
