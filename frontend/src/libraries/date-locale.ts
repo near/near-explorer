@@ -1,6 +1,7 @@
-import { Language } from "./i18n";
+import { Language } from "@explorer/frontend/libraries/i18n";
+
 import { Locale as RawLocale } from "date-fns";
-import { DurationFormatter } from "./locales";
+import { DurationFormatter } from "@explorer/frontend/libraries/locales/index";
 
 export type Locale = RawLocale & { durationFormatter: DurationFormatter };
 

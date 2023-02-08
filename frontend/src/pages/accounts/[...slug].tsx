@@ -2,30 +2,30 @@ import Head from "next/head";
 
 import { Container, Spinner } from "react-bootstrap";
 
-import AccountDetails from "../../components/accounts/AccountDetails";
-import ContractDetails from "../../components/contracts/ContractDetails";
+import AccountDetails from "@explorer/frontend/components/accounts/AccountDetails";
+import ContractDetails from "@explorer/frontend/components/contracts/ContractDetails";
 import Transactions, {
   getNextPageParam,
-} from "../../components/transactions/Transactions";
-import Content from "../../components/utils/Content";
+} from "@explorer/frontend/components/transactions/Transactions";
+import Content from "@explorer/frontend/components/utils/Content";
 
-import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
-import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
 import * as React from "react";
 import {
   getServerSideProps as getBetaServerSideProps,
   default as BetaAccountPage,
-} from "../beta/accounts/[...slug]";
-import { useAccountPageOptions } from "../../hooks/use-account-page-options";
-import { getBetaOptionsFromReq } from "../../libraries/beta";
-import { useBeta } from "../../hooks/use-beta";
-import { TRPCQueryResult } from "../../types/common";
-import ErrorMessage from "../../components/utils/ErrorMessage";
+} from "@explorer/frontend/pages/beta/accounts/[...slug]";
+import { useAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
+import { getBetaOptionsFromReq } from "@explorer/frontend/libraries/beta";
+import { useBeta } from "@explorer/frontend/hooks/use-beta";
+import { TRPCQueryResult } from "@explorer/common/types/trpc";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,

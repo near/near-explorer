@@ -1,4 +1,4 @@
-import { Receipt, TransactionOld } from "../../../types/common";
+import { Receipt, TransactionOld } from "@explorer/common/types/procedures";
 
 export const TRANSACTIONS: TransactionOld[] = [
   // no action has deposit

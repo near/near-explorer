@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import { AccountActivityAction } from "../../../types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { AccountActivityAction } from "@explorer/common/types/procedures";
 
 type Props = {
   action: AccountActivityAction;

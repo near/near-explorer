@@ -4,15 +4,18 @@ import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { showInYocto, formatWithCommas } from "../utils/Balance";
+import {
+  showInYocto,
+  formatWithCommas,
+} from "@explorer/frontend/components/utils/Balance";
 import {
   InfoCard,
   InfoCardCell as Cell,
   InfoCardText,
-} from "../utils/InfoCard";
-import NearBadge from "./NearBadge";
-import { styled } from "../../libraries/styles";
-import * as BI from "../../libraries/bigint";
+} from "@explorer/frontend/components/utils/InfoCard";
+import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
+import { styled } from "@explorer/frontend/libraries/styles";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",

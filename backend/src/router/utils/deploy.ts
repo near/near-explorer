@@ -1,8 +1,9 @@
 import * as trpc from "@trpc/server";
 
-import { Context } from "../../context";
-import { getBranch, getEnvironment, getShortCommitSha } from "../../common";
-import { config } from "../../config";
+import { Context } from "@explorer/backend/context";
+import { getBranch, getShortCommitSha } from "@explorer/common/utils/git";
+import { getEnvironment } from "@explorer/common/utils/environment";
+import { config } from "@explorer/backend/config";
 
 export const router = trpc.router<Context>().query("deployInfo", {
   resolve: async () => {

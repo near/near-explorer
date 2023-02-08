@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import Receipts from "../receipts/Receipts";
-import Placeholder from "../utils/Placeholder";
-import PaginationSpinner from "../utils/PaginationSpinner";
+import Receipts from "@explorer/frontend/components/receipts/Receipts";
+import Placeholder from "@explorer/frontend/components/utils/Placeholder";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { Receipt } from "../../types/common";
+import { Receipt } from "@explorer/common/types/procedures";
 
 interface Props {
   receiptsList?: Receipt[];

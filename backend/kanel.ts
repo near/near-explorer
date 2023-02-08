@@ -2,7 +2,7 @@ import { processDatabase } from "kanel";
 import path from "path";
 // @ts-ignore
 import { recase } from "@kristiandupont/recase";
-import { config } from "./src/config";
+import { config } from "@explorer/backend/config";
 
 const run = async () => {
   for (const [database, dbConfig] of Object.entries(config.db)) {

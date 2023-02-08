@@ -7,10 +7,10 @@ import renderer, {
   TestRendererOptions,
 } from "react-test-renderer";
 import fetch from "isomorphic-fetch";
-import { NetworkContext } from "../context/NetworkContext";
-import { LanguageContext } from "../context/LanguageContext";
-import { trpc } from "../libraries/trpc";
-import { Locale } from "../libraries/date-locale";
+import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { Locale } from "@explorer/frontend/libraries/date-locale";
 
 const networkContext: NetworkContext = {
   networkName: "localnet",

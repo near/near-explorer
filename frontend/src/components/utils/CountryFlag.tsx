@@ -2,7 +2,7 @@ import * as React from "react";
 import ReactCountryFlag from "react-country-flag";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { countries } from "country-data";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const DefaultCountryFlag = styled("div", {
   display: "inline-block",

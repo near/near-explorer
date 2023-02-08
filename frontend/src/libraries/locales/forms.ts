@@ -1,4 +1,8 @@
-import { AccusativeForms, DurationFormatter, PluralForms } from "./index";
+import {
+  AccusativeForms,
+  DurationFormatter,
+  PluralForms,
+} from "@explorer/frontend/libraries/locales/index";
 
 const getPluralForm = (input: number, forms: PluralForms): string => {
   return input % 10 === 1 && input % 100 !== 11

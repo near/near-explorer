@@ -1,7 +1,7 @@
 import JSBI from "jsbi";
 import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import * as BI from "../../libraries/bigint";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 interface Props {
   amount: string | JSBI;

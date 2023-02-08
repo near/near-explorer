@@ -1,4 +1,4 @@
-import { telemetryWriteDatabase } from "../database/databases";
+import { telemetryWriteDatabase } from "@explorer/backend/database/databases";
 
 // Skip initializing Telemetry database if the backend is not configured to
 // save telemetry data (it is absolutely fine for local development)

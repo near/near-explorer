@@ -1,8 +1,8 @@
 import React from "react";
 import Gleap from "gleap";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
-import { DeployInfo as DeployInfoProps } from "../../types/common";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
 import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {

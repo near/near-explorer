@@ -1,9 +1,11 @@
 import * as React from "react";
 
 import { Table as BaseTable } from "react-bootstrap";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
-import Pagination, { Props as PaginationProps } from "../utils/Pagination";
+import Pagination, {
+  Props as PaginationProps,
+} from "@explorer/frontend/components/utils/Pagination";
 
 const TableExpandRow = styled("tr", {
   transition: "height 0.5s 0.5s, opacity 0.5s",
@@ -123,4 +125,4 @@ export const Table: React.FC<Props> = React.memo(
   )
 );
 
-export type { OnPageChange } from "../utils/Pagination";
+export type { OnPageChange } from "@explorer/frontend/components/utils/Pagination";

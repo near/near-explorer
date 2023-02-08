@@ -1,7 +1,10 @@
 import { NextApiHandler } from "next";
-import { getTrpcClient } from "../../libraries/trpc";
-import { getNearNetworkName } from "../../libraries/config";
-import { isNetworkOffline, respondNetworkOffline } from "../../libraries/api";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import {
+  isNetworkOffline,
+  respondNetworkOffline,
+} from "@explorer/frontend/libraries/api";
 
 const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet

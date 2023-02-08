@@ -1,6 +1,6 @@
 import React from "react";
-import { useBetaOptions } from "./use-beta-options";
-import { useQueryParam } from "./use-query-param";
+import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
+import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
 
 export const useWatchBeta = () => {
   const [enabledBeta, setEnableBeta] = useQueryParam("beta");

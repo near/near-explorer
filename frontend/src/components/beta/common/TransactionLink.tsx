@@ -1,8 +1,8 @@
 import * as React from "react";
-import Link from "../../utils/Link";
-import { shortenString } from "../../../libraries/formatting";
-import { styled } from "../../../libraries/styles";
-import CopyToClipboard from "../../utils/CopyToClipboard";
+import Link from "@explorer/frontend/components/utils/Link";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 
 const TransactionLinkWrapper = styled("a", {
   whiteSpace: "nowrap",

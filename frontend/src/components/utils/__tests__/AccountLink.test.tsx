@@ -1,6 +1,6 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import AccountLink from "../AccountLink";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 
 describe("<AccountLink />", () => {
   it("renders short account id", () => {

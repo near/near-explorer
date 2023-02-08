@@ -1,6 +1,6 @@
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
-import { NetworkName } from "../types/common";
+import { NetworkName } from "@explorer/common/types/common";
 
 export interface NearNetwork {
   explorerLink: string;

@@ -1,11 +1,11 @@
 import React from "react";
-import NearIcon from "../beta/common/NearIcon";
+import NearIcon from "@explorer/frontend/components/beta/common/NearIcon";
 import {
   formatToPowerOfTen,
   NEAR_DENOMINATION,
   NearDecimalPower,
-} from "../../libraries/formatting";
-import { styled } from "../../libraries/styles";
+} from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Offsetted = styled("span", {

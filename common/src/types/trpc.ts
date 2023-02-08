@@ -15,7 +15,7 @@ import type { TRPCClient as _TRPCClient } from "@trpc/client";
 import { UseMutationResult, UseQueryResult } from "react-query";
 import { Equals } from "tsafe";
 
-import type { AppRouter } from "../../../backend/src/router";
+import type { AppRouter } from "@explorer/backend/router";
 
 export type AnyRouter<TContext = any> = Router<
   any,

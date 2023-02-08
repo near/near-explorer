@@ -7,18 +7,18 @@ import {
   formatBytes,
   formatToPowerOfTen,
   shortenString,
-} from "../../../libraries/formatting";
-import { styled } from "../../../libraries/styles";
-import { Account } from "../../../types/common";
-import { NearAmount } from "../../utils/NearAmount";
-import CopyToClipboard from "../../utils/CopyToClipboard";
-import * as BI from "../../../libraries/bigint";
-import Timer from "../../utils/Timer";
-import { trpc } from "../../../libraries/trpc";
-import TransactionLink from "../common/TransactionLink";
-import Timestamp from "../common/Timestamp";
-import ShortenValue from "../common/ShortenValue";
-import StringConditionalOverlay from "../common/StringConditionalOverlay";
+} from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { Account } from "@explorer/common/types/procedures";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import Timer from "@explorer/frontend/components/utils/Timer";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
+import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
+import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
+import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
 
 type Props = {
   account: Account;

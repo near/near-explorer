@@ -1,6 +1,6 @@
 import * as React from "react";
 import JSBI from "jsbi";
-import * as BI from "../../libraries/bigint";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 interface Props {
   gas: JSBI;

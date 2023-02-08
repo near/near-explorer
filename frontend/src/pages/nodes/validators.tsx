@@ -2,17 +2,19 @@ import Head from "next/head";
 
 import { Container } from "react-bootstrap";
 
-import NodesEpoch from "../../components/nodes/NodesEpoch";
-import Validators from "../../components/nodes/Validators";
-import Content, { ContentHeader } from "../../components/utils/Content";
-import NodesCard from "../../components/nodes/NodesCard";
-import NodesContentHeader from "../../components/nodes/NodesContentHeader";
+import NodesEpoch from "@explorer/frontend/components/nodes/NodesEpoch";
+import Validators from "@explorer/frontend/components/nodes/Validators";
+import Content, {
+  ContentHeader,
+} from "@explorer/frontend/components/utils/Content";
+import NodesCard from "@explorer/frontend/components/nodes/NodesCard";
+import NodesContentHeader from "@explorer/frontend/components/nodes/NodesContentHeader";
 
 import { NextPage } from "next";
-import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { useEpochStartBlock } from "../../hooks/data";
-import { styled } from "../../libraries/styles";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useEpochStartBlock } from "@explorer/frontend/hooks/data";
+import { styled } from "@explorer/frontend/libraries/styles";
 import * as React from "react";
 
 const NodesPage = styled(Content, {

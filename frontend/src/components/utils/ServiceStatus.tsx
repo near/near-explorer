@@ -1,15 +1,15 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { usePrevious } from "../../hooks/use-previous";
+import { usePrevious } from "@explorer/frontend/hooks/use-previous";
 import {
   UseSubscriptionResult,
   useSubscription,
-} from "../../hooks/use-subscription";
-import { styled } from "../../libraries/styles";
-import { MINUTE, SECOND } from "../../libraries/time";
-import { HealthStatus } from "../../types/common";
-import Timer from "./Timer";
+} from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { MINUTE, SECOND } from "@explorer/frontend/libraries/time";
+import { HealthStatus } from "@explorer/common/types/procedures";
+import Timer from "@explorer/frontend/components/utils/Timer";
 
 const Wrapper = styled("div", {
   height: "100%",

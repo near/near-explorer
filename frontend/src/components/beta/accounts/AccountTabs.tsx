@@ -4,20 +4,20 @@ import {
   AccountPageOptions,
   AccountTab,
   buildAccountUrl,
-} from "../../../hooks/use-account-page-options";
-import { styled } from "../../../libraries/styles";
-import { Tabs } from "../common/Tabs";
-import AccountFungibleTokens from "./AccountFungibleTokens";
-import { Account } from "../../../types/common";
-import AccountTransactionsView from "./AccountTransactionsView";
+} from "@explorer/frontend/hooks/use-account-page-options";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
+import AccountFungibleTokens from "@explorer/frontend/components/beta/accounts/AccountFungibleTokens";
+import { Account } from "@explorer/common/types/procedures";
+import AccountTransactionsView from "@explorer/frontend/components/beta/accounts/AccountTransactionsView";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
   formatToPowerOfTen,
-} from "../../../libraries/formatting";
+} from "@explorer/frontend/libraries/formatting";
 
-import AccountNonFungibleTokensView from "./AccountNonFungibleTokens";
-import { trpc } from "../../../libraries/trpc";
+import AccountNonFungibleTokensView from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokens";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const TabLabel = styled("div", {
   display: "flex",

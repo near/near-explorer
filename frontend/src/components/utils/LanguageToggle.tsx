@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Language, LANGUAGES } from "../../libraries/i18n";
-import { LanguageContext } from "../../context/LanguageContext";
-import { styled } from "../../libraries/styles";
+import { Language, LANGUAGES } from "@explorer/frontend/libraries/i18n";
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const languagesIcon = "/static/images/icon-languages.svg";
 const downArrowIcon = "/static/images/down-arrow.svg";

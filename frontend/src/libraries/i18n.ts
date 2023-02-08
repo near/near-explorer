@@ -1,12 +1,12 @@
 import { i18n, createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import ruTranslation from "../translations/ru/common.json";
-import enTranslation from "../translations/en/common.json";
-import viTranslation from "../translations/vi/common.json";
-import zhHantTranslation from "../translations/zh-hant/common.json";
-import zhHansTranslation from "../translations/zh-hans/common.json";
-import uaTranslation from "../translations/ua/common.json";
+import ruTranslation from "@explorer/frontend/translations/ru/common.json";
+import enTranslation from "@explorer/frontend/translations/en/common.json";
+import viTranslation from "@explorer/frontend/translations/vi/common.json";
+import zhHantTranslation from "@explorer/frontend/translations/zh-hant/common.json";
+import zhHansTranslation from "@explorer/frontend/translations/zh-hans/common.json";
+import uaTranslation from "@explorer/frontend/translations/ua/common.json";
 
 export const LANGUAGES = [
   "en",

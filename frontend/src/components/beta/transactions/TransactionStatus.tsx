@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { TransactionStatus } from "../../../types/common";
-import { styled } from "../../../libraries/styles";
+import { TransactionStatus } from "@explorer/common/types/procedures";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
   status: TransactionStatus;

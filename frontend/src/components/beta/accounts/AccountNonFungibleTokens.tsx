@@ -1,17 +1,17 @@
 import * as React from "react";
 import Image from "next/image";
 
-import { styled } from "../../../libraries/styles";
-import { trpc } from "../../../libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
-import ListHandler from "../../utils/ListHandler";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
 import {
   AccountNonFungibleToken,
   AccountNonFungibleTokenElement,
-} from "../../../types/common";
-import { NonFungibleTokensAccountPageOptions } from "../../../hooks/use-account-page-options";
-import AccountNonFungibleTokensHistory from "./AccountNonFungibleTokensHistory";
-import NFTMedia from "../common/NFTMedia";
+} from "@explorer/common/types/procedures";
+import { NonFungibleTokensAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
+import AccountNonFungibleTokensHistory from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
+import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
 import { Spinner } from "react-bootstrap";
 
 const TOKENS_PER_PAGE = 4;

@@ -2,13 +2,13 @@ import * as React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import Content from "../../../components/utils/Content";
-import { styled } from "../../../libraries/styles";
-import ListHandler from "../../../components/utils/ListHandler";
-import { trpc } from "../../../libraries/trpc";
-import { id } from "../../../libraries/common";
-import { FungibleTokenItem } from "../../../types/common";
-import { TokenAmount } from "../../../components/utils/TokenAmount";
+import Content from "@explorer/frontend/components/utils/Content";
+import { styled } from "@explorer/frontend/libraries/styles";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { id } from "@explorer/common/utils/utils";
+import { FungibleTokenItem } from "@explorer/common/types/procedures";
+import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
 import { Spinner } from "react-bootstrap";
 
 const Tokens = styled("div", {

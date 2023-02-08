@@ -1,7 +1,7 @@
 import { i18n } from "i18next";
 import React from "react";
-import { Language, resources } from "../libraries/i18n";
-import { useOnce } from "./use-once";
+import { Language, resources } from "@explorer/frontend/libraries/i18n";
+import { useOnce } from "@explorer/frontend/hooks/use-once";
 
 export const useI18n = (
   initialState: i18n | (() => i18n),

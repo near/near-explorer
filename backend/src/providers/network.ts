@@ -1,11 +1,11 @@
-import { Context } from "../context";
+import { Context } from "@explorer/backend/context";
 import {
   NetworkStats,
   ValidationProgress,
   ValidatorEpochData,
-} from "../router/types";
-import { RPC } from "../types";
-import * as nearApi from "../utils/near";
+} from "@explorer/backend/router/types";
+import * as RPC from "@explorer/common/types/rpc";
+import * as nearApi from "@explorer/backend/utils/near";
 
 export const queryFinalBlock = async (): Promise<
   RPC.ResponseMapping["block"]

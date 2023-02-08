@@ -1,25 +1,31 @@
 import { formatDuration, intervalToDuration } from "date-fns";
 import { sql } from "kysely";
-import { ValidatorEpochData, ValidatorPoolInfo } from "../router/types";
-import { config } from "../config";
-import * as nearApi from "../utils/near";
-import { queryEpochData } from "../providers/network";
-import { wait } from "../common";
-import { GlobalState } from "../global-state";
-import { RegularCheckFn } from "./types";
+import {
+  ValidatorEpochData,
+  ValidatorPoolInfo,
+} from "@explorer/backend/router/types";
+import { config } from "@explorer/backend/config";
+import * as nearApi from "@explorer/backend/utils/near";
+import { queryEpochData } from "@explorer/backend/providers/network";
+import { wait } from "@explorer/common/utils/promise";
+import { GlobalState } from "@explorer/backend/global-state";
+import { RegularCheckFn } from "@explorer/backend/cron/types";
 import {
   getPublishIfChanged,
   publishOnChange,
   updateRegularlyFetchedMap,
-} from "./utils";
-import { SECOND, MINUTE } from "../utils/time";
+} from "@explorer/backend/cron/utils";
+import { SECOND, MINUTE } from "@explorer/backend/utils/time";
 import {
   analyticsDatabase,
   indexerDatabase,
   telemetryDatabase,
-} from "../database/databases";
-import { count, div, sum } from "../database/utils";
-import { nearNomination, teraGasNomination } from "../utils/bigint";
+} from "@explorer/backend/database/databases";
+import { count, div, sum } from "@explorer/backend/database/utils";
+import {
+  nearNomination,
+  teraGasNomination,
+} from "@explorer/backend/utils/bigint";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",

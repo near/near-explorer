@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Dropdown } from "react-bootstrap";
 
-import IconAccounts from "../../../public/static/images/icon-accounts.svg";
-import IconBlocks from "../../../public/static/images/icon-blocks.svg";
-import IconNodes from "../../../public/static/images/icon-nodes.svg";
-import IconStats from "../../../public/static/images/icon-stats.svg";
-import IconTransactions from "../../../public/static/images/icon-transactions.svg";
+import IconAccounts from "@explorer/frontend/public/static/images/icon-accounts.svg";
+import IconBlocks from "@explorer/frontend/public/static/images/icon-blocks.svg";
+import IconNodes from "@explorer/frontend/public/static/images/icon-nodes.svg";
+import IconStats from "@explorer/frontend/public/static/images/icon-stats.svg";
+import IconTransactions from "@explorer/frontend/public/static/images/icon-transactions.svg";
 
-import Link from "../utils/Link";
+import Link from "@explorer/frontend/components/utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { globalCss, styled } from "../../libraries/styles";
+import { globalCss, styled } from "@explorer/frontend/libraries/styles";
 import { StyledComponent } from "@stitches/react/types/styled-component";
 
 const Icon = styled("svg", {

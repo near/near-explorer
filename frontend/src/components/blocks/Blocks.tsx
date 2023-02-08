@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
-import ListHandler from "../utils/ListHandler";
-import FlipMove from "../utils/FlipMove";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import FlipMove from "@explorer/frontend/components/utils/FlipMove";
 
-import BlocksRow from "./BlocksRow";
-import Placeholder from "../utils/Placeholder";
-import { trpc } from "../../libraries/trpc";
-import { useSubscription } from "../../hooks/use-subscription";
-import { BlockBase } from "../../types/common";
-import { id } from "../../libraries/common";
+import BlocksRow from "@explorer/frontend/components/blocks/BlocksRow";
+import Placeholder from "@explorer/frontend/components/utils/Placeholder";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { BlockBase } from "@explorer/common/types/procedures";
+import { id } from "@explorer/common/utils/utils";
 
 const BLOCKS_PER_PAGE = 15;
 

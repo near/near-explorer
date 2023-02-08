@@ -1,22 +1,22 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { RPC } from "../../types";
-import * as nearApi from "../../utils/near";
-import { validators } from "../validators";
+import { Context } from "@explorer/backend/context";
+import * as RPC from "@explorer/common/types/rpc";
+import * as nearApi from "@explorer/backend/utils/near";
+import { validators } from "@explorer/backend/router/validators";
 import {
   indexerActivityDatabase,
   indexerDatabase,
-} from "../../database/databases";
-import { Action, mapRpcActionToAction } from "../../utils/actions";
-import { mapRpcTransactionStatus } from "../../utils/transaction-status";
+} from "@explorer/backend/database/databases";
+import { Action, mapRpcActionToAction } from "@explorer/backend/utils/actions";
+import { mapRpcTransactionStatus } from "@explorer/backend/utils/transaction-status";
 import {
   mapRpcReceiptStatus,
   ReceiptExecutionStatus,
-} from "../../utils/receipt-status";
-import { nanosecondsToMilliseconds } from "../../utils/bigint";
-import { div } from "../../database/utils";
+} from "@explorer/backend/utils/receipt-status";
+import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
+import { div } from "@explorer/backend/database/utils";
 
 type ParsedReceiptOld = Omit<NestedReceiptWithOutcomeOld, "outcome"> & {
   outcome: Omit<NestedReceiptWithOutcomeOld["outcome"], "nestedReceipts"> & {

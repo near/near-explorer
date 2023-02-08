@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Receipt } from "../../types/common";
+import { Receipt } from "@explorer/common/types/procedures";
 
-import ActionGroup from "../transactions/ActionGroup";
-import ReceiptLink from "../utils/ReceiptLink";
-import ReceiptExecutionStatus from "./ReceiptExecutionStatus";
+import ActionGroup from "@explorer/frontend/components/transactions/ActionGroup";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
+import ReceiptExecutionStatus from "@explorer/frontend/components/receipts/ReceiptExecutionStatus";
 
 interface Props {
   receipts: Receipt[];

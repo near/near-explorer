@@ -1,7 +1,7 @@
-import { Context } from "../context";
-import { SECOND } from "../utils/time";
-import * as tasks from "./tasks";
-import { PublishTopic } from "./types";
+import { Context } from "@explorer/backend/context";
+import { SECOND } from "@explorer/backend/utils/time";
+import * as tasks from "@explorer/backend/cron/tasks";
+import { PublishTopic } from "@explorer/backend/cron/types";
 
 const regularTasks = [
   tasks.latestBlockCheck,

@@ -1,4 +1,4 @@
-import "../libraries/wdyr";
+import "@explorer/frontend/libraries/wdyr";
 import { ExtraAppInitialProps, ServerAppInitialProps } from "next/app";
 import { withTRPC } from "@trpc/next";
 import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
@@ -11,38 +11,49 @@ import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import { getConfig, getNearNetworkName } from "../libraries/config";
-import { AppRouter, NetworkName } from "../types/common";
-
-import Header from "../components/utils/Header";
-import Footer from "../components/utils/Footer";
-import OfflineSplash from "../components/utils/OfflineSplash";
-import { NetworkContext } from "../context/NetworkContext";
-import { DeployInfo } from "../components/utils/DeployInfo";
-import { DeployInfo as DeployInfoProps } from "../types/common";
-
 import {
-  getBranch,
-  getEnvironment,
-  getShortCommitSha,
-  SSR_TIMEOUT,
-} from "../libraries/common";
-import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
-import { getDateLocale } from "../libraries/date-locale";
-import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
-import { createI18n, Language, LANGUAGES } from "../libraries/i18n";
+  getConfig,
+  getNearNetworkName,
+} from "@explorer/frontend/libraries/config";
+import type { AppRouter } from "@explorer/backend/router";
+import { NetworkName } from "@explorer/common/types/common";
+
+import Header from "@explorer/frontend/components/utils/Header";
+import Footer from "@explorer/frontend/components/utils/Footer";
+import OfflineSplash from "@explorer/frontend/components/utils/OfflineSplash";
+import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
+import { DeployInfo } from "@explorer/frontend/components/utils/DeployInfo";
+import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
+
+import { getBranch, getShortCommitSha } from "@explorer/common/utils/git";
+import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
+import { getEnvironment } from "@explorer/common/utils/environment";
+import {
+  getLanguage,
+  LANGUAGE_COOKIE,
+} from "@explorer/frontend/libraries/language";
+import { getDateLocale } from "@explorer/frontend/libraries/date-locale";
+import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
+import {
+  createI18n,
+  Language,
+  LANGUAGES,
+} from "@explorer/frontend/libraries/i18n";
 import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
-import { LanguageContext } from "../context/LanguageContext";
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
 import { i18n } from "i18next";
-import { MINUTE, YEAR } from "../libraries/time";
-import { globalCss, styled } from "../libraries/styles";
-import { getBackendUrl } from "../libraries/transport";
-import { useDateLocale } from "../hooks/use-date-locale";
-import { useI18n } from "../hooks/use-i18n";
-import { ToastController } from "../components/utils/ToastController";
-import { useCookie } from "../hooks/use-cookie";
-import { CookieContext, getCookiesFromString } from "../libraries/cookie";
-import { useWatchBeta } from "../hooks/use-watch-beta";
+import { MINUTE, YEAR } from "@explorer/frontend/libraries/time";
+import { globalCss, styled } from "@explorer/frontend/libraries/styles";
+import { getBackendUrl } from "@explorer/frontend/libraries/transport";
+import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
+import { useI18n } from "@explorer/frontend/hooks/use-i18n";
+import { ToastController } from "@explorer/frontend/components/utils/ToastController";
+import { useCookie } from "@explorer/frontend/hooks/use-cookie";
+import {
+  CookieContext,
+  getCookiesFromString,
+} from "@explorer/frontend/libraries/cookie";
+import { useWatchBeta } from "@explorer/frontend/hooks/use-watch-beta";
 
 const globalStyles = globalCss({
   body: {

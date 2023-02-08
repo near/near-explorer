@@ -6,8 +6,8 @@
  */
 
 import { IncomingMessage } from "http";
-import { getCookiesFromReq } from "./cookie";
-import { DEFAULT_LANGUAGE, Language } from "./i18n";
+import { getCookiesFromReq } from "@explorer/frontend/libraries/cookie";
+import { DEFAULT_LANGUAGE, Language } from "@explorer/frontend/libraries/i18n";
 
 export const LANGUAGE_COOKIE = "NEXT_LOCALE";
 

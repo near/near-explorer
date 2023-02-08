@@ -2,12 +2,12 @@ import JSBI from "jsbi";
 import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import Gas from "../utils/Gas";
-import Balance from "../utils/Balance";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import Balance from "@explorer/frontend/components/utils/Balance";
 
 import { useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
-import { TransactionOutcomeOld } from "../../types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { TransactionOutcomeOld } from "@explorer/common/types/procedures";
 
 const TransactionOutcomeRow = styled(Row, {
   paddingTop: 10,

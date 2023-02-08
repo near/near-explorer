@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 
-import Link from "../utils/Link";
+import Link from "@explorer/frontend/components/utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { styled } from "../../libraries/styles";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const NodeSelector = styled(Col, {
   height: "100%",

@@ -1,13 +1,13 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { indexerDatabase } from "../../database/databases";
-import { div } from "../../database/utils";
-import * as nearApi from "../../utils/near";
-import { validators } from "../validators";
-import { notNullGuard } from "../../common";
-import { FungibleTokenMetadata } from "../fungible-tokens";
+import { Context } from "@explorer/backend/context";
+import { indexerDatabase } from "@explorer/backend/database/databases";
+import { div } from "@explorer/backend/database/utils";
+import * as nearApi from "@explorer/backend/utils/near";
+import { validators } from "@explorer/backend/router/validators";
+import { notNullGuard } from "@explorer/common/utils/utils";
+import { FungibleTokenMetadata } from "@explorer/backend/router/fungible-tokens";
 
 const base64ImageRegex = /^data:image/;
 export const validateBase64Image = (

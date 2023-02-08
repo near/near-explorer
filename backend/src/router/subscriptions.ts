@@ -1,14 +1,15 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../context";
-import { SubscriptionEventMap } from "./types";
-import { SSR_TIMEOUT, wait } from "../common";
+import { Context } from "@explorer/backend/context";
+import { SubscriptionEventMap } from "@explorer/backend/router/types";
+import { wait } from "@explorer/common/utils/promise";
+import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
 import {
   AnyRouter,
   CreateProcedureSubscription,
   RouterWithSubscriptionsAndQueries,
-} from "../types";
+} from "@explorer/common/types/trpc";
 
 const subscriptionInputs = {
   transactionsHistory: z.union([

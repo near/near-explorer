@@ -1,6 +1,6 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import AccountRow from "../AccountRow";
+import AccountRow from "@explorer/frontend/components/accounts/AccountRow";
 
 describe("<AccountRow />", () => {
   beforeEach(() => jest.resetAllMocks());

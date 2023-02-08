@@ -6,13 +6,13 @@ import * as ReactQuery from "react-query";
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 
-import { Transaction } from "../../../types/common";
-import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
+import { Transaction } from "@explorer/common/types/procedures";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 
-import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
-import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
-import { trpc } from "../../../libraries/trpc";
-import { styled } from "../../../libraries/styles";
+import TransactionHeader from "@explorer/frontend/components/beta/transactions/TransactionHeader";
+import TransactionActionsList from "@explorer/frontend/components/beta/transactions/TransactionActionsList";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
 import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {

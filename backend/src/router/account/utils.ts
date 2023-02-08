@@ -1,8 +1,11 @@
 import { sql } from "kysely";
-import { analyticsDatabase, indexerDatabase } from "../../database/databases";
-import { count, max, sum } from "../../database/utils";
-import { millisecondsToNanoseconds } from "../../utils/bigint";
-import { DAY } from "../../utils/time";
+import {
+  analyticsDatabase,
+  indexerDatabase,
+} from "@explorer/backend/database/databases";
+import { count, max, sum } from "@explorer/backend/database/utils";
+import { millisecondsToNanoseconds } from "@explorer/backend/utils/bigint";
+import { DAY } from "@explorer/backend/utils/time";
 
 const queryAccountIncomeTransactionsCount = async (accountId: string) => {
   if (!analyticsDatabase) {

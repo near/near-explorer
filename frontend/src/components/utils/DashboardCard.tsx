@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Col, Row } from "react-bootstrap";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 export const DashboardCardWrapper = styled(Row, {
   background: "#ffffff",

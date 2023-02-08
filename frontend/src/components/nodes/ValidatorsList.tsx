@@ -1,10 +1,10 @@
 import JSBI from "jsbi";
 import * as React from "react";
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { ValidatorFullData } from "../../types/common";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { ValidatorFullData } from "@explorer/common/types/procedures";
 
-import ValidatorRow from "./ValidatorRow";
-import * as BI from "../../libraries/bigint";
+import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 // The share of "network holders", cumulative amount of validators
 // that considered "in control" of the network by holding significant amount of staked tokens

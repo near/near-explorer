@@ -1,6 +1,6 @@
 import * as React from "react";
-import Link from "../../utils/Link";
-import { styled } from "../../../libraries/styles";
+import Link from "@explorer/frontend/components/utils/Link";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 export interface Props {
   blockHash: string;

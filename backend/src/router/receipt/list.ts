@@ -6,19 +6,19 @@ import {
 } from "kysely/dist/cjs/parser/table-parser";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { Indexer, indexerDatabase } from "../../database/databases";
+import { Context } from "@explorer/backend/context";
+import { Indexer, indexerDatabase } from "@explorer/backend/database/databases";
 import {
   Action,
   DatabaseAction,
   mapDatabaseActionToAction,
-} from "../../utils/actions";
+} from "@explorer/backend/utils/actions";
 import {
   mapDatabaseReceiptStatus,
   ReceiptExecutionStatus,
-} from "../../utils/receipt-status";
-import { nanosecondsToMilliseconds } from "../../utils/bigint";
-import { validators } from "../validators";
+} from "@explorer/backend/utils/receipt-status";
+import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
+import { validators } from "@explorer/backend/router/validators";
 
 type ActionReceiptsActionDatabaseExpression = TableExpressionDatabase<
   Indexer.ModelTypeMap,

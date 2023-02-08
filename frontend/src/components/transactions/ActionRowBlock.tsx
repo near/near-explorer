@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import AccountLink from "../utils/AccountLink";
-import Timer from "../utils/Timer";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import Timer from "@explorer/frontend/components/utils/Timer";
 
 import { useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const ActionRowImage = styled("div", {
   variants: {

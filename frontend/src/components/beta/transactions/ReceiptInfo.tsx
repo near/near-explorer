@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import { TransactionReceipt } from "../../../types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { TransactionReceipt } from "@explorer/common/types/procedures";
 
-import { Tabs } from "../common/Tabs";
-import ReceiptDetails from "./ReceiptDetails";
-import InspectReceipt from "./InspectReceipt";
+import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
+import ReceiptDetails from "@explorer/frontend/components/beta/transactions/ReceiptDetails";
+import InspectReceipt from "@explorer/frontend/components/beta/transactions/InspectReceipt";
 
 type Props = {
   receipt: TransactionReceipt;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { ReceiptExecutionStatus } from "../../types/common";
+import { ReceiptExecutionStatus } from "@explorer/common/types/procedures";
 
 export interface Props {
   status: ReceiptExecutionStatus;

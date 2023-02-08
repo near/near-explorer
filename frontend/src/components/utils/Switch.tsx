@@ -1,6 +1,6 @@
 import React from "react";
 import RawSwitch from "rc-switch";
-import { keyframes, styled } from "../../libraries/styles";
+import { keyframes, styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
   checked: boolean;

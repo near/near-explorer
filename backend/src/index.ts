@@ -1,12 +1,16 @@
 import { EventEmitter } from "events";
-import { setupTelemetryDb } from "./utils/telemetry";
-import { runTasks } from "./cron";
-import { AppRouter, router } from "./router";
-import { connectWebsocketServer, createApp, RouterOptions } from "./server";
-import { config } from "./config";
-import { initGlobalState } from "./global-state";
-import { Context } from "./context";
-import { onError } from "./utils/error";
+import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
+import { runTasks } from "@explorer/backend/cron";
+import { AppRouter, router } from "@explorer/backend/router";
+import {
+  connectWebsocketServer,
+  createApp,
+  RouterOptions,
+} from "@explorer/backend/server";
+import { config } from "@explorer/backend/config";
+import { initGlobalState } from "@explorer/backend/global-state";
+import { Context } from "@explorer/backend/context";
+import { onError } from "@explorer/backend/utils/error";
 
 async function main(router: AppRouter): Promise<void> {
   console.log("Starting Explorer backend...");

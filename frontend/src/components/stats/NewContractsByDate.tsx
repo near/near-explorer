@@ -3,14 +3,14 @@ import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 
-import { getCumulativeArray } from "../../libraries/stats";
+import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
 
-import { Props } from "./TransactionsByDate";
+import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "../../hooks/use-subscription";
-import PaginationSpinner from "../utils/PaginationSpinner";
-import { TRPCSubscriptionOutput } from "../../types/common";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
 
 const getOption = (
   title: string,

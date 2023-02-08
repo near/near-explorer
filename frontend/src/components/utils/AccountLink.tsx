@@ -1,6 +1,6 @@
-import Link from "../utils/Link";
-import { truncateAccountId } from "../../libraries/formatting";
-import { styled } from "../../libraries/styles";
+import Link from "@explorer/frontend/components/utils/Link";
+import { truncateAccountId } from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
 import * as React from "react";
 
 const AccountLinkWrapper = styled("a", {

@@ -1,6 +1,6 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import Term from "../Term";
+import Term from "@explorer/frontend/components/utils/Term";
 
 describe("<CardCell />", () => {
   it("renders", () => {

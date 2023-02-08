@@ -1,10 +1,10 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { validators } from "../validators";
-import { indexerDatabase } from "../../database/databases";
-import { count, div, sum } from "../../database/utils";
+import { Context } from "@explorer/backend/context";
+import { validators } from "@explorer/backend/router/validators";
+import { indexerDatabase } from "@explorer/backend/database/databases";
+import { count, div, sum } from "@explorer/backend/database/utils";
 
 export const router = trpc.router<Context>().query("byId", {
   input: z.union([

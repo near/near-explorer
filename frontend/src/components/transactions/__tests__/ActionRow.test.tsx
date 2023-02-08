@@ -1,12 +1,12 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import TransactionLink from "../../utils/TransactionLink";
-import ReceiptLink from "../../utils/ReceiptLink";
-import ActionRow from "../ActionRow";
-import TransactionExecutionStatus from "../TransactionExecutionStatus";
+import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
+import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
+import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
-import { Action } from "../../../types/common";
+import { Action } from "@explorer/common/types/procedures";
 
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {

@@ -1,13 +1,13 @@
 import * as React from "react";
-import { useDateFormat } from "../../hooks/use-date-format";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 
 import { Row, Col } from "react-bootstrap";
 
-import ProgressBar from "../utils/ProgressBar";
+import ProgressBar from "@explorer/frontend/components/utils/ProgressBar";
 
 import { useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
-import { useSubscription } from "../../hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { parseISO } from "date-fns";
 
 const NodesEpochContent = styled(Col, {

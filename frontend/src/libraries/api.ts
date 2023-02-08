@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
-import { NetworkName } from "../types/common";
-import { getConfig } from "./config";
+import { NetworkName } from "@explorer/common/types/common";
+import { getConfig } from "@explorer/frontend/libraries/config";
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },

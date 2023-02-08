@@ -1,6 +1,6 @@
 import * as React from "react";
-import { styled } from "../../../libraries/styles";
-import LinkWrapper from "../../utils/Link";
+import { styled } from "@explorer/frontend/libraries/styles";
+import LinkWrapper from "@explorer/frontend/components/utils/Link";
 
 const Wrapper = styled("div", {});
 

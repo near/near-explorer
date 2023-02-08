@@ -4,14 +4,14 @@ import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import JSBI from "jsbi";
 
-import { Props } from "./TransactionsByDate";
+import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "../../hooks/use-subscription";
-import { getCumulativeArray } from "../../libraries/stats";
-import * as BI from "../../libraries/bigint";
-import { TRPCSubscriptionOutput } from "../../types/common";
-import PaginationSpinner from "../utils/PaginationSpinner";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 
 const getOption = (
   title: string,

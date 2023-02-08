@@ -1,5 +1,5 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shortenString } from "../../../libraries/formatting";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
 
 type Props = {
   value: string;

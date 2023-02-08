@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import CodeArgs from "../common/CodeArgs";
-import JsonView from "../common/JsonView";
+import CodeArgs from "@explorer/frontend/components/beta/common/CodeArgs";
+import JsonView from "@explorer/frontend/components/beta/common/JsonView";
 
-import { styled } from "../../../libraries/styles";
-import { TransactionReceipt } from "../../../types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { TransactionReceipt } from "@explorer/common/types/procedures";
 
 type Props = {
   receipt: TransactionReceipt;

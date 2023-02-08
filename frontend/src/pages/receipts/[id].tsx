@@ -5,10 +5,10 @@ import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import Content from "../../components/utils/Content";
-import { getTrpcClient } from "../../libraries/trpc";
-import { getNearNetworkName } from "../../libraries/config";
-import { shortenString } from "../../libraries/formatting";
+import Content from "@explorer/frontend/components/utils/Content";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
 
 const ReceiptRedirectPage: NextPage = React.memo(() => {
   const receiptId = useRouter().query.id as string;

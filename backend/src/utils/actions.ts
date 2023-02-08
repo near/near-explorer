@@ -1,4 +1,4 @@
-import { RPC } from "../types";
+import * as RPC from "@explorer/common/types/rpc";
 
 export type Action =
   | {

@@ -2,14 +2,16 @@ import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
-import DashboardCard from "../utils/DashboardCard";
-import LongCardCell, { CardCellText } from "../utils/LongCardCell";
-import Term from "../utils/Term";
+import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
+import LongCardCell, {
+  CardCellText,
+} from "@explorer/frontend/components/utils/LongCardCell";
+import Term from "@explorer/frontend/components/utils/Term";
 
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { useSubscription } from "../../hooks/use-subscription";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 
 const CountCell = styled(LongCardCell, {
   [`& ${CardCellText}`]: {

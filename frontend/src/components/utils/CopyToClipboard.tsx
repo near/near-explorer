@@ -1,6 +1,6 @@
 import * as React from "react";
 import { CopyToClipboard as RawCopyToClipboard } from "react-copy-to-clipboard";
-import { styled, CSS } from "../../libraries/styles";
+import { styled, CSS } from "@explorer/frontend/libraries/styles";
 
 const Wrapper = styled("div", {
   cursor: "pointer",

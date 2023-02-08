@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Line, Circle } from "rc-progress";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 import cx from "classnames";
 
 const ProgressBarWrapper = styled("div", {

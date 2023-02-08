@@ -4,13 +4,16 @@ import * as React from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import Balance from "../utils/Balance";
-import { OrderTableCell, TableRow } from "../utils/Table";
-import CountryFlag from "../utils/CountryFlag";
-import CumulativeStakeChart from "./CumulativeStakeChart";
-import { ValidatorPoolInfo } from "../../types/common";
-import { styled } from "../../libraries/styles";
-import * as BI from "../../libraries/bigint";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import {
+  OrderTableCell,
+  TableRow,
+} from "@explorer/frontend/components/utils/Table";
+import CountryFlag from "@explorer/frontend/components/utils/CountryFlag";
+import CumulativeStakeChart from "@explorer/frontend/components/nodes/CumulativeStakeChart";
+import { ValidatorPoolInfo } from "@explorer/common/types/procedures";
+import { styled } from "@explorer/frontend/libraries/styles";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,
