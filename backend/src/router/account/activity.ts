@@ -265,12 +265,13 @@ const getAccountActivityAction = (
         connectedTransaction
       );
     }
-    case "VALIDATORS_REWARD":
+    case "VALIDATORS_REWARD": {
       const connectedBlock = blockHeightsMapping.get(change.blockTimestamp!)!;
       return withActivityConnection({
         kind: "validatorReward",
         blockHash: connectedBlock.hash,
       });
+    }
   }
   throw new Error(`Unknown cause: ${change.cause}`);
 };
