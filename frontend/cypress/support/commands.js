@@ -26,8 +26,8 @@
 
 const replaceSelectorStitchesClass = (selector) =>
   selector
-    .replace(/\@([\w-]+)@([\w-]+)/g, '[class*="c-$1"][class*="$2"]')
-    .replace(/\@([\w-]+)/g, '[class*="c-$1"]');
+    .replace(/@([\w-]+)@([\w-]+)/g, '[class*="c-$1"][class*="$2"]')
+    .replace(/@([\w-]+)/g, '[class*="c-$1"]');
 
 // eslint-disable-next-line no-undef
 Cypress.Commands.overwrite("find", (originalFn, context, selector, options) =>
