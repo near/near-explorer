@@ -19,9 +19,8 @@ import { useBeta } from "@explorer/frontend/hooks/use-beta";
 import { getBetaOptionsFromReq } from "@explorer/frontend/libraries/beta";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
-import {
+import BetaAccountPage, {
   getServerSideProps as getBetaServerSideProps,
-  default as BetaAccountPage,
 } from "@explorer/frontend/pages/beta/accounts/[...slug]";
 import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 

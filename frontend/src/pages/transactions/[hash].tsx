@@ -14,7 +14,7 @@ import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use
 import { useBeta } from "@explorer/frontend/hooks/use-beta";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
-import { default as BetaTransactionPage } from "@explorer/frontend/pages/beta/transactions/[hash]";
+import BetaTransactionPage from "@explorer/frontend/pages/beta/transactions/[hash]";
 import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionIcon = styled(TransactionIconSvg, {
