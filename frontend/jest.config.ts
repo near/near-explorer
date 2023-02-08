@@ -1,8 +1,7 @@
 import nextJest from "next/jest";
 import * as path from "path";
 import { pathsToModuleNameMapper } from "ts-jest";
-
-import tsConfig from "../tsconfig.json";
+import tsConfig from "tsconfig.json";
 
 const createJestConfig = nextJest({
   dir: "./",
