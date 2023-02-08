@@ -17,16 +17,17 @@ for (
 export const formatWithCommas = (value: string): string => {
   const pattern = /(-?\d+)(\d{3})/;
   while (pattern.test(value)) {
+    // eslint-disable-next-line no-param-reassign
     value = value.toString().replace(pattern, "$1,$2");
   }
   return value;
 };
 
 const formatNearAmount = (
-  balance: string | JSBI,
+  inputBalance: string | JSBI,
   fracDigits: number
 ): string => {
-  let balanceBN = JSBI.BigInt(balance);
+  let balanceBN = JSBI.BigInt(inputBalance);
   if (fracDigits !== BI.nearNominationExponent) {
     // Adjust balance for rounding at given number of digits
     const roundingExp = BI.nearNominationExponent - fracDigits - 1;
@@ -34,7 +35,7 @@ const formatNearAmount = (
       balanceBN = JSBI.add(balanceBN, ROUNDING_OFFSETS[roundingExp]);
     }
   }
-  balance = balanceBN.toString();
+  const balance = balanceBN.toString();
   const wholeStr =
     balance.substring(0, balance.length - BI.nearNominationExponent) || "0";
   const fractionStr = balance

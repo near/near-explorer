@@ -134,11 +134,11 @@ const wrapRouterHandlerMaintainNetwork =
   ): NextRouter["replace"] =>
   (href, as, ...args) => {
     const { network } = router.query;
-    if (network) {
-      href += `?network=${network}`;
-      as += `?network=${network}`;
-    }
-    return originalHandler(href, as, ...args);
+    return originalHandler(
+      network ? `${href}?network=${network}` : href,
+      network ? `${as}?network=${network}` : as,
+      ...args
+    );
   };
 
 type ContextProps = {

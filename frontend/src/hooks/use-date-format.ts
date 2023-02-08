@@ -18,13 +18,13 @@ export const useDateFormat = () => {
       dateFormat: string,
       { utc, ...options }: Options = {}
     ) => {
-      if (utc) {
-        date = addMinutes(date, new Date().getTimezoneOffset());
-      }
+      const tzDate = utc
+        ? addMinutes(date, new Date().getTimezoneOffset())
+        : date;
       if (i18n.language === "cimode") {
-        return `${formatISO(date)} formatted by ${dateFormat}`;
+        return `${formatISO(tzDate)} formatted by ${dateFormat}`;
       }
-      return format(date, dateFormat, { ...options, locale });
+      return format(tzDate, dateFormat, { ...options, locale });
     },
     [locale, i18n.language]
   );
