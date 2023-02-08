@@ -38,16 +38,14 @@ const Blocks: React.FC = React.memo(() => {
       query={query}
       parser={id}
       prependChildren={
-        <div onClick={onRefetchClick}>
-          <Placeholder>
-            {latestBlockSub.status === "success"
-              ? t("utils.ListHandler.last_block", {
-                  height: latestBlockSub.data.height,
-                })
-              : null}
-            {t("utils.Update.refresh")}
-          </Placeholder>
-        </div>
+        <Placeholder onClick={onRefetchClick}>
+          {latestBlockSub.status === "success"
+            ? t("utils.ListHandler.last_block", {
+                height: latestBlockSub.data.height,
+              })
+            : null}
+          {t("utils.Update.refresh")}
+        </Placeholder>
       }
     >
       {(items) => (
