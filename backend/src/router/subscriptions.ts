@@ -90,14 +90,15 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
         input: inputModel,
         resolve: async ({ ctx, input }) => {
           if (!ctx.subscriptionsCache[topic]) {
-            return new Promise(async (resolve) => {
+            return new Promise((resolve) => {
               const onData = (data: TopicDataType) => {
                 ctx.subscriptionsEventEmitter.off(topic, onData);
                 resolve(getProcessedData(data, input));
               };
               ctx.subscriptionsEventEmitter.on(topic, onData);
-              await wait(SSR_TIMEOUT);
-              ctx.subscriptionsEventEmitter.off(topic, onData);
+              wait(SSR_TIMEOUT).then(() =>
+                ctx.subscriptionsEventEmitter.off(topic, onData)
+              );
             });
           }
           const cachedData = ctx.subscriptionsCache[topic] as TopicDataType;
