@@ -36,11 +36,8 @@ const formatBigInt = (input: string) =>
     .map(reverseString)
     .join(" ");
 
-export const TokenAmount: React.FC<Props> = (props) => {
-  const formattedAmount = formatToPowerOfTen(
-    props.token.balance,
-    props.token.decimals / 3
-  );
+export const TokenAmount: React.FC<Props> = ({ token, prefix, noSymbol }) => {
+  const formattedAmount = formatToPowerOfTen(token.balance, token.decimals / 3);
   const remainderNoZeroes = formattedAmount.remainder.replace(
     TRAILING_ZEROES_REGEX,
     "$1"
@@ -58,17 +55,17 @@ export const TokenAmount: React.FC<Props> = (props) => {
       placement="bottom"
       overlay={
         <Tooltip id="fungible-token">
-          {`${props.prefix ?? ""}${formattedAmount.quotient}${
+          {`${prefix ?? ""}${formattedAmount.quotient}${
             remainderNoZeroes.length === 0 ? "" : `.${remainderNoZeroes}`
-          } ${props.token.symbol}`}
+          } ${token.symbol}`}
         </Tooltip>
       }
     >
       <span>
-        {props.prefix}
+        {prefix}
         {formatBigInt(formattedAmount.quotient)}
         {remainder}
-        {props.noSymbol ? null : <Offsetted>{props.token.symbol}</Offsetted>}
+        {noSymbol ? null : <Offsetted>{token.symbol}</Offsetted>}
       </span>
     </OverlayTrigger>
   );

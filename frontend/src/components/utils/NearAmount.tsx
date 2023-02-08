@@ -19,8 +19,8 @@ type Props = {
   decimalPlaces?: number;
 };
 
-export const NearAmount: React.FC<Props> = (props) => {
-  let formattedAmount = formatToPowerOfTen<NearDecimalPower>(props.amount, 11);
+export const NearAmount: React.FC<Props> = ({ amount, decimalPlaces }) => {
+  let formattedAmount = formatToPowerOfTen<NearDecimalPower>(amount, 11);
   const tooltipValue =
     formattedAmount.prefix < 8
       ? `${formattedAmount.quotient}${formattedAmount.remainder} ${NEAR_DENOMINATION["0"]}`
@@ -37,7 +37,7 @@ export const NearAmount: React.FC<Props> = (props) => {
       ...formattedAmount,
       quotient: Number(
         `0.${formattedAmount.quotient.padStart(3, "0")}`
-      ).toPrecision(props.decimalPlaces ?? 3),
+      ).toPrecision(decimalPlaces ?? 3),
       prefix: 8,
     };
   }
@@ -46,7 +46,7 @@ export const NearAmount: React.FC<Props> = (props) => {
       {formattedAmount.quotient}
       {formattedAmount.remainder && !formattedAmount.quotient.includes(".")
         ? Number(`0.${formattedAmount.remainder}`)
-            .toPrecision(props.decimalPlaces ?? 3)
+            .toPrecision(decimalPlaces ?? 3)
             .slice(1)
         : ""}
 

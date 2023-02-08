@@ -260,15 +260,15 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
   }
 );
 
-const App: AppType = (props) => {
+const App: AppType = ({ pageProps, ...props }) => {
   const [cookies] = React.useState(() =>
     getCookiesFromString(
-      props.pageProps.getServerProps?.().cookies ?? document.cookie
+      pageProps.getServerProps?.().cookies ?? document.cookie
     )
   );
   return (
     <CookieContext.Provider value={cookies}>
-      <InnerApp {...props} />
+      <InnerApp pageProps={pageProps} {...props} />
     </CookieContext.Provider>
   );
 };
