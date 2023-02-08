@@ -32,12 +32,12 @@ type CallViewMethodOptions =
   | { block_id: number | string };
 
 // TODO: Provide an equivalent method in near-api-js, so we don't need to make it external.
-export const callViewMethod = async function <T>(
+export const callViewMethod = async <T>(
   contractName: string,
   methodName: string,
   args: unknown,
   options: CallViewMethodOptions = { finality: "optimistic" }
-): Promise<T> {
+): Promise<T> => {
   const rawResult = await nearRpc.query<CodeResult>({
     request_type: "call_function",
     account_id: contractName,

@@ -103,6 +103,8 @@ module.exports = {
         "jsx-a11y/anchor-is-valid": "off",
         // Seems unreasonable with translation tags & empty th tags
         "jsx-a11y/control-has-associated-label": "off",
+        // Finally is only used in control flow
+        "no-unsafe-finally": "off",
     },
     overrides: [
         {
