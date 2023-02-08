@@ -4,7 +4,7 @@ context("Account Details navigation", () => {
       .as("mixedcaseAccountIds")
       .then((mixedcaseAccountIds) => {
         Cypress.Promise.all(
-          mixedcaseAccountIds.map((mixedcaseAccountId) => {
+          mixedcaseAccountIds.forEach((mixedcaseAccountId) => {
             cy.request({
               method: "GET",
               url: `/accounts/${mixedcaseAccountId}`,
@@ -22,7 +22,7 @@ context("Account Details navigation", () => {
       .as("mixedcaseAccountIds")
       .then((mixedcaseAccountIds) => {
         Cypress.Promise.all(
-          mixedcaseAccountIds.map((mixedcaseAccountId) => {
+          mixedcaseAccountIds.forEach((mixedcaseAccountId) => {
             cy.request({
               method: "GET",
               url: `/accounts/${mixedcaseAccountId}`,

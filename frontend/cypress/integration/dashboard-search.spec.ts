@@ -4,7 +4,7 @@ context("Dashboard search bar", () => {
       .as("mixedcaseAccountIds")
       .then((mixedcaseAccountIds) => {
         Cypress.Promise.all(
-          mixedcaseAccountIds.map((mixedcaseAccountId) => {
+          mixedcaseAccountIds.forEach((mixedcaseAccountId) => {
             cy.visit("/");
             cy.get(
               "@InnerContent @SearchWrapper @SearchBox @InputGroupWrapper input"
