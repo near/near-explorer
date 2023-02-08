@@ -11,7 +11,7 @@ import { validators } from "@explorer/backend/router/validators";
 export const router = trpc.router<Context>().mutation("upsert", {
   input: validators.telemetryRequest,
   resolve: async ({ input: nodeInfo }) => {
-    if (!nodeInfo.hasOwnProperty("agent")) {
+    if (!("agent" in nodeInfo)) {
       // This seems to be an old format, and all our nodes should support the new
       // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
       // reports.
