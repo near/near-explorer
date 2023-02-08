@@ -272,8 +272,8 @@ export const router = trpc
         (map, row) =>
           map.set(row.hash, {
             hash: row.hash,
-            height: parseInt(row.height),
-            timestamp: parseInt(row.timestamp),
+            height: parseInt(row.height, 10),
+            timestamp: parseInt(row.timestamp, 10),
           }),
         new Map<string, ParsedBlock>()
       );
@@ -306,7 +306,7 @@ export const router = trpc
 
       return {
         hash,
-        timestamp: parseInt(databaseTransaction.timestamp),
+        timestamp: parseInt(databaseTransaction.timestamp, 10),
         signerId: rpcTransaction.transaction.signer_id,
         receiverId: rpcTransaction.transaction.receiver_id,
         fee: transactionFee.toString(),

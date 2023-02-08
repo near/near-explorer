@@ -142,7 +142,7 @@ export const router = trpc.router<Context>().query("byId", {
     return {
       codeHash: account.code_hash,
       transactionHash: contractInfo.hash,
-      timestamp: parseInt(contractInfo.timestamp),
+      timestamp: parseInt(contractInfo.timestamp, 10),
       locked,
     };
   },

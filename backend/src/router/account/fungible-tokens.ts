@@ -118,7 +118,7 @@ export const router = trpc
           amount: element.amount,
           transactionHash: element.transactionHash,
           receiptId: element.receiptId,
-          timestamp: parseInt(element.timestamp),
+          timestamp: parseInt(element.timestamp, 10),
         })),
       };
     },

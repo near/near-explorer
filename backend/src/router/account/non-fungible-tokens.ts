@@ -142,7 +142,7 @@ export const router = trpc
       );
 
       return nftsPerContractCount.reduce(
-        (acc, count) => acc + parseInt(count),
+        (acc, count) => acc + parseInt(count, 10),
         0
       );
     },
@@ -187,7 +187,7 @@ export const router = trpc
         tokenId: element.tokenId,
         transactionHash: element.transactionHash,
         receiptId: element.receiptId,
-        timestamp: parseInt(element.timestamp),
+        timestamp: parseInt(element.timestamp, 10),
       }));
     },
   });

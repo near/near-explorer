@@ -105,7 +105,7 @@ export const blockProductionSpeedCheck: RegularCheckFn = {
           ) * 1000 * 1000 * 1000`
         )
         .executeTakeFirstOrThrow();
-      return parseInt(selection.blocks_count_60_seconds_before) / 60;
+      return parseInt(selection.blocks_count_60_seconds_before, 10) / 60;
     },
     config.intervals.checkBlockProductionSpeed
   ),
@@ -130,7 +130,7 @@ export const recentTransactionsCountCheck: RegularCheckFn = {
         )
         .executeTakeFirstOrThrow();
 
-      return parseInt(selection.total);
+      return parseInt(selection.total, 10);
     },
     config.intervals.checkRecentTransactions
   ),
@@ -146,7 +146,7 @@ export const onlineNodesCountCheck: RegularCheckFn = {
         .select((eb) => count(eb, "node_id").as("onlineNodesCount"))
         .where("last_seen", ">", sql`now() - '60 seconds'::interval`)
         .executeTakeFirstOrThrow();
-      return parseInt(selection.onlineNodesCount);
+      return parseInt(selection.onlineNodesCount, 10);
     },
     config.intervals.checkOnlineNodesCount
   ),
@@ -630,7 +630,7 @@ export const networkInfoCheck: RegularCheckFn = {
         ipAddress: nodeInfo.ip_address,
         nodeId: nodeInfo.node_id,
         lastSeen: nodeInfo.last_seen.valueOf(),
-        lastHeight: parseInt(nodeInfo.last_height),
+        lastHeight: parseInt(nodeInfo.last_height, 10),
         status: nodeInfo.status,
         agentName: nodeInfo.agent_name,
         agentVersion: nodeInfo.agent_version,

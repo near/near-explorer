@@ -52,11 +52,11 @@ export const router = trpc.router<Context>().query("list", {
       // TODO: Discover how to get rid of non-null type assertion
       hash: selectionRow.hash!,
       // TODO: Discover how to get rid of non-null type assertion
-      height: parseInt(selectionRow.height!),
-      timestamp: parseInt(selectionRow.timestamp),
+      height: parseInt(selectionRow.height!, 10),
+      timestamp: parseInt(selectionRow.timestamp, 10),
       // TODO: Discover how to get rid of non-null type assertion
       prevHash: selectionRow.prevHash!,
-      transactionsCount: parseInt(selectionRow.transactionsCount),
+      transactionsCount: parseInt(selectionRow.transactionsCount, 10),
     }));
   },
 });

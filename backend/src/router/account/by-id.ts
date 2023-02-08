@@ -105,13 +105,13 @@ const getAccountInfo = async (accountId: string) => {
     created: selection.createdByHash
       ? {
           hash: selection.createdByHash,
-          timestamp: parseInt(selection.createdAtTimestamp),
+          timestamp: parseInt(selection.createdAtTimestamp, 10),
         }
       : undefined,
     deleted: selection.deletedByHash
       ? {
           hash: selection.deletedByHash,
-          timestamp: parseInt(selection.deletedAtTimestamp),
+          timestamp: parseInt(selection.deletedAtTimestamp, 10),
         }
       : undefined,
   };

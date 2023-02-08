@@ -67,8 +67,8 @@ export const router = trpc.router<Context>().query("byId", {
       // TODO: Discover how to get rid of non-null type assertion
       hash: selection.hash!,
       // TODO: Discover how to get rid of non-null type assertion
-      height: parseInt(selection.height!),
-      timestamp: parseInt(selection.timestamp),
+      height: parseInt(selection.height!, 10),
+      timestamp: parseInt(selection.timestamp, 10),
       // TODO: Discover how to get rid of non-null type assertion
       prevHash: selection.prevHash!,
       // TODO: Discover how to get rid of non-null type assertion
@@ -79,7 +79,7 @@ export const router = trpc.router<Context>().query("byId", {
       totalSupply: selection.totalSupply!,
       // TODO: Discover how to get rid of non-null type assertion
       authorAccountId: selection.authorAccountId!,
-      transactionsCount: parseInt(selection.transactionsCount),
+      transactionsCount: parseInt(selection.transactionsCount, 10),
       gasUsed: gasUsedInChunksSelection?.gasUsed || "0",
       receiptsCount: receiptsCountSelection?.count || 0,
     };

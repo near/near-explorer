@@ -31,7 +31,7 @@ export const router = trpc
           )
         )
         .executeTakeFirstOrThrow();
-      return parseInt(selection.amount);
+      return parseInt(selection.amount, 10);
     },
   })
   .query("list", {
