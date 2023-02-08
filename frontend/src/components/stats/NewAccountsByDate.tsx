@@ -1,16 +1,15 @@
 import * as React from "react";
-import { Tabs, Tab } from "react-bootstrap";
-import ReactEcharts from "echarts-for-react";
+
 import * as echarts from "echarts";
-
-import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
-
-import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
-
+import ReactEcharts from "echarts-for-react";
+import { Tabs, Tab } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+
 import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
+import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
 
 const getOption = (
   title: string,
@@ -18,80 +17,78 @@ const getOption = (
   data:
     | TRPCSubscriptionOutput<"accountsHistory">["newAccounts"]
     | TRPCSubscriptionOutput<"accountsHistory">["liveAccounts"]
-) => {
-  return {
-    title: {
-      text: title,
+) => ({
+  title: {
+    text: title,
+  },
+  tooltip: {
+    trigger: "axis",
+  },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+    backgroundColor: "#F9F9F9",
+    show: true,
+    color: "white",
+  },
+  xAxis: [
+    {
+      type: "time",
+      boundaryGap: false,
     },
-    tooltip: {
-      trigger: "axis",
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true,
-      backgroundColor: "#F9F9F9",
-      show: true,
-      color: "white",
-    },
-    xAxis: [
-      {
-        type: "time",
-        boundaryGap: false,
-      },
-    ],
-    yAxis: [
-      {
-        type: "value",
-        splitLine: {
-          lineStyle: {
-            color: "white",
-          },
-        },
-      },
-    ],
-    dataZoom: [
-      {
-        type: "inside",
-        start: 0,
-        end: 100,
-        filterMode: "filter",
-      },
-      {
-        start: 0,
-        end: 100,
-      },
-    ],
-    series: [
-      {
-        name: seriesName,
-        type: "line",
+  ],
+  yAxis: [
+    {
+      type: "value",
+      splitLine: {
         lineStyle: {
-          color: "#48d4ab",
-          width: 2,
+          color: "white",
         },
-        symbol: "none",
-        itemStyle: {
-          color: "#25272A",
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "rgb(72, 212, 171)",
-            },
-            {
-              offset: 1,
-              color: "rgb(201, 255, 239)",
-            },
-          ]),
-        },
-        data,
       },
-    ],
-  };
-};
+    },
+  ],
+  dataZoom: [
+    {
+      type: "inside",
+      start: 0,
+      end: 100,
+      filterMode: "filter",
+    },
+    {
+      start: 0,
+      end: 100,
+    },
+  ],
+  series: [
+    {
+      name: seriesName,
+      type: "line",
+      lineStyle: {
+        color: "#48d4ab",
+        width: 2,
+      },
+      symbol: "none",
+      itemStyle: {
+        color: "#25272A",
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: "rgb(72, 212, 171)",
+          },
+          {
+            offset: 1,
+            color: "rgb(201, 255, 239)",
+          },
+        ]),
+      },
+      data,
+    },
+  ],
+});
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t, i18n } = useTranslation();

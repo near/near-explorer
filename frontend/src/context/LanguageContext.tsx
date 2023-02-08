@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Language } from "@explorer/frontend/libraries/i18n";
+
 import { Locale } from "@explorer/frontend/libraries/date-locale";
+import { Language } from "@explorer/frontend/libraries/i18n";
 
 export type LanguageContext = {
   language: Language;

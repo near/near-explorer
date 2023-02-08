@@ -3,8 +3,8 @@
 
 import { BlocksId } from "./blocks";
 import { ChunksId } from "./chunks";
-import { TransactionsId } from "./transactions";
 import ReceiptKind from "./receipt-kind";
+import { TransactionsId } from "./transactions";
 
 export type ReceiptsId = string & { " __flavor"?: "receipts" };
 

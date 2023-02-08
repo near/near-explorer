@@ -1,31 +1,29 @@
+import * as React from "react";
+
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-
 import { Container, Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
+import { TRPCQueryResult } from "@explorer/common/types/trpc";
 import AccountDetails from "@explorer/frontend/components/accounts/AccountDetails";
 import ContractDetails from "@explorer/frontend/components/contracts/ContractDetails";
 import Transactions, {
   getNextPageParam,
 } from "@explorer/frontend/components/transactions/Transactions";
 import Content from "@explorer/frontend/components/utils/Content";
-
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
-
-import { useTranslation } from "react-i18next";
-import { GetServerSideProps, NextPage } from "next";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { useAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
+import { useBeta } from "@explorer/frontend/hooks/use-beta";
+import { getBetaOptionsFromReq } from "@explorer/frontend/libraries/beta";
 import { styled } from "@explorer/frontend/libraries/styles";
-import * as React from "react";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 import {
   getServerSideProps as getBetaServerSideProps,
   default as BetaAccountPage,
 } from "@explorer/frontend/pages/beta/accounts/[...slug]";
-import { useAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
-import { getBetaOptionsFromReq } from "@explorer/frontend/libraries/beta";
-import { useBeta } from "@explorer/frontend/hooks/use-beta";
-import { TRPCQueryResult } from "@explorer/common/types/trpc";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
+import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,

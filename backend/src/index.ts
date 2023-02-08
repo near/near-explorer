@@ -1,16 +1,17 @@
 import { EventEmitter } from "events";
-import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
+
+import { config } from "@explorer/backend/config";
+import { Context } from "@explorer/backend/context";
 import { runTasks } from "@explorer/backend/cron";
+import { initGlobalState } from "@explorer/backend/global-state";
 import { AppRouter, router } from "@explorer/backend/router";
 import {
   connectWebsocketServer,
   createApp,
   RouterOptions,
 } from "@explorer/backend/server";
-import { config } from "@explorer/backend/config";
-import { initGlobalState } from "@explorer/backend/global-state";
-import { Context } from "@explorer/backend/context";
 import { onError } from "@explorer/backend/utils/error";
+import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
 
 async function main(router: AppRouter): Promise<void> {
   console.log("Starting Explorer backend...");
@@ -37,7 +38,7 @@ async function main(router: AppRouter): Promise<void> {
     console.log(`Server is running on port ${config.port}`);
   });
 
-  let shutdownHandlers: (() => void)[] = [];
+  const shutdownHandlers: (() => void)[] = [];
 
   shutdownHandlers.push(connectWebsocketServer(server, trpcOptions));
   if (!config.offline) {

@@ -1,7 +1,9 @@
 import * as React from "react";
+
 import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import Expandable from "@explorer/frontend/components/utils/Expandable";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const Wrapper = styled("div", {
   fontFamily: '"Source Code Pro", monospace',

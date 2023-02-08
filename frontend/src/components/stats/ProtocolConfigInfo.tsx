@@ -1,23 +1,23 @@
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import JSBI from "jsbi";
 import * as React from "react";
 
+import JSBI from "jsbi";
+import { Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
+import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
+import Balance, {
+  formatWithCommas,
+} from "@explorer/frontend/components/utils/Balance";
 import {
   InfoCard,
   InfoCardCell as Cell,
 } from "@explorer/frontend/components/utils/InfoCard";
-import Balance, {
-  formatWithCommas,
-} from "@explorer/frontend/components/utils/Balance";
-import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
-
-import { useTranslation } from "react-i18next";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { useEpochStartBlock } from "@explorer/frontend/hooks/data";
-import { styled } from "@explorer/frontend/libraries/styles";
-import * as BI from "@explorer/frontend/libraries/bigint";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { Spinner } from "react-bootstrap";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const ProtocolConfig = styled(InfoCard, {
   margin: "24px 0",
@@ -52,7 +52,7 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   const lastDateLiveAccountsCount =
     lastAccountsHistorySub.data?.liveAccounts[0]?.[1];
 
-  let epochTotalSupply = epochStartBlock
+  const epochTotalSupply = epochStartBlock
     ? JSBI.toNumber(
         JSBI.divide(JSBI.BigInt(epochStartBlock.totalSupply), BI.nearNomination)
       ) /

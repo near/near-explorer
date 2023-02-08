@@ -1,5 +1,6 @@
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
+
 import { NetworkName } from "@explorer/common/types/common";
 
 export interface NearNetwork {
@@ -28,9 +29,7 @@ export interface ExplorerConfig {
   };
 }
 
-export const getConfig = (): ExplorerConfig => {
-  return getNextConfig();
-};
+export const getConfig = (): ExplorerConfig => getNextConfig();
 
 export function getNearNetworkName(
   query: ParsedUrlQuery,

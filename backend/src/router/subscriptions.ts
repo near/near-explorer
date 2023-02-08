@@ -3,13 +3,13 @@ import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
 import { SubscriptionEventMap } from "@explorer/backend/router/types";
-import { wait } from "@explorer/common/utils/promise";
-import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
 import {
   AnyRouter,
   CreateProcedureSubscription,
   RouterWithSubscriptionsAndQueries,
 } from "@explorer/common/types/trpc";
+import { wait } from "@explorer/common/utils/promise";
+import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
 
 const subscriptionInputs = {
   transactionsHistory: z.union([
@@ -64,15 +64,14 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
     ) => {
       if (filterFn) {
         return filterFn(data as any, input);
-      } else {
-        return data;
       }
+      return data;
     };
     return router
       .subscription(topic, {
         input,
-        resolve: ({ ctx, input }) => {
-          return new trpc.Subscription<
+        resolve: ({ ctx, input }) =>
+          new trpc.Subscription<
             Parameters<SubscriptionEventMap[typeof topic]>[0]
           >((emit) => {
             const onData = (data: TopicDataType) => {
@@ -83,8 +82,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
             }
             ctx.subscriptionsEventEmitter.on(topic, onData);
             return () => void ctx.subscriptionsEventEmitter.off(topic, onData);
-          });
-        },
+          }),
       })
       .query(topic, {
         input,

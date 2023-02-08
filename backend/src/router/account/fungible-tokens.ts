@@ -4,10 +4,10 @@ import { z } from "zod";
 import { Context } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
-import * as nearApi from "@explorer/backend/utils/near";
-import { validators } from "@explorer/backend/router/validators";
-import { notNullGuard } from "@explorer/common/utils/utils";
 import { FungibleTokenMetadata } from "@explorer/backend/router/fungible-tokens";
+import { validators } from "@explorer/backend/router/validators";
+import * as nearApi from "@explorer/backend/utils/near";
+import { notNullGuard } from "@explorer/common/utils/utils";
 
 const base64ImageRegex = /^data:image/;
 export const validateBase64Image = (

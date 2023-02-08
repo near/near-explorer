@@ -1,5 +1,7 @@
 import React from "react";
+
 import RawSwitch from "rc-switch";
+
 import { keyframes, styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
@@ -127,12 +129,10 @@ const StyledSwitch = styled(RawSwitch, {
   },
 });
 
-export const Switch: React.FC<Props> = ({ checked, onChange }) => {
-  return (
-    <StyledSwitch
-      checked={checked}
-      onChange={onChange}
-      prefixCls={StyledSwitch.toString().slice(1)}
-    />
-  );
-};
+export const Switch: React.FC<Props> = ({ checked, onChange }) => (
+  <StyledSwitch
+    checked={checked}
+    onChange={onChange}
+    prefixCls={StyledSwitch.toString().slice(1)}
+  />
+);

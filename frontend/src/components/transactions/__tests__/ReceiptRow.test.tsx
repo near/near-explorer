@@ -1,6 +1,5 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
-
 import ReceiptRow from "@explorer/frontend/components/transactions/ReceiptRow";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 import {
   TRANSACTION_WITH_SUCCESSFUL_RECEIPT,

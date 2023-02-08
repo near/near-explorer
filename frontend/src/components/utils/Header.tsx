@@ -1,24 +1,23 @@
 import * as React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { useRouter } from "next/router";
 
-import HeaderNetworkDropdown from "@explorer/frontend/components/utils/HeaderNetworkDropdown";
+import { useRouter } from "next/router";
+import { Container, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
+import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
 import HeaderNavDropdown from "@explorer/frontend/components/utils/HeaderNavDropdown";
+import HeaderNetworkDropdown from "@explorer/frontend/components/utils/HeaderNetworkDropdown";
+import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
+import Link from "@explorer/frontend/components/utils/Link";
 import MobileHeaderNavDropdown from "@explorer/frontend/components/utils/MobileHeaderNavDropdown";
 import Search from "@explorer/frontend/components/utils/Search";
-import Link from "@explorer/frontend/components/utils/Link";
-
+import { ServiceStatusView } from "@explorer/frontend/components/utils/ServiceStatus";
+import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
+import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
+import { styled } from "@explorer/frontend/libraries/styles";
 import NearLogoSvg from "@explorer/frontend/public/static/images/near_logo.svg";
 import NearMiniLogoSvg from "@explorer/frontend/public/static/images/near_logo_icon.svg";
-
-import { useTranslation } from "react-i18next";
-import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { ServiceStatusView } from "@explorer/frontend/components/utils/ServiceStatus";
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
-import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
-import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
-import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",

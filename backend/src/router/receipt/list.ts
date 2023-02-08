@@ -8,17 +8,17 @@ import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
 import { Indexer, indexerDatabase } from "@explorer/backend/database/databases";
+import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
   DatabaseAction,
   mapDatabaseActionToAction,
 } from "@explorer/backend/utils/actions";
+import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
 import {
   mapDatabaseReceiptStatus,
   ReceiptExecutionStatus,
 } from "@explorer/backend/utils/receipt-status";
-import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
-import { validators } from "@explorer/backend/router/validators";
 
 type ActionReceiptsActionDatabaseExpression = TableExpressionDatabase<
   Indexer.ModelTypeMap,
@@ -95,11 +95,11 @@ type Receipt = {
 
 const groupReceiptActionsIntoReceipts = (
   receiptActions: Awaited<ReturnType<typeof getReceiptActions>>
-): Receipt[] => {
+): Receipt[] =>
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
   // window based on the `previousReceiptId`.
-  return receiptActions.reduce<Receipt[]>((acc, action) => {
+  receiptActions.reduce<Receipt[]>((acc, action) => {
     const lastReceipt = acc[acc.length - 1];
     if (!lastReceipt || lastReceipt.id !== action.receiptId) {
       acc.push({
@@ -119,8 +119,6 @@ const groupReceiptActionsIntoReceipts = (
     );
     return acc;
   }, []);
-};
-
 export const router = trpc
   .router<Context>()
   // As a temporary solution we split receipts list into two lists:

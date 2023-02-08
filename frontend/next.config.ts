@@ -1,15 +1,16 @@
+import { merge, cloneDeep } from "lodash";
 import type { NextConfig } from "next";
 import path from "path";
+// @ts-ignore
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+
+import type { NetworkName } from "@explorer/common/types/common";
+import { getOverrides } from "@explorer/common/utils/environment";
 import type {
   BackendConfig,
   ExplorerConfig,
   NearNetwork,
 } from "@explorer/frontend/libraries/config";
-import { merge, cloneDeep } from "lodash";
-import { getOverrides } from "@explorer/common/utils/environment";
-import type { NetworkName } from "@explorer/common/types/common";
-// @ts-ignore
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const statsOptions = {
   baseDir: "stats",

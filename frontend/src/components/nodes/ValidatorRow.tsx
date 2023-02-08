@@ -1,19 +1,18 @@
-import JSBI from "jsbi";
 import * as React from "react";
-import { Col, Row } from "react-bootstrap";
 
+import JSBI from "jsbi";
+import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
-import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/ValidatorCollapsedRow";
-
-import { styled } from "@explorer/frontend/libraries/styles";
-import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";
 import { ValidatorFullData } from "@explorer/common/types/procedures";
+import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";
 import ValidatingLabel, {
   StakingStatus,
 } from "@explorer/frontend/components/nodes/ValidatingLabel";
+import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/ValidatorCollapsedRow";
+import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
 import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",
@@ -55,7 +54,7 @@ interface Props {
   seatPrice?: string;
 }
 
-const EXTRA_PRECISION_MULTIPLIER = Math.pow(10, 2 + FRACTION_DIGITS);
+const EXTRA_PRECISION_MULTIPLIER = 10 ** (2 + FRACTION_DIGITS);
 
 const getStakingStatus = (
   validator: ValidatorFullData,
@@ -64,44 +63,37 @@ const getStakingStatus = (
   if (validator.currentEpoch) {
     if (validator.nextEpoch) {
       return "active";
-    } else {
-      return "leaving";
     }
-  } else {
-    if (validator.nextEpoch) {
-      return "joining";
-    } else {
-      if (validator.afterNextEpoch) {
-        return "proposal";
-      } else {
-        if (!seatPrice) {
-          return null;
-        }
-        const contractStake = validator.contractStake
-          ? JSBI.BigInt(validator.contractStake)
-          : undefined;
-        if (!contractStake) {
-          return null;
-        }
-        const seatPriceBN = JSBI.BigInt(seatPrice);
-        if (JSBI.greaterThanOrEqual(contractStake, seatPriceBN)) {
-          return "onHold";
-        } else if (
-          JSBI.greaterThanOrEqual(
-            contractStake,
-            JSBI.divide(
-              JSBI.multiply(seatPriceBN, JSBI.BigInt(20)),
-              JSBI.BigInt(100)
-            )
-          )
-        ) {
-          return "newcomer";
-        } else {
-          return "idle";
-        }
-      }
-    }
+    return "leaving";
   }
+  if (validator.nextEpoch) {
+    return "joining";
+  }
+  if (validator.afterNextEpoch) {
+    return "proposal";
+  }
+  if (!seatPrice) {
+    return null;
+  }
+  const contractStake = validator.contractStake
+    ? JSBI.BigInt(validator.contractStake)
+    : undefined;
+  if (!contractStake) {
+    return null;
+  }
+  const seatPriceBN = JSBI.BigInt(seatPrice);
+  if (JSBI.greaterThanOrEqual(contractStake, seatPriceBN)) {
+    return "onHold";
+  }
+  if (
+    JSBI.greaterThanOrEqual(
+      contractStake,
+      JSBI.divide(JSBI.multiply(seatPriceBN, JSBI.BigInt(20)), JSBI.BigInt(100))
+    )
+  ) {
+    return "newcomer";
+  }
+  return "idle";
 };
 
 const ValidatorRow: React.FC<Props> = React.memo(

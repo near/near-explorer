@@ -1,24 +1,23 @@
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
+import { Trans, useTranslation } from "react-i18next";
 
+import { AccountOld } from "@explorer/common/types/procedures";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import Balance from "@explorer/frontend/components/utils/Balance";
 import CardCell, {
   CardCellText,
 } from "@explorer/frontend/components/utils/CardCell";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import StorageSize from "@explorer/frontend/components/utils/StorageSize";
 import Term from "@explorer/frontend/components/utils/Term";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import Balance from "@explorer/frontend/components/utils/Balance";
 import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
 import WalletLink from "@explorer/frontend/components/utils/WalletLink";
-import StorageSize from "@explorer/frontend/components/utils/StorageSize";
-
-import { Trans, useTranslation } from "react-i18next";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import { AccountOld } from "@explorer/common/types/procedures";
 import { styled } from "@explorer/frontend/libraries/styles";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const AccountInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",
@@ -69,9 +68,7 @@ const StakingBalanceDetails: React.FC<StakingBalanceProps> = ({
               text={t(
                 "component.accounts.AccountDetails.native_account_balance.text"
               )}
-              href={
-                "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-              }
+              href="https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
             />
           }
           text={<Balance amount={nonStakedBalance} />}
@@ -91,9 +88,7 @@ const StakingBalanceDetails: React.FC<StakingBalanceProps> = ({
                   components={{ p: <p /> }}
                 />
               }
-              href={
-                "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-              }
+              href="https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
             />
           }
           text={<Balance amount={stakedBalance} />}
@@ -107,9 +102,7 @@ const StakingBalanceDetails: React.FC<StakingBalanceProps> = ({
                 "component.accounts.AccountDetails.balance_profile.title"
               )}
               text={t("component.accounts.AccountDetails.balance_profile.text")}
-              href={
-                "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-              }
+              href="https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
             />
           }
           text={
@@ -142,7 +135,7 @@ const ExistingAccountDetails: React.FC<DetailsProps> = ({
             <Term
               title={t("component.accounts.AccountDetails.storage_usage.title")}
               text={t("component.accounts.AccountDetails.storage_usage.text")}
-              href={"https://docs.near.org/docs/concepts/storage-staking"}
+              href="https://docs.near.org/docs/concepts/storage-staking"
             />
           }
           imgLink="/static/images/icon-storage.svg"
@@ -160,9 +153,7 @@ const ExistingAccountDetails: React.FC<DetailsProps> = ({
                 text={t(
                   "component.accounts.AccountDetails.lockup_account.text"
                 )}
-                href={
-                  "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
-                }
+                href="https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
               />
             }
             imgLink="/static/images/icon-m-transaction.svg"
@@ -197,7 +188,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                   "component.accounts.AccountDetails.transactions.title"
                 )}
                 text={t("component.accounts.AccountDetails.transactions.text")}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             imgLink="/static/images/icon-m-transaction.svg"
@@ -253,7 +244,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                     "component.accounts.AccountDetails.created_at.title"
                   )}
                   text={t("component.accounts.AccountDetails.created_at.text")}
-                  href={"https://docs.near.org/docs/concepts/account"}
+                  href="https://docs.near.org/docs/concepts/account"
                 />
               }
               text={
@@ -286,16 +277,14 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                     text={t(
                       "component.accounts.AccountDetails.created_by_transaction.text"
                     )}
-                    href={"https://docs.near.org/docs/concepts/account"}
+                    href="https://docs.near.org/docs/concepts/account"
                   />
                 }
                 text={
                   <>
                     {account.created.hash}
                     <TransactionLink transactionHash={account.created.hash}>
-                      <TransactionLinkIcon
-                        src={"/static/images/icon-m-copy.svg"}
-                      />
+                      <TransactionLinkIcon src="/static/images/icon-m-copy.svg" />
                     </TransactionLink>
                   </>
                 }
@@ -314,7 +303,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                     "component.accounts.AccountDetails.deleted_at.title"
                   )}
                   text={t("component.accounts.AccountDetails.deleted_at.text")}
-                  href={"https://docs.near.org/docs/concepts/account"}
+                  href="https://docs.near.org/docs/concepts/account"
                 />
               }
               text={
@@ -342,16 +331,14 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                   text={t(
                     "component.accounts.AccountDetails.deleted_by_transaction.text"
                   )}
-                  href={"https://docs.near.org/docs/concepts/account"}
+                  href="https://docs.near.org/docs/concepts/account"
                 />
               }
               text={
                 <>
                   {account.deleted.hash}
                   <TransactionLink transactionHash={account.deleted.hash}>
-                    <TransactionLinkIcon
-                      src={"/static/images/icon-m-copy.svg"}
-                    />
+                    <TransactionLinkIcon src="/static/images/icon-m-copy.svg" />
                   </TransactionLink>
                 </>
               }

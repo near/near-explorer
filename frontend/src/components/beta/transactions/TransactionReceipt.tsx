@@ -1,9 +1,9 @@
 import * as React from "react";
-import { TransactionReceipt } from "@explorer/common/types/procedures";
-import { styled } from "@explorer/frontend/libraries/styles";
 
-import ReceiptKind from "@explorer/frontend/components/beta/transactions/ReceiptKind";
+import { TransactionReceipt } from "@explorer/common/types/procedures";
 import ReceiptInfo from "@explorer/frontend/components/beta/transactions/ReceiptInfo";
+import ReceiptKind from "@explorer/frontend/components/beta/transactions/ReceiptKind";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
   receipt: TransactionReceipt;

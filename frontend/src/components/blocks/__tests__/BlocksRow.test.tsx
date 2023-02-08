@@ -1,6 +1,5 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
-
 import BlocksRow from "@explorer/frontend/components/blocks/BlocksRow";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 describe("<BlocksRow />", () => {
   it("renders", () => {

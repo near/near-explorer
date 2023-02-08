@@ -1,8 +1,8 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
 import AccessKeyPermissionKind from "./access-key-permission-kind";
+import { ReceiptsId } from "./receipts";
 
 export default interface AccessKeys {
   /**

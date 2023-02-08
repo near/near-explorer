@@ -1,4 +1,5 @@
 import JSBI from "jsbi";
+
 import * as BI from "@explorer/frontend/libraries/bigint";
 
 export function truncateAccountId(
@@ -6,7 +7,7 @@ export function truncateAccountId(
   lengthThreshold: number = 25
 ) {
   return accountId.length > lengthThreshold
-    ? accountId.slice(0, 5) + "…" + accountId.slice(accountId.length - 10)
+    ? `${accountId.slice(0, 5)}…${accountId.slice(accountId.length - 10)}`
     : accountId;
 }
 
@@ -33,7 +34,7 @@ export const formatToPowerOfTen = <P extends number>(
   }
   return {
     quotient: (isInputNegative ? "-" : "") + quotient.toString(),
-    remainder: remainder,
+    remainder,
     prefix: currentPower,
   };
 };

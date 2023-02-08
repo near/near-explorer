@@ -1,8 +1,8 @@
 export const getCumulativeArray = <Rest extends unknown[]>(
   data: [number, ...Rest][],
   getNumberFromRest: (elements: Rest) => number
-) => {
-  return data.reduce<{
+) =>
+  data.reduce<{
     cumulativeData: number;
     series: [number, number][];
   }>(
@@ -18,4 +18,3 @@ export const getCumulativeArray = <Rest extends unknown[]>(
       series: [],
     }
   ).series;
-};

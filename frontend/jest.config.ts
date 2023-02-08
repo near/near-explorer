@@ -1,6 +1,6 @@
 import nextJest from "next/jest";
-import { pathsToModuleNameMapper } from "ts-jest";
 import * as path from "path";
+import { pathsToModuleNameMapper } from "ts-jest";
 
 import tsConfig from "../tsconfig.json";
 

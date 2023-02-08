@@ -1,5 +1,6 @@
-import JSBI from "jsbi";
 import * as React from "react";
+
+import JSBI from "jsbi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import {
@@ -19,7 +20,7 @@ const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
   );
   return (
     <OverlayTrigger
-      placement={"bottom"}
+      placement="bottom"
       overlay={
         <Tooltip id="gas-price">{showInYocto(gasPrice.toString())}/gas</Tooltip>
       }

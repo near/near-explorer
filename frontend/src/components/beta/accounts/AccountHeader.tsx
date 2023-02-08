@@ -1,6 +1,17 @@
-import JSBI from "jsbi";
 import * as React from "react";
+
+import JSBI from "jsbi";
 import { Trans, useTranslation } from "react-i18next";
+
+import { Account } from "@explorer/common/types/procedures";
+import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
+import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
+import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
+import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import Timer from "@explorer/frontend/components/utils/Timer";
+import * as BI from "@explorer/frontend/libraries/bigint";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
@@ -9,16 +20,7 @@ import {
   shortenString,
 } from "@explorer/frontend/libraries/formatting";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { Account } from "@explorer/common/types/procedures";
-import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import Timer from "@explorer/frontend/components/utils/Timer";
 import { trpc } from "@explorer/frontend/libraries/trpc";
-import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
-import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
-import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
-import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
 
 type Props = {
   account: Account;

@@ -1,4 +1,5 @@
 import React from "react";
+
 import { styled } from "@explorer/frontend/libraries/styles";
 
 export type ExpandComponent = React.ComponentType<{

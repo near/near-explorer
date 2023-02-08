@@ -1,19 +1,18 @@
+import * as React from "react";
+
+import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-
-import * as React from "react";
-import * as ReactQuery from "react-query";
+import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { NextPage } from "next";
+import * as ReactQuery from "react-query";
 
 import { Transaction } from "@explorer/common/types/procedures";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-
-import TransactionHeader from "@explorer/frontend/components/beta/transactions/TransactionHeader";
 import TransactionActionsList from "@explorer/frontend/components/beta/transactions/TransactionActionsList";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import TransactionHeader from "@explorer/frontend/components/beta/transactions/TransactionHeader";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { Spinner } from "react-bootstrap";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",

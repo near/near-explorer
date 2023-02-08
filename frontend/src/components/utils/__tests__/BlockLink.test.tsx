@@ -1,6 +1,5 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
-
 import BlockLink from "@explorer/frontend/components/utils/BlockLink";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 describe("<BlockLink />", () => {
   it("renders", () => {

@@ -1,97 +1,95 @@
 import * as React from "react";
-import { Tabs, Tab } from "react-bootstrap";
-import ReactEcharts from "echarts-for-react";
+
 import * as echarts from "echarts";
+import ReactEcharts from "echarts-for-react";
 import JSBI from "jsbi";
-
-import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
-
+import { Tabs, Tab } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
-import * as BI from "@explorer/frontend/libraries/bigint";
+
 import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
+import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
 
 const getOption = (
   title: string,
   yAxisTitle: string,
   data: TRPCSubscriptionOutput<"gasUsedHistory">
-) => {
-  return {
-    title: {
-      text: title,
+) => ({
+  title: {
+    text: title,
+  },
+  tooltip: {
+    trigger: "axis",
+  },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+    backgroundColor: "#F9F9F9",
+    show: true,
+    color: "white",
+  },
+  xAxis: [
+    {
+      type: "time",
+      boundaryGap: false,
     },
-    tooltip: {
-      trigger: "axis",
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true,
-      backgroundColor: "#F9F9F9",
-      show: true,
-      color: "white",
-    },
-    xAxis: [
-      {
-        type: "time",
-        boundaryGap: false,
-      },
-    ],
-    yAxis: [
-      {
-        type: "value",
-        name: yAxisTitle,
-        splitLine: {
-          lineStyle: {
-            color: "white",
-          },
-        },
-      },
-    ],
-    dataZoom: [
-      {
-        type: "inside",
-        start: 0,
-        end: 100,
-        filterMode: "filter",
-      },
-      {
-        start: 0,
-        end: 100,
-      },
-    ],
-    series: [
-      {
-        name: yAxisTitle,
-        type: "line",
+  ],
+  yAxis: [
+    {
+      type: "value",
+      name: yAxisTitle,
+      splitLine: {
         lineStyle: {
-          color: "#4d84d6",
-          width: 2,
+          color: "white",
         },
-        symbol: "none",
-        itemStyle: {
-          color: "#25272A",
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "rgb(21, 99, 214)",
-            },
-            {
-              offset: 1,
-              color: "rgb(197, 221, 255)",
-            },
-          ]),
-        },
-        data,
       },
-    ],
-  };
-};
+    },
+  ],
+  dataZoom: [
+    {
+      type: "inside",
+      start: 0,
+      end: 100,
+      filterMode: "filter",
+    },
+    {
+      start: 0,
+      end: 100,
+    },
+  ],
+  series: [
+    {
+      name: yAxisTitle,
+      type: "line",
+      lineStyle: {
+        color: "#4d84d6",
+        width: 2,
+      },
+      symbol: "none",
+      itemStyle: {
+        color: "#25272A",
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: "rgb(21, 99, 214)",
+          },
+          {
+            offset: 1,
+            color: "rgb(197, 221, 255)",
+          },
+        ]),
+      },
+      data,
+    },
+  ],
+});
 
 const getGasCostInNear = (
   gasPrice: string,

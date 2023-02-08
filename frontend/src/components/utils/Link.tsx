@@ -1,5 +1,7 @@
-import Link from "next/link";
 import * as React from "react";
+
+import Link from "next/link";
+
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 
 const LinkWrapper: React.FC<

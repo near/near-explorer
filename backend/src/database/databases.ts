@@ -1,11 +1,11 @@
 import { Kysely, PostgresDialect, PostgresDialectConfig } from "kysely";
 import { Pool } from "pg";
-import { config } from "@explorer/backend/config";
 
-import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
-import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
+import { config } from "@explorer/backend/config";
 import * as Analytics from "@explorer/backend/database/models/readOnlyAnalytics";
+import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
 import * as IndexerActivity from "@explorer/backend/database/models/readOnlyIndexerActivity";
+import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
 
 const getPgPool = (config: PostgresDialectConfig): Pool => {
   const pool = new Pool(config);

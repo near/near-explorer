@@ -30,13 +30,12 @@ export const div = <DB, TB extends keyof DB, C extends string>(
   column: StringReference<DB, TB>,
   times: number,
   alias: C
-) => {
+) =>
   // TODO: Evaluation of column type extraction is not correct
   // See example with 'deletion_receipt' table join
   // 'deleted_at_block_timestamp' field should be null-able
-  return sql<
+  sql<
     ExtractColumnType<DB, TB, StringReference<DB, TB>> extends null
       ? string | null
       : string
   >`div(${sql.ref(column)}, ${times})`.as(alias);
-};

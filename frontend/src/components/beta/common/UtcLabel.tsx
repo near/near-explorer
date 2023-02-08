@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const UTC = styled("div", {
@@ -13,8 +14,6 @@ const UTC = styled("div", {
   textTransform: "uppercase",
 });
 
-const UtcLabel = React.memo(() => {
-  return <UTC>utc</UTC>;
-});
+const UtcLabel = React.memo(() => <UTC>utc</UTC>);
 
 export default UtcLabel;

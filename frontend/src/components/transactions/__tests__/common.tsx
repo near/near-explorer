@@ -131,7 +131,7 @@ export const TRANSACTIONS: TransactionOld[] = [
       tokensBurnt: "163548451464",
     },
   },
-  //one deposit with small amount
+  // one deposit with small amount
   {
     hash: "222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     signerId: "signer2.test",
@@ -191,7 +191,7 @@ export const TRANSACTIONS: TransactionOld[] = [
       tokensBurnt: "12315657498754",
     },
   },
-  //multi deposit with huge amount
+  // multi deposit with huge amount
   {
     hash: "222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVxxx",
     signerId: "signer2.test",

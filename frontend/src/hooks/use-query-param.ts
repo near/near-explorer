@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
 import React from "react";
+
+import { useRouter } from "next/router";
 
 const extractParam = (
   queryParam: string | string[] | undefined

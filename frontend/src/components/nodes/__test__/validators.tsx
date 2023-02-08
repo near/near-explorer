@@ -1,4 +1,5 @@
 import JSBI from "jsbi";
+
 import { ValidatorFullData } from "@explorer/common/types/procedures";
 import * as BI from "@explorer/frontend/libraries/bigint";
 

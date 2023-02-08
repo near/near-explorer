@@ -1,31 +1,32 @@
 import { formatDuration, intervalToDuration } from "date-fns";
 import { sql } from "kysely";
-import {
-  ValidatorEpochData,
-  ValidatorPoolInfo,
-} from "@explorer/backend/router/types";
+
 import { config } from "@explorer/backend/config";
-import * as nearApi from "@explorer/backend/utils/near";
-import { queryEpochData } from "@explorer/backend/providers/network";
-import { wait } from "@explorer/common/utils/promise";
-import { GlobalState } from "@explorer/backend/global-state";
 import { RegularCheckFn } from "@explorer/backend/cron/types";
 import {
   getPublishIfChanged,
   publishOnChange,
   updateRegularlyFetchedMap,
 } from "@explorer/backend/cron/utils";
-import { SECOND, MINUTE } from "@explorer/backend/utils/time";
 import {
   analyticsDatabase,
   indexerDatabase,
   telemetryDatabase,
 } from "@explorer/backend/database/databases";
 import { count, div, sum } from "@explorer/backend/database/utils";
+import { GlobalState } from "@explorer/backend/global-state";
+import { queryEpochData } from "@explorer/backend/providers/network";
+import {
+  ValidatorEpochData,
+  ValidatorPoolInfo,
+} from "@explorer/backend/router/types";
 import {
   nearNomination,
   teraGasNomination,
 } from "@explorer/backend/utils/bigint";
+import * as nearApi from "@explorer/backend/utils/near";
+import { SECOND, MINUTE } from "@explorer/backend/utils/time";
+import { wait } from "@explorer/common/utils/promise";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
@@ -518,8 +519,8 @@ export const activeAccountsListCheck: RegularCheckFn = {
 export const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
-): Promise<void> => {
-  return updateRegularlyFetchedMap(
+): Promise<void> =>
+  updateRegularlyFetchedMap(
     validators
       .filter((validator) => !validator.currentEpoch)
       .map((validator) => validator.accountId),
@@ -534,13 +535,12 @@ export const updateStakingPoolStakeProposalsFromContractMap = async (
     config.intervals.checkStakingPoolStakeProposal,
     config.timeouts.timeoutStakingPoolStakeProposal
   );
-};
 
 export const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
-): Promise<void> => {
-  return updateRegularlyFetchedMap(
+): Promise<void> =>
+  updateRegularlyFetchedMap(
     validators.map((validator) => validator.accountId),
     state.stakingPoolInfos,
     async (id) => {
@@ -580,7 +580,6 @@ export const updatePoolInfoMap = async (
     config.intervals.checkStakingPoolInfo,
     config.timeouts.timeoutStakingPoolsInfo
   );
-};
 
 export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
@@ -789,30 +788,28 @@ export const indexerStatusCheck: RegularCheckFn = {
     try {
       await sql`select 1`.execute(indexerDatabase);
       const now = Date.now();
-      const latestBlock = context.subscriptionsCache.latestBlock;
+      const { latestBlock } = context.subscriptionsCache;
       if (!latestBlock) {
         context.state.indexerStatus = {
           ok: true,
           timestamp: now,
         };
+      } else if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
+        context.state.indexerStatus = {
+          ok: false,
+          message: `Indexer doesn't report any new blocks for ${formatDuration(
+            intervalToDuration({
+              start: now - INDEXER_BLOCK_AFFORDABLE_LAG,
+              end: now,
+            })
+          )}`,
+          timestamp: now,
+        };
       } else {
-        if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
-          context.state.indexerStatus = {
-            ok: false,
-            message: `Indexer doesn't report any new blocks for ${formatDuration(
-              intervalToDuration({
-                start: now - INDEXER_BLOCK_AFFORDABLE_LAG,
-                end: now,
-              })
-            )}`,
-            timestamp: now,
-          };
-        } else {
-          context.state.indexerStatus = {
-            ok: true,
-            timestamp: now,
-          };
-        }
+        context.state.indexerStatus = {
+          ok: true,
+          timestamp: now,
+        };
       }
     } catch (e) {
       context.state.rpcStatus = {

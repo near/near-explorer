@@ -80,11 +80,10 @@ const getAccountTabParts = (options: AccountPageOptions) => {
   }
 };
 
-export const buildAccountUrl = (options: AccountPageOptions) => {
-  return ["/accounts", options.accountId, ...getAccountTabParts(options)]
+export const buildAccountUrl = (options: AccountPageOptions) =>
+  ["/accounts", options.accountId, ...getAccountTabParts(options)]
     .filter(Boolean)
     .join("/");
-};
 
 export const useAccountPageOptions = (): AccountPageOptions => {
   const router = useRouter();

@@ -1,6 +1,5 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
-
 import TransactionDetails from "@explorer/frontend/components/transactions/TransactionDetails";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 import { TRANSACTIONS } from "./common";
 

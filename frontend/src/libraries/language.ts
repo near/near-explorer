@@ -6,6 +6,7 @@
  */
 
 import { IncomingMessage } from "http";
+
 import { getCookiesFromReq } from "@explorer/frontend/libraries/cookie";
 import { DEFAULT_LANGUAGE, Language } from "@explorer/frontend/libraries/i18n";
 
@@ -20,15 +21,14 @@ interface ScoredLanguage {
  * Parses locales provided from browser through `accept-language` header.
  * @param input
  * @return An array of locale codes. Priority determined by order in array.
- **/
-export const parseAcceptLanguage = (input: string): string[] => {
+ * */
+export const parseAcceptLanguage = (input: string): string[] =>
   // Example input: en-US,en;q=0.9,nb;q=0.8,no;q=0.7
   // Contains tags separated by comma.
   // Each tag consists of locale code (2-3 letter language code) and optionally country code
   // after dash. Tag can also contain score after semicolon, that is assumed to match order
   // so it's not explicitly used.
-  return input.split(",").map((tag) => tag.split(";")[0]);
-};
+  input.split(",").map((tag) => tag.split(";")[0]);
 
 export function getAcceptedLanguage(
   availableLanguages: readonly Language[],

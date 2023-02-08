@@ -1,8 +1,8 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
 import FtEventKind from "./ft-event-kind";
+import { ReceiptsId } from "./receipts";
 
 export default interface AssetsFungibleTokenEvents {
   /**

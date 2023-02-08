@@ -1,4 +1,7 @@
 import React from "react";
+
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
 import NearIcon from "@explorer/frontend/components/beta/common/NearIcon";
 import {
   formatToPowerOfTen,
@@ -6,7 +9,6 @@ import {
   NearDecimalPower,
 } from "@explorer/frontend/libraries/formatting";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Offsetted = styled("span", {
   marginLeft: "0.3em",
@@ -34,7 +36,7 @@ export const NearAmount: React.FC<Props> = (props) => {
     formattedAmount = {
       ...formattedAmount,
       quotient: Number(
-        "0." + formattedAmount.quotient.padStart(3, "0")
+        `0.${formattedAmount.quotient.padStart(3, "0")}`
       ).toPrecision(props.decimalPlaces ?? 3),
       prefix: 8,
     };
@@ -43,7 +45,7 @@ export const NearAmount: React.FC<Props> = (props) => {
     <span>
       {formattedAmount.quotient}
       {formattedAmount.remainder && !formattedAmount.quotient.includes(".")
-        ? Number("0." + formattedAmount.remainder)
+        ? Number(`0.${formattedAmount.remainder}`)
             .toPrecision(props.decimalPlaces ?? 3)
             .slice(1)
         : ""}

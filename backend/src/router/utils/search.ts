@@ -2,8 +2,8 @@ import * as trpc from "@trpc/server";
 import { z, ZodType } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { validators } from "@explorer/backend/router/validators";
 import { indexerDatabase } from "@explorer/backend/database/databases";
+import { validators } from "@explorer/backend/router/validators";
 
 const blockInput = z.union([
   z.preprocess((x) => Number(x), validators.blockHeight),
@@ -15,7 +15,8 @@ const getBlockHash = async (blockId: z.infer<typeof blockInput>) => {
     .select("block_hash as hash");
   if (Number.isNaN(blockId)) {
     return;
-  } else if (typeof blockId === "string") {
+  }
+  if (typeof blockId === "string") {
     selection = selection.where("block_hash", "=", blockId);
   } else {
     selection = selection.where("block_height", "=", blockId.toString());

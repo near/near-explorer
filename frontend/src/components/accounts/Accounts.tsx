@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import FlipMove from "@explorer/frontend/components/utils/FlipMove";
-import AccountRow from "@explorer/frontend/components/accounts/AccountRow";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 import { AccountListInfo } from "@explorer/common/types/procedures";
 import { id } from "@explorer/common/utils/utils";
+import AccountRow from "@explorer/frontend/components/accounts/AccountRow";
+import FlipMove from "@explorer/frontend/components/utils/FlipMove";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const ACCOUNTS_PER_PAGE = 15;
 

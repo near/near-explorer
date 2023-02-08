@@ -8,8 +8,8 @@ import {
   indexerDatabase,
 } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
-import * as nearApi from "@explorer/backend/utils/near";
 import { validators } from "@explorer/backend/router/validators";
+import * as nearApi from "@explorer/backend/utils/near";
 
 const queryContractFromIndexer = async (accountId: string) => {
   // find the latest update in analytics db

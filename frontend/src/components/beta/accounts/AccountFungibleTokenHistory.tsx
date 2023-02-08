@@ -1,20 +1,21 @@
 import * as React from "react";
-import JSBI from "jsbi";
-import { shortenString } from "@explorer/frontend/libraries/formatting";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import JSBI from "jsbi";
+import { Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
 import {
   AccountFungibleToken,
   AccountFungibleTokenHistoryElement,
 } from "@explorer/common/types/procedures";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { useTranslation } from "react-i18next";
-import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
-import LinkWrapper from "@explorer/frontend/components/utils/Link";
-import { buildAccountUrl } from "@explorer/frontend/hooks/use-account-page-options";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import { Spinner } from "react-bootstrap";
+import LinkWrapper from "@explorer/frontend/components/utils/Link";
+import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
+import { buildAccountUrl } from "@explorer/frontend/hooks/use-account-page-options";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const TableWrapper = styled("div", {
   display: "flex",

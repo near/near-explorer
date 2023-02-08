@@ -1,12 +1,12 @@
-import geoip from "geoip-lite";
 import * as trpc from "@trpc/server";
+import geoip from "geoip-lite";
 
 import { Context } from "@explorer/backend/context";
-import { validators } from "@explorer/backend/router/validators";
 import {
   extraPool,
   telemetryWriteDatabase,
 } from "@explorer/backend/database/databases";
+import { validators } from "@explorer/backend/router/validators";
 
 export const router = trpc.router<Context>().mutation("upsert", {
   input: validators.telemetryRequest,

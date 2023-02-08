@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import * as ReactQuery from "react-query";
 
 import { StableOmit } from "@explorer/common/types/common";
@@ -8,8 +9,8 @@ import {
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
 } from "@explorer/common/types/trpc";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 import { subscribe } from "@explorer/frontend/libraries/subscriptions";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 export type UseSubscriptionResult<R> = StableOmit<
   ReactQuery.QueryObserverResult<R, TRPCError>,
@@ -87,7 +88,8 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       isSuccess: false,
       status: "loading",
     };
-  } else if (error !== null) {
+  }
+  if (error !== null) {
     if (value !== undefined) {
       return {
         ...base,
@@ -101,21 +103,21 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         isSuccess: false,
         status: "error",
       };
-    } else {
-      return {
-        ...base,
-        data: undefined,
-        error,
-        isError: true,
-        isIdle: false,
-        isLoading: false,
-        isLoadingError: true,
-        isRefetchError: false,
-        isSuccess: false,
-        status: "error",
-      };
     }
-  } else if (value !== undefined) {
+    return {
+      ...base,
+      data: undefined,
+      error,
+      isError: true,
+      isIdle: false,
+      isLoading: false,
+      isLoadingError: true,
+      isRefetchError: false,
+      isSuccess: false,
+      status: "error",
+    };
+  }
+  if (value !== undefined) {
     return {
       ...base,
       data: value,
@@ -128,20 +130,19 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       isSuccess: true,
       status: "success",
     };
-  } else {
-    return {
-      ...base,
-      data: undefined,
-      error: null,
-      isError: false,
-      isIdle: true,
-      isLoading: false,
-      isLoadingError: false,
-      isRefetchError: false,
-      isSuccess: false,
-      status: "idle",
-    };
   }
+  return {
+    ...base,
+    data: undefined,
+    error: null,
+    isError: false,
+    isIdle: true,
+    isLoading: false,
+    isLoadingError: false,
+    isRefetchError: false,
+    isSuccess: false,
+    status: "idle",
+  };
 };
 
 export const useSubscription = <TPath extends TRPCSubscriptionKey & string>(

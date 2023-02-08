@@ -1,6 +1,5 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
-
 import StorageSize from "@explorer/frontend/components/utils/StorageSize";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 describe("<StorageSize />", () => {
   it("bytes renders successfully ", () => {

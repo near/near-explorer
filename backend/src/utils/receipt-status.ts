@@ -402,7 +402,7 @@ const mapRpcReceiptInvalidTxError = (
 const mapRpcReceiptActionError = (
   error: RPC.ActionError
 ): ReceiptActionError => {
-  const kind = error.kind;
+  const { kind } = error;
   if ("AccountAlreadyExists" in kind) {
     return {
       type: "accountAlreadyExists",

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Action } from "@explorer/common/types/procedures";
 
+import { Action } from "@explorer/common/types/procedures";
 import actionIcons from "@explorer/frontend/components/transactions/ActionIcons";
 import ActionMessage from "@explorer/frontend/components/transactions/ActionMessage";
 import ActionRowBlock, {

@@ -1,24 +1,23 @@
-import Head from "next/head";
-
 import * as React from "react";
-import { useTranslation } from "react-i18next";
+
 import { GetServerSideProps, NextPage } from "next";
+import Head from "next/head";
+import { Spinner } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import { TRPCQueryResult } from "@explorer/common/types/trpc";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-
 import AccountHeader from "@explorer/frontend/components/beta/accounts/AccountHeader";
 import AccountTabs from "@explorer/frontend/components/beta/accounts/AccountTabs";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import { styled } from "@explorer/frontend/libraries/styles";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import {
   useAccountPageOptions,
   parseAccountSlug,
   AccountPageOptions,
   buildAccountUrl,
 } from "@explorer/frontend/hooks/use-account-page-options";
-import { Spinner } from "react-bootstrap";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",

@@ -2,13 +2,14 @@ import * as React from "react";
 
 import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import { ValidationProgress } from "@explorer/common/types/procedures";
-import Term from "@explorer/frontend/components/utils/Term";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
 } from "@explorer/frontend/components/nodes/ValidatorRow";
+import Term from "@explorer/frontend/components/utils/Term";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const Uptime = styled(Col, {
   fontWeight: 500,
@@ -41,7 +42,7 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ progress }) => {
       <Row noGutters>
         <Uptime>
           <OverlayTrigger
-            placement={"bottom"}
+            placement="bottom"
             overlay={
               <Tooltip id="produced-blocks-chunks">
                 {t(

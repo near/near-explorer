@@ -1,6 +1,5 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
-
 import ActionMessage from "@explorer/frontend/components/transactions/ActionMessage";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 import { TRANSACTIONS } from "./common";
 

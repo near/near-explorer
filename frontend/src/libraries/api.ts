@@ -1,4 +1,5 @@
 import { NextApiResponse } from "next";
+
 import { NetworkName } from "@explorer/common/types/common";
 import { getConfig } from "@explorer/frontend/libraries/config";
 

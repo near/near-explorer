@@ -1,7 +1,8 @@
-import { processDatabase } from "kanel";
-import path from "path";
 // @ts-ignore
 import { recase } from "@kristiandupont/recase";
+import { processDatabase } from "kanel";
+import path from "path";
+
 import { config } from "@explorer/backend/config";
 
 const run = async () => {

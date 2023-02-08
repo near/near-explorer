@@ -1,11 +1,12 @@
-import { NextApiHandler } from "next";
 import { parseISO, format } from "date-fns";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+import { NextApiHandler } from "next";
+
 import {
   isNetworkOffline,
   respondNetworkOffline,
 } from "@explorer/frontend/libraries/api";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {

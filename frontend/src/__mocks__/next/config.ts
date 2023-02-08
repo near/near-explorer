@@ -1,4 +1,5 @@
 import { NextConfig } from "next";
+
 import type { ExplorerConfig } from "@explorer/frontend/libraries/config";
 
 const backendConfig = {

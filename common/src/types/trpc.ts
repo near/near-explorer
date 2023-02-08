@@ -1,17 +1,17 @@
+import type { TRPCClient as _TRPCClient } from "@trpc/client";
 import type { TRPCClientErrorLike } from "@trpc/react";
-import type { Procedure } from "@trpc/server/dist/declarations/src/internals/procedure";
 import type {
-  Router,
-  ProcedureRecord,
-} from "@trpc/server/dist/declarations/src/router";
-import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
-import type {
+  Procedure,
   inferProcedureFromOptions,
   CreateProcedureOptions,
   CreateProcedureWithoutInput,
   CreateProcedureWithInput,
 } from "@trpc/server/dist/declarations/src/internals/procedure";
-import type { TRPCClient as _TRPCClient } from "@trpc/client";
+import type {
+  Router,
+  ProcedureRecord,
+} from "@trpc/server/dist/declarations/src/router";
+import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
 import { UseMutationResult, UseQueryResult } from "react-query";
 import { Equals } from "tsafe";
 

@@ -1,5 +1,6 @@
-import dynamic from "next/dynamic";
 import * as React from "react";
+
+import dynamic from "next/dynamic";
 // https://github.com/mac-s-g/react-json-view/issues/296#issuecomment-803497117
 const DynamicReactJson = dynamic(import("react-json-view"), { ssr: false });
 

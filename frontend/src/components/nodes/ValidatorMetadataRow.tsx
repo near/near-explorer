@@ -2,13 +2,14 @@ import * as React from "react";
 
 import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import { ValidatorDescription } from "@explorer/common/types/procedures";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesContentRow,
   ValidatorNodesDetailsTitle,
 } from "@explorer/frontend/components/nodes/ValidatorRow";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,
@@ -58,6 +59,7 @@ const ValidatorMetadataRow: React.FC<Props> = React.memo(({ description }) => {
                   <a
                     href="https://github.com/zavodil/near-pool-details#description"
                     target="_blank"
+                    rel="noreferrer"
                   />
                 ),
               }}

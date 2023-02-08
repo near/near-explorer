@@ -1,4 +1,5 @@
 import dateFnsLocale from "date-fns/locale/zh-TW";
+
 import { DurationFormatter } from "@explorer/frontend/libraries/locales/index";
 
 const durationFormatter: DurationFormatter = {

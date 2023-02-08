@@ -1,4 +1,5 @@
 import { sql } from "kysely";
+
 import {
   analyticsDatabase,
   indexerDatabase,

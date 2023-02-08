@@ -2,21 +2,21 @@ import * as trpc from "@trpc/server";
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import * as RPC from "@explorer/common/types/rpc";
-import * as nearApi from "@explorer/backend/utils/near";
-import { validators } from "@explorer/backend/router/validators";
 import {
   indexerActivityDatabase,
   indexerDatabase,
 } from "@explorer/backend/database/databases";
+import { div } from "@explorer/backend/database/utils";
+import { validators } from "@explorer/backend/router/validators";
 import { Action, mapRpcActionToAction } from "@explorer/backend/utils/actions";
-import { mapRpcTransactionStatus } from "@explorer/backend/utils/transaction-status";
+import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
+import * as nearApi from "@explorer/backend/utils/near";
 import {
   mapRpcReceiptStatus,
   ReceiptExecutionStatus,
 } from "@explorer/backend/utils/receipt-status";
-import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
-import { div } from "@explorer/backend/database/utils";
+import { mapRpcTransactionStatus } from "@explorer/backend/utils/transaction-status";
+import * as RPC from "@explorer/common/types/rpc";
 
 type ParsedReceiptOld = Omit<NestedReceiptWithOutcomeOld, "outcome"> & {
   outcome: Omit<NestedReceiptWithOutcomeOld["outcome"], "nestedReceipts"> & {
@@ -151,16 +151,14 @@ const parseReceipt = (
 
 const parseOutcomeOld = (
   outcome: RPC.ExecutionOutcomeWithIdView
-): ParsedReceiptOld["outcome"] => {
-  return {
-    blockHash: outcome.block_hash,
-    tokensBurnt: outcome.outcome.tokens_burnt,
-    gasBurnt: outcome.outcome.gas_burnt,
-    status: mapRpcReceiptStatus(outcome.outcome.status),
-    logs: outcome.outcome.logs,
-    receiptIds: outcome.outcome.receipt_ids,
-  };
-};
+): ParsedReceiptOld["outcome"] => ({
+  blockHash: outcome.block_hash,
+  tokensBurnt: outcome.outcome.tokens_burnt,
+  gasBurnt: outcome.outcome.gas_burnt,
+  status: mapRpcReceiptStatus(outcome.outcome.status),
+  logs: outcome.outcome.logs,
+  receiptIds: outcome.outcome.receipt_ids,
+});
 
 const parseOutcome = (
   outcome: RPC.ExecutionOutcomeWithIdView,

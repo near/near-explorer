@@ -1,18 +1,19 @@
 import * as React from "react";
-import Image from "next/image";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import Image from "next/image";
+import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
+
 import { AccountFungibleToken } from "@explorer/common/types/procedures";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import AccountFungibleTokenHistory from "@explorer/frontend/components/beta/accounts/AccountFungibleTokenHistory";
+import LinkWrapper from "@explorer/frontend/components/utils/Link";
+import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
 import {
   FungibleTokensAccountPageOptions,
   buildAccountUrl,
 } from "@explorer/frontend/hooks/use-account-page-options";
-import LinkWrapper from "@explorer/frontend/components/utils/Link";
-import AccountFungibleTokenHistory from "@explorer/frontend/components/beta/accounts/AccountFungibleTokenHistory";
-import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
 import { shortenString } from "@explorer/frontend/libraries/formatting";
-import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const Wrapper = styled("div", {
   display: "flex",
@@ -102,38 +103,36 @@ type ItemProps = {
 };
 
 const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(
-  ({ token, options, selected }) => {
-    return (
-      <TokenLink
-        href={buildAccountUrl({ ...options, token: token.authorAccountId })}
-        shallow
-      >
-        <Token selected={selected}>
-          <TokenHeader>
-            <TokenLogo>
-              {token.icon ? (
-                <Image src={token.icon} layout="fill" />
-              ) : (
-                <TokenEmptyLogo />
-              )}
-            </TokenLogo>
-            {shortenString(token.name).length === token.name.length ? (
-              <TokenName>{token.name}</TokenName>
+  ({ token, options, selected }) => (
+    <TokenLink
+      href={buildAccountUrl({ ...options, token: token.authorAccountId })}
+      shallow
+    >
+      <Token selected={selected}>
+        <TokenHeader>
+          <TokenLogo>
+            {token.icon ? (
+              <Image src={token.icon} layout="fill" />
             ) : (
-              <OverlayTrigger
-                overlay={<Tooltip id="token-name">{token.name}</Tooltip>}
-              >
-                <TokenName>{shortenString(token.name)}</TokenName>
-              </OverlayTrigger>
+              <TokenEmptyLogo />
             )}
-          </TokenHeader>
-          <TokenAmountWrapper>
-            <TokenAmount token={token} />
-          </TokenAmountWrapper>
-        </Token>
-      </TokenLink>
-    );
-  }
+          </TokenLogo>
+          {shortenString(token.name).length === token.name.length ? (
+            <TokenName>{token.name}</TokenName>
+          ) : (
+            <OverlayTrigger
+              overlay={<Tooltip id="token-name">{token.name}</Tooltip>}
+            >
+              <TokenName>{shortenString(token.name)}</TokenName>
+            </OverlayTrigger>
+          )}
+        </TokenHeader>
+        <TokenAmountWrapper>
+          <TokenAmount token={token} />
+        </TokenAmountWrapper>
+      </Token>
+    </TokenLink>
+  )
 );
 
 type Props = {

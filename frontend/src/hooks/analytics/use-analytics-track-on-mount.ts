@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { AnalyticsEvent } from "@explorer/frontend/hooks/analytics/analytics";
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 

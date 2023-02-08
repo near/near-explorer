@@ -1,21 +1,19 @@
-import JSBI from "jsbi";
-
 import * as React from "react";
 
+import JSBI from "jsbi";
 import { Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
-import Gas from "@explorer/frontend/components/utils/Gas";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import BlockLink from "@explorer/frontend/components/utils/BlockLink";
-import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
+import { NestedReceiptWithOutcomeOld } from "@explorer/common/types/procedures";
 import { Args } from "@explorer/frontend/components/transactions/ActionMessage";
 import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
-
-import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { NestedReceiptWithOutcomeOld } from "@explorer/common/types/procedures";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import BlockLink from "@explorer/frontend/components/utils/BlockLink";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const ReceiptRowWrapper = styled(Row, {
   paddingTop: 10,

@@ -1,18 +1,17 @@
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
+import { Trans, useTranslation } from "react-i18next";
 
 import CardCell, {
   CardCellTitleImage,
 } from "@explorer/frontend/components/utils/CardCell";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import Term from "@explorer/frontend/components/utils/Term";
 import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
-
-import { Trans, useTranslation } from "react-i18next";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { styled } from "@explorer/frontend/libraries/styles";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const ContractInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",
@@ -61,7 +60,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   return (
     <>
       <ContractTitle>
-        <CardCellTitleImage src={"/static/images/icon-d-contract.svg"} />
+        <CardCellTitleImage src="/static/images/icon-d-contract.svg" />
         {t("common.contracts.contract")}
       </ContractTitle>
       <ContractInfoContainer>
@@ -76,9 +75,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                   text={t(
                     "component.contracts.ContractDetails.last_updated.text"
                   )}
-                  href={
-                    "https://docs.near.org/docs/develop/basics/getting-started"
-                  }
+                  href="https://docs.near.org/docs/develop/basics/getting-started"
                 />
               }
               text={

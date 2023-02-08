@@ -1,12 +1,13 @@
-import { useRouter } from "next/router";
 import * as React from "react";
-import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
+import { useRouter } from "next/router";
+import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import { styled } from "@explorer/frontend/libraries/styles";
 import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const SearchField = styled(FormControl, {
   background: "#ffffff",
@@ -195,15 +196,18 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
         }
         track("Explorer Search", { page: result });
         if ("blockHash" in result) {
-          return router.push("/blocks/" + result.blockHash);
-        } else if ("receiptId" in result) {
+          return router.push(`/blocks/${result.blockHash}`);
+        }
+        if ("receiptId" in result) {
           return router.push(
             `/transactions/${result.transactionHash}#${result.receiptId}`
           );
-        } else if ("transactionHash" in result) {
-          return router.push("/transactions/" + result.transactionHash);
-        } else if ("accountId" in result) {
-          return router.push("/accounts/" + result.accountId);
+        }
+        if ("transactionHash" in result) {
+          return router.push(`/transactions/${result.transactionHash}`);
+        }
+        if ("accountId" in result) {
+          return router.push(`/accounts/${result.accountId}`);
         }
       },
     }

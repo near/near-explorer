@@ -1,14 +1,13 @@
 import * as React from "react";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 
+import { parseISO } from "date-fns";
 import { Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import ProgressBar from "@explorer/frontend/components/utils/ProgressBar";
-
-import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { parseISO } from "date-fns";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const NodesEpochContent = styled(Col, {
   margin: "15px 0",
@@ -69,9 +68,9 @@ const NodesEpoch: React.FC<Props> = React.memo(
             <Col xs="7">
               <Row className="d-none d-md-flex">
                 <Col>
-                  {t("component.nodes.NodesEpoch.current_epoch_start") + ": "}
+                  {`${t("component.nodes.NodesEpoch.current_epoch_start")}: `}
                   <TextValue>
-                    {t("component.nodes.NodesEpoch.block") + " #"}
+                    {`${t("component.nodes.NodesEpoch.block")} #`}
                     {epochStartHeight}
                   </TextValue>
                 </Col>
@@ -83,7 +82,7 @@ const NodesEpoch: React.FC<Props> = React.memo(
                 </Col>
                 <Col xs="12">
                   <TextValue>
-                    {t("component.nodes.NodesEpoch.block") + " #"}
+                    {`${t("component.nodes.NodesEpoch.block")} #`}
                     {epochStartHeight}
                   </TextValue>
                 </Col>
@@ -93,7 +92,7 @@ const NodesEpoch: React.FC<Props> = React.memo(
             <Col sm="5" className="text-right d-none d-md-block ">
               <TextValueRemainedPercent>
                 {epochProgress.toFixed(0)}
-                {"% " + t("component.nodes.NodesEpoch.complete")}
+                {`% ${t("component.nodes.NodesEpoch.complete")}`}
               </TextValueRemainedPercent>
               {` (${format(timeRemaining, "HH:mm:ss", { utc: true })} ${t(
                 "component.nodes.NodesEpoch.remaining"

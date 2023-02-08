@@ -1,8 +1,8 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { TransactionsId } from "./transactions";
 import ActionKind from "./action-kind";
+import { TransactionsId } from "./transactions";
 
 export default interface TransactionActions {
   /** Primary key. Index: transaction_action_pk */

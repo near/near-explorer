@@ -1,8 +1,9 @@
+import * as trpc from "@trpc/server";
 import type { HTTPBaseHandlerOptions } from "@trpc/server/dist/declarations/src/http/internals/types";
 import type http from "http";
-import * as trpc from "@trpc/server";
 import { ZodError } from "zod";
 import { generateErrorMessage, ErrorMessageOptions } from "zod-error";
+
 import type { AppRouter } from "@explorer/backend/router";
 
 const errorOptions: ErrorMessageOptions = {

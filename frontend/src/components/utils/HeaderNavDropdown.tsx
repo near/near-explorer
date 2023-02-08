@@ -1,17 +1,16 @@
 import * as React from "react";
-import { Dropdown } from "react-bootstrap";
 
+import { StyledComponent } from "@stitches/react/types/styled-component";
+import { Dropdown } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
+import Link from "@explorer/frontend/components/utils/Link";
+import { globalCss, styled } from "@explorer/frontend/libraries/styles";
 import IconAccounts from "@explorer/frontend/public/static/images/icon-accounts.svg";
 import IconBlocks from "@explorer/frontend/public/static/images/icon-blocks.svg";
 import IconNodes from "@explorer/frontend/public/static/images/icon-nodes.svg";
 import IconStats from "@explorer/frontend/public/static/images/icon-stats.svg";
 import IconTransactions from "@explorer/frontend/public/static/images/icon-transactions.svg";
-
-import Link from "@explorer/frontend/components/utils/Link";
-
-import { useTranslation } from "react-i18next";
-import { globalCss, styled } from "@explorer/frontend/libraries/styles";
-import { StyledComponent } from "@stitches/react/types/styled-component";
 
 const Icon = styled("svg", {
   width: 16,
@@ -54,16 +53,14 @@ interface Props {
 }
 
 const HeaderNavItem: React.FC<Props> = React.memo(
-  ({ link, IconElement, text }) => {
-    return (
-      <Link href={link} passHref>
-        <HeaderNavLink>
-          <Icon as={IconElement} />
-          <NavText>{text}</NavText>
-        </HeaderNavLink>
-      </Link>
-    );
-  }
+  ({ link, IconElement, text }) => (
+    <Link href={link} passHref>
+      <HeaderNavLink>
+        <Icon as={IconElement} />
+        <NavText>{text}</NavText>
+      </HeaderNavLink>
+    </Link>
+  )
 );
 
 const ChainHeader = styled(Dropdown.Toggle, {

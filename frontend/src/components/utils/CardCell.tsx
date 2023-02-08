@@ -1,7 +1,9 @@
 import * as React from "react";
+
 import { Row, Col, Card, Spinner } from "react-bootstrap";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import { TermInfoIcon } from "@explorer/frontend/components/utils/Term";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 export const CardCellWrapper = styled(Card, {
   borderStyle: "solid",

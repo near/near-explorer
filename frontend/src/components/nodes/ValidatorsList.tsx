@@ -1,9 +1,10 @@
-import JSBI from "jsbi";
 import * as React from "react";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
-import { ValidatorFullData } from "@explorer/common/types/procedures";
 
+import JSBI from "jsbi";
+
+import { ValidatorFullData } from "@explorer/common/types/procedures";
 import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import * as BI from "@explorer/frontend/libraries/bigint";
 
 // The share of "network holders", cumulative amount of validators
@@ -23,13 +24,14 @@ type ValidatorSortFn = (a: ValidatorFullData, b: ValidatorFullData) => number;
 const sortByBNComparison = (aValue?: string, bValue?: string) => {
   if (aValue !== undefined && bValue !== undefined) {
     return BI.cmp(JSBI.BigInt(bValue), JSBI.BigInt(aValue));
-  } else if (aValue) {
-    return -1;
-  } else if (bValue) {
-    return 1;
-  } else {
-    return 0;
   }
+  if (aValue) {
+    return -1;
+  }
+  if (bValue) {
+    return 1;
+  }
+  return 0;
 };
 
 const validatorsSortFns: ValidatorSortFn[] = [

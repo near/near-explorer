@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import NextDocument, {
   Html,
   Head,
@@ -7,7 +9,7 @@ import NextDocument, {
   DocumentContext,
   DocumentInitialProps,
 } from "next/document";
-import * as React from "react";
+
 import { getCssText } from "@explorer/frontend/libraries/styles";
 
 interface DocumentType {
@@ -15,31 +17,26 @@ interface DocumentType {
   getInitialProps?: (context: DocumentContext) => Promise<DocumentInitialProps>;
 }
 
-const Document: DocumentType = React.memo(() => {
-  return (
-    <Html>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-        <style
-          id="stitches"
-          dangerouslySetInnerHTML={{ __html: getCssText() }}
-        />
-      </Head>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  );
-});
+const Document: DocumentType = React.memo(() => (
+  <Html>
+    <Head>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+      />
+      <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+    </Head>
+    <body>
+      <Main />
+      <NextScript />
+    </body>
+  </Html>
+));
 
 Document.getInitialProps = NextDocument.getInitialProps;
 

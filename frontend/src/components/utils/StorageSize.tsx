@@ -1,6 +1,8 @@
 import * as React from "react";
+
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+
 import { formatWithCommas } from "@explorer/frontend/components/utils/Balance";
 
 interface Props {
@@ -43,7 +45,7 @@ const StorageSize: React.FC<Props> = React.memo(({ value }) => {
 
   return (
     <OverlayTrigger
-      placement={"bottom"}
+      placement="bottom"
       overlay={
         <Tooltip id={`storage_size_${value}`}>
           {`${formatWithCommas(value.toString())} ${t(

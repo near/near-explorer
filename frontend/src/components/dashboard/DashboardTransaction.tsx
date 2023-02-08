@@ -1,14 +1,14 @@
 import * as React from "react";
+
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+import DashboardTransactionsHistoryChart from "@explorer/frontend/components/dashboard/DashboardTransactionsHistoryChart";
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
-import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
-import Term from "@explorer/frontend/components/utils/Term";
 import GasPrice from "@explorer/frontend/components/utils/GasPrice";
 import Link from "@explorer/frontend/components/utils/Link";
-
-import DashboardTransactionsHistoryChart from "@explorer/frontend/components/dashboard/DashboardTransactionsHistoryChart";
+import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
+import Term from "@explorer/frontend/components/utils/Term";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -47,7 +47,7 @@ const DashboardTransaction: React.FC = React.memo(() => {
                 text={t(
                   "component.dashboard.DashboardTransaction.24h_total.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             loading={recentTransactionsCountSub.status === "loading"}
@@ -68,7 +68,7 @@ const DashboardTransaction: React.FC = React.memo(() => {
                 text={t(
                   "component.dashboard.DashboardTransaction.gas_price.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/gas"}
+                href="https://docs.near.org/docs/concepts/gas"
               />
             }
             loading={latestGasPriceSub.status === "loading"}

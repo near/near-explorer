@@ -1,22 +1,21 @@
-import Head from "next/head";
+import * as React from "react";
 
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
+import { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
-import ReceiptsIncludedInBlock from "@explorer/frontend/components/receipts/ReceiptsIncludedInBlock";
 import ReceiptsExecutedInBlock from "@explorer/frontend/components/receipts/ReceiptsExecutedInBlock";
+import ReceiptsIncludedInBlock from "@explorer/frontend/components/receipts/ReceiptsIncludedInBlock";
 import Transactions, {
   getNextPageParam,
 } from "@explorer/frontend/components/transactions/Transactions";
 import Content from "@explorer/frontend/components/utils/Content";
-
-import { useTranslation } from "react-i18next";
-import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 import { styled } from "@explorer/frontend/libraries/styles";
-import * as React from "react";
-import { useRouter } from "next/router";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,

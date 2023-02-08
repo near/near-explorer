@@ -1,29 +1,28 @@
-import JSBI from "jsbi";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-
-import { Row, Col } from "react-bootstrap";
 import * as React from "react";
 
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import BlockLink from "@explorer/frontend/components/utils/BlockLink";
-import CardCell, {
-  CardCellText,
-} from "@explorer/frontend/components/utils/CardCell";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import Gas from "@explorer/frontend/components/utils/Gas";
-import Term from "@explorer/frontend/components/utils/Term";
-import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";
-
+import JSBI from "jsbi";
+import { Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
-import * as RPC from "@explorer/common/types/rpc";
+
 import {
   NestedReceiptWithOutcomeOld,
   TransactionOld,
 } from "@explorer/common/types/procedures";
-import * as BI from "@explorer/frontend/libraries/bigint";
+import * as RPC from "@explorer/common/types/rpc";
+import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import BlockLink from "@explorer/frontend/components/utils/BlockLink";
+import CardCell, {
+  CardCellText,
+} from "@explorer/frontend/components/utils/CardCell";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import Term from "@explorer/frontend/components/utils/Term";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const HeaderRow = styled(Row);
 
@@ -86,20 +85,21 @@ const flattenReceiptOutcomes = (
 
 const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
   const { t } = useTranslation();
-  const deposit = React.useMemo(() => {
-    return transaction.actions
-      .map((action) => {
-        if ("deposit" in action.args) {
-          return JSBI.BigInt(action.args.deposit);
-        } else {
+  const deposit = React.useMemo(
+    () =>
+      transaction.actions
+        .map((action) => {
+          if ("deposit" in action.args) {
+            return JSBI.BigInt(action.args.deposit);
+          }
           return BI.zero;
-        }
-      })
-      .reduce(
-        (accumulator, deposit) => JSBI.add(accumulator, deposit),
-        BI.zero
-      );
-  }, [transaction.actions]);
+        })
+        .reduce(
+          (accumulator, deposit) => JSBI.add(accumulator, deposit),
+          BI.zero
+        ),
+    [transaction.actions]
+  );
   const { tokensBurnt, gasUsed } = React.useMemo(() => {
     const outcomes = [
       transaction.outcome,
@@ -152,7 +152,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.signed_by.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/account"}
+                href="https://docs.near.org/docs/concepts/account"
               />
             }
             imgLink="/static/images/icon-m-user.svg"
@@ -170,7 +170,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.receiver.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/account"}
+                href="https://docs.near.org/docs/concepts/account"
               />
             }
             imgLink="/static/images/icon-m-user.svg"
@@ -188,7 +188,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.status.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             imgLink="/static/images/icon-t-status.svg"
@@ -200,10 +200,10 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                   t("common.blocks.status.fetching_status")
                 )}
                 {latestBlockSub.status !== "success"
-                  ? "/" + t("common.blocks.status.checking_finality")
+                  ? `/${t("common.blocks.status.checking_finality")}`
                   : transaction.blockTimestamp < latestBlockSub.data.timestamp
                   ? ""
-                  : "/" + t("common.blocks.status.finalizing")}
+                  : `/${t("common.blocks.status.finalizing")}`}
               </TransactionStatusWrapper>
             }
             className="border-sm-0"
@@ -221,7 +221,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.transaction_fee.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             imgLink="/static/images/icon-m-size.svg"
@@ -239,9 +239,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.deposit_value.text"
                 )}
-                href={
-                  "https://near.org/papers/economics-in-sharded-blockchain/"
-                }
+                href="https://near.org/papers/economics-in-sharded-blockchain/"
               />
             }
             imgLink="/static/images/icon-m-filter.svg"
@@ -259,7 +257,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.gas_used.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             imgLink="/static/images/icon-m-size.svg"
@@ -296,7 +294,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 text={t(
                   "component.transactions.TransactionDetails.created.text"
                 )}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             text={
@@ -322,7 +320,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                   "component.transactions.TransactionDetails.hash.title"
                 )}
                 text={t("component.transactions.TransactionDetails.hash.text")}
-                href={"https://docs.near.org/docs/concepts/transaction"}
+                href="https://docs.near.org/docs/concepts/transaction"
               />
             }
             text={transaction.hash}

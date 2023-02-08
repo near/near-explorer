@@ -1,9 +1,10 @@
 import React from "react";
-import { Language } from "@explorer/frontend/libraries/i18n";
+
 import {
   Locale,
   getDateLocale,
 } from "@explorer/frontend/libraries/date-locale";
+import { Language } from "@explorer/frontend/libraries/i18n";
 
 export const useDateLocale = (
   initialLocale: Locale | undefined,

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
+
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 
 type Props = {
   timestamp: number;

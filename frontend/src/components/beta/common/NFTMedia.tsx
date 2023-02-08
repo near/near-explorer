@@ -1,7 +1,9 @@
 import * as React from "react";
+
 import { Img } from "react-image";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const Image = styled(Img, {
   width: "100%",
@@ -41,7 +43,7 @@ const NFTMedia: React.FC<Props> = React.memo(({ src }) => {
   return (
     <>
       {isVideo ? (
-        <video muted={true} loop controls autoPlay={false} poster={poster}>
+        <video muted loop controls autoPlay={false} poster={poster}>
           <source
             src={mediaUrl}
             type={`video/${mimeType}`}

@@ -1,21 +1,23 @@
 import * as React from "react";
+
 import JSBI from "jsbi";
+import { Spinner } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
-import AccountActivityBadge from "@explorer/frontend/components/beta/accounts/AccountActivityBadge";
+
 import {
   TransactionListResponse,
   TransactionPreview,
   Action,
 } from "@explorer/common/types/procedures";
-import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import AccountActivityBadge from "@explorer/frontend/components/beta/accounts/AccountActivityBadge";
 import AccountLink from "@explorer/frontend/components/beta/common/AccountLink";
-import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
-import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
 import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
-import { Spinner } from "react-bootstrap";
+import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
+import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const TRANSACTIONS_PER_PAGE = 10;
 
@@ -312,38 +314,36 @@ const AccountTransactionsView = React.memo<React.FC<Props>>(({ accountId }) => {
   );
 
   return (
-    <>
-      <ListHandler query={query} parser={parser}>
-        {(items) => {
-          if (query.isLoading && items.length === 0) {
-            return <Spinner animation="border" />;
-          }
-          return (
-            <TableWrapper>
-              <table>
-                <TableHeader>
-                  <tr>
-                    <TableHeaderCell>Action</TableHeaderCell>
-                    <TableHeaderCell>Transaction</TableHeaderCell>
-                    <TableHeaderCell>When</TableHeaderCell>
-                  </tr>
-                </TableHeader>
-                <tbody>
-                  {items.length === 0 ? "No transactions" : null}
-                  {items.map((item) => (
-                    <ActivityItemRow
-                      key={item.hash}
-                      item={item}
-                      accountId={accountId}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </TableWrapper>
-          );
-        }}
-      </ListHandler>
-    </>
+    <ListHandler query={query} parser={parser}>
+      {(items) => {
+        if (query.isLoading && items.length === 0) {
+          return <Spinner animation="border" />;
+        }
+        return (
+          <TableWrapper>
+            <table>
+              <TableHeader>
+                <tr>
+                  <TableHeaderCell>Action</TableHeaderCell>
+                  <TableHeaderCell>Transaction</TableHeaderCell>
+                  <TableHeaderCell>When</TableHeaderCell>
+                </tr>
+              </TableHeader>
+              <tbody>
+                {items.length === 0 ? "No transactions" : null}
+                {items.map((item) => (
+                  <ActivityItemRow
+                    key={item.hash}
+                    item={item}
+                    accountId={accountId}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </TableWrapper>
+        );
+      }}
+    </ListHandler>
   );
 });
 

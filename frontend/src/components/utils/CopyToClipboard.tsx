@@ -1,5 +1,7 @@
 import * as React from "react";
+
 import { CopyToClipboard as RawCopyToClipboard } from "react-copy-to-clipboard";
+
 import { styled, CSS } from "@explorer/frontend/libraries/styles";
 
 const Wrapper = styled("div", {
@@ -41,7 +43,7 @@ const CopyToClipboard: React.FC<Props> = React.memo((props) => {
             <path
               fill="currentColor"
               d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"
-            ></path>
+            />
           </svg>
         ) : (
           <svg width=".6em" height=".6em" viewBox="0 0 18 18">

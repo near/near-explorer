@@ -1,5 +1,7 @@
 import * as React from "react";
+
 import { Badge } from "react-bootstrap";
+
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const NearBadgeWrapper = styled(Badge, {

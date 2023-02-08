@@ -1,16 +1,18 @@
 import * as React from "react";
-import * as ReactQuery from "react-query";
+
 import { i18n } from "i18next";
+import fetch from "isomorphic-fetch";
 import { setI18n } from "react-i18next";
+import * as ReactQuery from "react-query";
 import renderer, {
   ReactTestRenderer,
   TestRendererOptions,
 } from "react-test-renderer";
-import fetch from "isomorphic-fetch";
-import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
+
 import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
 import { Locale } from "@explorer/frontend/libraries/date-locale";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const networkContext: NetworkContext = {
   networkName: "localnet",

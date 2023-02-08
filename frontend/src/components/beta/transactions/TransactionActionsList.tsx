@@ -1,11 +1,11 @@
 import * as React from "react";
+
 import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
 
 import { Transaction } from "@explorer/common/types/procedures";
-
 import TransactionReceipt from "@explorer/frontend/components/beta/transactions/TransactionReceipt";
+import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
   transaction: Transaction;
@@ -104,7 +104,7 @@ const TransactionActionsList: React.FC<Props> = React.memo(
             receipt={receipt}
             fellowOutgoingReceipts={[]}
             className=""
-            convertionReceipt={true}
+            convertionReceipt
             expandAll={expandAll}
           />
         </Wrapper>

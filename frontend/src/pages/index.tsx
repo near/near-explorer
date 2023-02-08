@@ -1,20 +1,20 @@
-import Head from "next/head";
-
-import { Container, Row, Col } from "react-bootstrap";
-
-import Search from "@explorer/frontend/components/utils/Search";
-import DashboardNode from "@explorer/frontend/components/dashboard/DashboardNode";
-import DashboardBlock from "@explorer/frontend/components/dashboard/DashboardBlock";
-import DashboardTransaction from "@explorer/frontend/components/dashboard/DashboardTransaction";
-import { useTranslation } from "react-i18next";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { DashboardCardWrapper } from "@explorer/frontend/components/utils/DashboardCard";
 import * as React from "react";
+
 import { GetServerSideProps, NextPage } from "next";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import Head from "next/head";
+import { Container, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
 import { TRPCQueryOutput } from "@explorer/common/types/trpc";
+import DashboardBlock from "@explorer/frontend/components/dashboard/DashboardBlock";
+import DashboardNode from "@explorer/frontend/components/dashboard/DashboardNode";
+import DashboardTransaction from "@explorer/frontend/components/dashboard/DashboardTransaction";
+import { DashboardCardWrapper } from "@explorer/frontend/components/utils/DashboardCard";
+import Search from "@explorer/frontend/components/utils/Search";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -95,15 +95,14 @@ const getRedirectPage = (
   result: TRPCQueryOutput<"utils.search">
 ): string | undefined => {
   if (!result) {
-    return;
   } else if ("blockHash" in result) {
-    return "/blocks/" + result.blockHash;
+    return `/blocks/${result.blockHash}`;
   } else if ("receiptId" in result) {
     return `/transactions/${result.transactionHash}#${result.receiptId}`;
   } else if ("transactionHash" in result) {
-    return "/transactions/" + result.transactionHash;
+    return `/transactions/${result.transactionHash}`;
   } else if ("accountId" in result) {
-    return "/accounts/" + result.accountId;
+    return `/accounts/${result.accountId}`;
   }
 };
 

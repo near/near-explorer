@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Col, Row } from "react-bootstrap";
 
+import { Col, Row } from "react-bootstrap";
+import { Trans, useTranslation } from "react-i18next";
+
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
+import Link from "@explorer/frontend/components/utils/Link";
 import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
-import Link from "@explorer/frontend/components/utils/Link";
-
-import { Trans, useTranslation } from "react-i18next";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const ElementWrapper = styled("div", {
@@ -51,7 +51,7 @@ const DashboardBlock: React.FC = React.memo(() => {
                     components={{ p: <p /> }}
                   />
                 }
-                href={"https://docs.near.org/docs/concepts/new-to-near"}
+                href="https://docs.near.org/docs/concepts/new-to-near"
               />
             }
             loading={latestBlockSub.status === "loading"}

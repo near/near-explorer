@@ -1,9 +1,10 @@
 import React from "react";
+
+import { useCookie } from "@explorer/frontend/hooks/use-cookie";
 import {
   BetaOptions,
   BETA_COOKIE_NAME,
 } from "@explorer/frontend/libraries/beta";
-import { useCookie } from "@explorer/frontend/hooks/use-cookie";
 
 export const useBetaOptions = () => {
   const [betaCookie, setBetaCookie] = useCookie<BetaOptions>(BETA_COOKIE_NAME);

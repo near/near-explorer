@@ -1,6 +1,8 @@
-import JSBI from "jsbi";
 import * as React from "react";
+
+import JSBI from "jsbi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
 import * as BI from "@explorer/frontend/libraries/bigint";
 
 interface Props {
@@ -27,13 +29,13 @@ const Balance: React.FC<Props> = React.memo(
 
     const defaultLabel = "Ⓝ";
 
-    let amountShow = !formulatedAmount
+    const amountShow = !formulatedAmount
       ? formatNEAR(amount, fracDigits)
       : formulatedAmount;
-    let amountPrecise = showInYocto(amount.toString());
+    const amountPrecise = showInYocto(amount.toString());
     return (
       <OverlayTrigger
-        placement={"bottom"}
+        placement="bottom"
         overlay={<Tooltip id="balance">{amountPrecise}</Tooltip>}
       >
         <span className={className}>
@@ -83,15 +85,15 @@ export const formatNEAR = (amount: string | JSBI, fracDigits = 5): string => {
 
   if (amount === "0") {
     return amount;
-  } else if (ret === "0") {
+  }
+  if (ret === "0") {
     return `<${!fracDigits ? `0` : `0.${"0".repeat((fracDigits || 1) - 1)}1`}`;
   }
   return ret;
 };
 
-export const showInYocto = (amountStr: string) => {
-  return formatWithCommas(amountStr) + " yoctoⓃ";
-};
+export const showInYocto = (amountStr: string) =>
+  `${formatWithCommas(amountStr)} yoctoⓃ`;
 
 export const formatWithCommas = (value: string): string => {
   const pattern = /(-?\d+)(\d{3})/;
