@@ -98,7 +98,7 @@ const ReceiptKind: React.FC<Props> = React.memo(
         <ActionType kind={action.kind} onClick={onClick}>
           {t(`pages.transaction.type.${action.kind}`)}
           {action.kind === "functionCall" ? (
-            <Description>'{action.args.methodName}'</Description>
+            <Description>{`'${action.args.methodName}'`}</Description>
           ) : null}
           <ExpandSign>{isTxTypeActive ? "-" : "+"}</ExpandSign>
         </ActionType>
