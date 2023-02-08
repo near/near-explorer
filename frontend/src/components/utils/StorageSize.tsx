@@ -25,7 +25,7 @@ const formatStoreSize = (value: number, t: TFunction<"common">): string => {
   ];
 
   if (value >= kilo) {
-    for (let i = 0; i < units.length; i++) {
+    for (let i = 0; i < units.length; i += 1) {
       if (value >= units[i].value) {
         const roundValue = Math.round(value / units[i].value);
         showStorage = `${roundValue} ${units[i].symbol}`;

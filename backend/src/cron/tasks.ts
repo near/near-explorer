@@ -397,13 +397,13 @@ export const accountsHistoryCheck: RegularCheckFn = {
       ]),
     ]);
     const newAccountMap = new Map<number, number>();
-    for (let i = 0; i < newAccounts.length; i++) {
+    for (let i = 0; i < newAccounts.length; i += 1) {
       const [timestamp, accountsCount] = newAccounts[i];
       newAccountMap.set(timestamp, accountsCount);
     }
 
     const deletedAccountMap = new Map<number, number>();
-    for (let i = 0; i < deletedAccounts.length; i++) {
+    for (let i = 0; i < deletedAccounts.length; i += 1) {
       const [timestamp, accountsCount] = deletedAccounts[i];
       deletedAccountMap.set(timestamp, accountsCount);
     }

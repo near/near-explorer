@@ -26,7 +26,7 @@ export const formatToPowerOfTen = <P extends number>(
     JSBI.greaterThanOrEqual(quotient, POWER_OF_10) &&
     currentPower < maxPower
   ) {
-    currentPower++;
+    currentPower = (currentPower + 1) as P;
     remainder =
       JSBI.remainder(quotient, POWER_OF_10).toString().padStart(POWER, "0") +
       remainder;

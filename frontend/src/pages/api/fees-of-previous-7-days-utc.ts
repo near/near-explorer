@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
       return respondNetworkOffline(res, networkName);
     }
     const resp = [];
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 7; i += 1) {
       const tokensBurntPerDay = await getTrpcClient(networkName).query(
         "stats.tokensBurnt",
         { daysFromNow: i }

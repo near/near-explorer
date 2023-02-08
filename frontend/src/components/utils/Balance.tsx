@@ -9,7 +9,7 @@ const ROUNDING_OFFSETS: JSBI[] = [];
 for (
   let i = 0, offset = JSBI.BigInt(5);
   i < BI.nearNominationExponent;
-  i++, offset = JSBI.multiply(offset, BI.ten)
+  i += 1, offset = JSBI.multiply(offset, BI.ten)
 ) {
   ROUNDING_OFFSETS[i] = offset;
 }
