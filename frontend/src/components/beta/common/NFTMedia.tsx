@@ -36,14 +36,14 @@ const NFTMedia: React.FC<Props> = React.memo(({ src }) => {
     [setPoster]
   );
 
+  // copied from wallet https://github.com/near/near-wallet/blob/master/packages/frontend/src/components/nft/NFTMedia.js
+  const [isVideo, mimeType] = React.useMemo(
+    () => (mediaUrl ? getVideoState(mediaUrl) : []),
+    [mediaUrl]
+  );
   if (!mediaUrl) {
     return <FallbackImage src="/static/images/failed_to_load.svg" />;
   }
-  // copied from wallet https://github.com/near/near-wallet/blob/master/packages/frontend/src/components/nft/NFTMedia.js
-  const [isVideo, mimeType] = React.useMemo(
-    () => getVideoState(mediaUrl),
-    [mediaUrl]
-  );
 
   return (
     <>

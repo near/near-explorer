@@ -157,5 +157,6 @@ export const useSubscription = <TPath extends TRPCSubscriptionKey & string>(
     // @ts-ignore
     return trpc.useQuery(pathAndInput, opts);
   }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useSubscriptionClient(pathAndInput, opts);
 };

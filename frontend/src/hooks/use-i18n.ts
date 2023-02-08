@@ -2,7 +2,6 @@ import React from "react";
 
 import { i18n as I18n } from "i18next";
 
-import { useOnce } from "@explorer/frontend/hooks/use-once";
 import { Language, resources } from "@explorer/frontend/libraries/i18n";
 
 export const useI18n = (
@@ -12,6 +11,7 @@ export const useI18n = (
   const [i18n] = React.useState(initialState);
   React.useEffect(() => {
     if (!i18n.isInitialized) {
+      i18n.init();
       return;
     }
     Object.entries(resources[language]).forEach(([namespace, resource]) => {
@@ -21,7 +21,9 @@ export const useI18n = (
     });
     i18n.changeLanguage(language);
   }, [i18n, language]);
-  useOnce(() => {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+  if (typeof window === "undefined" ? !i18n.isInitialized : !mounted) {
     i18n.init();
-  });
+  }
 };
