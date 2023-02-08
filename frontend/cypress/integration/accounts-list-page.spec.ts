@@ -23,7 +23,7 @@ context("Accounts List page", () => {
       .find("a @TransactionRow")
       .should("have.length.greaterThan", 0)
       .then(($el) => {
-        let itemsPerPage = $el.length;
+        const itemsPerPage = $el.length;
         cy.scrollTo("bottom");
         cy.get(
           ".infinite-scroll-component__outerdiv .infinite-scroll-component",

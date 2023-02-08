@@ -26,7 +26,7 @@ export const router = trpc.router<Context>().query("listByTimestamp", {
       .execute();
     return accountsList.map((account) => ({
       accountId: account.accountId,
-      accountIndex: parseInt(account.accountIndex),
+      accountIndex: parseInt(account.accountIndex, 10),
     }));
   },
 });

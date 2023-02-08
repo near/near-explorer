@@ -1,5 +1,7 @@
 import * as React from "react";
+
 import { useTranslation } from "react-i18next";
+
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { truncateAccountId } from "@explorer/frontend/libraries/formatting";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -18,25 +20,22 @@ const WalletLink: React.FC<Props> = React.memo(
     const { t } = useTranslation();
     const track = useAnalyticsTrack();
     return (
-      <span
+      <AccountLink
+        target="_blank"
+        rel="noopener"
+        href={`${nearWalletProfilePrefix}/${accountId}`}
         onClick={() =>
           track("Explorer Click for wallet profile", {
-            accountId: accountId,
+            accountId,
             walletPrefix: nearWalletProfilePrefix,
           })
         }
       >
-        <AccountLink
-          target="_blank"
-          rel="noopener"
-          href={`${nearWalletProfilePrefix}/${accountId}`}
-        >
-          {t("utils.WalletLink", {
-            account_id: truncateAccountId(accountId, 20).toString(),
-            wallet_name: "Wallet",
-          })}
-        </AccountLink>
-      </span>
+        {t("utils.WalletLink", {
+          account_id: truncateAccountId(accountId, 20).toString(),
+          wallet_name: "Wallet",
+        })}
+      </AccountLink>
     );
   }
 );

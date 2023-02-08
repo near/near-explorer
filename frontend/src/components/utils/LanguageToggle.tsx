@@ -1,7 +1,9 @@
 import * as React from "react";
+
 import { useTranslation } from "react-i18next";
-import { Language, LANGUAGES } from "@explorer/frontend/libraries/i18n";
+
 import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { Language, LANGUAGES } from "@explorer/frontend/libraries/i18n";
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const languagesIcon = "/static/images/icon-languages.svg";

@@ -1,15 +1,16 @@
+import { merge, cloneDeep } from "lodash";
 import type { NextConfig } from "next";
 import path from "path";
+// @ts-ignore
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+
+import type { NetworkName } from "@explorer/common/types/common";
+import { getOverrides } from "@explorer/common/utils/environment";
 import type {
   BackendConfig,
   ExplorerConfig,
   NearNetwork,
 } from "@explorer/frontend/libraries/config";
-import { merge, cloneDeep } from "lodash";
-import { getOverrides } from "@explorer/common/utils/environment";
-import type { NetworkName } from "@explorer/common/types/common";
-// @ts-ignore
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const statsOptions = {
   baseDir: "stats",
@@ -52,21 +53,21 @@ const nextConfig: ExplorerConfig & NextConfig = {
     segmentWriteKey: config.segmentWriteKey,
     gleapKey: config.gleapKey,
   },
-  webpack: (config, { isServer }) => {
+  webpack: (webpackConfig, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
+      webpackConfig.resolve.fallback = {
+        ...webpackConfig.resolve.fallback,
         fs: false,
         child_process: false,
       };
     }
-    config.module.rules.push({
+    webpackConfig.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
     if (statsOptions.enabled) {
-      config.plugins.push(
+      webpackConfig.plugins.push(
         // Analyzer with foam plot
         new BundleAnalyzerPlugin({
           analyzerMode: "static",
@@ -79,10 +80,13 @@ const nextConfig: ExplorerConfig & NextConfig = {
       );
     }
 
-    return config;
+    return webpackConfig;
   },
   experimental: {
     externalDir: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 

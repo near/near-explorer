@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
 import React from "react";
+
+import { useRouter } from "next/router";
 
 const extractParam = (
   queryParam: string | string[] | undefined
@@ -28,7 +29,7 @@ export const useQueryParam = (paramName: string) => {
       }
       router.replace({ query: nextQuery }, undefined, { shallow: true });
     },
-    [currValue]
+    [currValue, paramName, router]
   );
   return [currValue, setValue] as const;
 };

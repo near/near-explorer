@@ -1,14 +1,14 @@
 import * as React from "react";
 
-import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 import Content from "@explorer/frontend/components/utils/Content";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 import { getNearNetworkName } from "@explorer/frontend/libraries/config";
 import { shortenString } from "@explorer/frontend/libraries/formatting";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const ReceiptRedirectPage: NextPage = React.memo(() => {
   const receiptId = useRouter().query.id as string;

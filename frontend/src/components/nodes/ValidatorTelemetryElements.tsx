@@ -2,15 +2,16 @@ import * as React from "react";
 
 import { Col, Row, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import { ValidatorTelemetry } from "@explorer/common/types/procedures";
-import Term from "@explorer/frontend/components/utils/Term";
-import Timer from "@explorer/frontend/components/utils/Timer";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
-} from "@explorer/frontend/components/nodes/ValidatorRow";
+} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
+import Term from "@explorer/frontend/components/utils/Term";
+import Timer from "@explorer/frontend/components/utils/Timer";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,
@@ -23,7 +24,7 @@ const AgentNameBadge = styled(Badge, {
   color: "#72727a",
   fontWeight: 500,
   fontSize: 12,
-  fontFamily: '"Roboto Mono", monospace',
+  fontFamily: '"Source Code Pro", monospace',
 });
 
 interface Props {
@@ -37,11 +38,6 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
 
   return (
     <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
-        rel="stylesheet"
-      />
-
       <ValidatorNodesContentCell>
         <Row noGutters>
           <ValidatorNodesDetailsTitle>

@@ -1,9 +1,10 @@
-import JSBI from "jsbi";
-
 import * as React from "react";
+
+import JSBI from "jsbi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
 import {
   showInYocto,
   formatWithCommas,
@@ -13,9 +14,8 @@ import {
   InfoCardCell as Cell,
   InfoCardText,
 } from "@explorer/frontend/components/utils/InfoCard";
-import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
-import { styled } from "@explorer/frontend/libraries/styles";
 import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",
@@ -85,7 +85,7 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
   const amountPrecise = showInYocto(amount.toString());
   return (
     <OverlayTrigger
-      placement={"bottom"}
+      placement="bottom"
       overlay={<Tooltip id={type}>{amountPrecise}</Tooltip>}
     >
       <NodeBalanceText>

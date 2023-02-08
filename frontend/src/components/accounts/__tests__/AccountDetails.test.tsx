@@ -1,6 +1,7 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
+import * as React from "react";
 
 import AccountDetails from "@explorer/frontend/components/accounts/AccountDetails";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 describe("<AccountDetails />", () => {
   beforeEach(() => jest.resetAllMocks());

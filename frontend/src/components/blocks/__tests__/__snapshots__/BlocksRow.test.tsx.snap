@@ -15,11 +15,7 @@ exports[`<BlocksRow /> renders 1`] = `
     >
       <div
         className="pr-0 col-md-auto col-1"
-      >
-        <img
-          src="/static/images/icon-m-block.svg"
-        />
-      </div>
+      />
       <div
         className="pr-0 col-md-auto col-1"
       >

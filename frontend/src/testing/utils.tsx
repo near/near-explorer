@@ -1,18 +1,26 @@
 import * as React from "react";
-import * as ReactQuery from "react-query";
+
 import { i18n } from "i18next";
+import fetch from "isomorphic-fetch";
 import { setI18n } from "react-i18next";
+import * as ReactQuery from "react-query";
 import renderer, {
   ReactTestRenderer,
   TestRendererOptions,
 } from "react-test-renderer";
-import fetch from "isomorphic-fetch";
-import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import { Locale } from "@explorer/frontend/libraries/date-locale";
 
-const networkContext: NetworkContext = {
+import {
+  LanguageContext,
+  LanguageContextType,
+} from "@explorer/frontend/context/LanguageContext";
+import {
+  NetworkContext,
+  NetworkContextType,
+} from "@explorer/frontend/context/NetworkContext";
+import { Locale } from "@explorer/frontend/libraries/date-locale";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+
+const networkContext: NetworkContextType = {
   networkName: "localnet",
   networks: {
     localnet: {
@@ -23,10 +31,12 @@ const networkContext: NetworkContext = {
 };
 
 // Variables were set in testing/env.ts
+/* eslint-disable vars-on-top, no-var */
 declare global {
   var i18nInstance: i18n;
   var locale: Locale;
 }
+/* eslint-enable vars-on-top, no-var */
 
 export const renderElement = (
   nextElement: React.ReactNode,
@@ -39,7 +49,7 @@ export const renderElement = (
     url: "http://localhost/",
     fetch,
   });
-  const languageContext: LanguageContext = {
+  const languageContext: LanguageContextType = {
     language: "en",
     setLanguage: () => {},
     locale: global.locale,

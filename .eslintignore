@@ -1,0 +1,5 @@
+package.json
+package-lock.json
+tsconfig.json
+backend/build
+frontend/next.config.js

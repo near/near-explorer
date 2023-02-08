@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { Modal } from "react-bootstrap";
-
 import { useTranslation } from "react-i18next";
+
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -58,8 +58,8 @@ const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
               <a
                 href={href}
                 target="_blank"
-                rel="noopener"
-                onClick={() => track("Explorer Docs Click", { href: href })}
+                rel="noopener noreferrer"
+                onClick={() => track("Explorer Docs Click", { href })}
               >
                 {t("button.docs")}
               </a>

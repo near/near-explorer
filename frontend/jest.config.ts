@@ -1,14 +1,13 @@
 import nextJest from "next/jest";
-import { pathsToModuleNameMapper } from "ts-jest";
 import * as path from "path";
-
-import tsConfig from "../tsconfig.json";
+import { pathsToModuleNameMapper } from "ts-jest";
+import tsConfig from "tsconfig.json";
 
 const createJestConfig = nextJest({
   dir: "./",
 });
 
-module.exports = createJestConfig({
+export default createJestConfig({
   setupFiles: ["<rootDir>/jest.setup.ts"],
   testRegex: "(\\.|/)test\\.[jt]sx?$",
   testEnvironment: "<rootDir>/src/testing/env.ts",

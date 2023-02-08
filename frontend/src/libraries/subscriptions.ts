@@ -1,4 +1,5 @@
 import * as ReactQuery from "react-query";
+
 import {
   TRPCClient,
   TRPCError,
@@ -62,7 +63,7 @@ export const subscribe = <Topic extends TRPCSubscriptionKey>(
       listeners: [],
     };
   } else {
-    const lastValue = topicCaches[queryKey]!.lastValue;
+    const { lastValue } = topicCaches[queryKey]!;
     if (lastValue !== undefined) {
       subscribeFns[0](lastValue);
     }

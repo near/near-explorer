@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { TFunction, useTranslation } from "react-i18next";
 
@@ -82,7 +83,7 @@ const ValidatingLabel: React.FC<Props> = React.memo(({ type }) => {
   const { t } = useTranslation();
   return (
     <OverlayTrigger
-      placement={"right"}
+      placement="right"
       overlay={<Tooltip id={type}>{TOOLTIP_TEXTS[type](t)}</Tooltip>}
     >
       <ValidatingLabelWrapper type={type}>

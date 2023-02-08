@@ -1,18 +1,18 @@
 import * as React from "react";
+
 import Image from "next/image";
+import { Spinner } from "react-bootstrap";
 
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
 import {
   AccountNonFungibleToken,
   AccountNonFungibleTokenElement,
 } from "@explorer/common/types/procedures";
-import { NonFungibleTokensAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
 import AccountNonFungibleTokensHistory from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
 import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
-import { Spinner } from "react-bootstrap";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import { NonFungibleTokensAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const TOKENS_PER_PAGE = 4;
 
@@ -122,35 +122,33 @@ type ItemProps = {
 };
 
 const AccountNonFungibleTokenView: React.FC<ItemProps> = React.memo(
-  ({ token, onClick, modalOpen }) => {
-    return (
-      <>
-        <Token onClick={onClick} active={modalOpen}>
-          <TokenImage>
-            <NFTMedia src={token.metadata.media} />
-          </TokenImage>
+  ({ token, onClick, modalOpen }) => (
+    <>
+      <Token onClick={onClick} active={modalOpen}>
+        <TokenImage>
+          <NFTMedia src={token.metadata.media} />
+        </TokenImage>
 
-          <TokenBody>
-            <TokenName>
-              <span>{token.metadata.title}</span>
-            </TokenName>
+        <TokenBody>
+          <TokenName>
+            <span>{token.metadata.title}</span>
+          </TokenName>
 
-            <TokenInfo>
-              <TokenLogo>
-                {token.contractMetadata.icon ? (
-                  <Image src={token.contractMetadata.icon} layout="fill" />
-                ) : null}
-              </TokenLogo>
-              <TokenName>{token.contractMetadata.name}</TokenName>
-            </TokenInfo>
-          </TokenBody>
-        </Token>
-        {modalOpen ? (
-          <AccountNonFungibleTokensHistory token={token} onClick={onClick} />
-        ) : null}
-      </>
-    );
-  }
+          <TokenInfo>
+            <TokenLogo>
+              {token.contractMetadata.icon ? (
+                <Image src={token.contractMetadata.icon} layout="fill" />
+              ) : null}
+            </TokenLogo>
+            <TokenName>{token.contractMetadata.name}</TokenName>
+          </TokenInfo>
+        </TokenBody>
+      </Token>
+      {modalOpen ? (
+        <AccountNonFungibleTokensHistory token={token} onClick={onClick} />
+      ) : null}
+    </>
+  )
 );
 
 type ContractProps = {
@@ -188,20 +186,18 @@ const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
           <div>Failed to load NFTs</div>
         ) : (
           <ListHandler query={query} parser={parser}>
-            {(items) => {
-              return (
-                <TokensWrapper>
-                  {items.map((token) => (
-                    <AccountNonFungibleTokenView
-                      key={token.tokenId}
-                      token={token}
-                      onClick={showModal(token.tokenId)}
-                      modalOpen={selectedId === token.tokenId}
-                    />
-                  ))}
-                </TokensWrapper>
-              );
-            }}
+            {(items) => (
+              <TokensWrapper>
+                {items.map((token) => (
+                  <AccountNonFungibleTokenView
+                    key={token.tokenId}
+                    token={token}
+                    onClick={showModal(token.tokenId)}
+                    modalOpen={selectedId === token.tokenId}
+                  />
+                ))}
+              </TokensWrapper>
+            )}
           </ListHandler>
         )}
       </TokensWrapper>

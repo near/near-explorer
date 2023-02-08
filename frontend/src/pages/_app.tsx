@@ -1,59 +1,64 @@
 import "@explorer/frontend/libraries/wdyr";
-import { ExtraAppInitialProps, ServerAppInitialProps } from "next/app";
-import { withTRPC } from "@trpc/next";
-import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
+import * as React from "react";
+
+import { TRPCLink } from "@trpc/client";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { splitLink } from "@trpc/client/links/splitLink";
-import { TRPCLink } from "@trpc/client";
-import Head from "next/head";
+import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
+import { withTRPC } from "@trpc/next";
 import Gleap from "gleap";
+import { i18n } from "i18next";
+import { ExtraAppInitialProps, ServerAppInitialProps } from "next/app";
+import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
+import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
-import * as React from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 
+import type { AppRouter } from "@explorer/backend/router";
+import { NetworkName } from "@explorer/common/types/common";
+import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
+import { getEnvironment } from "@explorer/common/utils/environment";
+import { getBranch, getShortCommitSha } from "@explorer/common/utils/git";
+import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
+import { DeployInfo } from "@explorer/frontend/components/utils/DeployInfo";
+import Footer from "@explorer/frontend/components/utils/Footer";
+import Header from "@explorer/frontend/components/utils/Header";
+import OfflineSplash from "@explorer/frontend/components/utils/OfflineSplash";
+import { ToastController } from "@explorer/frontend/components/utils/ToastController";
+import {
+  LanguageContext,
+  LanguageContextType,
+} from "@explorer/frontend/context/LanguageContext";
+import {
+  NetworkContext,
+  NetworkContextType,
+} from "@explorer/frontend/context/NetworkContext";
+import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
+import { useCookie } from "@explorer/frontend/hooks/use-cookie";
+import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
+import { useI18n } from "@explorer/frontend/hooks/use-i18n";
+import { useWatchBeta } from "@explorer/frontend/hooks/use-watch-beta";
 import {
   getConfig,
   getNearNetworkName,
 } from "@explorer/frontend/libraries/config";
-import type { AppRouter } from "@explorer/backend/router";
-import { NetworkName } from "@explorer/common/types/common";
-
-import Header from "@explorer/frontend/components/utils/Header";
-import Footer from "@explorer/frontend/components/utils/Footer";
-import OfflineSplash from "@explorer/frontend/components/utils/OfflineSplash";
-import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
-import { DeployInfo } from "@explorer/frontend/components/utils/DeployInfo";
-import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
-
-import { getBranch, getShortCommitSha } from "@explorer/common/utils/git";
-import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
-import { getEnvironment } from "@explorer/common/utils/environment";
 import {
-  getLanguage,
-  LANGUAGE_COOKIE,
-} from "@explorer/frontend/libraries/language";
+  CookieContext,
+  getCookiesFromString,
+} from "@explorer/frontend/libraries/cookie";
 import { getDateLocale } from "@explorer/frontend/libraries/date-locale";
-import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
 import {
   createI18n,
   Language,
   LANGUAGES,
 } from "@explorer/frontend/libraries/i18n";
-import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
-import { i18n } from "i18next";
-import { MINUTE, YEAR } from "@explorer/frontend/libraries/time";
-import { globalCss, styled } from "@explorer/frontend/libraries/styles";
-import { getBackendUrl } from "@explorer/frontend/libraries/transport";
-import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
-import { useI18n } from "@explorer/frontend/hooks/use-i18n";
-import { ToastController } from "@explorer/frontend/components/utils/ToastController";
-import { useCookie } from "@explorer/frontend/hooks/use-cookie";
 import {
-  CookieContext,
-  getCookiesFromString,
-} from "@explorer/frontend/libraries/cookie";
-import { useWatchBeta } from "@explorer/frontend/hooks/use-watch-beta";
+  getLanguage,
+  LANGUAGE_COOKIE,
+} from "@explorer/frontend/libraries/language";
+import { globalCss, styled } from "@explorer/frontend/libraries/styles";
+import { MINUTE, YEAR } from "@explorer/frontend/libraries/time";
+import { getBackendUrl } from "@explorer/frontend/libraries/transport";
 
 const globalStyles = globalCss({
   body: {
@@ -112,12 +117,12 @@ declare module "next/app" {
   // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
   type ServerAppInitialProps = {
     i18n: i18n;
-    locale: LanguageContext["locale"];
+    locale: LanguageContextType["locale"];
     cookies: string;
   };
 
   type ExtraAppInitialProps = {
-    language: LanguageContext["language"];
+    language: LanguageContextType["language"];
     networkName: NetworkName;
     deployInfo: DeployInfoProps;
     getServerProps?: () => ServerAppInitialProps;
@@ -128,34 +133,32 @@ declare module "next/app" {
   }
 }
 
-const wrapRouterHandlerMaintainNetwork = (
-  router: NextRouter,
-  originalHandler: NextRouter["replace"]
-): NextRouter["replace"] => {
-  return (href, as, ...args) => {
-    const network = router.query.network;
-    if (network) {
-      href += `?network=${network}`;
-      as += `?network=${network}`;
-    }
-    return originalHandler(href, as, ...args);
+const wrapRouterHandlerMaintainNetwork =
+  (
+    router: NextRouter,
+    originalHandler: NextRouter["replace"]
+  ): NextRouter["replace"] =>
+  (href, as, ...args) => {
+    const { network } = router.query;
+    return originalHandler(
+      network ? `${href}?network=${network}` : href,
+      network ? `${as}?network=${network}` : as,
+      ...args
+    );
   };
-};
 
 type ContextProps = {
-  networkState: NetworkContext;
-  languageContext: LanguageContext;
+  networkState: NetworkContextType;
+  languageContext: LanguageContextType;
 };
 
-const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
-  return (
-    <LanguageContext.Provider value={props.languageContext}>
-      <NetworkContext.Provider value={props.networkState}>
-        {props.children}
-      </NetworkContext.Provider>
-    </LanguageContext.Provider>
-  );
-});
+const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => (
+  <LanguageContext.Provider value={props.languageContext}>
+    <NetworkContext.Provider value={props.networkState}>
+      {props.children}
+    </NetworkContext.Provider>
+  </LanguageContext.Provider>
+));
 
 let extraAppInitialPropsCache: Omit<ExtraAppInitialProps, "getServerProps">;
 
@@ -200,7 +203,7 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
         networkName,
         networks: nearNetworks,
       }),
-      [networkName, nearNetworks]
+      [networkName]
     );
     const currentNetwork = nearNetworks[networkName];
     const offline = Boolean(currentNetwork?.offline);
@@ -240,7 +243,7 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
           <ReactQueryDevtools />
         </AppContextWrapper>
         {googleAnalytics ? (
-          <>
+          /* eslint-disable react/no-danger */ <>
             <script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
@@ -263,21 +266,21 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
   }
 );
 
-const App: AppType = (props) => {
+const App: AppType = ({ pageProps, ...props }) => {
   const [cookies] = React.useState(() =>
     getCookiesFromString(
-      props.pageProps.getServerProps?.().cookies ?? document.cookie
+      pageProps.getServerProps?.().cookies ?? document.cookie
     )
   );
   return (
     <CookieContext.Provider value={cookies}>
-      <InnerApp {...props} />
+      <InnerApp pageProps={pageProps} {...props} />
     </CookieContext.Provider>
   );
 };
 
 App.getInitialProps = async (appContext) => {
-  const req = appContext.ctx.req;
+  const { req } = appContext.ctx;
   let initialProps: ExtraAppInitialProps;
   if (req) {
     // Being server-side can be detected with 'req' existence

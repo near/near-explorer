@@ -1,8 +1,8 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
 import NftEventKind from "./nft-event-kind";
+import { ReceiptsId } from "./receipts";
 
 export default interface AssetsNonFungibleTokenEvents {
   /**

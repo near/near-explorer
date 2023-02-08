@@ -1,91 +1,90 @@
 import * as React from "react";
-import { Tabs, Tab } from "react-bootstrap";
-import ReactEcharts from "echarts-for-react";
-import * as echarts from "echarts";
 
+import * as echarts from "echarts";
+import ReactEcharts from "echarts-for-react";
+import { Tabs, Tab } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
 
 const getOption = (
   title: string,
   seriesName: string,
   data: [number, number][]
-) => {
-  return {
-    title: {
-      text: title,
+) => ({
+  title: {
+    text: title,
+  },
+  tooltip: {
+    trigger: "axis",
+  },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+    backgroundColor: "#F9F9F9",
+    show: true,
+    color: "white",
+  },
+  xAxis: [
+    {
+      type: "time",
+      boundaryGap: false,
     },
-    tooltip: {
-      trigger: "axis",
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true,
-      backgroundColor: "#F9F9F9",
-      show: true,
-      color: "white",
-    },
-    xAxis: [
-      {
-        type: "time",
-        boundaryGap: false,
-      },
-    ],
-    yAxis: [
-      {
-        type: "value",
-        splitLine: {
-          lineStyle: {
-            color: "white",
-          },
-        },
-      },
-    ],
-    dataZoom: [
-      {
-        type: "inside",
-        start: 0,
-        end: 100,
-        filterMode: "filter",
-      },
-      {
-        start: 0,
-        end: 100,
-      },
-    ],
-    series: [
-      {
-        name: seriesName,
-        type: "line",
+  ],
+  yAxis: [
+    {
+      type: "value",
+      splitLine: {
         lineStyle: {
-          color: "#00C1DE",
-          width: 2,
+          color: "white",
         },
-        symbol: "none",
-        itemStyle: {
-          color: "#25272A",
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "rgb(0, 193, 222)",
-            },
-            {
-              offset: 1,
-              color: "rgb(197, 247, 255)",
-            },
-          ]),
-        },
-        data,
       },
-    ],
-  };
-};
+    },
+  ],
+  dataZoom: [
+    {
+      type: "inside",
+      start: 0,
+      end: 100,
+      filterMode: "filter",
+    },
+    {
+      start: 0,
+      end: 100,
+    },
+  ],
+  series: [
+    {
+      name: seriesName,
+      type: "line",
+      lineStyle: {
+        color: "#00C1DE",
+        width: 2,
+      },
+      symbol: "none",
+      itemStyle: {
+        color: "#25272A",
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: "rgb(0, 193, 222)",
+          },
+          {
+            offset: 1,
+            color: "rgb(197, 247, 255)",
+          },
+        ]),
+      },
+      data,
+    },
+  ],
+});
 
 export interface Props {
   chartStyle: object;
@@ -93,7 +92,7 @@ export interface Props {
 
 const TransactionsByDateChart: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const transactionsHistorySub = useSubscription(["transactionsHistory"]);
 
     const options = React.useMemo(() => {
@@ -112,7 +111,7 @@ const TransactionsByDateChart: React.FC<Props> = React.memo(
           getCumulativeArray(transactionsHistorySub.data, ([count]) => count)
         ),
       };
-    }, [transactionsHistorySub.data, i18n.language]);
+    }, [transactionsHistorySub.data, t]);
 
     return (
       <Tabs defaultActiveKey="daily" id="transactionByDate">

@@ -17,7 +17,7 @@ context("Transactions", () => {
       .find("@ActionRow@type-sparse")
       .should("have.length.greaterThan", 0)
       .then(($el) => {
-        let itemsPerPage = $el.length;
+        const itemsPerPage = $el.length;
         cy.scrollTo("bottom")
           .get(
             ".infinite-scroll-component__outerdiv .infinite-scroll-component",

@@ -1,14 +1,14 @@
 import * as trpc from "@trpc/server";
-import { z } from "zod";
 import { sha256 } from "js-sha256";
+import { z } from "zod";
 
+import { config } from "@explorer/backend/config";
 import { Context } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
-import * as nearApi from "@explorer/backend/utils/near";
-import { validators } from "@explorer/backend/router/validators";
-import { config } from "@explorer/backend/config";
 import { getAccountTransactionsCount } from "@explorer/backend/router/account/utils";
+import { validators } from "@explorer/backend/router/validators";
+import * as nearApi from "@explorer/backend/utils/near";
 import { ignoreIfDoesNotExist } from "@explorer/backend/utils/near";
 
 const getLockupAccountId = async (
@@ -18,10 +18,9 @@ const getLockupAccountId = async (
     return;
   }
   // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
-  const lockupAccountId =
-    sha256(Buffer.from(accountId)).substring(0, 40) +
-    "." +
-    config.accountIdSuffix.lockup;
+  const lockupAccountId = `${sha256(Buffer.from(accountId)).substring(0, 40)}.${
+    config.accountIdSuffix.lockup
+  }`;
   const account = await nearApi
     .sendJsonRpcQuery("view_account", {
       finality: "final",
@@ -106,13 +105,13 @@ const getAccountInfo = async (accountId: string) => {
     created: selection.createdByHash
       ? {
           hash: selection.createdByHash,
-          timestamp: parseInt(selection.createdAtTimestamp),
+          timestamp: parseInt(selection.createdAtTimestamp, 10),
         }
       : undefined,
     deleted: selection.deletedByHash
       ? {
           hash: selection.deletedByHash,
-          timestamp: parseInt(selection.deletedAtTimestamp),
+          timestamp: parseInt(selection.deletedAtTimestamp, 10),
         }
       : undefined,
   };

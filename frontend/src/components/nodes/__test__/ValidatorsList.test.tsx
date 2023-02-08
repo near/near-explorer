@@ -1,6 +1,7 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
+import * as React from "react";
 
 import ValidatorsList from "@explorer/frontend/components/nodes/ValidatorsList";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 import { getCumulativeStake, VALIDATORS_LIST } from "./validators";
 

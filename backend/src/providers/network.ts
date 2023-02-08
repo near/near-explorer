@@ -4,31 +4,28 @@ import {
   ValidationProgress,
   ValidatorEpochData,
 } from "@explorer/backend/router/types";
-import * as RPC from "@explorer/common/types/rpc";
 import * as nearApi from "@explorer/backend/utils/near";
+import * as RPC from "@explorer/common/types/rpc";
 
 export const queryFinalBlock = async (): Promise<
   RPC.ResponseMapping["block"]
-> => {
-  return await nearApi.sendJsonRpc("block", {
+> =>
+  nearApi.sendJsonRpc("block", {
     finality: "final",
   });
-};
 
 const mapProgress = (
   currentValidator: RPC.CurrentEpochValidatorInfo
-): ValidationProgress => {
-  return {
-    blocks: {
-      produced: currentValidator.num_produced_blocks,
-      total: currentValidator.num_expected_blocks,
-    },
-    chunks: {
-      produced: currentValidator.num_produced_chunks,
-      total: currentValidator.num_expected_chunks,
-    },
-  };
-};
+): ValidationProgress => ({
+  blocks: {
+    produced: currentValidator.num_produced_blocks,
+    total: currentValidator.num_expected_blocks,
+  },
+  chunks: {
+    produced: currentValidator.num_produced_chunks,
+    total: currentValidator.num_expected_chunks,
+  },
+});
 
 const mapValidators = (
   epochStatus: RPC.EpochValidatorInfo,
@@ -71,7 +68,7 @@ const mapValidators = (
 
   for (const accountId of poolIds) {
     const validator = validatorsMap.get(accountId) || {
-      accountId: accountId,
+      accountId,
     };
     validatorsMap.set(accountId, validator);
   }

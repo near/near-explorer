@@ -1,9 +1,9 @@
 import * as React from "react";
+
 import { Badge, Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 import Link from "@explorer/frontend/components/utils/Link";
-
-import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { styled } from "@explorer/frontend/libraries/styles";
 

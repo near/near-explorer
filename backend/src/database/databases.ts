@@ -1,28 +1,32 @@
 import { Kysely, PostgresDialect, PostgresDialectConfig } from "kysely";
 import { Pool } from "pg";
+
 import { config } from "@explorer/backend/config";
-
-import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
-import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
 import * as Analytics from "@explorer/backend/database/models/readOnlyAnalytics";
+import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
 import * as IndexerActivity from "@explorer/backend/database/models/readOnlyIndexerActivity";
+import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
 
-const getPgPool = (config: PostgresDialectConfig): Pool => {
-  const pool = new Pool(config);
+const getPgPool = (postgresConfig: PostgresDialectConfig): Pool => {
+  const pool = new Pool(postgresConfig);
   pool.on("error", (error) => {
-    console.error(`Pool ${config.database} failed: ${String(error)}`);
+    // eslint-disable-next-line no-console
+    console.error(`Pool ${postgresConfig.database} failed: ${String(error)}`);
   });
   pool.on("connect", (connection) => {
     connection.on("error", (error) =>
-      console.error(`Client ${config.database} failed: ${String(error)}`)
+      // eslint-disable-next-line no-console
+      console.error(
+        `Client ${postgresConfig.database} failed: ${String(error)}`
+      )
     );
   });
   return pool;
 };
 
-const getKysely = <T>(config: PostgresDialectConfig): Kysely<T> =>
+const getKysely = <T>(postgresConfig: PostgresDialectConfig): Kysely<T> =>
   new Kysely<T>({
-    dialect: new PostgresDialect(getPgPool(config)),
+    dialect: new PostgresDialect(getPgPool(postgresConfig)),
   });
 
 export const telemetryWriteDatabase = config.db.writeOnlyTelemetry.host

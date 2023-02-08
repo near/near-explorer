@@ -1,20 +1,20 @@
 import * as trpc from "@trpc/server";
+import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { validators } from "@explorer/backend/router/validators";
 import { Indexer, indexerDatabase } from "@explorer/backend/database/databases";
-import { SelectQueryBuilder } from "kysely";
-import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
-import {
-  mapDatabaseTransactionStatus,
-  TransactionStatus,
-} from "@explorer/backend/utils/transaction-status";
+import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
   DatabaseAction,
   mapDatabaseActionToAction,
 } from "@explorer/backend/utils/actions";
+import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
+import {
+  mapDatabaseTransactionStatus,
+  TransactionStatus,
+} from "@explorer/backend/utils/transaction-status";
 import { id } from "@explorer/common/utils/utils";
 
 type TransactionPreview = {
@@ -54,8 +54,8 @@ const getTransactionList = async (
     selection = selection.where((wi) =>
       wi
         .where("block_timestamp", "<", cursor.timestamp)
-        .orWhere((wi) =>
-          wi
+        .orWhere((subWi) =>
+          subWi
             .where("block_timestamp", "=", cursor.timestamp)
             .where("index_in_chunk", "<", cursor.indexInChunk)
         )
@@ -116,9 +116,8 @@ export const router = trpc
       limit: validators.limit,
       cursor: validators.transactionPagination.optional(),
     }),
-    resolve: async ({ input: { limit, cursor } }) => {
-      return getTransactionList(limit, cursor);
-    },
+    resolve: async ({ input: { limit, cursor } }) =>
+      getTransactionList(limit, cursor),
   })
   .query("listByAccountId", {
     input: z.strictObject({
@@ -126,8 +125,8 @@ export const router = trpc
       limit: validators.limit,
       cursor: validators.transactionPagination.optional(),
     }),
-    resolve: async ({ input: { accountId, limit, cursor } }) => {
-      return getTransactionList(limit, cursor, (selection) =>
+    resolve: async ({ input: { accountId, limit, cursor } }) =>
+      getTransactionList(limit, cursor, (selection) =>
         selection.where("transaction_hash", "in", (eb) =>
           eb
             .selectFrom("receipts")
@@ -135,8 +134,7 @@ export const router = trpc
             .where("predecessor_account_id", "=", accountId)
             .orWhere("receiver_account_id", "=", accountId)
         )
-      );
-    },
+      ),
   })
   .query("listByBlockHash", {
     input: z.strictObject({
@@ -144,9 +142,8 @@ export const router = trpc
       limit: validators.limit,
       cursor: validators.transactionPagination.optional(),
     }),
-    resolve: async ({ input: { blockHash, limit, cursor } }) => {
-      return getTransactionList(limit, cursor, (selection) =>
+    resolve: async ({ input: { blockHash, limit, cursor } }) =>
+      getTransactionList(limit, cursor, (selection) =>
         selection.where("included_in_block_hash", "=", blockHash)
-      );
-    },
+      ),
   });

@@ -1,17 +1,16 @@
 import * as React from "react";
-import * as ReactQuery from "react-query";
-
-import FlipMove from "@explorer/frontend/components/utils/FlipMove";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import Placeholder from "@explorer/frontend/components/utils/Placeholder";
-
-import TransactionAction from "@explorer/frontend/components/transactions/TransactionAction";
 
 import { useTranslation } from "react-i18next";
+import * as ReactQuery from "react-query";
+
 import {
   TransactionPreview,
   TransactionListResponse,
 } from "@explorer/common/types/procedures";
+import TransactionAction from "@explorer/frontend/components/transactions/TransactionAction";
+import FlipMove from "@explorer/frontend/components/utils/FlipMove";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import Placeholder from "@explorer/frontend/components/utils/Placeholder";
 
 export const getNextPageParam: ReactQuery.GetNextPageParamFunction<
   TransactionListResponse

@@ -1,15 +1,16 @@
-import JSBI from "jsbi";
 import * as React from "react";
-import { styled } from "@explorer/frontend/libraries/styles";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 
-import * as RPC from "@explorer/common/types/rpc";
+import JSBI from "jsbi";
+
 import { Action, TransactionReceipt } from "@explorer/common/types/procedures";
-import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
-import Gas from "@explorer/frontend/components/utils/Gas";
+import * as RPC from "@explorer/common/types/rpc";
 import AccountLink from "@explorer/frontend/components/beta/common/AccountLink";
 import BlockLink from "@explorer/frontend/components/beta/common/BlockLink";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 type Props = {
   receipt: TransactionReceipt;
@@ -35,13 +36,12 @@ const BalanceAmount = styled("div", {
   color: "#1A8300",
 });
 
-const getDeposit = (actions: Action[]): JSBI => {
-  return actions
+const getDeposit = (actions: Action[]): JSBI =>
+  actions
     .map((action) =>
       "deposit" in action.args ? JSBI.BigInt(action.args.deposit) : BI.zero
     )
     .reduce((accumulator, deposit) => JSBI.add(accumulator, deposit), BI.zero);
-};
 const getGasAttached = (actions: Action[]): JSBI => {
   const gasAttached = actions
     .map((action) => action.args)
@@ -74,11 +74,13 @@ const InspectReceipt: React.FC<Props> = React.memo(
     const refund =
       receipt.outcome.nestedReceipts
         .filter(
-          (receipt): receipt is TransactionReceipt =>
-            "outcome" in receipt && receipt.predecessorId === "system"
+          (nestedReceipt): nestedReceipt is TransactionReceipt =>
+            "outcome" in nestedReceipt &&
+            nestedReceipt.predecessorId === "system"
         )
         .reduce(
-          (acc, receipt) => JSBI.add(acc, getDeposit(receipt.actions)),
+          (acc, nestedReceipt) =>
+            JSBI.add(acc, getDeposit(nestedReceipt.actions)),
           BI.zero
         )
         .toString() ?? "0";

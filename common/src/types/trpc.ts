@@ -1,19 +1,19 @@
+import type { TRPCClient as _TRPCClient } from "@trpc/client";
 import type { TRPCClientErrorLike } from "@trpc/react";
-import type { Procedure } from "@trpc/server/dist/declarations/src/internals/procedure";
 import type {
-  Router,
-  ProcedureRecord,
-} from "@trpc/server/dist/declarations/src/router";
-import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
-import type {
+  Procedure,
   inferProcedureFromOptions,
   CreateProcedureOptions,
   CreateProcedureWithoutInput,
   CreateProcedureWithInput,
 } from "@trpc/server/dist/declarations/src/internals/procedure";
-import type { TRPCClient as _TRPCClient } from "@trpc/client";
-import { UseMutationResult, UseQueryResult } from "react-query";
-import { Equals } from "tsafe";
+import type {
+  Router,
+  ProcedureRecord,
+} from "@trpc/server/dist/declarations/src/router";
+import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
+import type { UseMutationResult, UseQueryResult } from "react-query";
+import type { Equals } from "tsafe";
 
 import type { AppRouter } from "@explorer/backend/router";
 
@@ -151,15 +151,11 @@ type InferQueryNameByResult<Obj extends AnyProcedureRecord, R> = {
 
 type TypeKey = "queries" | "mutations" | "subscriptions";
 
-type DefValues<
-  Router extends AnyRouter,
-  Type extends TypeKey
-> = InferProcedures<Router["_def"][Type]>;
+type DefValues<R extends AnyRouter, Type extends TypeKey> = InferProcedures<
+  R["_def"][Type]
+>;
 
-type DefKey<
-  Router extends AnyRouter,
-  Type extends TypeKey
-> = keyof Router["_def"][Type];
+type DefKey<R extends AnyRouter, Type extends TypeKey> = keyof R["_def"][Type];
 
 type InferSubscription<S> = S extends Subscription<infer D> ? D : never;
 

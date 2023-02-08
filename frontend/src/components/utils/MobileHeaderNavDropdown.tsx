@@ -1,19 +1,19 @@
 import * as React from "react";
-import Link from "@explorer/frontend/components/utils/Link";
 
+import { StyledComponent } from "@stitches/react/types/styled-component";
+import { useTranslation } from "react-i18next";
+
+import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
+import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
+import Link from "@explorer/frontend/components/utils/Link";
+import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
+import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
+import { styled } from "@explorer/frontend/libraries/styles";
 import IconAccountsSvg from "@explorer/frontend/public/static/images/icon-accounts.svg";
 import IconBlocksSvg from "@explorer/frontend/public/static/images/icon-blocks.svg";
 import IconNodesSvg from "@explorer/frontend/public/static/images/icon-nodes.svg";
 import IconStatsSvg from "@explorer/frontend/public/static/images/icon-stats.svg";
 import IconTransactionsSvg from "@explorer/frontend/public/static/images/icon-transactions.svg";
-
-import { useTranslation } from "react-i18next";
-import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { StyledComponent } from "@stitches/react/types/styled-component";
-import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
-import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
-import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
 
 const Icon = styled("svg", {
   width: 16,
@@ -49,16 +49,14 @@ interface Props {
 }
 
 const MobileNavItem: React.FC<Props> = React.memo(
-  ({ link, IconElement, text }) => {
-    return (
-      <Link href={link} passHref>
-        <HeaderNavLink>
-          <Icon as={IconElement} />
-          <NavText>{text}</NavText>
-        </HeaderNavLink>
-      </Link>
-    );
-  }
+  ({ link, IconElement, text }) => (
+    <Link href={link} passHref>
+      <HeaderNavLink>
+        <Icon as={IconElement} />
+        <NavText>{text}</NavText>
+      </HeaderNavLink>
+    </Link>
+  )
 );
 
 const MobileHeaderNav = styled("div", {
@@ -164,63 +162,59 @@ const MobileNavDropdown: React.FC = React.memo(() => {
   const isBetaPage = useIsBetaPage();
 
   return (
-    <>
-      <MobileHeaderNav
-        className={isMenuShown ? "change" : undefined}
-        onClick={showMenu}
-        ref={dropdownWrapperRef}
-      >
-        <Bar order={1} />
-        <Bar order={2} />
-        <Bar order={3} />
+    <MobileHeaderNav
+      className={isMenuShown ? "change" : undefined}
+      onClick={showMenu}
+      ref={dropdownWrapperRef}
+    >
+      <Bar order={1} />
+      <Bar order={2} />
+      <Bar order={3} />
 
-        {isMenuShown ? (
-          <DropdownContent ref={dropdownMenuRef}>
+      {isMenuShown ? (
+        <DropdownContent ref={dropdownMenuRef}>
+          <MobileNav>
+            <Link href="/" passHref>
+              <LinkWrapper>{t("component.utils.Header.home")}</LinkWrapper>
+            </Link>
+          </MobileNav>
+          <MobileNav>{t("component.utils.HeaderNavDropdown.title")}</MobileNav>
+          <MobileNavItem
+            link="/accounts"
+            IconElement={IconAccountsSvg}
+            text={t("common.accounts.accounts")}
+          />
+          <MobileNavItem
+            link="/blocks"
+            IconElement={IconBlocksSvg}
+            text={t("common.blocks.blocks")}
+          />
+          <MobileNavItem
+            link="/transactions"
+            IconElement={IconTransactionsSvg}
+            text={t("common.transactions.transactions")}
+          />
+          <MobileNavItem
+            link="/nodes/validators"
+            IconElement={IconNodesSvg}
+            text={t("common.nodes.title")}
+          />
+          <MobileNavItem
+            link="/stats"
+            IconElement={IconStatsSvg}
+            text={t("common.stats.title_charts_and_stats")}
+          />
+          <MobileNav>
+            <LanguageToggle mobile />
+          </MobileNav>
+          {betaOptions && isBetaPage ? (
             <MobileNav>
-              <Link href="/" passHref>
-                <LinkWrapper>{t("component.utils.Header.home")}</LinkWrapper>
-              </Link>
+              <BetaSwitch />
             </MobileNav>
-            <MobileNav>
-              {t("component.utils.HeaderNavDropdown.title")}
-            </MobileNav>
-            <MobileNavItem
-              link="/accounts"
-              IconElement={IconAccountsSvg}
-              text={t("common.accounts.accounts")}
-            />
-            <MobileNavItem
-              link="/blocks"
-              IconElement={IconBlocksSvg}
-              text={t("common.blocks.blocks")}
-            />
-            <MobileNavItem
-              link="/transactions"
-              IconElement={IconTransactionsSvg}
-              text={t("common.transactions.transactions")}
-            />
-            <MobileNavItem
-              link="/nodes/validators"
-              IconElement={IconNodesSvg}
-              text={t("common.nodes.title")}
-            />
-            <MobileNavItem
-              link="/stats"
-              IconElement={IconStatsSvg}
-              text={t("common.stats.title_charts_and_stats")}
-            />
-            <MobileNav>
-              <LanguageToggle mobile />
-            </MobileNav>
-            {betaOptions && isBetaPage ? (
-              <MobileNav>
-                <BetaSwitch />
-              </MobileNav>
-            ) : null}
-          </DropdownContent>
-        ) : null}
-      </MobileHeaderNav>
-    </>
+          ) : null}
+        </DropdownContent>
+      ) : null}
+    </MobileHeaderNav>
   );
 });
 

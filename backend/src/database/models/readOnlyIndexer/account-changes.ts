@@ -3,9 +3,9 @@
 
 import { AccountsId } from "./accounts";
 import { BlocksId } from "./blocks";
-import { TransactionsId } from "./transactions";
 import { ReceiptsId } from "./receipts";
 import StateChangeReasonKind from "./state-change-reason-kind";
+import { TransactionsId } from "./transactions";
 
 export type AccountChangesId = string & { " __flavor"?: "account_changes" };
 

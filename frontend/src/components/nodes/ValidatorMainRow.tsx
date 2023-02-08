@@ -1,19 +1,19 @@
-import JSBI from "jsbi";
 import * as React from "react";
 
+import JSBI from "jsbi";
 import { Row, Col, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+import { ValidatorPoolInfo } from "@explorer/common/types/procedures";
+import CumulativeStakeChart from "@explorer/frontend/components/nodes/CumulativeStakeChart";
 import Balance from "@explorer/frontend/components/utils/Balance";
+import CountryFlag from "@explorer/frontend/components/utils/CountryFlag";
 import {
   OrderTableCell,
   TableRow,
 } from "@explorer/frontend/components/utils/Table";
-import CountryFlag from "@explorer/frontend/components/utils/CountryFlag";
-import CumulativeStakeChart from "@explorer/frontend/components/nodes/CumulativeStakeChart";
-import { ValidatorPoolInfo } from "@explorer/common/types/procedures";
-import { styled } from "@explorer/frontend/libraries/styles";
 import * as BI from "@explorer/frontend/libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,
@@ -163,27 +163,22 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
             <>
               <br />
               <small>
-                {
-                  <>
-                    {JSBI.greaterThanOrEqual(stakeDelta, JSBI.BigInt(0))
-                      ? "+"
-                      : "-"}
-                    {JSBI.toNumber(JSBI.divide(stakeDelta, yoctoNearToNear)) <
-                    1 ? (
-                      <Balance
-                        amount={BI.abs(stakeDelta)}
-                        label="NEAR"
-                        fracDigits={4}
-                      />
-                    ) : (
-                      <Balance
-                        amount={BI.abs(stakeDelta)}
-                        label="NEAR"
-                        fracDigits={0}
-                      />
-                    )}
-                  </>
-                }
+                {JSBI.greaterThanOrEqual(stakeDelta, JSBI.BigInt(0))
+                  ? "+"
+                  : "-"}
+                {JSBI.toNumber(JSBI.divide(stakeDelta, yoctoNearToNear)) < 1 ? (
+                  <Balance
+                    amount={BI.abs(stakeDelta)}
+                    label="NEAR"
+                    fracDigits={4}
+                  />
+                ) : (
+                  <Balance
+                    amount={BI.abs(stakeDelta)}
+                    label="NEAR"
+                    fracDigits={0}
+                  />
+                )}
               </small>
             </>
           ) : null}

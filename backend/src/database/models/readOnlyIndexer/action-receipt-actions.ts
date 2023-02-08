@@ -1,8 +1,8 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
 import ActionKind from "./action-kind";
+import { ReceiptsId } from "./receipts";
 
 export default interface ActionReceiptActions {
   /** Primary key. Index: receipt_action_action_pk */

@@ -1,8 +1,8 @@
-import { SubscriptionEventMap } from "@explorer/backend/router/types";
 import {
   CachedTimestampMap,
   RegularCheckFn,
 } from "@explorer/backend/cron/types";
+import { SubscriptionEventMap } from "@explorer/backend/router/types";
 
 export const updateRegularlyFetchedMap = async <T>(
   ids: string[],
@@ -56,22 +56,22 @@ export const getPublishIfChanged =
     }
   };
 
-export const publishOnChange = <S extends keyof SubscriptionEventMap>(
-  topic: S,
-  fetcher: () => MaybePromise<Parameters<SubscriptionEventMap[S]>[0]>,
-  intervalOrIntervalFn:
-    | number
-    | ((input: Parameters<SubscriptionEventMap[S]>[0]) => number),
-  equalFn: (
-    a: Parameters<SubscriptionEventMap[S]>[0],
-    b: Parameters<SubscriptionEventMap[S]>[0]
-  ) => boolean = strictEqual
-): RegularCheckFn["fn"] => {
-  return async (publish, context) => {
+export const publishOnChange =
+  <S extends keyof SubscriptionEventMap>(
+    topic: S,
+    fetcher: () => MaybePromise<Parameters<SubscriptionEventMap[S]>[0]>,
+    intervalOrIntervalFn:
+      | number
+      | ((input: Parameters<SubscriptionEventMap[S]>[0]) => number),
+    equalFn: (
+      a: Parameters<SubscriptionEventMap[S]>[0],
+      b: Parameters<SubscriptionEventMap[S]>[0]
+    ) => boolean = strictEqual
+  ): RegularCheckFn["fn"] =>
+  async (publish, context) => {
     const nextData = await fetcher();
     getPublishIfChanged(publish, context)(topic, nextData, equalFn);
     return typeof intervalOrIntervalFn === "function"
       ? intervalOrIntervalFn(nextData)
       : intervalOrIntervalFn;
   };
-};

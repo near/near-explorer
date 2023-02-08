@@ -1,6 +1,7 @@
 import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
 import JSDomEnvironment from "jest-environment-jsdom";
+import { initReactI18next } from "react-i18next";
+
 import { getDateLocale } from "@explorer/frontend/libraries/date-locale";
 
 export default class extends JSDomEnvironment {

@@ -1,14 +1,13 @@
 import * as React from "react";
 
-import BatchTransactionIcon from "@explorer/frontend/public/static/images/icon-m-batch.svg";
-
+import { Receipt, TransactionPreview } from "@explorer/common/types/procedures";
 import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
 import ActionRowBlock, {
   ViewMode,
 } from "@explorer/frontend/components/transactions/ActionRowBlock";
 import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { Receipt, TransactionPreview } from "@explorer/common/types/procedures";
+import BatchTransactionIcon from "@explorer/frontend/public/static/images/icon-m-batch.svg";
 
 interface Props {
   actionGroup: Receipt | TransactionPreview;

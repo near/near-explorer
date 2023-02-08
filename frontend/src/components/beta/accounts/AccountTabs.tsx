@@ -1,22 +1,23 @@
 import * as React from "react";
+
 import { useTranslation } from "react-i18next";
+
+import { Account } from "@explorer/common/types/procedures";
+import AccountFungibleTokens from "@explorer/frontend/components/beta/accounts/AccountFungibleTokens";
+import AccountNonFungibleTokensView from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokens";
+import AccountTransactionsView from "@explorer/frontend/components/beta/accounts/AccountTransactionsView";
+import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
 import {
   AccountPageOptions,
   AccountTab,
   buildAccountUrl,
 } from "@explorer/frontend/hooks/use-account-page-options";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
-import AccountFungibleTokens from "@explorer/frontend/components/beta/accounts/AccountFungibleTokens";
-import { Account } from "@explorer/common/types/procedures";
-import AccountTransactionsView from "@explorer/frontend/components/beta/accounts/AccountTransactionsView";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
   formatToPowerOfTen,
 } from "@explorer/frontend/libraries/formatting";
-
-import AccountNonFungibleTokensView from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokens";
+import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const TabLabel = styled("div", {

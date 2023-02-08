@@ -1,5 +1,7 @@
-import Link from "next/link";
 import * as React from "react";
+
+import Link from "next/link";
+
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 
 const LinkWrapper: React.FC<
@@ -8,6 +10,7 @@ const LinkWrapper: React.FC<
   const track = useAnalyticsTrack();
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <span
       className={className}
       onClick={() =>

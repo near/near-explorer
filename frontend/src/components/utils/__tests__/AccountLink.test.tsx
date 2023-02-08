@@ -1,6 +1,7 @@
-import { renderElement } from "@explorer/frontend/testing/utils";
+import * as React from "react";
 
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
 describe("<AccountLink />", () => {
   it("renders short account id", () => {

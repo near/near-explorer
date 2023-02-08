@@ -1,95 +1,93 @@
 import * as React from "react";
-import ReactEcharts from "echarts-for-react";
+
 import * as echarts from "echarts";
-
-import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
-
+import ReactEcharts from "echarts-for-react";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+
 import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
+import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 
 const getOption = (
   title: string,
   seriesName: string,
   data: TRPCSubscriptionOutput<"activeContractsHistory">
-) => {
-  return {
-    title: {
-      text: title,
+) => ({
+  title: {
+    text: title,
+  },
+  tooltip: {
+    trigger: "axis",
+  },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+    backgroundColor: "#F9F9F9",
+    show: true,
+    color: "white",
+  },
+  xAxis: [
+    {
+      type: "time",
+      boundaryGap: false,
     },
-    tooltip: {
-      trigger: "axis",
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true,
-      backgroundColor: "#F9F9F9",
-      show: true,
-      color: "white",
-    },
-    xAxis: [
-      {
-        type: "time",
-        boundaryGap: false,
-      },
-    ],
-    yAxis: [
-      {
-        type: "value",
-        splitLine: {
-          lineStyle: {
-            color: "white",
-          },
-        },
-      },
-    ],
-    dataZoom: [
-      {
-        type: "inside",
-        start: 0,
-        end: 100,
-        filterMode: "filter",
-      },
-      {
-        start: 0,
-        end: 100,
-      },
-    ],
-    series: [
-      {
-        name: seriesName,
-        type: "line",
+  ],
+  yAxis: [
+    {
+      type: "value",
+      splitLine: {
         lineStyle: {
-          color: "#04a7bf",
-          width: 2,
+          color: "white",
         },
-        symbol: "none",
-        itemStyle: {
-          color: "#25272A",
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "rgb(4, 167, 191)",
-            },
-            {
-              offset: 1,
-              color: "rgb(201, 248, 255)",
-            },
-          ]),
-        },
-        data,
       },
-    ],
-  };
-};
+    },
+  ],
+  dataZoom: [
+    {
+      type: "inside",
+      start: 0,
+      end: 100,
+      filterMode: "filter",
+    },
+    {
+      start: 0,
+      end: 100,
+    },
+  ],
+  series: [
+    {
+      name: seriesName,
+      type: "line",
+      lineStyle: {
+        color: "#04a7bf",
+        width: 2,
+      },
+      symbol: "none",
+      itemStyle: {
+        color: "#25272A",
+      },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: "rgb(4, 167, 191)",
+          },
+          {
+            offset: 1,
+            color: "rgb(201, 248, 255)",
+          },
+        ]),
+      },
+      data,
+    },
+  ],
+});
 
 const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const activeContractsHistorySub = useSubscription(["activeContractsHistory"]);
 
   const option = React.useMemo(() => {
@@ -103,7 +101,7 @@ const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
       t("component.stats.ActiveContractsByDate.active_contracts"),
       activeContractsHistorySub.data
     );
-  }, [activeContractsHistorySub.data, i18n.language]);
+  }, [activeContractsHistorySub.data, t]);
 
   if (!option) {
     return <PaginationSpinner />;

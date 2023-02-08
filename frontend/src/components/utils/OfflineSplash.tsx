@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -43,6 +44,7 @@ const OfflineSplash: React.FC = React.memo(() => {
         <a
           href="https://github.com/near/near-explorer/issues/new/"
           target="_blank"
+          rel="noreferrer"
         >
           open an issue
         </a>{" "}

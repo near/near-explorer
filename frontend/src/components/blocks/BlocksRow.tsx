@@ -1,13 +1,12 @@
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
-
-import Timer from "@explorer/frontend/components/utils/Timer";
-import Link from "@explorer/frontend/components/utils/Link";
-
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+
 import { BlockBase } from "@explorer/common/types/procedures";
+import Link from "@explorer/frontend/components/utils/Link";
+import Timer from "@explorer/frontend/components/utils/Timer";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const TransactionRow = styled(Row, {
@@ -73,9 +72,7 @@ const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
     <Link href={`/blocks/${block.hash}`} passHref>
       <LinkWrapper>
         <TransactionRow className="mx-0">
-          <Col md="auto" xs="1" className="pr-0">
-            <img src="/static/images/icon-m-block.svg" />
-          </Col>
+          <Col md="auto" xs="1" className="pr-0" />
           <Col md="auto" xs="1" className="pr-0">
             <BlockIcon src="/static/images/icon-m-block.svg" />
           </Col>

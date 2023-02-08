@@ -281,18 +281,15 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-AccountLink-dbzzBd"
+                href="http://wallet/profile/megan.near"
                 onClick={[Function]}
+                rel="noopener"
+                target="_blank"
               >
-                <a
-                  className="c-AccountLink-dbzzBd"
-                  href="http://wallet/profile/megan.near"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  utils.WalletLink
-                </a>
-              </span>
+                utils.WalletLink
+              </a>
             </div>
           </div>
         </div>
@@ -623,18 +620,15 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-AccountLink-dbzzBd"
+                href="http://wallet/profile/megan.near"
                 onClick={[Function]}
+                rel="noopener"
+                target="_blank"
               >
-                <a
-                  className="c-AccountLink-dbzzBd"
-                  href="http://wallet/profile/megan.near"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  utils.WalletLink
-                </a>
-              </span>
+                utils.WalletLink
+              </a>
             </div>
           </div>
         </div>
@@ -965,18 +959,15 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-AccountLink-dbzzBd"
+                href="http://wallet/profile/megan.near"
                 onClick={[Function]}
+                rel="noopener"
+                target="_blank"
               >
-                <a
-                  className="c-AccountLink-dbzzBd"
-                  href="http://wallet/profile/megan.near"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  utils.WalletLink
-                </a>
-              </span>
+                utils.WalletLink
+              </a>
             </div>
           </div>
         </div>
@@ -1376,18 +1367,15 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-AccountLink-dbzzBd"
+                href="http://wallet/profile/megan.near"
                 onClick={[Function]}
+                rel="noopener"
+                target="_blank"
               >
-                <a
-                  className="c-AccountLink-dbzzBd"
-                  href="http://wallet/profile/megan.near"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  utils.WalletLink
-                </a>
-              </span>
+                utils.WalletLink
+              </a>
             </div>
           </div>
         </div>
@@ -1736,18 +1724,15 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-AccountLink-dbzzBd"
+                href="http://wallet/profile/near.near"
                 onClick={[Function]}
+                rel="noopener"
+                target="_blank"
               >
-                <a
-                  className="c-AccountLink-dbzzBd"
-                  href="http://wallet/profile/near.near"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  utils.WalletLink
-                </a>
-              </span>
+                utils.WalletLink
+              </a>
             </div>
           </div>
         </div>

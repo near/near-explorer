@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import * as ReactQuery from "react-query";
 
 import { StableOmit } from "@explorer/common/types/common";
@@ -8,8 +9,8 @@ import {
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
 } from "@explorer/common/types/trpc";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 import { subscribe } from "@explorer/frontend/libraries/subscriptions";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 export type UseSubscriptionResult<R> = StableOmit<
   ReactQuery.QueryObserverResult<R, TRPCError>,
@@ -41,9 +42,8 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
   const trpcContext = trpc.useContext();
 
   // We're getting prefetched and dehydrated data from query (see above)
-  const cachedData = React.useMemo(
-    () => trpcContext.getQueryData(pathAndInput as any),
-    pathAndInput
+  const cachedData = trpcContext.getQueryData(
+    pathAndInput as any
   ) as TRPCSubscriptionOutput<TPath>;
   const [value, setValue] = React.useState<
     TRPCSubscriptionOutput<TPath> | undefined
@@ -63,13 +63,15 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         setValue(nextValue);
         setDataUpdatedAt(Date.now());
       },
-      (error) => {
+      (subscriptionError) => {
         setLoading(false);
-        setError(error);
+        setError(subscriptionError);
         setErrorUpdatedAt(Date.now());
       },
     ]);
-  }, [queryKey, enabled]);
+    // queryKey substitutes pathAndInput here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryKey, enabled, trpcContext.client]);
   const base = {
     dataUpdatedAt,
     errorUpdatedAt,
@@ -87,7 +89,8 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       isSuccess: false,
       status: "loading",
     };
-  } else if (error !== null) {
+  }
+  if (error !== null) {
     if (value !== undefined) {
       return {
         ...base,
@@ -101,21 +104,21 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         isSuccess: false,
         status: "error",
       };
-    } else {
-      return {
-        ...base,
-        data: undefined,
-        error,
-        isError: true,
-        isIdle: false,
-        isLoading: false,
-        isLoadingError: true,
-        isRefetchError: false,
-        isSuccess: false,
-        status: "error",
-      };
     }
-  } else if (value !== undefined) {
+    return {
+      ...base,
+      data: undefined,
+      error,
+      isError: true,
+      isIdle: false,
+      isLoading: false,
+      isLoadingError: true,
+      isRefetchError: false,
+      isSuccess: false,
+      status: "error",
+    };
+  }
+  if (value !== undefined) {
     return {
       ...base,
       data: value,
@@ -128,20 +131,19 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       isSuccess: true,
       status: "success",
     };
-  } else {
-    return {
-      ...base,
-      data: undefined,
-      error: null,
-      isError: false,
-      isIdle: true,
-      isLoading: false,
-      isLoadingError: false,
-      isRefetchError: false,
-      isSuccess: false,
-      status: "idle",
-    };
   }
+  return {
+    ...base,
+    data: undefined,
+    error: null,
+    isError: false,
+    isIdle: true,
+    isLoading: false,
+    isLoadingError: false,
+    isRefetchError: false,
+    isSuccess: false,
+    status: "idle",
+  };
 };
 
 export const useSubscription = <TPath extends TRPCSubscriptionKey & string>(
@@ -155,5 +157,6 @@ export const useSubscription = <TPath extends TRPCSubscriptionKey & string>(
     // @ts-ignore
     return trpc.useQuery(pathAndInput, opts);
   }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useSubscriptionClient(pathAndInput, opts);
 };

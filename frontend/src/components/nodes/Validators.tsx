@@ -1,17 +1,16 @@
 import * as React from "react";
 
-import { Table, OnPageChange } from "@explorer/frontend/components/utils/Table";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { useTranslation } from "react-i18next";
 
 import ValidatorsList, {
   ITEMS_PER_PAGE,
 } from "@explorer/frontend/components/nodes/ValidatorsList";
-
-import { useTranslation } from "react-i18next";
+import { PaginateWrapper } from "@explorer/frontend/components/utils/Pagination";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { Table, OnPageChange } from "@explorer/frontend/components/utils/Table";
 import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { PaginateWrapper } from "@explorer/frontend/components/utils/Pagination";
 
 const ValidatorNodePagination = styled(PaginateWrapper, {
   backgroundColor: "#ffffff",

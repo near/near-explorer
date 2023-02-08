@@ -1,9 +1,10 @@
 import { NextApiResponse } from "next";
+
 import { NetworkName } from "@explorer/common/types/common";
 import { getConfig } from "@explorer/frontend/libraries/config";
 
 const {
-  publicRuntimeConfig: { nearNetworks, googleAnalytics },
+  publicRuntimeConfig: { nearNetworks },
 } = getConfig();
 
 export const isNetworkOffline = (networkName: NetworkName): boolean => {

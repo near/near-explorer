@@ -1,10 +1,11 @@
 import { NextApiHandler } from "next";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+
 import {
   isNetworkOffline,
   respondNetworkOffline,
 } from "@explorer/frontend/libraries/api";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
@@ -24,6 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
     const supplyInYoctoNEAR = latestCirculatingSupply.supply;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

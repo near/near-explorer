@@ -1,5 +1,5 @@
-import { trpc } from "@explorer/frontend/libraries/trpc";
 import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 export const useEpochStartBlock = () => {
   const { data: networkStats } = useNetworkStats();

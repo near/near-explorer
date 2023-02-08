@@ -8,8 +8,8 @@ import {
   indexerDatabase,
 } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
-import * as nearApi from "@explorer/backend/utils/near";
 import { validators } from "@explorer/backend/router/validators";
+import * as nearApi from "@explorer/backend/utils/near";
 
 const queryContractFromIndexer = async (accountId: string) => {
   // find the latest update in analytics db
@@ -142,7 +142,7 @@ export const router = trpc.router<Context>().query("byId", {
     return {
       codeHash: account.code_hash,
       transactionHash: contractInfo.hash,
-      timestamp: parseInt(contractInfo.timestamp),
+      timestamp: parseInt(contractInfo.timestamp, 10),
       locked,
     };
   },

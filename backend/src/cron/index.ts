@@ -1,7 +1,7 @@
 import { Context } from "@explorer/backend/context";
-import { SECOND } from "@explorer/backend/utils/time";
 import * as tasks from "@explorer/backend/cron/tasks";
 import { PublishTopic } from "@explorer/backend/cron/types";
+import { SECOND } from "@explorer/backend/utils/time";
 
 const regularTasks = [
   tasks.latestBlockCheck,
@@ -35,9 +35,9 @@ export const runTasks = (context: Context) => {
     void context.subscriptionsEventEmitter.emit(topic, output);
   };
   const timeouts: Record<string, NodeJS.Timeout> = {};
-  for (const task of regularTasks) {
+  Object.values(regularTasks).forEach((task) => {
     if (task.shouldSkip?.()) {
-      continue;
+      return;
     }
 
     let timeout = SECOND;
@@ -45,21 +45,19 @@ export const runTasks = (context: Context) => {
       try {
         timeout = await task.fn(publish, context);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.warn(
           `Regular ${task.description} crashed due to:`,
           String(error)
         );
       } finally {
         if (timeout !== Infinity) {
-          setTimeoutBound();
+          timeouts[task.description] = setTimeout(runTask, timeout);
         }
       }
     };
-    const setTimeoutBound = () => {
-      timeouts[task.description] = setTimeout(runTask, timeout);
-    };
     void runTask();
-  }
+  });
   return () => {
     const timeoutIds = Object.values(timeouts);
     timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));

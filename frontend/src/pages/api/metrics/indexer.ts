@@ -1,11 +1,12 @@
-import { NextApiHandler } from "next";
 import json2Prom from "json-2-prom";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+import { NextApiHandler } from "next";
+
 import {
   isNetworkOffline,
   respondNetworkOffline,
 } from "@explorer/frontend/libraries/api";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -46,6 +47,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     res.send(prometheusResponse.join("\n"));
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

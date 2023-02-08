@@ -1,4 +1,5 @@
 import React from "react";
+
 import { SECOND } from "@explorer/frontend/libraries/time";
 
 type UseEverySecondOptions = {
@@ -6,7 +7,7 @@ type UseEverySecondOptions = {
 };
 export const useEverySecond = (
   callback: () => void,
-  deps: unknown[],
+  deps: React.DependencyList,
   options: UseEverySecondOptions = {}
 ) => {
   React.useEffect(() => {
@@ -24,5 +25,6 @@ export const useEverySecond = (
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };

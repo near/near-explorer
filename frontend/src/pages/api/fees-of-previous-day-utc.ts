@@ -1,11 +1,12 @@
+import { format } from "date-fns";
 import { NextApiHandler } from "next";
-import { parseISO, format } from "date-fns";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+
 import {
   isNetworkOffline,
   respondNetworkOffline,
 } from "@explorer/frontend/libraries/api";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -27,6 +28,7 @@ const handler: NextApiHandler = async (req, res) => {
     };
     res.send(resp);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

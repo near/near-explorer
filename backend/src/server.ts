@@ -1,12 +1,13 @@
 import * as trpcExpress from "@trpc/server/adapters/express";
 import * as trpcWsAdapter from "@trpc/server/adapters/ws";
-import { HTTPBaseHandlerOptions } from "@trpc/server/dist/declarations/src/http/internals/types";
 import { NodeHTTPCreateContextOption } from "@trpc/server/dist/declarations/src/adapters/node-http";
+import { HTTPBaseHandlerOptions } from "@trpc/server/dist/declarations/src/http/internals/types";
+import cors from "cors";
+import express, { ErrorRequestHandler } from "express";
 import http from "http";
 import stream from "stream";
 import ws from "ws";
-import express, { ErrorRequestHandler } from "express";
-import cors from "cors";
+
 import { AppRouter } from "@explorer/backend/router";
 import { escapeHtml } from "@explorer/backend/utils/html";
 
@@ -16,10 +17,13 @@ export type RouterOptions = HTTPBaseHandlerOptions<
 > &
   NodeHTTPCreateContextOption<AppRouter, http.IncomingMessage, unknown>;
 
+// Function has to has 4 arguments for express to consider it an error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const error = `Error on ${req.url}\n${String(err)}${
     err.stack ? `\n${err.stack}` : ""
   }`;
+  // eslint-disable-next-line no-console
   console.error(error);
   res.status(500).send(escapeHtml(error));
 };

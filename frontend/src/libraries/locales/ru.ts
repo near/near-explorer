@@ -1,4 +1,5 @@
 import dateFnsLocale from "date-fns/locale/ru";
+
 import { getFormatterWithAccusativePlural } from "@explorer/frontend/libraries/locales/forms";
 import {
   AccusativeForms,

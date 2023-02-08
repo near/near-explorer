@@ -1,22 +1,22 @@
-import Head from "next/head";
+import * as React from "react";
 
-import Content from "@explorer/frontend/components/utils/Content";
-import TransactionsByDate from "@explorer/frontend/components/stats/TransactionsByDate";
+import { NextPage } from "next";
+import Head from "next/head";
+import { useTranslation } from "react-i18next";
+
+import ActiveAccountsByDate from "@explorer/frontend/components/stats/ActiveAccountsByDate";
+import ActiveAccountsList from "@explorer/frontend/components/stats/ActiveAccountsList";
+import ActiveContractsByDate from "@explorer/frontend/components/stats/ActiveContractsByDate";
+import ActiveContractsList from "@explorer/frontend/components/stats/ActiveContractsList";
+import CirculatingSupplyStats from "@explorer/frontend/components/stats/CirculatingSupplyStats";
 import GasUsedByDate from "@explorer/frontend/components/stats/GasUsedByDate";
 import NewAccountsByDate from "@explorer/frontend/components/stats/NewAccountsByDate";
 import NewContractsByDate from "@explorer/frontend/components/stats/NewContractsByDate";
-import ActiveAccountsByDate from "@explorer/frontend/components/stats/ActiveAccountsByDate";
-import ActiveContractsByDate from "@explorer/frontend/components/stats/ActiveContractsByDate";
-import ActiveAccountsList from "@explorer/frontend/components/stats/ActiveAccountsList";
-import ActiveContractsList from "@explorer/frontend/components/stats/ActiveContractsList";
 import ProtocolConfigInfo from "@explorer/frontend/components/stats/ProtocolConfigInfo";
-import CirculatingSupplyStats from "@explorer/frontend/components/stats/CirculatingSupplyStats";
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
-
-import { useTranslation } from "react-i18next";
-import { NextPage } from "next";
+import TransactionsByDate from "@explorer/frontend/components/stats/TransactionsByDate";
+import Content from "@explorer/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import * as React from "react";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
 
 const chartStyle = {
   height: 480,

@@ -1,6 +1,7 @@
 import { merge } from "lodash";
-import { NetworkName } from "@explorer/common/types/common";
+
 import { HOUR, MINUTE, SECOND } from "@explorer/backend/utils/time";
+import { NetworkName } from "@explorer/common/types/common";
 import { getOverrides } from "@explorer/common/utils/environment";
 
 /*

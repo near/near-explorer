@@ -3,13 +3,13 @@ import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
 import { SubscriptionEventMap } from "@explorer/backend/router/types";
-import { wait } from "@explorer/common/utils/promise";
-import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
 import {
   AnyRouter,
   CreateProcedureSubscription,
   RouterWithSubscriptionsAndQueries,
 } from "@explorer/common/types/trpc";
+import { wait } from "@explorer/common/utils/promise";
+import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
 
 const subscriptionInputs = {
   transactionsHistory: z.union([
@@ -25,7 +25,7 @@ const subscriptionInputs = {
 type SubscriptionInputMap = typeof subscriptionInputs;
 
 const withTopics = <InitialRouter extends AnyRouter<Context>>(
-  router: InitialRouter,
+  initialRouter: InitialRouter,
   topicsWithFilterFns: {
     [T in keyof SubscriptionEventMap]: T extends keyof SubscriptionInputMap
       ? (
@@ -53,7 +53,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
       TopicsFns[keyof TopicsFns]
     ][]
   ).reduce((router, [topic, filterFn]) => {
-    const input =
+    const inputModel =
       topic in subscriptionInputs
         ? subscriptionInputs[topic as keyof typeof subscriptionInputs]
         : z.undefined();
@@ -64,15 +64,14 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
     ) => {
       if (filterFn) {
         return filterFn(data as any, input);
-      } else {
-        return data;
       }
+      return data;
     };
     return router
       .subscription(topic, {
-        input,
-        resolve: ({ ctx, input }) => {
-          return new trpc.Subscription<
+        input: inputModel,
+        resolve: ({ ctx, input }) =>
+          new trpc.Subscription<
             Parameters<SubscriptionEventMap[typeof topic]>[0]
           >((emit) => {
             const onData = (data: TopicDataType) => {
@@ -82,29 +81,31 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
               onData(ctx.subscriptionsCache[topic] as TopicDataType);
             }
             ctx.subscriptionsEventEmitter.on(topic, onData);
-            return () => void ctx.subscriptionsEventEmitter.off(topic, onData);
-          });
-        },
+            return () => {
+              ctx.subscriptionsEventEmitter.off(topic, onData);
+            };
+          }),
       })
       .query(topic, {
-        input,
+        input: inputModel,
         resolve: async ({ ctx, input }) => {
           if (!ctx.subscriptionsCache[topic]) {
-            return new Promise(async (resolve) => {
+            return new Promise((resolve) => {
               const onData = (data: TopicDataType) => {
                 ctx.subscriptionsEventEmitter.off(topic, onData);
                 resolve(getProcessedData(data, input));
               };
               ctx.subscriptionsEventEmitter.on(topic, onData);
-              await wait(SSR_TIMEOUT);
-              ctx.subscriptionsEventEmitter.off(topic, onData);
+              wait(SSR_TIMEOUT).then(() =>
+                ctx.subscriptionsEventEmitter.off(topic, onData)
+              );
             });
           }
           const cachedData = ctx.subscriptionsCache[topic] as TopicDataType;
           return cachedData ? getProcessedData(cachedData, input) : cachedData;
         },
       }) as any;
-  }, router) as any;
+  }, initialRouter) as any;
 };
 
 export const router = withTopics(trpc.router<Context>(), {

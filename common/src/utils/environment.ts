@@ -15,9 +15,9 @@ export const getOverrides = <T extends Partial<Record<string, unknown>>>(
 ): T => {
   const overrides = {} as T;
   const prefixWithDelimiter = prefix + GROUP_DELIMITER;
-  for (const [name, value] of Object.entries(process.env)) {
+  Object.entries(process.env).forEach(([name, value]) => {
     if (!name.startsWith(prefixWithDelimiter)) {
-      continue;
+      return;
     }
     set(
       overrides,
@@ -27,7 +27,7 @@ export const getOverrides = <T extends Partial<Record<string, unknown>>>(
         .map(camelCase),
       safeParse(value)
     );
-  }
+  });
   return overrides;
 };
 

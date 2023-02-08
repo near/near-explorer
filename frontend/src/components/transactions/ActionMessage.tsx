@@ -1,12 +1,12 @@
 import * as React from "react";
-import { hexy } from "hexy";
 
+import { hexy } from "hexy";
+import { useTranslation } from "react-i18next";
+
+import { Action } from "@explorer/common/types/procedures";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 import Balance from "@explorer/frontend/components/utils/Balance";
 import CodePreview from "@explorer/frontend/components/utils/CodePreview";
-
-import { useTranslation } from "react-i18next";
-import { Action } from "@explorer/common/types/procedures";
 
 export interface Props<A extends Action> {
   action: A;

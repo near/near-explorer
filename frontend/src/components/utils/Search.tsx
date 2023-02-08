@@ -1,12 +1,13 @@
-import { useRouter } from "next/router";
 import * as React from "react";
-import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
+import { useRouter } from "next/router";
+import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import { styled } from "@explorer/frontend/libraries/styles";
 import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const SearchField = styled(FormControl, {
   background: "#ffffff",
@@ -191,30 +192,34 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       enabled: Boolean(searchValue),
       onSuccess: (result) => {
         if (!result) {
+          // TODO: add popup with error instead of alert
+          // eslint-disable-next-line no-alert
           return alert("Result not found!");
         }
         track("Explorer Search", { page: result });
         if ("blockHash" in result) {
-          return router.push("/blocks/" + result.blockHash);
-        } else if ("receiptId" in result) {
+          return router.push(`/blocks/${result.blockHash}`);
+        }
+        if ("receiptId" in result) {
           return router.push(
             `/transactions/${result.transactionHash}#${result.receiptId}`
           );
-        } else if ("transactionHash" in result) {
-          return router.push("/transactions/" + result.transactionHash);
-        } else if ("accountId" in result) {
-          return router.push("/accounts/" + result.accountId);
+        }
+        if ("transactionHash" in result) {
+          return router.push(`/transactions/${result.transactionHash}`);
+        }
+        if ("accountId" in result) {
+          return router.push(`/accounts/${result.accountId}`);
         }
       },
     }
   );
-  const trpcContext = trpc.useContext();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setSearchValue(value);
     },
-    [value, trpcContext, router]
+    [value]
   );
   const onChange = React.useCallback(
     (event) => setValue(event.currentTarget.value),
@@ -223,6 +228,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
   const compact = !dashboard;
 
+  // Remove after migration to next.js >= 13
+  /* eslint-disable @next/next/no-img-element */
   return (
     <SearchWrapper onSubmit={onSubmit} compact={compact}>
       <SearchBox noGutters>
@@ -230,7 +237,10 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
           {!dashboard && (
             <InputGroup.Prepend>
               <InputGroupText id="search">
-                <img src="/static/images/icon-search.svg" />
+                <img
+                  src="/static/images/icon-search.svg"
+                  alt={t("component.utils.Search.title")}
+                />
               </InputGroupText>
             </InputGroup.Prepend>
           )}

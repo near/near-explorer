@@ -225,10 +225,6 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                               }
                             }
                           >
-                            <link
-                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                              rel="stylesheet"
-                            />
                             <div
                               className="c-CodePreviewWrapper-gJFGlx"
                             >
@@ -767,10 +763,6 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                               }
                             }
                           >
-                            <link
-                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                              rel="stylesheet"
-                            />
                             <div
                               className="c-CodePreviewWrapper-gJFGlx"
                             >
@@ -1050,10 +1042,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       }
                                     }
                                   >
-                                    <link
-                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                                      rel="stylesheet"
-                                    />
                                     <div
                                       className="c-CodePreviewWrapper-gJFGlx"
                                     >
@@ -1096,10 +1084,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       }
                     }
                   >
-                    <link
-                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                      rel="stylesheet"
-                    />
                     <div
                       className="c-CodePreviewWrapper-gJFGlx"
                     >
@@ -1607,10 +1591,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       }
                                     }
                                   >
-                                    <link
-                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                                      rel="stylesheet"
-                                    />
                                     <div
                                       className="c-CodePreviewWrapper-gJFGlx"
                                     >
@@ -1653,10 +1633,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       }
                     }
                   >
-                    <link
-                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                      rel="stylesheet"
-                    />
                     <div
                       className="c-CodePreviewWrapper-gJFGlx"
                     >
@@ -2418,10 +2394,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                               }
                             }
                           >
-                            <link
-                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                              rel="stylesheet"
-                            />
                             <div
                               className="c-CodePreviewWrapper-gJFGlx"
                             >
@@ -2466,10 +2438,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               }
             }
           >
-            <link
-              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-              rel="stylesheet"
-            />
             <div
               className="c-CodePreviewWrapper-gJFGlx"
             >

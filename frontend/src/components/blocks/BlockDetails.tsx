@@ -1,24 +1,23 @@
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import JSBI from "jsbi";
-
 import * as React from "react";
-import { Row, Col } from "react-bootstrap";
 
+import JSBI from "jsbi";
+import { Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+
+import { Block } from "@explorer/common/types/procedures";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 import BlockLink from "@explorer/frontend/components/utils/BlockLink";
 import CardCell, {
   CardCellText,
   CardCellWrapper,
 } from "@explorer/frontend/components/utils/CardCell";
-import Term from "@explorer/frontend/components/utils/Term";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import Gas from "@explorer/frontend/components/utils/Gas";
 import GasPrice from "@explorer/frontend/components/utils/GasPrice";
-
-import { useTranslation } from "react-i18next";
+import Term from "@explorer/frontend/components/utils/Term";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { Block } from "@explorer/common/types/procedures";
 import { styled } from "@explorer/frontend/libraries/styles";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 
 const BlockInfoContainer = styled(Col, {
   border: "solid 4px #e6e6e6",
@@ -72,7 +71,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 <Term
                   title={t("component.blocks.BlockDetails.transactions.title")}
                   text={t("component.blocks.BlockDetails.transactions.text")}
-                  href={"https://docs.near.org/docs/concepts/transaction"}
+                  href="https://docs.near.org/docs/concepts/transaction"
                 />
               }
               imgLink="/static/images/icon-m-transaction.svg"
@@ -92,9 +91,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 <Term
                   title={t("component.blocks.BlockDetails.status.title")}
                   text={t("component.blocks.BlockDetails.status.text")}
-                  href={
-                    "https://docs.near.org/docs/develop/front-end/rpc#block"
-                  }
+                  href="https://docs.near.org/docs/develop/front-end/rpc#block"
                 />
               }
               imgLink="/static/images/icon-t-status.svg"
@@ -122,7 +119,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 <Term
                   title={t("component.blocks.BlockDetails.gas_used.title")}
                   text={t("component.blocks.BlockDetails.gas_used.text")}
-                  href={"https://docs.near.org/docs/concepts/gas"}
+                  href="https://docs.near.org/docs/concepts/gas"
                 />
               }
               imgLink="/static/images/icon-m-size.svg"
@@ -135,7 +132,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 <Term
                   title={t("component.blocks.BlockDetails.gas_price.title")}
                   text={t("component.blocks.BlockDetails.gas_price.text")}
-                  href={"https://docs.near.org/docs/concepts/gas"}
+                  href="https://docs.near.org/docs/concepts/gas"
                 />
               }
               imgLink="/static/images/icon-m-filter.svg"

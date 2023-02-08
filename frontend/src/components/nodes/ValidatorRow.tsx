@@ -1,40 +1,17 @@
-import JSBI from "jsbi";
 import * as React from "react";
-import { Col, Row } from "react-bootstrap";
 
+import JSBI from "jsbi";
 import { useTranslation } from "react-i18next";
 
-import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
-import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/ValidatorCollapsedRow";
-
-import { styled } from "@explorer/frontend/libraries/styles";
-import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";
 import { ValidatorFullData } from "@explorer/common/types/procedures";
+import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";
 import ValidatingLabel, {
   StakingStatus,
 } from "@explorer/frontend/components/nodes/ValidatingLabel";
+import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/ValidatorCollapsedRow";
+import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
 import * as BI from "@explorer/frontend/libraries/bigint";
-
-export const ValidatorNodesDetailsTitle = styled(Col, {
-  display: "flex",
-  flexWrap: "nowrap",
-  fontSize: 12,
-  color: "#a2a2a8",
-});
-
-export const ValidatorNodesContentCell = styled(Col, {
-  // TODO: find out why stylesheet specificity takes bootstrap sheet over stitches sheet
-  padding: "0 22px !important",
-  borderRight: "1px solid #e5e5e6",
-
-  "&:last-child": {
-    borderRight: "none",
-  },
-});
-
-export const ValidatorNodesContentRow = styled(Row, {
-  paddingVertical: 16,
-});
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const CumulativeStakeholdersRow = styled("tr", {
   backgroundColor: "#fff6ed",
@@ -55,7 +32,7 @@ interface Props {
   seatPrice?: string;
 }
 
-const EXTRA_PRECISION_MULTIPLIER = Math.pow(10, 2 + FRACTION_DIGITS);
+const EXTRA_PRECISION_MULTIPLIER = 10 ** (2 + FRACTION_DIGITS);
 
 const getStakingStatus = (
   validator: ValidatorFullData,
@@ -64,44 +41,37 @@ const getStakingStatus = (
   if (validator.currentEpoch) {
     if (validator.nextEpoch) {
       return "active";
-    } else {
-      return "leaving";
     }
-  } else {
-    if (validator.nextEpoch) {
-      return "joining";
-    } else {
-      if (validator.afterNextEpoch) {
-        return "proposal";
-      } else {
-        if (!seatPrice) {
-          return null;
-        }
-        const contractStake = validator.contractStake
-          ? JSBI.BigInt(validator.contractStake)
-          : undefined;
-        if (!contractStake) {
-          return null;
-        }
-        const seatPriceBN = JSBI.BigInt(seatPrice);
-        if (JSBI.greaterThanOrEqual(contractStake, seatPriceBN)) {
-          return "onHold";
-        } else if (
-          JSBI.greaterThanOrEqual(
-            contractStake,
-            JSBI.divide(
-              JSBI.multiply(seatPriceBN, JSBI.BigInt(20)),
-              JSBI.BigInt(100)
-            )
-          )
-        ) {
-          return "newcomer";
-        } else {
-          return "idle";
-        }
-      }
-    }
+    return "leaving";
   }
+  if (validator.nextEpoch) {
+    return "joining";
+  }
+  if (validator.afterNextEpoch) {
+    return "proposal";
+  }
+  if (!seatPrice) {
+    return null;
+  }
+  const contractStake = validator.contractStake
+    ? JSBI.BigInt(validator.contractStake)
+    : undefined;
+  if (!contractStake) {
+    return null;
+  }
+  const seatPriceBN = JSBI.BigInt(seatPrice);
+  if (JSBI.greaterThanOrEqual(contractStake, seatPriceBN)) {
+    return "onHold";
+  }
+  if (
+    JSBI.greaterThanOrEqual(
+      contractStake,
+      JSBI.divide(JSBI.multiply(seatPriceBN, JSBI.BigInt(20)), JSBI.BigInt(100))
+    )
+  ) {
+    return "newcomer";
+  }
+  return "idle";
 };
 
 const ValidatorRow: React.FC<Props> = React.memo(
@@ -166,7 +136,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
         ownPercent: ownPercent / EXTRA_PRECISION_MULTIPLIER,
         cumulativePercent: cumulativeStakePercent / EXTRA_PRECISION_MULTIPLIER,
       };
-    }, [totalStake, currentStake, cumulativeStake]);
+    }, [validator.currentEpoch, currentStake, totalStake, cumulativeStake]);
 
     const stakingStatus = getStakingStatus(validator, seatPrice);
 

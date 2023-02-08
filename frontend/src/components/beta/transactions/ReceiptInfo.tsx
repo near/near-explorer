@@ -1,11 +1,12 @@
 import * as React from "react";
-import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { TransactionReceipt } from "@explorer/common/types/procedures";
 
+import { useTranslation } from "react-i18next";
+
+import { TransactionReceipt } from "@explorer/common/types/procedures";
 import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
-import ReceiptDetails from "@explorer/frontend/components/beta/transactions/ReceiptDetails";
 import InspectReceipt from "@explorer/frontend/components/beta/transactions/InspectReceipt";
+import ReceiptDetails from "@explorer/frontend/components/beta/transactions/ReceiptDetails";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
   receipt: TransactionReceipt;

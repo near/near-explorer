@@ -1,7 +1,9 @@
 import React from "react";
+
 import { addMinutes, format, formatISO } from "date-fns";
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
 import { useTranslation } from "react-i18next";
+
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
 
 type Options = Omit<NonNullable<Parameters<typeof format>[2]>, "locale"> & {
   utc?: boolean;
@@ -16,14 +18,14 @@ export const useDateFormat = () => {
       dateFormat: string,
       { utc, ...options }: Options = {}
     ) => {
-      if (utc) {
-        date = addMinutes(date, new Date().getTimezoneOffset());
-      }
+      const tzDate = utc
+        ? addMinutes(date, new Date().getTimezoneOffset())
+        : date;
       if (i18n.language === "cimode") {
-        return formatISO(date) + " formatted by " + dateFormat;
+        return `${formatISO(tzDate)} formatted by ${dateFormat}`;
       }
-      return format(date, dateFormat, { ...options, locale });
+      return format(tzDate, dateFormat, { ...options, locale });
     },
-    [locale]
+    [locale, i18n.language]
   );
 };

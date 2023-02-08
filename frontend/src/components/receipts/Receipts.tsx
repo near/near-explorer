@@ -1,11 +1,11 @@
 import * as React from "react";
+
 import { useTranslation } from "react-i18next";
 
 import { Receipt } from "@explorer/common/types/procedures";
-
+import ReceiptExecutionStatus from "@explorer/frontend/components/receipts/ReceiptExecutionStatus";
 import ActionGroup from "@explorer/frontend/components/transactions/ActionGroup";
 import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
-import ReceiptExecutionStatus from "@explorer/frontend/components/receipts/ReceiptExecutionStatus";
 
 interface Props {
   receipts: Receipt[];
@@ -15,9 +15,9 @@ const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
   const { t } = useTranslation();
   return (
     <>
-      {receipts.map((receipt, index) => (
+      {receipts.map((receipt) => (
         <ActionGroup
-          key={`${receipt.id}_${index}`}
+          key={receipt.id}
           actionGroup={receipt}
           detailsLink={
             <ReceiptLink

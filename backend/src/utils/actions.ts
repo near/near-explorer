@@ -167,26 +167,25 @@ export const mapDatabaseActionToAction = (action: DatabaseAction): Action => {
             },
           },
         };
-      } else {
-        return {
-          kind: "addKey",
-          args: {
-            publicKey: action.args.public_key,
-            accessKey: {
-              nonce: action.args.access_key.nonce,
-              permission: {
-                type: "functionCall",
-                contractId:
-                  action.args.access_key.permission.permission_details
-                    .receiver_id,
-                methodNames:
-                  action.args.access_key.permission.permission_details
-                    .method_names,
-              },
+      }
+      return {
+        kind: "addKey",
+        args: {
+          publicKey: action.args.public_key,
+          accessKey: {
+            nonce: action.args.access_key.nonce,
+            permission: {
+              type: "functionCall",
+              contractId:
+                action.args.access_key.permission.permission_details
+                  .receiver_id,
+              methodNames:
+                action.args.access_key.permission.permission_details
+                  .method_names,
             },
           },
-        };
-      }
+        },
+      };
     }
     case "CREATE_ACCOUNT":
       return { kind: "createAccount", args: {} };

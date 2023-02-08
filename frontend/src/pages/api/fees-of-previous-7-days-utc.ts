@@ -1,11 +1,12 @@
-import { NextApiHandler } from "next";
 import { format } from "date-fns";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+import { NextApiHandler } from "next";
+
 import {
   isNetworkOffline,
   respondNetworkOffline,
 } from "@explorer/frontend/libraries/api";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -13,8 +14,9 @@ const handler: NextApiHandler = async (req, res) => {
     if (isNetworkOffline(networkName)) {
       return respondNetworkOffline(res, networkName);
     }
-    let resp = [];
-    for (let i = 1; i <= 7; i++) {
+    const resp = [];
+    for (let i = 1; i <= 7; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
       const tokensBurntPerDay = await getTrpcClient(networkName).query(
         "stats.tokensBurnt",
         { daysFromNow: i }
@@ -30,6 +32,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
     res.send(resp);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }

@@ -1,17 +1,16 @@
 import * as React from "react";
+
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-
-import { styled } from "@explorer/frontend/libraries/styles";
 
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
 import LongCardCell, {
   CardCellText,
 } from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
-
 import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const CountCell = styled(LongCardCell, {
   [`& ${CardCellText}`]: {
@@ -39,9 +38,7 @@ const DashboardNode: React.FC = React.memo(() => {
                   "component.dashboard.DashboardNode.nodes_online.title"
                 )}
                 text={t("component.dashboard.DashboardNode.nodes_online.text")}
-                href={
-                  "https://docs.near.org/docs/develop/node/intro/what-is-a-node"
-                }
+                href="https://docs.near.org/docs/develop/node/intro/what-is-a-node"
               />
             }
             loading={onlineNodesCountSub.status === "loading"}
@@ -66,14 +63,12 @@ const DashboardNode: React.FC = React.memo(() => {
                 text={t(
                   "component.dashboard.DashboardNode.nodes_validating.text"
                 )}
-                href={
-                  "https://docs.near.org/docs/roles/integrator/faq#validators"
-                }
+                href="https://docs.near.org/docs/roles/integrator/faq#validators"
               />
             }
             loading={networkStats === undefined}
             text={networkStats?.currentValidatorsCount.toLocaleString()}
-            href={"/nodes/validators"}
+            href="/nodes/validators"
           />
         </Col>
       </Row>

@@ -1,11 +1,11 @@
 import * as React from "react";
 
 import { Table as BaseTable } from "react-bootstrap";
-import { styled } from "@explorer/frontend/libraries/styles";
 
 import Pagination, {
   Props as PaginationProps,
 } from "@explorer/frontend/components/utils/Pagination";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const TableExpandRow = styled("tr", {
   transition: "height 0.5s 0.5s, opacity 0.5s",
@@ -72,13 +72,11 @@ interface Props {
 }
 
 export const TableRow: React.FC<Props> = React.memo(
-  ({ className, children, collapse }) => {
-    return (
-      <TableRowWrapper className={className} expanded={collapse}>
-        {children}
-      </TableRowWrapper>
-    );
-  }
+  ({ className, children, collapse }) => (
+    <TableRowWrapper className={className} expanded={collapse}>
+      {children}
+    </TableRowWrapper>
+  )
 );
 
 export const TableCollapseRow: React.FC<Props> = React.memo(

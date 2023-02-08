@@ -1,4 +1,5 @@
 import { sql } from "kysely";
+
 import {
   analyticsDatabase,
   indexerDatabase,
@@ -48,8 +49,8 @@ const queryAccountIncomeTransactionsCount = async (accountId: string) => {
     .executeTakeFirst();
 
   return (
-    parseInt(dailyTransactionsSelection.transactionsCount || "0") +
-    parseInt(lastDayTransactionSelection?.transactionsCount || "0")
+    parseInt(dailyTransactionsSelection.transactionsCount || "0", 10) +
+    parseInt(lastDayTransactionSelection?.transactionsCount || "0", 10)
   );
 };
 
@@ -83,8 +84,8 @@ const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
     .executeTakeFirstOrThrow();
 
   return (
-    parseInt(dailyTransactionsSelection.transactionsCount || "0") +
-    parseInt(lastDayTransactionSelection.transactionsCount || "0")
+    parseInt(dailyTransactionsSelection.transactionsCount || "0", 10) +
+    parseInt(lastDayTransactionSelection.transactionsCount || "0", 10)
   );
 };
 

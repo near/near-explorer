@@ -13,16 +13,18 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-Cypress.Commands.overwrite("visit", (originalVisit, url, options) => {
-  return originalVisit(url, {
+// Import commands.js using ES2015 syntax:
+import "./commands";
+
+// eslint-disable-next-line no-undef
+Cypress.Commands.overwrite("visit", (originalVisit, url, options) =>
+  originalVisit(url, {
     ...options,
     onBeforeLoad: (contentWindow) =>
       // Setting language explicit to make tests same on machines with different locales
       (contentWindow.document.cookie = "NEXT_LOCALE=en"),
-  });
-});
-// Import commands.js using ES2015 syntax:
-import "./commands";
+  })
+);
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

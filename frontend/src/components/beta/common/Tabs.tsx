@@ -1,6 +1,7 @@
 import * as React from "react";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import LinkWrapper from "@explorer/frontend/components/utils/Link";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const Wrapper = styled("div", {});
 
@@ -124,13 +125,11 @@ export const Tabs = React.memo(<T extends string>(props: Props<T>) => {
         })}
         <TabSlider style={sliderPosition} />
       </TabLabels>
-      {props.tabs.map(({ node, id }) => {
-        return (
-          <Tab key={id} selected={id === selectedId}>
-            {node}
-          </Tab>
-        );
-      })}
+      {props.tabs.map(({ node, id }) => (
+        <Tab key={id} selected={id === selectedId}>
+          {node}
+        </Tab>
+      ))}
     </Wrapper>
   );
 });

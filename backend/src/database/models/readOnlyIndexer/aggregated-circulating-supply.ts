@@ -1,8 +1,6 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { BlocksId } from "./blocks";
-
 export type AggregatedCirculatingSupplyId = string & {
   " __flavor"?: "aggregated__circulating_supply";
 };

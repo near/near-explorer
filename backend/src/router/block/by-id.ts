@@ -2,9 +2,9 @@ import * as trpc from "@trpc/server";
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { validators } from "@explorer/backend/router/validators";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { count, div, sum } from "@explorer/backend/database/utils";
+import { validators } from "@explorer/backend/router/validators";
 
 export const router = trpc.router<Context>().query("byId", {
   input: z.union([
@@ -14,17 +14,17 @@ export const router = trpc.router<Context>().query("byId", {
   resolve: async ({ input }) => {
     const selection = await indexerDatabase
       .selectFrom((eb) => {
-        let selection = eb.selectFrom("blocks").select("block_hash");
+        let innerSelection = eb.selectFrom("blocks").select("block_hash");
         if ("hash" in input) {
-          selection = selection.where("block_hash", "=", input.hash);
+          innerSelection = innerSelection.where("block_hash", "=", input.hash);
         } else {
-          selection = selection.where(
+          innerSelection = innerSelection.where(
             "block_height",
             "=",
             String(input.height)
           );
         }
-        return selection.as("innerblocks");
+        return innerSelection.as("innerblocks");
       })
       .leftJoin("transactions", (jb) =>
         jb.onRef("included_in_block_hash", "=", "innerblocks.block_hash")
@@ -67,8 +67,8 @@ export const router = trpc.router<Context>().query("byId", {
       // TODO: Discover how to get rid of non-null type assertion
       hash: selection.hash!,
       // TODO: Discover how to get rid of non-null type assertion
-      height: parseInt(selection.height!),
-      timestamp: parseInt(selection.timestamp),
+      height: parseInt(selection.height!, 10),
+      timestamp: parseInt(selection.timestamp, 10),
       // TODO: Discover how to get rid of non-null type assertion
       prevHash: selection.prevHash!,
       // TODO: Discover how to get rid of non-null type assertion
@@ -79,7 +79,7 @@ export const router = trpc.router<Context>().query("byId", {
       totalSupply: selection.totalSupply!,
       // TODO: Discover how to get rid of non-null type assertion
       authorAccountId: selection.authorAccountId!,
-      transactionsCount: parseInt(selection.transactionsCount),
+      transactionsCount: parseInt(selection.transactionsCount, 10),
       gasUsed: gasUsedInChunksSelection?.gasUsed || "0",
       receiptsCount: receiptsCountSelection?.count || 0,
     };

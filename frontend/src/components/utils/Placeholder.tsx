@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const PlaceholderWrapper = styled("div", {
@@ -13,12 +14,12 @@ const PlaceholderText = styled("p", {
   margin: 3,
 });
 
-export interface Props {
+export type Props = {
   children: React.ReactNode;
-}
+} & React.ComponentProps<typeof PlaceholderWrapper>;
 
-const Placeholder: React.FC<Props> = React.memo(({ children }) => (
-  <PlaceholderWrapper>
+const Placeholder: React.FC<Props> = React.memo(({ children, ...props }) => (
+  <PlaceholderWrapper {...props}>
     <PlaceholderText>{children}</PlaceholderText>
   </PlaceholderWrapper>
 ));

@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next";
+
 import {
   isNetworkOffline,
   respondNetworkOffline,
@@ -8,7 +9,7 @@ import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    let ipAddress =
+    const ipAddress =
       req.headers["x-forwarded-for"] ||
       req.connection.remoteAddress ||
       req.socket.remoteAddress;
@@ -24,6 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
     });
     res.send({});
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Handler ${req.url} failed:`, error);
     res.status(400).send(error);
   }

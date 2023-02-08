@@ -1,4 +1,5 @@
 import React from "react";
+
 import { styled } from "@explorer/frontend/libraries/styles";
 
 export type ExpandComponent = React.ComponentType<{
@@ -16,7 +17,7 @@ type Props = {
   children: (ref: React.RefObject<HTMLElement>) => React.ReactNode;
   collapseHeight: number;
   maxHeight?: number;
-  dependencies: unknown[];
+  dependencies: React.DependencyList;
   expandComponent: ExpandComponent;
 };
 
@@ -35,6 +36,8 @@ const Expandable: React.FC<Props> = ({
       return;
     }
     setHeight(Math.round(ref.current.scrollHeight));
+    // We need to pass a list of values on change of which we should update collapse height
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, ...dependencies]);
 
   return (

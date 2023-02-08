@@ -1,8 +1,6 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
-
 export type ActionReceiptsId = string & { " __flavor"?: "action_receipts" };
 
 export default interface ActionReceipts {

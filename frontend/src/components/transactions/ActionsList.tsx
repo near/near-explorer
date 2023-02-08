@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Action } from "@explorer/common/types/procedures";
 
+import { Action } from "@explorer/common/types/procedures";
 import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
 import {
   ViewMode,
@@ -28,25 +28,24 @@ const ActionList: React.FC<Props> = React.memo(
     viewMode,
     detalizationMode,
     showDetails,
-  }) => {
-    return (
-      <>
-        {actions.map((action, actionIndex) => (
-          <ActionRow
-            key={signerId + actionIndex}
-            action={action}
-            signerId={signerId}
-            receiverId={receiverId}
-            blockTimestamp={blockTimestamp}
-            detailsLink={detailsLink}
-            viewMode={viewMode}
-            detalizationMode={detalizationMode}
-            showDetails={showDetails}
-          />
-        ))}
-      </>
-    );
-  }
+  }) => (
+    <>
+      {actions.map((action, actionIndex) => (
+        <ActionRow
+          // eslint-disable-next-line react/no-array-index-key
+          key={signerId + actionIndex}
+          action={action}
+          signerId={signerId}
+          receiverId={receiverId}
+          blockTimestamp={blockTimestamp}
+          detailsLink={detailsLink}
+          viewMode={viewMode}
+          detalizationMode={detalizationMode}
+          showDetails={showDetails}
+        />
+      ))}
+    </>
+  )
 );
 
 export default ActionList;

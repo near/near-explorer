@@ -1,6 +1,5 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
-import { notNullGuard } from "@explorer/common/utils/utils";
 
 import { Context } from "@explorer/backend/context";
 import {
@@ -8,6 +7,7 @@ import {
   indexerDatabase,
 } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
+import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
   DatabaseAction,
@@ -18,7 +18,7 @@ import {
   mapDatabaseTransactionStatus,
   TransactionStatus,
 } from "@explorer/backend/utils/transaction-status";
-import { validators } from "@explorer/backend/router/validators";
+import { notNullGuard } from "@explorer/common/utils/utils";
 
 type ActivityConnectionActions = {
   parentAction?: AccountActivityAction & ActivityConnection;
@@ -125,8 +125,8 @@ const queryBalanceChanges = async (
 
 const getIdsFromAccountChanges = (
   changes: Awaited<ReturnType<typeof queryBalanceChanges>>
-) => {
-  return changes.reduce<{
+) =>
+  changes.reduce<{
     receiptIds: string[];
     transactionHashes: string[];
     blocksTimestamps: string[];
@@ -150,7 +150,6 @@ const getIdsFromAccountChanges = (
       blocksTimestamps: [],
     }
   );
-};
 
 const getActivityAction = (actions: Action[]): AccountActivityAction => {
   if (actions.length === 0) {
@@ -191,13 +190,11 @@ const withActivityConnection = <T>(
 const withConnections = <T>(
   input: T,
   source: ReceiptPreview | TransactionPreview
-): T & Pick<ActivityConnection, "sender" | "receiver"> => {
-  return {
-    ...input,
-    sender: source.signerId,
-    receiver: source.receiverId,
-  };
-};
+): T & Pick<ActivityConnection, "sender" | "receiver"> => ({
+  ...input,
+  sender: source.signerId,
+  receiver: source.receiverId,
+});
 
 const getAccountActivityAction = (
   change: Awaited<ReturnType<typeof queryBalanceChanges>>[number],
@@ -268,12 +265,13 @@ const getAccountActivityAction = (
         connectedTransaction
       );
     }
-    case "VALIDATORS_REWARD":
+    case "VALIDATORS_REWARD": {
       const connectedBlock = blockHeightsMapping.get(change.blockTimestamp!)!;
       return withActivityConnection({
         kind: "validatorReward",
         blockHash: connectedBlock.hash,
       });
+    }
   }
   throw new Error(`Unknown cause: ${change.cause}`);
 };
@@ -293,8 +291,8 @@ const getBlockHeightsByTimestamps = async (blockTimestamps: string[]) => {
   );
 };
 
-const queryReceiptsByIds = async (ids: string[]) => {
-  return indexerDatabase
+const queryReceiptsByIds = async (ids: string[]) =>
+  indexerDatabase
     .selectFrom("action_receipt_actions")
     .innerJoin("receipts", (jb) =>
       jb.onRef("receipts.receipt_id", "=", "action_receipt_actions.receipt_id")
@@ -319,7 +317,33 @@ const queryReceiptsByIds = async (ids: string[]) => {
     .where("action_receipt_actions.receipt_id", "in", ids)
     .where("receipt_kind", "=", "ACTION")
     .execute();
-};
+
+const getReceiptMapping = (
+  receiptRows: Awaited<ReturnType<typeof queryReceiptsByIds>>,
+  initialMapping: Map<string, ReceiptPreview> = new Map()
+) =>
+  receiptRows.reduce((mapping, receipt) => {
+    const action = mapDatabaseActionToAction({
+      hash: receipt.originatedFromTransactionHash,
+      kind: receipt.kind,
+      args: receipt.args,
+    } as DatabaseAction);
+    const existingReceipt = mapping.get(receipt.id);
+    if (!existingReceipt) {
+      return mapping.set(receipt.id, {
+        type: "receipt",
+        signerId: receipt.predecessorId,
+        receiverId: receipt.receiverId,
+        receiptId: receipt.id,
+        originatedFromTransactionHash: receipt.originatedFromTransactionHash,
+        actions: [action],
+      });
+    }
+    return mapping.set(receipt.id, {
+      ...existingReceipt,
+      actions: [...existingReceipt.actions, action],
+    });
+  }, new Map<string, ReceiptPreview>(initialMapping));
 
 const getReceiptsByIds = async (
   ids: string[]
@@ -347,7 +371,7 @@ const getReceiptsByIds = async (
     .orWhere("produced_receipt_id", "in", ids)
     .execute();
   const relations = ids.reduce((acc, id) => {
-    let relatedIds: {
+    const relatedIds: {
       parentReceiptId: string | null;
       childrenReceiptIds: string[];
     } = {
@@ -393,33 +417,6 @@ const getReceiptsByIds = async (
     relations,
   };
 };
-
-const getReceiptMapping = (
-  receiptRows: Awaited<ReturnType<typeof queryReceiptsByIds>>,
-  initialMapping: Map<string, ReceiptPreview> = new Map()
-) =>
-  receiptRows.reduce((mapping, receipt) => {
-    const action = mapDatabaseActionToAction({
-      hash: receipt.originatedFromTransactionHash,
-      kind: receipt.kind,
-      args: receipt.args,
-    } as DatabaseAction);
-    const existingReceipt = mapping.get(receipt.id);
-    if (!existingReceipt) {
-      return mapping.set(receipt.id, {
-        type: "receipt",
-        signerId: receipt.predecessorId,
-        receiverId: receipt.receiverId,
-        receiptId: receipt.id,
-        originatedFromTransactionHash: receipt.originatedFromTransactionHash,
-        actions: [action],
-      });
-    }
-    return mapping.set(receipt.id, {
-      ...existingReceipt,
-      actions: [...existingReceipt.actions, action],
-    });
-  }, new Map<string, ReceiptPreview>(initialMapping));
 
 const getTransactionsByHashes = async (
   hashes: string[]

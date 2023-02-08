@@ -1,14 +1,14 @@
-import Head from "next/head";
+import * as React from "react";
 
-import Content from "@explorer/frontend/components/utils/Content";
+import { NextPage } from "next";
+import Head from "next/head";
+import { useTranslation } from "react-i18next";
+
 import Transactions, {
   getNextPageParam,
 } from "@explorer/frontend/components/transactions/Transactions";
-
-import { useTranslation } from "react-i18next";
-import { NextPage } from "next";
+import Content from "@explorer/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import * as React from "react";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const TRANSACTIONS_PER_PAGE = 15;

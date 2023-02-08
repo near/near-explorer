@@ -4,9 +4,9 @@ import { z } from "zod";
 import { Context } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
-import * as nearApi from "@explorer/backend/utils/near";
-import { validators } from "@explorer/backend/router/validators";
 import { validateBase64Image } from "@explorer/backend/router/account/fungible-tokens";
+import { validators } from "@explorer/backend/router/validators";
+import * as nearApi from "@explorer/backend/utils/near";
 
 // https://nomicon.io/Standards/Tokens/NonFungibleToken/Core#nft-interface
 type Token = {
@@ -142,7 +142,7 @@ export const router = trpc
       );
 
       return nftsPerContractCount.reduce(
-        (acc, count) => acc + parseInt(count),
+        (acc, count) => acc + parseInt(count, 10),
         0
       );
     },
@@ -187,7 +187,7 @@ export const router = trpc
         tokenId: element.tokenId,
         transactionHash: element.transactionHash,
         receiptId: element.receiptId,
-        timestamp: parseInt(element.timestamp),
+        timestamp: parseInt(element.timestamp, 10),
       }));
     },
   });

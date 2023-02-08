@@ -1,5 +1,5 @@
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/37087#issuecomment-937905781
-import "react";
+import * as React from "react";
 
 declare module "react" {
   function forwardRef<T, P = {}>(

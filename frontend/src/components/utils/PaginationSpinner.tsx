@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { Row, Col, Spinner } from "react-bootstrap";
 
 const PaginationSpinner: React.FC = React.memo(() => (

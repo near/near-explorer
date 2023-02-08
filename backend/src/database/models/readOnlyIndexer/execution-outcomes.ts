@@ -1,7 +1,6 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
 import { BlocksId } from "./blocks";
 import ExecutionOutcomeStatus from "./execution-outcome-status";
 

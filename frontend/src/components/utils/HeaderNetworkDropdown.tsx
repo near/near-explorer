@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Dropdown } from "react-bootstrap";
-import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
+import { Dropdown } from "react-bootstrap";
+
 import { NetworkName } from "@explorer/common/types/common";
+import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const HeaderNetworkItemDropdown = styled(Dropdown.Item, {
@@ -16,6 +17,34 @@ const HeaderNetworkItemDropdown = styled(Dropdown.Item, {
 
   "&:hover, &:active": {
     backgroundColor: "#e6e6e6",
+  },
+});
+
+const NetworkIcon = styled("div", {
+  display: "inline-block",
+  marginRight: 8,
+  size: 8,
+  borderRadius: "50%",
+
+  variants: {
+    network: {
+      mainnet: {
+        background: "#00c08b",
+      },
+      testnet: {
+        background: "#e9b870",
+      },
+      shardnet: {
+        background: "#aa89f1",
+      },
+      guildnet: {
+        background: "#0072ce",
+      },
+      localnet: {},
+    },
+  },
+  defaultVariants: {
+    network: "localnet",
   },
 });
 
@@ -77,34 +106,6 @@ const HeaderNetworkDropdownMenu = styled(Dropdown.Menu, {
   minWidth: 154,
 });
 
-const NetworkIcon = styled("div", {
-  display: "inline-block",
-  marginRight: 8,
-  size: 8,
-  borderRadius: "50%",
-
-  variants: {
-    network: {
-      mainnet: {
-        background: "#00c08b",
-      },
-      testnet: {
-        background: "#e9b870",
-      },
-      shardnet: {
-        background: "#aa89f1",
-      },
-      guildnet: {
-        background: "#0072ce",
-      },
-      localnet: {},
-    },
-  },
-  defaultVariants: {
-    network: "localnet",
-  },
-});
-
 const DropdownArrow = styled("img", {
   marginLeft: 9,
 });
@@ -126,15 +127,13 @@ const HeaderNetworkDropdown: React.FC = React.memo(() => {
         <DropdownArrow src="/static/images/down-blue-arrow.svg" />
       </HeaderNetwork>
       <HeaderNetworkDropdownMenu>
-        {networks.map(([name, network]) => {
-          return (
-            <HeaderDropdownItem
-              key={name}
-              title={name}
-              link={network.explorerLink}
-            />
-          );
-        })}
+        {networks.map(([name, network]) => (
+          <HeaderDropdownItem
+            key={name}
+            title={name}
+            link={network.explorerLink}
+          />
+        ))}
       </HeaderNetworkDropdownMenu>
     </Dropdown>
   );

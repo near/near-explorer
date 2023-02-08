@@ -1,9 +1,7 @@
 import * as React from "react";
-import Image from "next/image";
-import { useTranslation } from "react-i18next";
 
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import Image from "next/image";
+import { Spinner } from "react-bootstrap";
 
 import {
   AccountNonFungibleTokenElement,
@@ -13,7 +11,8 @@ import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
-import { Spinner } from "react-bootstrap";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const Wrapper = styled("div", {
   width: 380,
@@ -137,7 +136,6 @@ type Props = {
 
 const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
   ({ token, onClick }) => {
-    const { t } = useTranslation();
     const tokenHistoryQuery = trpc.useQuery([
       "account.nonFungibleTokenHistory",
       { tokenAuthorAccountId: token.authorAccountId, tokenId: token.tokenId },

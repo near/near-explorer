@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import { TableCollapseRow } from "@explorer/frontend/components/utils/Table";
-
-import ValidatorMetadataRow from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
-import ValidatorProgressElement from "@explorer/frontend/components/nodes/ValidatorProgressElement";
-import ValidatorTelemetryElements from "@explorer/frontend/components/nodes/ValidatorTelemetryElements";
 import {
   ValidatorTelemetry,
   ValidatorDescription,
   ValidationProgress,
 } from "@explorer/common/types/procedures";
-import { ValidatorNodesContentRow } from "@explorer/frontend/components/nodes/ValidatorRow";
+import ValidatorMetadataRow, {
+  ValidatorNodesContentRow,
+} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
+import ValidatorProgressElement from "@explorer/frontend/components/nodes/ValidatorProgressElement";
+import ValidatorTelemetryElements from "@explorer/frontend/components/nodes/ValidatorTelemetryElements";
+import { TableCollapseRow } from "@explorer/frontend/components/utils/Table";
 
 interface Props {
   isRowActive: boolean;

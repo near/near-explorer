@@ -6,18 +6,18 @@
 // https://github.com/impero-com/typebinder
 // https://github.com/tcr/wasm-typescript-definition
 
-type u8 = number;
-type u32 = number;
-type u64 = number;
-type u128 = string;
-type bool = boolean;
-type isize = u64 | u32;
-type usize = u64 | u32;
+type U8 = number;
+type U32 = number;
+type U64 = number;
+type U128 = string;
+type Bool = boolean;
+type Isize = U64 | U32;
+type Usize = U64 | U32;
 type Option<T> = T | null;
 type String = string;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/version/type.ProtocolVersion.html
-type ProtocolVersion = u32;
+type ProtocolVersion = U32;
 
 // https://docs.rs/chrono/latest/chrono/offset/struct.Utc.html
 type Utc = unknown;
@@ -26,10 +26,10 @@ type Utc = unknown;
 type DateTime<T extends unknown = unknown> = string & T;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.BlockHeight.html
-type BlockHeight = u64;
+type BlockHeight = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.NumSeats.html
-type NumSeats = u64;
+type NumSeats = U64;
 
 // https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html
 type Vec<T> = T[];
@@ -38,34 +38,34 @@ type Vec<T> = T[];
 type Ratio<T> = [T, T];
 
 // https://docs.rs/num-rational/0.3.2/num_rational/type.Rational.html
-type Rational = Ratio<isize>;
+type Rational = Ratio<Isize>;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.EpochHeight.html
-type EpochHeight = u64;
+type EpochHeight = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.BlockHeightDelta.html
-type BlockHeightDelta = u64;
+type BlockHeightDelta = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.Gas.html
-type Gas = u64;
+type Gas = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.Balance.html
-type Balance = u128;
+type Balance = U128;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.NumBlocks.html
-type NumBlocks = u64;
+type NumBlocks = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/account/id/struct.AccountId.html
 type AccountId = string;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.NumShards.html
-type NumShards = u64;
+type NumShards = U64;
 
 // https://docs.rs/near-primitives/0.12.0/src/near_primitives/shard_layout.rs.html#54
-type ShardVersion = u32;
+type ShardVersion = U32;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.ShardId.html
-type ShardId = u64;
+type ShardId = U64;
 
 // https://docs.rs/near-primitives/0.12.0/src/near_primitives/shard_layout.rs.html#79
 type ShardSplitMap = Vec<Vec<ShardId>>;
@@ -80,10 +80,10 @@ type CryptoHash = string;
 type Signature = string;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.StorageUsage.html
-type StorageUsage = u64;
+type StorageUsage = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.Nonce.html
-export type Nonce = u64;
+export type Nonce = U64;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/types/type.MerkleHash.html
 type MerkleHash = CryptoHash;
@@ -115,7 +115,7 @@ type DataReceiptCreationConfig = {
 // https://docs.rs/near-primitives/0.12.0/near_primitives/challenge/struct.SlashedValidator.html
 type SlashedValidator = {
   account_id: AccountId;
-  is_double_sign: bool;
+  is_double_sign: Bool;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/challenge/type.ChallengesResult.html
@@ -137,8 +137,8 @@ type ActionCreationConfig = {
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/runtime/fees/struct.StorageUsageConfig.html
 type StorageUsageConfig = {
-  num_bytes_account: u64;
-  num_extra_bytes_record: u64;
+  num_bytes_account: U64;
+  num_extra_bytes_record: U64;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/runtime/fees/struct.RuntimeFeesConfig.html
@@ -147,105 +147,105 @@ type RuntimeFeesConfig = {
   data_receipt_creation_config: DataReceiptCreationConfig;
   action_creation_config: ActionCreationConfig;
   storage_usage_config: StorageUsageConfig;
-  burnt_gas_reward: Ratio<isize>;
-  pessimistic_gas_price_inflation_ratio: Ratio<isize>;
+  burnt_gas_reward: Ratio<Isize>;
+  pessimistic_gas_price_inflation_ratio: Ratio<Isize>;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/config/struct.ExtCostsConfig.html
 type ExtCostsConfig = {
-  base: u64;
-  contract_compile_base: u64;
-  contract_compile_bytes: u64;
-  read_memory_base: u64;
-  read_memory_byte: u64;
-  write_memory_base: u64;
-  write_memory_byte: u64;
-  read_register_base: u64;
-  read_register_byte: u64;
-  write_register_base: u64;
-  write_register_byte: u64;
-  utf8_decoding_base: u64;
-  utf8_decoding_byte: u64;
-  utf16_decoding_base: u64;
-  utf16_decoding_byte: u64;
-  sha256_base: u64;
-  sha256_byte: u64;
-  keccak256_base: u64;
-  keccak256_byte: u64;
-  keccak512_base: u64;
-  keccak512_byte: u64;
-  ripemd160_base: u64;
-  ripemd160_block: u64;
-  ecrecover_base: u64;
-  log_base: u64;
-  log_byte: u64;
-  storage_write_base: u64;
-  storage_write_key_byte: u64;
-  storage_write_value_byte: u64;
-  storage_write_evicted_byte: u64;
-  storage_read_base: u64;
-  storage_read_key_byte: u64;
-  storage_read_value_byte: u64;
-  storage_remove_base: u64;
-  storage_remove_key_byte: u64;
-  storage_remove_ret_value_byte: u64;
-  storage_has_key_base: u64;
-  storage_has_key_byte: u64;
-  storage_iter_create_prefix_base: u64;
-  storage_iter_create_prefix_byte: u64;
-  storage_iter_create_range_base: u64;
-  storage_iter_create_from_byte: u64;
-  storage_iter_create_to_byte: u64;
-  storage_iter_next_base: u64;
-  storage_iter_next_key_byte: u64;
-  storage_iter_next_value_byte: u64;
-  touching_trie_node: u64;
-  promise_and_base: u64;
-  promise_and_per_promise: u64;
-  promise_return: u64;
-  validator_stake_base: u64;
-  validator_total_stake_base: u64;
+  base: U64;
+  contract_compile_base: U64;
+  contract_compile_bytes: U64;
+  read_memory_base: U64;
+  read_memory_byte: U64;
+  write_memory_base: U64;
+  write_memory_byte: U64;
+  read_register_base: U64;
+  read_register_byte: U64;
+  write_register_base: U64;
+  write_register_byte: U64;
+  utf8_decoding_base: U64;
+  utf8_decoding_byte: U64;
+  utf16_decoding_base: U64;
+  utf16_decoding_byte: U64;
+  sha256_base: U64;
+  sha256_byte: U64;
+  keccak256_base: U64;
+  keccak256_byte: U64;
+  keccak512_base: U64;
+  keccak512_byte: U64;
+  ripemd160_base: U64;
+  ripemd160_block: U64;
+  ecrecover_base: U64;
+  log_base: U64;
+  log_byte: U64;
+  storage_write_base: U64;
+  storage_write_key_byte: U64;
+  storage_write_value_byte: U64;
+  storage_write_evicted_byte: U64;
+  storage_read_base: U64;
+  storage_read_key_byte: U64;
+  storage_read_value_byte: U64;
+  storage_remove_base: U64;
+  storage_remove_key_byte: U64;
+  storage_remove_ret_value_byte: U64;
+  storage_has_key_base: U64;
+  storage_has_key_byte: U64;
+  storage_iter_create_prefix_base: U64;
+  storage_iter_create_prefix_byte: U64;
+  storage_iter_create_range_base: U64;
+  storage_iter_create_from_byte: U64;
+  storage_iter_create_to_byte: U64;
+  storage_iter_next_base: U64;
+  storage_iter_next_key_byte: U64;
+  storage_iter_next_value_byte: U64;
+  touching_trie_node: U64;
+  promise_and_base: U64;
+  promise_and_per_promise: U64;
+  promise_return: U64;
+  validator_stake_base: U64;
+  validator_total_stake_base: U64;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/config/struct.VMLimitConfig.html
 type VMLimitConfig = {
-  max_gas_burnt: u64;
-  max_gas_burnt_view: u64;
-  max_stack_height: u32;
-  initial_memory_pages: u32;
-  max_memory_pages: u32;
-  registers_memory_limit: u64;
-  max_register_size: u64;
-  max_number_registers: u64;
-  max_number_logs: u64;
-  max_total_log_length: u64;
-  max_total_prepaid_gas: u64;
-  max_actions_per_receipt: u64;
-  max_number_bytes_method_names: u64;
-  max_length_method_name: u64;
-  max_arguments_length: u64;
-  max_length_returned_data: u64;
-  max_contract_size: u64;
-  max_transaction_size: u64;
-  max_length_storage_key: u64;
-  max_length_storage_value: u64;
-  max_promises_per_function_call_action: u64;
-  max_number_input_data_dependencies: u64;
+  max_gas_burnt: U64;
+  max_gas_burnt_view: U64;
+  max_stack_height: U32;
+  initial_memory_pages: U32;
+  max_memory_pages: U32;
+  registers_memory_limit: U64;
+  max_register_size: U64;
+  max_number_registers: U64;
+  max_number_logs: U64;
+  max_total_log_length: U64;
+  max_total_prepaid_gas: U64;
+  max_actions_per_receipt: U64;
+  max_number_bytes_method_names: U64;
+  max_length_method_name: U64;
+  max_arguments_length: U64;
+  max_length_returned_data: U64;
+  max_contract_size: U64;
+  max_transaction_size: U64;
+  max_length_storage_key: U64;
+  max_length_storage_value: U64;
+  max_promises_per_function_call_action: U64;
+  max_number_input_data_dependencies: U64;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/config/struct.VMConfig.html
 type VMConfig = {
   ext_costs: ExtCostsConfig;
-  grow_mem_cost: u32;
-  regular_op_cost: u32;
+  grow_mem_cost: U32;
+  regular_op_cost: U32;
   limit_config: VMLimitConfig;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/runtime/fees/struct.Fee.html
 type Fee = {
-  send_sir: u64;
-  send_not_sir: u64;
-  execution: u64;
+  send_sir: U64;
+  send_not_sir: U64;
+  execution: U64;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/runtime/fees/struct.AccessKeyCreationConfig.html
@@ -257,7 +257,7 @@ type AccessKeyCreationConfig = {
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/runtime/config/struct.AccountCreationConfig.html
 type AccountCreationConfig = {
-  min_allowed_top_level_account_length: u8;
+  min_allowed_top_level_account_length: U8;
   registrar_account_id: AccountId;
 };
 
@@ -315,15 +315,15 @@ type GenesisConfig = {
   num_block_producer_seats: NumSeats;
   num_block_producer_seats_per_shard: Vec<NumSeats>;
   avg_hidden_validator_seats_per_shard: Vec<NumSeats>;
-  dynamic_resharding: bool;
+  dynamic_resharding: Bool;
   protocol_upgrade_stake_threshold: Rational;
   protocol_upgrade_num_epochs: EpochHeight;
   epoch_length: BlockHeightDelta;
   gas_limit: Gas;
   min_gas_price: Balance;
   max_gas_price: Balance;
-  block_producer_kickout_threshold: u8;
-  chunk_producer_kickout_threshold: u8;
+  block_producer_kickout_threshold: U8;
+  chunk_producer_kickout_threshold: U8;
   online_min_threshold: Rational;
   online_max_threshold: Rational;
   gas_price_adjustment_rate: Rational;
@@ -335,7 +335,7 @@ type GenesisConfig = {
   num_blocks_per_year: NumBlocks;
   protocol_treasury_account: AccountId;
   fishermen_threshold: Balance;
-  minimum_stake_divisor: u64;
+  minimum_stake_divisor: U64;
   shard_layout: ShardLayout;
   simple_nightshade_shard_layout: Option<ShardLayout>;
   minimum_stake_ratio: Rational;
@@ -350,14 +350,14 @@ export type ProtocolConfigView = {
   num_block_producer_seats: NumSeats;
   num_block_producer_seats_per_shard: Vec<NumSeats>;
   avg_hidden_validator_seats_per_shard: Vec<NumSeats>;
-  dynamic_resharding: bool;
+  dynamic_resharding: Bool;
   protocol_upgrade_stake_threshold: Rational;
   epoch_length: BlockHeightDelta;
   gas_limit: Gas;
   min_gas_price: Balance;
   max_gas_price: Balance;
-  block_producer_kickout_threshold: u8;
-  chunk_producer_kickout_threshold: u8;
+  block_producer_kickout_threshold: U8;
+  chunk_producer_kickout_threshold: U8;
   online_min_threshold: Rational;
   online_max_threshold: Rational;
   gas_price_adjustment_rate: Rational;
@@ -368,7 +368,7 @@ export type ProtocolConfigView = {
   num_blocks_per_year: NumBlocks;
   protocol_treasury_account: AccountId;
   fishermen_threshold: Balance;
-  minimum_stake_divisor: u64;
+  minimum_stake_divisor: U64;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.ChunkHeaderView.html
@@ -378,7 +378,7 @@ type ChunkHeaderView = {
   outcome_root: CryptoHash;
   prev_state_root: StateRoot;
   encoded_merkle_root: CryptoHash;
-  encoded_length: u64;
+  encoded_length: U64;
   height_created: BlockHeight;
   height_included: BlockHeight;
   shard_id: ShardId;
@@ -405,14 +405,14 @@ type BlockHeaderView = {
   chunk_headers_root: CryptoHash;
   chunk_tx_root: CryptoHash;
   outcome_root: CryptoHash;
-  chunks_included: u64;
+  chunks_included: U64;
   challenges_root: CryptoHash;
-  timestamp: u64;
+  timestamp: U64;
   // #[serde(with = "u64_dec_format")]
   timestamp_nanosec: string;
   random_value: CryptoHash;
   validator_proposals: Vec<ValidatorStakeView>;
-  chunk_mask: Vec<bool>;
+  chunk_mask: Vec<Bool>;
   gas_price: Balance;
   rent_paid: Balance;
   validator_reward: Balance;
@@ -448,7 +448,7 @@ export type ValidatorStakeView = ValidatorStakeViewV1;
 export type CurrentEpochValidatorInfo = {
   account_id: AccountId;
   public_key: PublicKey;
-  is_slashed: bool;
+  is_slashed: Bool;
   stake: Balance;
   shards: Vec<ShardId>;
   num_produced_blocks: NumBlocks;
@@ -540,7 +540,7 @@ export type RpcQueryResponseNarrowed<
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.ContractCodeView.html
 type ContractCodeView = {
-  code: Vec<u8>;
+  code: Vec<U8>;
   hash: CryptoHash;
 };
 
@@ -562,7 +562,7 @@ type ViewStateResult = {
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.CallResult.html
 type CallResult = {
-  result: Vec<u8>;
+  result: Vec<U8>;
   logs: Vec<String>;
 };
 
@@ -606,7 +606,7 @@ export type AccessKeyList = {
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.ValidatorInfo.html
 type ValidatorInfo = {
   account_id: AccountId;
-  is_slashed: bool;
+  is_slashed: Bool;
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.StatusSyncInfo.html
@@ -615,7 +615,7 @@ type StatusSyncInfo = {
   latest_block_height: BlockHeight;
   latest_state_root: CryptoHash;
   latest_block_time: DateTime<Utc>;
-  syncing: bool;
+  syncing: Bool;
   earliest_block_hash: Option<CryptoHash>;
   earliest_block_height: Option<BlockHeight>;
   earliest_block_time: Option<DateTime<Utc>>;
@@ -625,8 +625,8 @@ type StatusSyncInfo = {
 export type StatusResponse = {
   version: Version;
   chain_id: String;
-  protocol_version: u32;
-  latest_protocol_version: u32;
+  protocol_version: U32;
+  latest_protocol_version: U32;
   rpc_addr: Option<String>;
   validators: Vec<ValidatorInfo>;
   sync_info: StatusSyncInfo;
@@ -680,11 +680,11 @@ export type NewReceiptValidationError =
   | { InvalidReceiverId: { account_id: String } }
   | { InvalidSignerId: { account_id: String } }
   | { InvalidDataReceiverId: { account_id: String } }
-  | { ReturnedValueLengthExceeded: { length: u64; limit: u64 } }
+  | { ReturnedValueLengthExceeded: { length: U64; limit: U64 } }
   | {
       NumberInputDataDependenciesExceeded: {
-        number_of_input_data_dependencies: u64;
-        limit: u64;
+        number_of_input_data_dependencies: U64;
+        limit: U64;
       };
     }
   | { ActionsValidation: ActionsValidation };
@@ -732,7 +732,7 @@ type ActionErrorKind =
   | { DeleteAccountWithLargeState: { account_id: AccountId } };
 
 export type ActionError = {
-  index: u64;
+  index: U64;
   kind: ActionErrorKind;
 };
 
@@ -759,7 +759,7 @@ export type InvalidTxError =
   | { Expired: unknown }
   // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.ActionsValidationError.html
   | { ActionsValidation: unknown }
-  | { TransactionSizeExceeded: { size: u64; limit: u64 } };
+  | { TransactionSizeExceeded: { size: U64; limit: U64 } };
 
 export type TxExecutionError =
   | { ActionError: ActionError }
@@ -781,7 +781,7 @@ type CostGasUsed = {
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.ExecutionMetadataView.html
 type ExecutionMetadataView = {
-  version: u32;
+  version: U32;
   gas_profile: Option<Vec<CostGasUsed>>;
 };
 
@@ -884,7 +884,7 @@ type ReceiptEnumView =
   | {
       Data: {
         data_id: CryptoHash;
-        data: Option<Vec<u8>>;
+        data: Option<Vec<U8>>;
       };
     };
 
@@ -925,10 +925,10 @@ type RpcKnownProducer = {
 // https://docs.rs/near-jsonrpc-client/latest/near_jsonrpc_client/methods/network_info/struct.RpcNetworkInfoResponse.html
 export type RpcNetworkInfoResponse = {
   active_peers: Vec<RpcPeerInfo>;
-  num_active_peers: usize;
-  peer_max_count: u32;
-  sent_bytes_per_sec: u64;
-  received_bytes_per_sec: u64;
+  num_active_peers: Usize;
+  peer_max_count: U32;
+  sent_bytes_per_sec: U64;
+  received_bytes_per_sec: U64;
   /// Accounts of known block and chunk producers from routing table.
   known_producers: Vec<RpcKnownProducer>;
 };

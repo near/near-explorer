@@ -4,7 +4,7 @@ const accountId = z
   .string()
   .min(2)
   .max(64)
-  .regex(/^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/);
+  .regex(/^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/);
 const nonFungibleTokenId = z.string();
 
 const blockHash = z.string().min(43).max(44);

@@ -1,13 +1,13 @@
-import JSBI from "jsbi";
 import * as React from "react";
+
+import JSBI from "jsbi";
 import { Row, Col } from "react-bootstrap";
-
-import Gas from "@explorer/frontend/components/utils/Gas";
-import Balance from "@explorer/frontend/components/utils/Balance";
-
 import { useTranslation } from "react-i18next";
-import { styled } from "@explorer/frontend/libraries/styles";
+
 import { TransactionOutcomeOld } from "@explorer/common/types/procedures";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const TransactionOutcomeRow = styled(Row, {
   paddingTop: 10,

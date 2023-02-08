@@ -1,9 +1,9 @@
 import * as React from "react";
-import { TransactionReceipt } from "@explorer/common/types/procedures";
-import { styled } from "@explorer/frontend/libraries/styles";
 
-import ReceiptKind from "@explorer/frontend/components/beta/transactions/ReceiptKind";
+import { TransactionReceipt } from "@explorer/common/types/procedures";
 import ReceiptInfo from "@explorer/frontend/components/beta/transactions/ReceiptInfo";
+import ReceiptKind from "@explorer/frontend/components/beta/transactions/ReceiptKind";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 type Props = {
   receipt: TransactionReceipt;
@@ -111,13 +111,13 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
       [setTxTypeActive]
     );
 
-    React.useEffect(() => switchActiveTxType, [expandAll]);
+    React.useEffect(() => switchActiveTxType, [expandAll, switchActiveTxType]);
 
     const remainingFellowOutgoingReceipts = fellowOutgoingReceipts.slice(0, -1);
     const lastFellowOutgoingReceipt = fellowOutgoingReceipts.at(-1);
     const filterRefundNestedReceipts = receipt.outcome.nestedReceipts.filter(
-      (receipt): receipt is TransactionReceipt =>
-        "outcome" in receipt && receipt.predecessorId !== "system"
+      (nestedReceipt): nestedReceipt is TransactionReceipt =>
+        "outcome" in nestedReceipt && nestedReceipt.predecessorId !== "system"
     );
     const nonRefundNestedReceipts = filterRefundNestedReceipts.slice(0, -1);
     const lastNonRefundNestedReceipt = filterRefundNestedReceipts.at(-1);
@@ -147,6 +147,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
           <ActionItems>
             {receipt.actions.map((action, index) => (
               <ReceiptKind
+                // eslint-disable-next-line react/no-array-index-key
                 key={`${action.kind}_${index}`}
                 action={action}
                 onClick={switchActiveTxType}

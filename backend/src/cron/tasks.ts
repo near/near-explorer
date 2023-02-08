@@ -1,31 +1,32 @@
 import { formatDuration, intervalToDuration } from "date-fns";
 import { sql } from "kysely";
-import {
-  ValidatorEpochData,
-  ValidatorPoolInfo,
-} from "@explorer/backend/router/types";
+
 import { config } from "@explorer/backend/config";
-import * as nearApi from "@explorer/backend/utils/near";
-import { queryEpochData } from "@explorer/backend/providers/network";
-import { wait } from "@explorer/common/utils/promise";
-import { GlobalState } from "@explorer/backend/global-state";
 import { RegularCheckFn } from "@explorer/backend/cron/types";
 import {
   getPublishIfChanged,
   publishOnChange,
   updateRegularlyFetchedMap,
 } from "@explorer/backend/cron/utils";
-import { SECOND, MINUTE } from "@explorer/backend/utils/time";
 import {
   analyticsDatabase,
   indexerDatabase,
   telemetryDatabase,
 } from "@explorer/backend/database/databases";
 import { count, div, sum } from "@explorer/backend/database/utils";
+import { GlobalState } from "@explorer/backend/global-state";
+import { queryEpochData } from "@explorer/backend/providers/network";
+import {
+  ValidatorEpochData,
+  ValidatorPoolInfo,
+} from "@explorer/backend/router/types";
 import {
   nearNomination,
   teraGasNomination,
 } from "@explorer/backend/utils/bigint";
+import * as nearApi from "@explorer/backend/utils/near";
+import { SECOND, MINUTE } from "@explorer/backend/utils/time";
+import { wait } from "@explorer/common/utils/promise";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
@@ -104,7 +105,7 @@ export const blockProductionSpeedCheck: RegularCheckFn = {
           ) * 1000 * 1000 * 1000`
         )
         .executeTakeFirstOrThrow();
-      return parseInt(selection.blocks_count_60_seconds_before) / 60;
+      return parseInt(selection.blocks_count_60_seconds_before, 10) / 60;
     },
     config.intervals.checkBlockProductionSpeed
   ),
@@ -129,7 +130,7 @@ export const recentTransactionsCountCheck: RegularCheckFn = {
         )
         .executeTakeFirstOrThrow();
 
-      return parseInt(selection.total);
+      return parseInt(selection.total, 10);
     },
     config.intervals.checkRecentTransactions
   ),
@@ -145,7 +146,7 @@ export const onlineNodesCountCheck: RegularCheckFn = {
         .select((eb) => count(eb, "node_id").as("onlineNodesCount"))
         .where("last_seen", ">", sql`now() - '60 seconds'::interval`)
         .executeTakeFirstOrThrow();
-      return parseInt(selection.onlineNodesCount);
+      return parseInt(selection.onlineNodesCount, 10);
     },
     config.intervals.checkOnlineNodesCount
   ),
@@ -396,13 +397,13 @@ export const accountsHistoryCheck: RegularCheckFn = {
       ]),
     ]);
     const newAccountMap = new Map<number, number>();
-    for (let i = 0; i < newAccounts.length; i++) {
+    for (let i = 0; i < newAccounts.length; i += 1) {
       const [timestamp, accountsCount] = newAccounts[i];
       newAccountMap.set(timestamp, accountsCount);
     }
 
     const deletedAccountMap = new Map<number, number>();
-    for (let i = 0; i < deletedAccounts.length; i++) {
+    for (let i = 0; i < deletedAccounts.length; i += 1) {
       const [timestamp, accountsCount] = deletedAccounts[i];
       deletedAccountMap.set(timestamp, accountsCount);
     }
@@ -518,8 +519,8 @@ export const activeAccountsListCheck: RegularCheckFn = {
 export const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
-): Promise<void> => {
-  return updateRegularlyFetchedMap(
+): Promise<void> =>
+  updateRegularlyFetchedMap(
     validators
       .filter((validator) => !validator.currentEpoch)
       .map((validator) => validator.accountId),
@@ -534,13 +535,12 @@ export const updateStakingPoolStakeProposalsFromContractMap = async (
     config.intervals.checkStakingPoolStakeProposal,
     config.timeouts.timeoutStakingPoolStakeProposal
   );
-};
 
 export const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
-): Promise<void> => {
-  return updateRegularlyFetchedMap(
+): Promise<void> =>
+  updateRegularlyFetchedMap(
     validators.map((validator) => validator.accountId),
     state.stakingPoolInfos,
     async (id) => {
@@ -580,7 +580,6 @@ export const updatePoolInfoMap = async (
     config.intervals.checkStakingPoolInfo,
     config.timeouts.timeoutStakingPoolsInfo
   );
-};
 
 export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
@@ -631,7 +630,7 @@ export const networkInfoCheck: RegularCheckFn = {
         ipAddress: nodeInfo.ip_address,
         nodeId: nodeInfo.node_id,
         lastSeen: nodeInfo.last_seen.valueOf(),
-        lastHeight: parseInt(nodeInfo.last_height),
+        lastHeight: parseInt(nodeInfo.last_height, 10),
         status: nodeInfo.status,
         agentName: nodeInfo.agent_name,
         agentVersion: nodeInfo.agent_version,
@@ -696,11 +695,10 @@ const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
   description: "staking pool metadata check",
   fn: async (_, context) => {
-    for (
-      let currentIndex = 0;
-      true;
-      currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT
-    ) {
+    let currentIndex = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      // eslint-disable-next-line no-await-in-loop
       const metadataInfo = await nearApi.callViewMethod<
         Record<string, PoolMetadataAccountInfo>
       >("pool-details.near", "get_all_fields", {
@@ -722,6 +720,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
           url: poolMetadataInfo.url,
         });
       }
+      currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT;
     }
   },
   shouldSkip: () => config.networkName !== "mainnet",
@@ -789,30 +788,28 @@ export const indexerStatusCheck: RegularCheckFn = {
     try {
       await sql`select 1`.execute(indexerDatabase);
       const now = Date.now();
-      const latestBlock = context.subscriptionsCache.latestBlock;
+      const { latestBlock } = context.subscriptionsCache;
       if (!latestBlock) {
         context.state.indexerStatus = {
           ok: true,
           timestamp: now,
         };
+      } else if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
+        context.state.indexerStatus = {
+          ok: false,
+          message: `Indexer doesn't report any new blocks for ${formatDuration(
+            intervalToDuration({
+              start: now - INDEXER_BLOCK_AFFORDABLE_LAG,
+              end: now,
+            })
+          )}`,
+          timestamp: now,
+        };
       } else {
-        if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
-          context.state.indexerStatus = {
-            ok: false,
-            message: `Indexer doesn't report any new blocks for ${formatDuration(
-              intervalToDuration({
-                start: now - INDEXER_BLOCK_AFFORDABLE_LAG,
-                end: now,
-              })
-            )}`,
-            timestamp: now,
-          };
-        } else {
-          context.state.indexerStatus = {
-            ok: true,
-            timestamp: now,
-          };
-        }
+        context.state.indexerStatus = {
+          ok: true,
+          timestamp: now,
+        };
       }
     } catch (e) {
       context.state.rpcStatus = {

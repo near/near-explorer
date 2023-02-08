@@ -1,18 +1,20 @@
 import { EventEmitter } from "events";
-import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
+
+import { config } from "@explorer/backend/config";
+import { Context } from "@explorer/backend/context";
 import { runTasks } from "@explorer/backend/cron";
+import { initGlobalState } from "@explorer/backend/global-state";
 import { AppRouter, router } from "@explorer/backend/router";
 import {
   connectWebsocketServer,
   createApp,
   RouterOptions,
 } from "@explorer/backend/server";
-import { config } from "@explorer/backend/config";
-import { initGlobalState } from "@explorer/backend/global-state";
-import { Context } from "@explorer/backend/context";
 import { onError } from "@explorer/backend/utils/error";
+import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
 
-async function main(router: AppRouter): Promise<void> {
+async function main(appRouter: AppRouter): Promise<void> {
+  // eslint-disable-next-line no-console
   console.log("Starting Explorer backend...");
   const context: Context = {
     state: initGlobalState(),
@@ -25,7 +27,7 @@ async function main(router: AppRouter): Promise<void> {
   // Therefore we set max listeners to limit to infinity
   context.subscriptionsEventEmitter.setMaxListeners(0);
   const trpcOptions: RouterOptions = {
-    router,
+    router: appRouter,
     createContext: () => context,
     onError,
     responseMeta: () => ({ status: 200 }),
@@ -34,10 +36,11 @@ async function main(router: AppRouter): Promise<void> {
   const app = createApp(trpcOptions);
 
   const server = app.listen(config.port, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server is running on port ${config.port}`);
   });
 
-  let shutdownHandlers: (() => void)[] = [];
+  const shutdownHandlers: (() => void)[] = [];
 
   shutdownHandlers.push(connectWebsocketServer(server, trpcOptions));
   if (!config.offline) {
@@ -46,12 +49,15 @@ async function main(router: AppRouter): Promise<void> {
   }
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {
+    // eslint-disable-next-line no-console
     console.log(`Got ${signal} signal, shutting down`);
     shutdownHandlers.forEach((handler) => handler());
     server.close((err) => {
       if (err) {
+        // eslint-disable-next-line no-console
         console.error("Error on server close", err);
       }
+      // eslint-disable-next-line no-console
       console.log(`Shut down ${err ? "with error" : "gracefully"}`);
       process.exit(err ? 1 : 0);
     });
@@ -59,6 +65,7 @@ async function main(router: AppRouter): Promise<void> {
   process.on("SIGTERM", gracefulShutdown);
   process.on("SIGINT", gracefulShutdown);
 
+  // eslint-disable-next-line no-console
   console.log("Explorer backend started");
 }
 
