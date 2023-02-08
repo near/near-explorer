@@ -99,6 +99,8 @@ module.exports = {
         ],
         // see https://github.com/airbnb/javascript/issues/1271#issuecomment-548688952
         "no-restricted-syntax": "off",
+        // Turn on after migration to next.js >= 13
+        "jsx-a11y/anchor-is-valid": "off",
     },
     overrides: [
         {
