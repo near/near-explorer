@@ -226,6 +226,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
   const compact = !dashboard;
 
+  // Remove after migration to next.js >= 13
+  /* eslint-disable @next/next/no-img-element */
   return (
     <SearchWrapper onSubmit={onSubmit} compact={compact}>
       <SearchBox noGutters>

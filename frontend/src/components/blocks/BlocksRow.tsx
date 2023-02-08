@@ -72,9 +72,7 @@ const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
     <Link href={`/blocks/${block.hash}`} passHref>
       <LinkWrapper>
         <TransactionRow className="mx-0">
-          <Col md="auto" xs="1" className="pr-0">
-            <img src="/static/images/icon-m-block.svg" />
-          </Col>
+          <Col md="auto" xs="1" className="pr-0" />
           <Col md="auto" xs="1" className="pr-0">
             <BlockIcon src="/static/images/icon-m-block.svg" />
           </Col>
