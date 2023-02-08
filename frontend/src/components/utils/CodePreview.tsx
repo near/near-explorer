@@ -47,15 +47,9 @@ const CodePreview: React.FC<Props> = React.memo((props) => {
         maxHeight={props.maxHeight}
       >
         {(ref) => (
-          <>
-            <link
-              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-              rel="stylesheet"
-            />
-            <CodePreviewWrapper ref={ref as React.RefObject<HTMLDivElement>}>
-              {props.value}
-            </CodePreviewWrapper>
-          </>
+          <CodePreviewWrapper ref={ref as React.RefObject<HTMLDivElement>}>
+            {props.value}
+          </CodePreviewWrapper>
         )}
       </Expandable>
     </Wrapper>

@@ -24,7 +24,7 @@ const AgentNameBadge = styled(Badge, {
   color: "#72727a",
   fontWeight: 500,
   fontSize: 12,
-  fontFamily: '"Roboto Mono", monospace',
+  fontFamily: '"Source Code Pro", monospace',
 });
 
 interface Props {
@@ -38,11 +38,6 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
 
   return (
     <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
-        rel="stylesheet"
-      />
-
       <ValidatorNodesContentCell>
         <Row noGutters>
           <ValidatorNodesDetailsTitle>

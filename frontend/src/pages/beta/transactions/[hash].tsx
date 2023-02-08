@@ -66,10 +66,6 @@ const TransactionPage: NextPage = React.memo(() => {
       <Head>
         <title>NEAR Explorer Beta | Transaction</title>
       </Head>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Manrope&display=swap"
-        rel="stylesheet"
-      />
       <Wrapper>
         <TransactionQueryView {...transactionQuery} hash={hash} />
       </Wrapper>
