@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
+// eslint-disable-next-line no-undef
 Cypress.Commands.overwrite("visit", (originalVisit, url, options) =>
   originalVisit(url, {
     ...options,

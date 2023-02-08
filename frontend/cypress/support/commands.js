@@ -29,10 +29,12 @@ const replaceSelectorStitchesClass = (selector) =>
     .replace(/\@([\w-]+)@([\w-]+)/g, '[class*="c-$1"][class*="$2"]')
     .replace(/\@([\w-]+)/g, '[class*="c-$1"]');
 
+// eslint-disable-next-line no-undef
 Cypress.Commands.overwrite("find", (originalFn, context, selector, options) =>
   originalFn(context, replaceSelectorStitchesClass(selector), options)
 );
 
+// eslint-disable-next-line no-undef
 Cypress.Commands.overwrite("get", (originalFn, selector, options) =>
   originalFn(replaceSelectorStitchesClass(selector), options)
 );
