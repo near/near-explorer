@@ -235,7 +235,10 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
           {!dashboard && (
             <InputGroup.Prepend>
               <InputGroupText id="search">
-                <img src="/static/images/icon-search.svg" />
+                <img
+                  src="/static/images/icon-search.svg"
+                  alt={t("component.utils.Search.title")}
+                />
               </InputGroupText>
             </InputGroup.Prepend>
           )}
