@@ -52,7 +52,7 @@ type Props = {
 export const DeployInfo: React.FC<Props> = ({ client }) => {
   const [expanded, setExpanded] = React.useState(false);
   const switchExpanded = React.useCallback(
-    () => setExpanded((expanded) => !expanded),
+    () => setExpanded((x) => !x),
     [setExpanded]
   );
 

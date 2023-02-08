@@ -199,7 +199,7 @@ export const router = trpc
         (mapping, receiptOutcome) => {
           const receipt = parseReceipt(
             rpcTransaction.receipts.find(
-              (receipt) => receipt.receipt_id === receiptOutcome.id
+              (rpcReceipt) => rpcReceipt.receipt_id === receiptOutcome.id
             ),
             receiptOutcome,
             rpcTransaction.transaction
@@ -291,7 +291,7 @@ export const router = trpc
         (mapping, receiptOutcome) => {
           const receipt = parseReceipt(
             rpcTransaction.receipts.find(
-              (receipt) => receipt.receipt_id === receiptOutcome.id
+              (rpcReceipt) => rpcReceipt.receipt_id === receiptOutcome.id
             ),
             receiptOutcome,
             rpcTransaction.transaction

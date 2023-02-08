@@ -14,17 +14,17 @@ export const router = trpc.router<Context>().query("byId", {
   resolve: async ({ input }) => {
     const selection = await indexerDatabase
       .selectFrom((eb) => {
-        let selection = eb.selectFrom("blocks").select("block_hash");
+        let innerSelection = eb.selectFrom("blocks").select("block_hash");
         if ("hash" in input) {
-          selection = selection.where("block_hash", "=", input.hash);
+          innerSelection = innerSelection.where("block_hash", "=", input.hash);
         } else {
-          selection = selection.where(
+          innerSelection = innerSelection.where(
             "block_height",
             "=",
             String(input.height)
           );
         }
-        return selection.as("innerblocks");
+        return innerSelection.as("innerblocks");
       })
       .leftJoin("transactions", (jb) =>
         jb.onRef("included_in_block_hash", "=", "innerblocks.block_hash")

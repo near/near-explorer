@@ -151,15 +151,11 @@ type InferQueryNameByResult<Obj extends AnyProcedureRecord, R> = {
 
 type TypeKey = "queries" | "mutations" | "subscriptions";
 
-type DefValues<
-  Router extends AnyRouter,
-  Type extends TypeKey
-> = InferProcedures<Router["_def"][Type]>;
+type DefValues<R extends AnyRouter, Type extends TypeKey> = InferProcedures<
+  R["_def"][Type]
+>;
 
-type DefKey<
-  Router extends AnyRouter,
-  Type extends TypeKey
-> = keyof Router["_def"][Type];
+type DefKey<R extends AnyRouter, Type extends TypeKey> = keyof R["_def"][Type];
 
 type InferSubscription<S> = S extends Subscription<infer D> ? D : never;
 

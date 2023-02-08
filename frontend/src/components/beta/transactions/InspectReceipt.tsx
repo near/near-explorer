@@ -74,11 +74,13 @@ const InspectReceipt: React.FC<Props> = React.memo(
     const refund =
       receipt.outcome.nestedReceipts
         .filter(
-          (receipt): receipt is TransactionReceipt =>
-            "outcome" in receipt && receipt.predecessorId === "system"
+          (nestedReceipt): nestedReceipt is TransactionReceipt =>
+            "outcome" in nestedReceipt &&
+            nestedReceipt.predecessorId === "system"
         )
         .reduce(
-          (acc, receipt) => JSBI.add(acc, getDeposit(receipt.actions)),
+          (acc, nestedReceipt) =>
+            JSBI.add(acc, getDeposit(nestedReceipt.actions)),
           BI.zero
         )
         .toString() ?? "0";

@@ -25,7 +25,7 @@ const subscriptionInputs = {
 type SubscriptionInputMap = typeof subscriptionInputs;
 
 const withTopics = <InitialRouter extends AnyRouter<Context>>(
-  router: InitialRouter,
+  initialRouter: InitialRouter,
   topicsWithFilterFns: {
     [T in keyof SubscriptionEventMap]: T extends keyof SubscriptionInputMap
       ? (
@@ -53,7 +53,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
       TopicsFns[keyof TopicsFns]
     ][]
   ).reduce((router, [topic, filterFn]) => {
-    const input =
+    const inputModel =
       topic in subscriptionInputs
         ? subscriptionInputs[topic as keyof typeof subscriptionInputs]
         : z.undefined();
@@ -69,7 +69,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
     };
     return router
       .subscription(topic, {
-        input,
+        input: inputModel,
         resolve: ({ ctx, input }) =>
           new trpc.Subscription<
             Parameters<SubscriptionEventMap[typeof topic]>[0]
@@ -85,7 +85,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
           }),
       })
       .query(topic, {
-        input,
+        input: inputModel,
         resolve: async ({ ctx, input }) => {
           if (!ctx.subscriptionsCache[topic]) {
             return new Promise(async (resolve) => {
@@ -102,7 +102,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
           return cachedData ? getProcessedData(cachedData, input) : cachedData;
         },
       }) as any;
-  }, router) as any;
+  }, initialRouter) as any;
 };
 
 export const router = withTopics(trpc.router<Context>(), {

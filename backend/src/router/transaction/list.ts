@@ -54,8 +54,8 @@ const getTransactionList = async (
     selection = selection.where((wi) =>
       wi
         .where("block_timestamp", "<", cursor.timestamp)
-        .orWhere((wi) =>
-          wi
+        .orWhere((subWi) =>
+          subWi
             .where("block_timestamp", "=", cursor.timestamp)
             .where("index_in_chunk", "<", cursor.indexInChunk)
         )

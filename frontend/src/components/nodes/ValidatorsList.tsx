@@ -55,11 +55,10 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const cumulativeAmounts = React.useMemo<JSBI[]>(
       () =>
-        sortedValidators.reduce<JSBI[]>((cumulativeAmounts, validator) => {
-          const lastAmount =
-            cumulativeAmounts[cumulativeAmounts.length - 1] ?? BI.zero;
+        sortedValidators.reduce<JSBI[]>((acc, validator) => {
+          const lastAmount = acc[acc.length - 1] ?? BI.zero;
           return [
-            ...cumulativeAmounts,
+            ...acc,
             validator.currentEpoch
               ? JSBI.add(lastAmount, JSBI.BigInt(validator.currentEpoch.stake))
               : lastAmount,

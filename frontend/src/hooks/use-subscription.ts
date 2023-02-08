@@ -64,9 +64,9 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         setValue(nextValue);
         setDataUpdatedAt(Date.now());
       },
-      (error) => {
+      (subscriptionError) => {
         setLoading(false);
-        setError(error);
+        setError(subscriptionError);
         setErrorUpdatedAt(Date.now());
       },
     ]);

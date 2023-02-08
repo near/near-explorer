@@ -24,10 +24,10 @@ const getOption = (
     backgroundColor: "#25272A",
     formatter: (params: echarts.TooltipComponentFormatterCallbackParams) => {
       const param = Array.isArray(params) ? params[0] : params;
-      const data = param.data as string[];
-      return `${echarts.time.format(data[0], "{MMM} {dd}", true)}<br />${
+      const [timestamp, transactionsAmount] = param.data as string[];
+      return `${echarts.time.format(timestamp, "{MMM} {dd}", true)}<br />${
         param.seriesName
-      }: ${data[1]}`;
+      }: ${transactionsAmount}`;
     },
   },
   grid: {

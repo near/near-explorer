@@ -15,15 +15,15 @@ export const router = trpc.router<Context>().query("list", {
   resolve: async ({ input: { limit, cursor } }) => {
     const selection = await indexerDatabase
       .selectFrom((eb) => {
-        let selection = eb.selectFrom("blocks").select("block_hash");
+        let innerSelection = eb.selectFrom("blocks").select("block_hash");
         if (cursor !== undefined) {
-          selection = selection.where(
+          innerSelection = innerSelection.where(
             "block_timestamp",
             "<",
             millisecondsToNanoseconds(cursor).toString()
           );
         }
-        return selection
+        return innerSelection
           .orderBy("block_height", "desc")
           .limit(limit)
           .as("innerblocks");

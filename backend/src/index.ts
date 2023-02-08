@@ -13,7 +13,7 @@ import {
 import { onError } from "@explorer/backend/utils/error";
 import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
 
-async function main(router: AppRouter): Promise<void> {
+async function main(appRouter: AppRouter): Promise<void> {
   console.log("Starting Explorer backend...");
   const context: Context = {
     state: initGlobalState(),
@@ -26,7 +26,7 @@ async function main(router: AppRouter): Promise<void> {
   // Therefore we set max listeners to limit to infinity
   context.subscriptionsEventEmitter.setMaxListeners(0);
   const trpcOptions: RouterOptions = {
-    router,
+    router: appRouter,
     createContext: () => context,
     onError,
     responseMeta: () => ({ status: 200 }),

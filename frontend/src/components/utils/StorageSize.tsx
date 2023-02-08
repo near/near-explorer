@@ -1,47 +1,48 @@
 import * as React from "react";
 
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import { TFunction, useTranslation } from "react-i18next";
 
 import { formatWithCommas } from "@explorer/frontend/components/utils/Balance";
+
+const formatStoreSize = (value: number, t: TFunction<"common">): string => {
+  let showStorage = value.toString();
+  const kilo = 10 ** 3;
+
+  const units = [
+    {
+      value: kilo,
+      symbol: t("utils.StorageSize.kilo_bytes"),
+    },
+    {
+      value: kilo ** 2,
+      symbol: t("utils.StorageSize.mega_bytes"),
+    },
+    {
+      value: kilo ** 3,
+      symbol: t("utils.StorageSize.giga_bytes"),
+    },
+  ];
+
+  if (value >= kilo) {
+    for (let i = 0; i < units.length; i++) {
+      if (value >= units[i].value) {
+        const roundValue = Math.round(value / units[i].value);
+        showStorage = `${roundValue} ${units[i].symbol}`;
+      }
+    }
+  } else {
+    showStorage = `${value} ${t("utils.StorageSize.bytes")}`;
+  }
+
+  return showStorage;
+};
 
 interface Props {
   value: number;
 }
 const StorageSize: React.FC<Props> = React.memo(({ value }) => {
   const { t } = useTranslation();
-  const formatStoreSize = (value: number): string => {
-    let showStorage = value.toString();
-    const kilo = 10 ** 3;
-
-    const units = [
-      {
-        value: kilo,
-        symbol: t("utils.StorageSize.kilo_bytes"),
-      },
-      {
-        value: kilo ** 2,
-        symbol: t("utils.StorageSize.mega_bytes"),
-      },
-      {
-        value: kilo ** 3,
-        symbol: t("utils.StorageSize.giga_bytes"),
-      },
-    ];
-
-    if (value >= kilo) {
-      for (let i = 0; i < units.length; i++) {
-        if (value >= units[i].value) {
-          const roundValue = Math.round(value / units[i].value);
-          showStorage = `${roundValue} ${units[i].symbol}`;
-        }
-      }
-    } else {
-      showStorage = `${value} ${t("utils.StorageSize.bytes")}`;
-    }
-
-    return showStorage;
-  };
 
   return (
     <OverlayTrigger
@@ -54,7 +55,7 @@ const StorageSize: React.FC<Props> = React.memo(({ value }) => {
         </Tooltip>
       }
     >
-      <span>{formatStoreSize(value)}</span>
+      <span>{formatStoreSize(value, t)}</span>
     </OverlayTrigger>
   );
 });

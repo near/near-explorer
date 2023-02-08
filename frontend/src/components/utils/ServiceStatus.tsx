@@ -201,7 +201,11 @@ export const ServiceStatusView: React.FC = () => {
       setRunningToasts([]);
       return;
     }
-    if (runningToasts.some((toast) => toast.message === status.message)) {
+    if (
+      runningToasts.some(
+        (runningToast) => runningToast.message === status.message
+      )
+    ) {
       return;
     }
     const toastId =

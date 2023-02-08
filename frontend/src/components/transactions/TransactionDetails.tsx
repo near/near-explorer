@@ -95,7 +95,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
           return BI.zero;
         })
         .reduce(
-          (accumulator, deposit) => JSBI.add(accumulator, deposit),
+          (accumulator, actionDeposit) => JSBI.add(accumulator, actionDeposit),
           BI.zero
         ),
     [transaction.actions]

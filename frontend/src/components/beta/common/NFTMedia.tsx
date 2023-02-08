@@ -11,6 +11,16 @@ const Image = styled(Img, {
 
 const FallbackImage = styled(Image);
 
+const getVideoState = (mediaUrl: string) => {
+  let mimeType;
+  // check mediaUrl string for .webm or .mp4 endings (case-insensitive)
+  if (mediaUrl.match(/\.webm$/i)) mimeType = "webm";
+  else if (mediaUrl.match(/\.mp4$/i)) mimeType = "mp4";
+  // if there is a mediaUrl and a truthy mimeType (webm or mp4), we have a video
+  const isVideo = !!mediaUrl && mimeType;
+  return [isVideo, mimeType] as const;
+};
+
 type Props = {
   src: string | null;
 };
@@ -30,15 +40,10 @@ const NFTMedia: React.FC<Props> = React.memo(({ src }) => {
     return <FallbackImage src="/static/images/failed_to_load.svg" />;
   }
   // copied from wallet https://github.com/near/near-wallet/blob/master/packages/frontend/src/components/nft/NFTMedia.js
-  const [isVideo, mimeType] = React.useMemo(() => {
-    let mimeType;
-    // check mediaUrl string for .webm or .mp4 endings (case-insensitive)
-    if (mediaUrl.match(/\.webm$/i)) mimeType = "webm";
-    else if (mediaUrl.match(/\.mp4$/i)) mimeType = "mp4";
-    // if there is a mediaUrl and a truthy mimeType (webm or mp4), we have a video
-    const isVideo = !!mediaUrl && mimeType;
-    return [isVideo, mimeType];
-  }, [mediaUrl]);
+  const [isVideo, mimeType] = React.useMemo(
+    () => getVideoState(mediaUrl),
+    [mediaUrl]
+  );
 
   return (
     <>
