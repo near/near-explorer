@@ -9,12 +9,18 @@ import renderer, {
   TestRendererOptions,
 } from "react-test-renderer";
 
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
-import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
+import {
+  LanguageContext,
+  LanguageContextType,
+} from "@explorer/frontend/context/LanguageContext";
+import {
+  NetworkContext,
+  NetworkContextType,
+} from "@explorer/frontend/context/NetworkContext";
 import { Locale } from "@explorer/frontend/libraries/date-locale";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
-const networkContext: NetworkContext = {
+const networkContext: NetworkContextType = {
   networkName: "localnet",
   networks: {
     localnet: {
@@ -41,7 +47,7 @@ export const renderElement = (
     url: "http://localhost/",
     fetch,
   });
-  const languageContext: LanguageContext = {
+  const languageContext: LanguageContextType = {
     language: "en",
     setLanguage: () => {},
     locale: global.locale,

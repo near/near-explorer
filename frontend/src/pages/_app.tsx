@@ -25,8 +25,14 @@ import Footer from "@explorer/frontend/components/utils/Footer";
 import Header from "@explorer/frontend/components/utils/Header";
 import OfflineSplash from "@explorer/frontend/components/utils/OfflineSplash";
 import { ToastController } from "@explorer/frontend/components/utils/ToastController";
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
-import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
+import {
+  LanguageContext,
+  LanguageContextType,
+} from "@explorer/frontend/context/LanguageContext";
+import {
+  NetworkContext,
+  NetworkContextType,
+} from "@explorer/frontend/context/NetworkContext";
 import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
 import { useCookie } from "@explorer/frontend/hooks/use-cookie";
 import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
@@ -111,12 +117,12 @@ declare module "next/app" {
   // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
   type ServerAppInitialProps = {
     i18n: i18n;
-    locale: LanguageContext["locale"];
+    locale: LanguageContextType["locale"];
     cookies: string;
   };
 
   type ExtraAppInitialProps = {
-    language: LanguageContext["language"];
+    language: LanguageContextType["language"];
     networkName: NetworkName;
     deployInfo: DeployInfoProps;
     getServerProps?: () => ServerAppInitialProps;
@@ -142,8 +148,8 @@ const wrapRouterHandlerMaintainNetwork =
   };
 
 type ContextProps = {
-  networkState: NetworkContext;
-  languageContext: LanguageContext;
+  networkState: NetworkContextType;
+  languageContext: LanguageContextType;
 };
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => (
