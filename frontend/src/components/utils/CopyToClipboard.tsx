@@ -33,7 +33,7 @@ const CopyToClipboard: React.FC<Props> = React.memo(
           () => setCopiedCounter(0),
           SHOW_COPY_OK_TIME
         );
-        return () => void window.clearTimeout(timeoutId);
+        return () => window.clearTimeout(timeoutId);
       }
     }, [copiedCounter, setCopiedCounter]);
     return (

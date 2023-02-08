@@ -11,9 +11,8 @@ export const useDateLocale = (
   language: Language
 ) => {
   const [locale, setLocale] = React.useState(initialLocale);
-  React.useEffect(
-    () => void getDateLocale(language).then(setLocale),
-    [language]
-  );
+  React.useEffect(() => {
+    getDateLocale(language).then(setLocale);
+  }, [language]);
   return locale;
 };

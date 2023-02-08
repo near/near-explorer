@@ -21,5 +21,7 @@ export const useI18n = (
     });
     i18n.changeLanguage(language);
   }, [i18n, language]);
-  useOnce(() => void i18n.init());
+  useOnce(() => {
+    i18n.init();
+  });
 };

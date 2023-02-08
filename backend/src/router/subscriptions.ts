@@ -81,7 +81,9 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
               onData(ctx.subscriptionsCache[topic] as TopicDataType);
             }
             ctx.subscriptionsEventEmitter.on(topic, onData);
-            return () => void ctx.subscriptionsEventEmitter.off(topic, onData);
+            return () => {
+              ctx.subscriptionsEventEmitter.off(topic, onData);
+            };
           }),
       })
       .query(topic, {
