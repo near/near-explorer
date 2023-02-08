@@ -4,7 +4,7 @@
   "description": "NEAR blockchain explorer frontend",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "npm run typecheck && env TZ=UTC jest",
+    "test": "env TZ=UTC jest",
     "dev": "dotenv -c -e ../frontend.env -- next",
     "build": "next build",
     "start": "dotenv -c -e ../frontend.env -- next start",
