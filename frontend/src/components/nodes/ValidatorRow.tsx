@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
-import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { ValidatorFullData } from "@explorer/common/types/procedures";
@@ -13,27 +12,6 @@ import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/Validator
 import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
 import * as BI from "@explorer/frontend/libraries/bigint";
 import { styled } from "@explorer/frontend/libraries/styles";
-
-export const ValidatorNodesDetailsTitle = styled(Col, {
-  display: "flex",
-  flexWrap: "nowrap",
-  fontSize: 12,
-  color: "#a2a2a8",
-});
-
-export const ValidatorNodesContentCell = styled(Col, {
-  // TODO: find out why stylesheet specificity takes bootstrap sheet over stitches sheet
-  padding: "0 22px !important",
-  borderRight: "1px solid #e5e5e6",
-
-  "&:last-child": {
-    borderRight: "none",
-  },
-});
-
-export const ValidatorNodesContentRow = styled(Row, {
-  paddingVertical: 16,
-});
 
 const CumulativeStakeholdersRow = styled("tr", {
   backgroundColor: "#fff6ed",

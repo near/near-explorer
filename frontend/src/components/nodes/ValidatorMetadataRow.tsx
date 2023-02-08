@@ -4,12 +4,28 @@ import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 
 import { ValidatorDescription } from "@explorer/common/types/procedures";
-import {
-  ValidatorNodesContentCell,
-  ValidatorNodesContentRow,
-  ValidatorNodesDetailsTitle,
-} from "@explorer/frontend/components/nodes/ValidatorRow";
 import { styled } from "@explorer/frontend/libraries/styles";
+
+export const ValidatorNodesDetailsTitle = styled(Col, {
+  display: "flex",
+  flexWrap: "nowrap",
+  fontSize: 12,
+  color: "#a2a2a8",
+});
+
+export const ValidatorNodesContentCell = styled(Col, {
+  // TODO: find out why stylesheet specificity takes bootstrap sheet over stitches sheet
+  padding: "0 22px !important",
+  borderRight: "1px solid #e5e5e6",
+
+  "&:last-child": {
+    borderRight: "none",
+  },
+});
+
+export const ValidatorNodesContentRow = styled(Row, {
+  paddingVertical: 16,
+});
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,

@@ -5,9 +5,10 @@ import {
   ValidatorDescription,
   ValidationProgress,
 } from "@explorer/common/types/procedures";
-import ValidatorMetadataRow from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
+import ValidatorMetadataRow, {
+  ValidatorNodesContentRow,
+} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
 import ValidatorProgressElement from "@explorer/frontend/components/nodes/ValidatorProgressElement";
-import { ValidatorNodesContentRow } from "@explorer/frontend/components/nodes/ValidatorRow";
 import ValidatorTelemetryElements from "@explorer/frontend/components/nodes/ValidatorTelemetryElements";
 import { TableCollapseRow } from "@explorer/frontend/components/utils/Table";
 

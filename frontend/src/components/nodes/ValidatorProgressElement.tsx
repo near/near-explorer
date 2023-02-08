@@ -7,7 +7,7 @@ import { ValidationProgress } from "@explorer/common/types/procedures";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
-} from "@explorer/frontend/components/nodes/ValidatorRow";
+} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
 import Term from "@explorer/frontend/components/utils/Term";
 import { styled } from "@explorer/frontend/libraries/styles";
 

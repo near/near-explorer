@@ -1,6 +1,6 @@
 import type TypedEmitter from "typed-emitter";
 
-import { GlobalState } from "@explorer/backend/global-state";
+import type { GlobalState } from "@explorer/backend/global-state";
 import { SubscriptionEventMap } from "@explorer/backend/router/types";
 
 export type Context = {

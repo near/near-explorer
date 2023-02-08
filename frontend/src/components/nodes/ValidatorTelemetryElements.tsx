@@ -7,7 +7,7 @@ import { ValidatorTelemetry } from "@explorer/common/types/procedures";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
-} from "@explorer/frontend/components/nodes/ValidatorRow";
+} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
 import Term from "@explorer/frontend/components/utils/Term";
 import Timer from "@explorer/frontend/components/utils/Timer";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
