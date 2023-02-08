@@ -317,6 +317,33 @@ const queryReceiptsByIds = async (ids: string[]) =>
     .where("receipt_kind", "=", "ACTION")
     .execute();
 
+const getReceiptMapping = (
+  receiptRows: Awaited<ReturnType<typeof queryReceiptsByIds>>,
+  initialMapping: Map<string, ReceiptPreview> = new Map()
+) =>
+  receiptRows.reduce((mapping, receipt) => {
+    const action = mapDatabaseActionToAction({
+      hash: receipt.originatedFromTransactionHash,
+      kind: receipt.kind,
+      args: receipt.args,
+    } as DatabaseAction);
+    const existingReceipt = mapping.get(receipt.id);
+    if (!existingReceipt) {
+      return mapping.set(receipt.id, {
+        type: "receipt",
+        signerId: receipt.predecessorId,
+        receiverId: receipt.receiverId,
+        receiptId: receipt.id,
+        originatedFromTransactionHash: receipt.originatedFromTransactionHash,
+        actions: [action],
+      });
+    }
+    return mapping.set(receipt.id, {
+      ...existingReceipt,
+      actions: [...existingReceipt.actions, action],
+    });
+  }, new Map<string, ReceiptPreview>(initialMapping));
+
 const getReceiptsByIds = async (
   ids: string[]
 ): Promise<{
@@ -389,33 +416,6 @@ const getReceiptsByIds = async (
     relations,
   };
 };
-
-const getReceiptMapping = (
-  receiptRows: Awaited<ReturnType<typeof queryReceiptsByIds>>,
-  initialMapping: Map<string, ReceiptPreview> = new Map()
-) =>
-  receiptRows.reduce((mapping, receipt) => {
-    const action = mapDatabaseActionToAction({
-      hash: receipt.originatedFromTransactionHash,
-      kind: receipt.kind,
-      args: receipt.args,
-    } as DatabaseAction);
-    const existingReceipt = mapping.get(receipt.id);
-    if (!existingReceipt) {
-      return mapping.set(receipt.id, {
-        type: "receipt",
-        signerId: receipt.predecessorId,
-        receiverId: receipt.receiverId,
-        receiptId: receipt.id,
-        originatedFromTransactionHash: receipt.originatedFromTransactionHash,
-        actions: [action],
-      });
-    }
-    return mapping.set(receipt.id, {
-      ...existingReceipt,
-      actions: [...existingReceipt.actions, action],
-    });
-  }, new Map<string, ReceiptPreview>(initialMapping));
 
 const getTransactionsByHashes = async (
   hashes: string[]

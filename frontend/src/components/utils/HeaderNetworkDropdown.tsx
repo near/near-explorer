@@ -20,6 +20,34 @@ const HeaderNetworkItemDropdown = styled(Dropdown.Item, {
   },
 });
 
+const NetworkIcon = styled("div", {
+  display: "inline-block",
+  marginRight: 8,
+  size: 8,
+  borderRadius: "50%",
+
+  variants: {
+    network: {
+      mainnet: {
+        background: "#00c08b",
+      },
+      testnet: {
+        background: "#e9b870",
+      },
+      shardnet: {
+        background: "#aa89f1",
+      },
+      guildnet: {
+        background: "#0072ce",
+      },
+      localnet: {},
+    },
+  },
+  defaultVariants: {
+    network: "localnet",
+  },
+});
+
 interface Props {
   link: string;
   title: NetworkName;
@@ -76,34 +104,6 @@ const HeaderNetworkDropdownMenu = styled(Dropdown.Menu, {
   borderRadius: 8,
   border: "none",
   minWidth: 154,
-});
-
-const NetworkIcon = styled("div", {
-  display: "inline-block",
-  marginRight: 8,
-  size: 8,
-  borderRadius: "50%",
-
-  variants: {
-    network: {
-      mainnet: {
-        background: "#00c08b",
-      },
-      testnet: {
-        background: "#e9b870",
-      },
-      shardnet: {
-        background: "#aa89f1",
-      },
-      guildnet: {
-        background: "#0072ce",
-      },
-      localnet: {},
-    },
-  },
-  defaultVariants: {
-    network: "localnet",
-  },
 });
 
 const DropdownArrow = styled("img", {

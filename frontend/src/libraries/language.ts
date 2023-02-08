@@ -30,22 +30,6 @@ export const parseAcceptLanguage = (input: string): string[] =>
   // so it's not explicitly used.
   input.split(",").map((tag) => tag.split(";")[0]);
 
-export function getAcceptedLanguage(
-  availableLanguages: readonly Language[],
-  acceptedLanguages?: string
-): Language | undefined {
-  const parsedAcceptedLanguages = acceptedLanguages
-    ? parseAcceptLanguage(acceptedLanguages)
-    : [];
-
-  if (parsedAcceptedLanguages.length > 0) {
-    return findBestSupportedLanguage(
-      availableLanguages,
-      parsedAcceptedLanguages
-    );
-  }
-}
-
 function findBestSupportedLanguage(
   availableLanguages: readonly Language[],
   browserLanguages: string[]
@@ -101,6 +85,22 @@ function findBestSupportedLanguage(
   if (Object.keys(matchedLanguages).length > 0) {
     return Object.values(matchedLanguages).sort((a, b) => b.score - a.score)[0]
       .language;
+  }
+}
+
+export function getAcceptedLanguage(
+  availableLanguages: readonly Language[],
+  acceptedLanguages?: string
+): Language | undefined {
+  const parsedAcceptedLanguages = acceptedLanguages
+    ? parseAcceptLanguage(acceptedLanguages)
+    : [];
+
+  if (parsedAcceptedLanguages.length > 0) {
+    return findBestSupportedLanguage(
+      availableLanguages,
+      parsedAcceptedLanguages
+    );
   }
 }
 

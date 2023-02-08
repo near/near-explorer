@@ -52,12 +52,9 @@ export const runTasks = (context: Context) => {
         );
       } finally {
         if (timeout !== Infinity) {
-          setTimeoutBound();
+          timeouts[task.description] = setTimeout(runTask, timeout);
         }
       }
-    };
-    const setTimeoutBound = () => {
-      timeouts[task.description] = setTimeout(runTask, timeout);
     };
     void runTask();
   }

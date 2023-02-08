@@ -291,24 +291,6 @@ const mapRpcNewReceiptValidationError = (
   return UNKNOWN_ERROR;
 };
 
-const mapRpcReceiptError = (
-  error: RPC.TxExecutionError
-): ReceiptExecutionStatusError => {
-  if ("ActionError" in error) {
-    return {
-      type: "action",
-      error: mapRpcReceiptActionError(error.ActionError),
-    };
-  }
-  if ("InvalidTxError" in error) {
-    return {
-      type: "transaction",
-      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
-    };
-  }
-  return UNKNOWN_ERROR;
-};
-
 const mapRpcReceiptInvalidTxError = (
   error: RPC.InvalidTxError
 ): ReceiptTransactionError => {
@@ -510,6 +492,24 @@ const mapRpcReceiptActionError = (
     return {
       type: "deleteAccountWithLargeState",
       accountId: kind.DeleteAccountWithLargeState.account_id,
+    };
+  }
+  return UNKNOWN_ERROR;
+};
+
+const mapRpcReceiptError = (
+  error: RPC.TxExecutionError
+): ReceiptExecutionStatusError => {
+  if ("ActionError" in error) {
+    return {
+      type: "action",
+      error: mapRpcReceiptActionError(error.ActionError),
+    };
+  }
+  if ("InvalidTxError" in error) {
+    return {
+      type: "transaction",
+      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
     };
   }
   return UNKNOWN_ERROR;

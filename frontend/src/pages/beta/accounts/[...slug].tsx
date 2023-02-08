@@ -24,32 +24,6 @@ const Wrapper = styled("div", {
   padding: "12px 6vw",
 });
 
-const AccountPage: NextPage = React.memo(() => {
-  const options = useAccountPageOptions();
-  useAnalyticsTrackOnMount("Explorer Beta | Account Page", {
-    accountId: options.accountId,
-  });
-  const accountQuery = trpc.useQuery([
-    "account.byId",
-    { id: options.accountId },
-  ]);
-
-  return (
-    <>
-      <Head>
-        <title>NEAR Explorer Beta | Account</title>
-      </Head>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;500;700&display=swap"
-        rel="stylesheet"
-      />
-      <Wrapper>
-        <AccountQueryView query={accountQuery} options={options} />
-      </Wrapper>
-    </>
-  );
-});
-
 type QueryProps = {
   query: TRPCQueryResult<"account.byId">;
   options: AccountPageOptions;
@@ -85,6 +59,32 @@ const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
     default:
       return null;
   }
+});
+
+const AccountPage: NextPage = React.memo(() => {
+  const options = useAccountPageOptions();
+  useAnalyticsTrackOnMount("Explorer Beta | Account Page", {
+    accountId: options.accountId,
+  });
+  const accountQuery = trpc.useQuery([
+    "account.byId",
+    { id: options.accountId },
+  ]);
+
+  return (
+    <>
+      <Head>
+        <title>NEAR Explorer Beta | Account</title>
+      </Head>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;500;700&display=swap"
+        rel="stylesheet"
+      />
+      <Wrapper>
+        <AccountQueryView query={accountQuery} options={options} />
+      </Wrapper>
+    </>
+  );
 });
 
 export const getServerSideProps: GetServerSideProps<

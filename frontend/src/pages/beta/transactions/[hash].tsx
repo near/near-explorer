@@ -14,36 +14,6 @@ import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
-const Wrapper = styled("div", {
-  backgroundColor: "#fff",
-  padding: "12px 6vw",
-  fontFamily: "Manrope",
-});
-
-const TransactionPage: NextPage = React.memo(() => {
-  const hash = useRouter().query.hash as string;
-  useAnalyticsTrackOnMount("Explorer Beta | Individual Transaction Page", {
-    transaction_hash: hash,
-  });
-
-  const transactionQuery = trpc.useQuery(["transaction.byHash", { hash }]);
-
-  return (
-    <>
-      <Head>
-        <title>NEAR Explorer Beta | Transaction</title>
-      </Head>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Manrope&display=swap"
-        rel="stylesheet"
-      />
-      <Wrapper>
-        <TransactionQueryView {...transactionQuery} hash={hash} />
-      </Wrapper>
-    </>
-  );
-});
-
 type QueryProps = ReactQuery.UseQueryResult<Transaction | null> & {
   hash: string;
 };
@@ -75,6 +45,36 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
     default:
       return null;
   }
+});
+
+const Wrapper = styled("div", {
+  backgroundColor: "#fff",
+  padding: "12px 6vw",
+  fontFamily: "Manrope",
+});
+
+const TransactionPage: NextPage = React.memo(() => {
+  const hash = useRouter().query.hash as string;
+  useAnalyticsTrackOnMount("Explorer Beta | Individual Transaction Page", {
+    transaction_hash: hash,
+  });
+
+  const transactionQuery = trpc.useQuery(["transaction.byHash", { hash }]);
+
+  return (
+    <>
+      <Head>
+        <title>NEAR Explorer Beta | Transaction</title>
+      </Head>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Manrope&display=swap"
+        rel="stylesheet"
+      />
+      <Wrapper>
+        <TransactionQueryView {...transactionQuery} hash={hash} />
+      </Wrapper>
+    </>
+  );
 });
 
 export default TransactionPage;
