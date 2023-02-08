@@ -17,6 +17,7 @@ interface DocumentType {
   getInitialProps?: (context: DocumentContext) => Promise<DocumentInitialProps>;
 }
 
+/* eslint-disable react/no-danger */
 const Document: DocumentType = React.memo(() => (
   <Html>
     <Head>

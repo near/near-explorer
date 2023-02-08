@@ -243,7 +243,7 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
           <ReactQueryDevtools />
         </AppContextWrapper>
         {googleAnalytics ? (
-          <>
+          /* eslint-disable react/no-danger */ <>
             <script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
