@@ -35,9 +35,9 @@ export const runTasks = (context: Context) => {
     void context.subscriptionsEventEmitter.emit(topic, output);
   };
   const timeouts: Record<string, NodeJS.Timeout> = {};
-  for (const task of regularTasks) {
+  Object.values(regularTasks).forEach((task) => {
     if (task.shouldSkip?.()) {
-      continue;
+      return;
     }
 
     let timeout = SECOND;
@@ -57,7 +57,7 @@ export const runTasks = (context: Context) => {
       }
     };
     void runTask();
-  }
+  });
   return () => {
     const timeoutIds = Object.values(timeouts);
     timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));
