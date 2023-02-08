@@ -95,15 +95,21 @@ const getRedirectPage = (
   result: TRPCQueryOutput<"utils.search">
 ): string | undefined => {
   if (!result) {
-  } else if ("blockHash" in result) {
+    return undefined;
+  }
+  if ("blockHash" in result) {
     return `/blocks/${result.blockHash}`;
-  } else if ("receiptId" in result) {
+  }
+  if ("receiptId" in result) {
     return `/transactions/${result.transactionHash}#${result.receiptId}`;
-  } else if ("transactionHash" in result) {
+  }
+  if ("transactionHash" in result) {
     return `/transactions/${result.transactionHash}`;
-  } else if ("accountId" in result) {
+  }
+  if ("accountId" in result) {
     return `/accounts/${result.accountId}`;
   }
+  return undefined;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({
