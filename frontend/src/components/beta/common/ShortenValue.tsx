@@ -1,3 +1,5 @@
+import React from "react";
+
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import { shortenString } from "@explorer/frontend/libraries/formatting";
 
