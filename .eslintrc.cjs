@@ -101,6 +101,8 @@ module.exports = {
         "no-restricted-syntax": "off",
         // Turn on after migration to next.js >= 13
         "jsx-a11y/anchor-is-valid": "off",
+        // Seems unreasonable with translation tags & empty th tags
+        "jsx-a11y/control-has-associated-label": "off",
     },
     overrides: [
         {
