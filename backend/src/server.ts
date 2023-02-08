@@ -17,6 +17,8 @@ export type RouterOptions = HTTPBaseHandlerOptions<
 > &
   NodeHTTPCreateContextOption<AppRouter, http.IncomingMessage, unknown>;
 
+// Function has to has 4 arguments for express to consider it an error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const error = `Error on ${req.url}\n${String(err)}${
     err.stack ? `\n${err.stack}` : ""

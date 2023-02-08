@@ -2,7 +2,6 @@ import * as React from "react";
 
 import Image from "next/image";
 import { Spinner } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import {
   AccountNonFungibleTokenElement,
@@ -137,7 +136,6 @@ type Props = {
 
 const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
   ({ token, onClick }) => {
-    const { t } = useTranslation();
     const tokenHistoryQuery = trpc.useQuery([
       "account.nonFungibleTokenHistory",
       { tokenAuthorAccountId: token.authorAccountId, tokenId: token.tokenId },

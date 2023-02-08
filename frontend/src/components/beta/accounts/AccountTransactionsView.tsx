@@ -2,7 +2,7 @@ import * as React from "react";
 
 import JSBI from "jsbi";
 import { Spinner } from "react-bootstrap";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 
 import {
   TransactionListResponse,
@@ -101,7 +101,6 @@ const ActivityItemAction: React.FC<{
   signerId: string;
   accountId: string;
 }> = ({ action, receiverId, signerId, accountId }) => {
-  const { t } = useTranslation();
   switch (action.kind) {
     case "transfer": {
       if (signerId === accountId) {

@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { parseISO } from "date-fns";
 import { Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 

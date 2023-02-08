@@ -3,7 +3,6 @@
 
 import { BlocksId } from "./blocks";
 import ExecutionOutcomeStatus from "./execution-outcome-status";
-import { ReceiptsId } from "./receipts";
 
 export type ExecutionOutcomesId = string & {
   " __flavor"?: "execution_outcomes";
