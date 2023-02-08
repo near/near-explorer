@@ -86,4 +86,4 @@ const nextConfig: ExplorerConfig & NextConfig = {
   },
 };
 
-export = nextConfig;
+export default nextConfig;

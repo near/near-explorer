@@ -1,12 +1,5 @@
 {
   "private": true,
-  "devDependencies": {
-    "concurrently": "^7.2.1",
-    "husky": "^2.3.0",
-    "lint-staged": "^11.0.0",
-    "prettier": "2.6.1",
-    "start-server-and-test": "^1.14.0"
-  },
   "scripts": {
     "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
     "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
@@ -39,5 +32,13 @@
     "dotenv-cli": "^5.0.0",
     "gleap": "^8.4.7",
     "patch-package": "^6.4.7"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "husky": "^2.3.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "2.6.1",
+    "start-server-and-test": "^1.14.0",
+    "tsconfig-paths": "^4.1.2"
   }
 }

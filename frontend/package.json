@@ -1,5 +1,5 @@
 {
-  "name": "near-explorer-frontend",
+  "name": "@explorer/frontend",
   "version": "0.0.1",
   "description": "NEAR blockchain explorer frontend",
   "scripts": {
@@ -94,6 +94,7 @@
     "jest": "^27.4.4",
     "postcss": "^8.4.4",
     "react-test-renderer": "^17.0.2",
+    "ts-jest": "^27.1.5",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2",
     "url-loader": "^1.1.2",
