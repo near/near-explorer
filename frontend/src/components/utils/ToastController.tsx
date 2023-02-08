@@ -46,6 +46,8 @@ const getType = (toastType: ToastType): "error" | "warning" | undefined => {
       return "error";
     case "custom":
       return "warning";
+    default:
+      return undefined;
   }
 };
 
