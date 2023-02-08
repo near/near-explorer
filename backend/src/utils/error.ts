@@ -36,6 +36,7 @@ const logError = (
     ["[INPUT]", (JSON.stringify(input) || "undefined").slice(0, 300)],
     ["[STACK]", stack],
   ];
+  // eslint-disable-next-line no-console
   console.error(
     elements
       .filter(([, value]) => Boolean(value))
