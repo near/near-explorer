@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 import { renderElement } from "@explorer/frontend/testing/utils";
 

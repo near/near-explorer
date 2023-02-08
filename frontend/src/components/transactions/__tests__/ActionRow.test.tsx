@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { Action } from "@explorer/common/types/procedures";
 import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
 import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";

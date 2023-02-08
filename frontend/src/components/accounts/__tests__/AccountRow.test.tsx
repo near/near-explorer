@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import AccountRow from "@explorer/frontend/components/accounts/AccountRow";
 import { renderElement } from "@explorer/frontend/testing/utils";
 

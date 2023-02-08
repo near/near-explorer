@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import ReceiptRow from "@explorer/frontend/components/transactions/ReceiptRow";
 import { renderElement } from "@explorer/frontend/testing/utils";
 

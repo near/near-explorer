@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import JSBI from "jsbi";
 
 import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";

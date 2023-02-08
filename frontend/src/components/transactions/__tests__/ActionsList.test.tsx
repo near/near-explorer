@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
 import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";

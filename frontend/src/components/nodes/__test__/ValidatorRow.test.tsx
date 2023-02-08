@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import JSBI from "jsbi";
 
 import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
