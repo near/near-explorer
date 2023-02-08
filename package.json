@@ -33,6 +33,9 @@
     ]
   },
   "dependencies": {
+    "@explorer/common": "*",
+    "@explorer/backend": "*",
+    "@explorer/frontend": "*",
     "dotenv-cli": "^5.0.0",
     "gleap": "^8.4.7",
     "patch-package": "^6.4.7"

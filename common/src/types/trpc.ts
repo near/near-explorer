@@ -12,8 +12,8 @@ import type {
   ProcedureRecord,
 } from "@trpc/server/dist/declarations/src/router";
 import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
-import { UseMutationResult, UseQueryResult } from "react-query";
-import { Equals } from "tsafe";
+import type { UseMutationResult, UseQueryResult } from "react-query";
+import type { Equals } from "tsafe";
 
 import type { AppRouter } from "@explorer/backend/router";
 

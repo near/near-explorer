@@ -1,3 +1,5 @@
+const path = require("path");
+
 const typescriptRules = [
     "@typescript-eslint/switch-exhaustiveness-check",
     "@typescript-eslint/naming-convention",
@@ -6,6 +8,17 @@ const typescriptRules = [
     "@typescript-eslint/no-throw-literal",
     "@typescript-eslint/return-await",
 ];
+
+const getExtraneousDependenciesConfig = (
+    packageJsonDir = "",
+    devDependencies = false
+) => ({
+    devDependencies:
+        devDependencies &&
+        devDependencies.map((filename) => path.join(packageJsonDir, filename)),
+    optionalDependencies: false,
+    packageDir: [".", packageJsonDir].filter(Boolean),
+});
 
 module.exports = {
     root: true,
@@ -96,5 +109,26 @@ module.exports = {
                 {}
             ),
         },
+        ...[
+            [
+                "frontend",
+                [
+                    "next.config.ts",
+                    "babel-jest-wrapper.js",
+                    "src/testing/**/*",
+                    "src/libraries/wdyr.ts",
+                    "jest.config.ts",
+                ],
+            ],
+            ["backend", ["kanel.ts"]],
+        ].map(([dir, devDependencies]) => ({
+            files: `${dir}/**/*`,
+            rules: {
+                "import/no-extraneous-dependencies": [
+                    "error",
+                    getExtraneousDependenciesConfig(dir, devDependencies),
+                ],
+            },
+        })),
     ],
 };
