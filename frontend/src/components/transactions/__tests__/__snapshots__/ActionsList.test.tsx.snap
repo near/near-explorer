@@ -421,10 +421,6 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
                       }
                     }
                   >
-                    <link
-                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                      rel="stylesheet"
-                    />
                     <div
                       className="c-CodePreviewWrapper-gJFGlx"
                     >
