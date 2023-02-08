@@ -4,14 +4,16 @@ import { Col, Row } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
 
-import ValidatorMainRow from "./ValidatorMainRow";
-import ValidatorCollapsedRow from "./ValidatorCollapsedRow";
+import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
+import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/ValidatorCollapsedRow";
 
-import { styled } from "../../libraries/styles";
-import { FRACTION_DIGITS } from "./CumulativeStakeChart";
-import { ValidatorFullData } from "../../types/common";
-import ValidatingLabel, { StakingStatus } from "./ValidatingLabel";
-import * as BI from "../../libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";
+import { ValidatorFullData } from "@explorer/common/types/procedures";
+import ValidatingLabel, {
+  StakingStatus,
+} from "@explorer/frontend/components/nodes/ValidatingLabel";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",

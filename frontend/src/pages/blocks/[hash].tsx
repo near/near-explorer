@@ -1,20 +1,20 @@
 import Head from "next/head";
 
-import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
-import BlockDetails from "../../components/blocks/BlockDetails";
-import ReceiptsIncludedInBlock from "../../components/receipts/ReceiptsIncludedInBlock";
-import ReceiptsExecutedInBlock from "../../components/receipts/ReceiptsExecutedInBlock";
+import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
+import ReceiptsIncludedInBlock from "@explorer/frontend/components/receipts/ReceiptsIncludedInBlock";
+import ReceiptsExecutedInBlock from "@explorer/frontend/components/receipts/ReceiptsExecutedInBlock";
 import Transactions, {
   getNextPageParam,
-} from "../../components/transactions/Transactions";
-import Content from "../../components/utils/Content";
+} from "@explorer/frontend/components/transactions/Transactions";
+import Content from "@explorer/frontend/components/utils/Content";
 
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
-import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
 import * as React from "react";
 import { useRouter } from "next/router";
 

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { AnalyticsEvent } from "./analytics";
-import { useAnalyticsTrack } from "./use-analytics-track";
+import { AnalyticsEvent } from "@explorer/frontend/hooks/analytics/analytics";
+import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 
 export const useAnalyticsTrackOnMount = (
   event: string,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const PlaceholderWrapper = styled("div", {
   width: "100%",

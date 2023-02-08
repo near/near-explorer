@@ -1,5 +1,5 @@
-import CopyToClipboard from "../../utils/CopyToClipboard";
-import { shortenString } from "../../../libraries/formatting";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
 
 type Props = {
   children?: string;

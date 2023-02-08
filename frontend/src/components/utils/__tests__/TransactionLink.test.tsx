@@ -1,6 +1,6 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import TransactionLink from "../TransactionLink";
+import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
 
 describe("<TransactionLink />", () => {
   it("renders", () => {

@@ -1,6 +1,6 @@
 import JSBI from "jsbi";
-import { ValidatorFullData } from "../../../types/common";
-import * as BI from "../../../libraries/bigint";
+import { ValidatorFullData } from "@explorer/common/types/procedures";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 export const VALIDATORS_LIST: ValidatorFullData[] = [
   {

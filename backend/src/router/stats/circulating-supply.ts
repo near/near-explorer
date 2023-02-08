@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 
-import { Context } from "../../context";
-import { indexerDatabase } from "../../database/databases";
+import { Context } from "@explorer/backend/context";
+import { indexerDatabase } from "@explorer/backend/database/databases";
 
 export const router = trpc.router<Context>().query("latestCirculatingSupply", {
   resolve: async () => {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { formatWithCommas } from "../utils/Balance";
+import { formatWithCommas } from "@explorer/frontend/components/utils/Balance";
 
 interface Props {
   value: number;

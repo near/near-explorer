@@ -1,6 +1,6 @@
 import React from "react";
 import { addMinutes, format, formatISO } from "date-fns";
-import { LanguageContext } from "../context/LanguageContext";
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
 import { useTranslation } from "react-i18next";
 
 type Options = Omit<NonNullable<Parameters<typeof format>[2]>, "locale"> & {

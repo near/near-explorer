@@ -2,17 +2,17 @@ import * as React from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-import { styled } from "../../../libraries/styles";
-import { trpc } from "../../../libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 import {
   AccountNonFungibleTokenElement,
   AccountNonFungibleTokenHistoryElement,
-} from "../../../types/common";
-import NFTMedia from "../common/NFTMedia";
-import AccountLink from "../../utils/AccountLink";
-import ReceiptLink from "../../utils/ReceiptLink";
-import { useFormatDistance } from "../../../hooks/use-format-distance";
+} from "@explorer/common/types/procedures";
+import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
+import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
 import { Spinner } from "react-bootstrap";
 
 const Wrapper = styled("div", {

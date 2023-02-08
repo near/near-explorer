@@ -1,9 +1,9 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { indexerDatabase } from "../../database/databases";
-import { validators } from "../validators";
+import { Context } from "@explorer/backend/context";
+import { indexerDatabase } from "@explorer/backend/database/databases";
+import { validators } from "@explorer/backend/router/validators";
 
 export const router = trpc.router<Context>().query("listByTimestamp", {
   input: z.strictObject({

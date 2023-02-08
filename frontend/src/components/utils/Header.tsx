@@ -2,23 +2,23 @@ import * as React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useRouter } from "next/router";
 
-import HeaderNetworkDropdown from "./HeaderNetworkDropdown";
-import HeaderNavDropdown from "./HeaderNavDropdown";
-import MobileHeaderNavDropdown from "./MobileHeaderNavDropdown";
-import Search from "./Search";
-import Link from "./Link";
+import HeaderNetworkDropdown from "@explorer/frontend/components/utils/HeaderNetworkDropdown";
+import HeaderNavDropdown from "@explorer/frontend/components/utils/HeaderNavDropdown";
+import MobileHeaderNavDropdown from "@explorer/frontend/components/utils/MobileHeaderNavDropdown";
+import Search from "@explorer/frontend/components/utils/Search";
+import Link from "@explorer/frontend/components/utils/Link";
 
-import NearLogoSvg from "../../../public/static/images/near_logo.svg";
-import NearMiniLogoSvg from "../../../public/static/images/near_logo_icon.svg";
+import NearLogoSvg from "@explorer/frontend/public/static/images/near_logo.svg";
+import NearMiniLogoSvg from "@explorer/frontend/public/static/images/near_logo_icon.svg";
 
 import { useTranslation } from "react-i18next";
-import LanguageToggle from "./LanguageToggle";
-import { styled } from "../../libraries/styles";
-import { ServiceStatusView } from "./ServiceStatus";
-import { useNetworkContext } from "../../hooks/use-network-context";
-import { useBetaOptions } from "../../hooks/use-beta-options";
-import { BetaSwitch } from "./BetaSwitch";
-import { useIsBetaPage } from "../../hooks/use-is-beta-page";
+import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { ServiceStatusView } from "@explorer/frontend/components/utils/ServiceStatus";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
+import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
+import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
+import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",

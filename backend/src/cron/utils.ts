@@ -1,5 +1,8 @@
-import { SubscriptionEventMap } from "../router/types";
-import { CachedTimestampMap, RegularCheckFn } from "./types";
+import { SubscriptionEventMap } from "@explorer/backend/router/types";
+import {
+  CachedTimestampMap,
+  RegularCheckFn,
+} from "@explorer/backend/cron/types";
 
 export const updateRegularlyFetchedMap = async <T>(
   ids: string[],

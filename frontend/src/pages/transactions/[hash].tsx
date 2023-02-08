@@ -1,22 +1,22 @@
 import Head from "next/head";
 
-import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
-import ActionsList from "../../components/transactions/ActionsList";
-import ReceiptRow from "../../components/transactions/ReceiptRow";
-import TransactionDetails from "../../components/transactions/TransactionDetails";
-import TransactionOutcome from "../../components/transactions/TransactionOutcome";
-import Content from "../../components/utils/Content";
+import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
+import ReceiptRow from "@explorer/frontend/components/transactions/ReceiptRow";
+import TransactionDetails from "@explorer/frontend/components/transactions/TransactionDetails";
+import TransactionOutcome from "@explorer/frontend/components/transactions/TransactionOutcome";
+import Content from "@explorer/frontend/components/utils/Content";
 
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
-import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { styled } from "../../libraries/styles";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { styled } from "@explorer/frontend/libraries/styles";
 import * as React from "react";
-import { trpc } from "../../libraries/trpc";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 import { useRouter } from "next/router";
-import { default as BetaTransactionPage } from "../beta/transactions/[hash]";
-import { useBeta } from "../../hooks/use-beta";
+import { default as BetaTransactionPage } from "@explorer/frontend/pages/beta/transactions/[hash]";
+import { useBeta } from "@explorer/frontend/hooks/use-beta";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,

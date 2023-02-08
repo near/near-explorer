@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useEverySecond } from "../../hooks/use-every-second";
-import { useFormatDistance } from "../../hooks/use-format-distance";
+import { useEverySecond } from "@explorer/frontend/hooks/use-every-second";
+import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
 
 interface Props {
   time?: number;

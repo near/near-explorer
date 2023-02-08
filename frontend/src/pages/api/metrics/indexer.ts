@@ -1,11 +1,11 @@
 import { NextApiHandler } from "next";
 import json2Prom from "json-2-prom";
-import { getNearNetworkName } from "../../../libraries/config";
-import { getTrpcClient } from "../../../libraries/trpc";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
+import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
 import {
   isNetworkOffline,
   respondNetworkOffline,
-} from "../../../libraries/api";
+} from "@explorer/frontend/libraries/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {

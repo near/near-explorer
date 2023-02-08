@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import Content from "../../components/utils/Content";
+import Content from "@explorer/frontend/components/utils/Content";
 import * as React from "react";
 
 const Contracts: NextPage = React.memo(() => (

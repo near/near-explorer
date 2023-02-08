@@ -5,7 +5,7 @@ import {
   TRPCSubscriptionInputs,
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
-} from "../types/common";
+} from "@explorer/common/types/trpc";
 
 type ListenerTuple<Topic extends TRPCSubscriptionKey> = [
   (nextValue: TRPCSubscriptionOutput<Topic>) => void,

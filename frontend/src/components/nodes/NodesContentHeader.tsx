@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 
-import NodeNav from "./NodeNav";
+import NodeNav from "@explorer/frontend/components/nodes/NodeNav";
 
 import { useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const NodesContentHeaderWrapper = styled("h1", {
   fontSize: 31,

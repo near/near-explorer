@@ -1,12 +1,12 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { indexerDatabase } from "../../database/databases";
-import { div } from "../../database/utils";
-import * as nearApi from "../../utils/near";
-import { validators } from "../validators";
-import { validateBase64Image } from "./fungible-tokens";
+import { Context } from "@explorer/backend/context";
+import { indexerDatabase } from "@explorer/backend/database/databases";
+import { div } from "@explorer/backend/database/utils";
+import * as nearApi from "@explorer/backend/utils/near";
+import { validators } from "@explorer/backend/router/validators";
+import { validateBase64Image } from "@explorer/backend/router/account/fungible-tokens";
 
 // https://nomicon.io/Standards/Tokens/NonFungibleToken/Core#nft-interface
 type Token = {

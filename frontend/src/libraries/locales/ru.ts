@@ -1,6 +1,9 @@
 import dateFnsLocale from "date-fns/locale/ru";
-import { getFormatterWithAccusativePlural } from "./forms";
-import { AccusativeForms, DurationFormatter } from "./index";
+import { getFormatterWithAccusativePlural } from "@explorer/frontend/libraries/locales/forms";
+import {
+  AccusativeForms,
+  DurationFormatter,
+} from "@explorer/frontend/libraries/locales/index";
 
 const forms: AccusativeForms = {
   seconds: {

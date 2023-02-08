@@ -1,15 +1,15 @@
 import * as React from "react";
 import * as ReactQuery from "react-query";
 
+import { StableOmit } from "@explorer/common/types/common";
 import {
-  StableOmit,
   TRPCError,
   TRPCSubscriptionInputs,
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
-} from "../types/common";
-import { trpc } from "../libraries/trpc";
-import { subscribe } from "../libraries/subscriptions";
+} from "@explorer/common/types/trpc";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { subscribe } from "@explorer/frontend/libraries/subscriptions";
 
 export type UseSubscriptionResult<R> = StableOmit<
   ReactQuery.QueryObserverResult<R, TRPCError>,

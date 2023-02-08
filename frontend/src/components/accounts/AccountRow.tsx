@@ -1,14 +1,14 @@
-import { useDateFormat } from "../../hooks/use-date-format";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import Balance from "../utils/Balance";
-import Link from "../utils/Link";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import Link from "@explorer/frontend/components/utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
-import CopyToClipboard from "../utils/CopyToClipboard";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 
 const TransactionRow = styled(Row, {
   paddingVertical: 10,

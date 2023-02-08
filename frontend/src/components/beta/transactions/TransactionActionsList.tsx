@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import { useFormatDistance } from "../../../hooks/use-format-distance";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
 
-import { Transaction } from "../../../types/common";
+import { Transaction } from "@explorer/common/types/procedures";
 
-import TransactionReceipt from "./TransactionReceipt";
+import TransactionReceipt from "@explorer/frontend/components/beta/transactions/TransactionReceipt";
 
 type Props = {
   transaction: Transaction;

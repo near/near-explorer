@@ -1,5 +1,5 @@
 import * as React from "react";
-import Link from "../utils/Link";
+import Link from "@explorer/frontend/components/utils/Link";
 
 export interface Props {
   blockHash: string;

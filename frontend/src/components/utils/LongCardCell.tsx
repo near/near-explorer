@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import RightArrowSvg from "../../../public/static/images/right-arrow.svg";
-import { styled } from "../../libraries/styles";
-import Link from "../utils/Link";
+import RightArrowSvg from "@explorer/frontend/public/static/images/right-arrow.svg";
+import { styled } from "@explorer/frontend/libraries/styles";
+import Link from "@explorer/frontend/components/utils/Link";
 import cx from "classnames";
 
 export const CardCellText = styled(Col, {

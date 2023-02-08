@@ -1,7 +1,7 @@
 import React from "react";
 import { intervalToDuration } from "date-fns";
-import { LanguageContext } from "../context/LanguageContext";
-import { DurationFormatter } from "../libraries/locales/index";
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { DurationFormatter } from "@explorer/frontend/libraries/locales/index";
 
 const durationKeys = [
   "years",

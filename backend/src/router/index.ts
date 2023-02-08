@@ -1,5 +1,5 @@
 import * as trpc from "@trpc/server";
-import { Context } from "../context";
+import { Context } from "@explorer/backend/context";
 import { router as subscriptionsRouter } from "./subscriptions";
 import { router as telemetryRouter } from "./telemetry";
 import { router as blockRouter } from "./block";
@@ -10,7 +10,7 @@ import { router as contractRouter } from "./contract";
 import { router as receiptRouter } from "./receipt";
 import { router as utilsRouter } from "./utils";
 import { router as fungibleTokensRouter } from "./fungible-tokens";
-import { getEnvironment } from "../common";
+import { getEnvironment } from "@explorer/common/utils/environment";
 
 export const router = trpc
   .router<Context>()

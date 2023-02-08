@@ -4,18 +4,18 @@ import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import Gas from "../utils/Gas";
-import Balance from "../utils/Balance";
-import AccountLink from "../utils/AccountLink";
-import BlockLink from "../utils/BlockLink";
-import ReceiptLink from "../utils/ReceiptLink";
-import { Args } from "./ActionMessage";
-import ActionRow from "./ActionRow";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import BlockLink from "@explorer/frontend/components/utils/BlockLink";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
+import { Args } from "@explorer/frontend/components/transactions/ActionMessage";
+import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
 
 import { useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
-import { NestedReceiptWithOutcomeOld } from "../../types/common";
-import * as BI from "../../libraries/bigint";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { NestedReceiptWithOutcomeOld } from "@explorer/common/types/procedures";
+import * as BI from "@explorer/frontend/libraries/bigint";
 
 const ReceiptRowWrapper = styled(Row, {
   paddingTop: 10,

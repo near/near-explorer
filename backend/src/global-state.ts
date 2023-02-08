@@ -1,10 +1,9 @@
-import { CachedTimestampMap } from "./cron/types";
+import { CachedTimestampMap } from "@explorer/backend/cron/types";
+import { CurrentEpochState, HealthStatus } from "@explorer/backend/types";
 import {
-  CurrentEpochState,
-  HealthStatus,
   ValidatorDescription,
   ValidatorPoolInfo,
-} from "./types";
+} from "@explorer/backend/router/types";
 
 export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;

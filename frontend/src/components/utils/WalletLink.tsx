@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
-import { truncateAccountId } from "../../libraries/formatting";
-import { styled } from "../../libraries/styles";
+import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
+import { truncateAccountId } from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const AccountLink = styled("a", {
   whiteSpace: "nowrap",

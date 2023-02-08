@@ -7,8 +7,8 @@ import stream from "stream";
 import ws from "ws";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
-import { AppRouter } from "./router";
-import { escapeHtml } from "./utils/html";
+import { AppRouter } from "@explorer/backend/router";
+import { escapeHtml } from "@explorer/backend/utils/html";
 
 export type RouterOptions = HTTPBaseHandlerOptions<
   AppRouter,

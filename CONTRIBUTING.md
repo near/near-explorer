@@ -71,9 +71,9 @@ import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
+import FlipMove from "@explorer/frontend/components/utils/FlipMove";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import DashboardBlocksBlock from "@explorer/frontend/components/dashboard/DashboardBlocksBlock";
 ```
 
 ### Naming Conventions

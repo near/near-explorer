@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Dropdown } from "react-bootstrap";
-import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
+import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 
-import { useNetworkContext } from "../../hooks/use-network-context";
-import { NetworkName } from "../../types/common";
-import { styled } from "../../libraries/styles";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
+import { NetworkName } from "@explorer/common/types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const HeaderNetworkItemDropdown = styled(Dropdown.Item, {
   fontSize: 14,

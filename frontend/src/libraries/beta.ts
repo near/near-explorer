@@ -1,5 +1,5 @@
 import type { IncomingMessage } from "http";
-import { getCookiesFromReq } from "./cookie";
+import { getCookiesFromReq } from "@explorer/frontend/libraries/cookie";
 
 export type BetaOptions =
   | {

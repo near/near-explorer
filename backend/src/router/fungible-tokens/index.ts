@@ -1,10 +1,10 @@
 import * as trpc from "@trpc/server";
 import { sql } from "kysely";
 import { z } from "zod";
-import { Context } from "../../context";
-import { indexerDatabase } from "../../database/databases";
-import { validators } from "../validators";
-import * as nearApi from "../../utils/near";
+import { Context } from "@explorer/backend/context";
+import { indexerDatabase } from "@explorer/backend/database/databases";
+import { validators } from "@explorer/backend/router/validators";
+import * as nearApi from "@explorer/backend/utils/near";
 
 // https://nomicon.io/Standards/Tokens/FungibleToken/Metadata
 export type FungibleTokenMetadata = {

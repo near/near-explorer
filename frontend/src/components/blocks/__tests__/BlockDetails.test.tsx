@@ -1,8 +1,8 @@
 import JSBI from "jsbi";
 
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import BlockDetails from "../BlockDetails";
+import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
 
 describe("<BlockDetails />", () => {
   it("renders", () => {

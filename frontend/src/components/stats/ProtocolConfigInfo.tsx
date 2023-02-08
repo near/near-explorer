@@ -1,17 +1,22 @@
-import { useDateFormat } from "../../hooks/use-date-format";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import JSBI from "jsbi";
 import * as React from "react";
 
-import { InfoCard, InfoCardCell as Cell } from "../utils/InfoCard";
-import Balance, { formatWithCommas } from "../utils/Balance";
-import NearBadge from "../nodes/NearBadge";
+import {
+  InfoCard,
+  InfoCardCell as Cell,
+} from "@explorer/frontend/components/utils/InfoCard";
+import Balance, {
+  formatWithCommas,
+} from "@explorer/frontend/components/utils/Balance";
+import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
 
 import { useTranslation } from "react-i18next";
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { useEpochStartBlock } from "../../hooks/data";
-import { styled } from "../../libraries/styles";
-import * as BI from "../../libraries/bigint";
-import { useSubscription } from "../../hooks/use-subscription";
+import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useEpochStartBlock } from "@explorer/frontend/hooks/data";
+import { styled } from "@explorer/frontend/libraries/styles";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { Spinner } from "react-bootstrap";
 
 const ProtocolConfig = styled(InfoCard, {

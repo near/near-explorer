@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Col, Row, Spinner } from "react-bootstrap";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const InfoCardWrapper = styled(Row, {
   background: "#ffffff",

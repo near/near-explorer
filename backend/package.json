@@ -11,7 +11,7 @@
     "dev:shardnet": "dotenv -c -e ../shardnet.env -- npm run dev",
     "dev:guildnet": "dotenv -c -e ../guildnet.env -- npm run dev",
     "build": "tsc",
-    "start": "node build/backend/src/index.js",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register build/backend/src/index.js",
     "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
     "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start",
     "start:shardnet": "dotenv -c -e ../shardnet.env -- npm run start",

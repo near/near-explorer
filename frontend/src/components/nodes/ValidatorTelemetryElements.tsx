@@ -2,15 +2,15 @@ import * as React from "react";
 
 import { Col, Row, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
-import { useSubscription } from "../../hooks/use-subscription";
-import { styled } from "../../libraries/styles";
-import { ValidatorTelemetry } from "../../types/common";
-import Term from "../utils/Term";
-import Timer from "../utils/Timer";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { ValidatorTelemetry } from "@explorer/common/types/procedures";
+import Term from "@explorer/frontend/components/utils/Term";
+import Timer from "@explorer/frontend/components/utils/Timer";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
-} from "./ValidatorRow";
+} from "@explorer/frontend/components/nodes/ValidatorRow";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,

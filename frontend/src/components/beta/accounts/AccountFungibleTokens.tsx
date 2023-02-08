@@ -1,17 +1,17 @@
 import * as React from "react";
 import Image from "next/image";
 
-import { styled } from "../../../libraries/styles";
-import { AccountFungibleToken } from "../../../types/common";
-import { trpc } from "../../../libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { AccountFungibleToken } from "@explorer/common/types/procedures";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 import {
   FungibleTokensAccountPageOptions,
   buildAccountUrl,
-} from "../../../hooks/use-account-page-options";
-import LinkWrapper from "../../utils/Link";
-import AccountFungibleTokenHistory from "./AccountFungibleTokenHistory";
-import { TokenAmount } from "../../utils/TokenAmount";
-import { shortenString } from "../../../libraries/formatting";
+} from "@explorer/frontend/hooks/use-account-page-options";
+import LinkWrapper from "@explorer/frontend/components/utils/Link";
+import AccountFungibleTokenHistory from "@explorer/frontend/components/beta/accounts/AccountFungibleTokenHistory";
+import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
 const Wrapper = styled("div", {

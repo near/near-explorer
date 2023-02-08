@@ -1,8 +1,8 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import ActionsList from "../ActionsList";
-import TransactionLink from "../../utils/TransactionLink";
-import ReceiptLink from "../../utils/ReceiptLink";
+import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
+import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 
 import { TRANSACTIONS, RECEIPTS } from "./common";
 

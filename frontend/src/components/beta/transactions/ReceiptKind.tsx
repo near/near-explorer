@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import { Action } from "../../../types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { Action } from "@explorer/common/types/procedures";
 
-import { NearAmount } from "../../utils/NearAmount";
-import CodeArgs from "../common/CodeArgs";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import CodeArgs from "@explorer/frontend/components/beta/common/CodeArgs";
 
 interface Props {
   action: Action;

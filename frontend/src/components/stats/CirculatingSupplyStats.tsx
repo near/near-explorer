@@ -3,11 +3,11 @@ import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import * as React from "react";
 
-import { Props } from "./TransactionsByDate";
-import { useSubscription } from "../../hooks/use-subscription";
-import { styled } from "../../libraries/styles";
-import { TRPCSubscriptionOutput } from "../../types/common";
-import PaginationSpinner from "../utils/PaginationSpinner";
+import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 
 const getOption = (
   totalTokenSupplyHeader: string,

@@ -1,6 +1,6 @@
 import React from "react";
 import { useToaster, toast, ToastType } from "react-hot-toast";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const Wrapper = styled("div");
 const Toast = styled("div", {

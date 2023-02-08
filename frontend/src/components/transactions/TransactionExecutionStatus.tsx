@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TransactionStatus } from "../../types/common";
+import { TransactionStatus } from "@explorer/common/types/procedures";
 import { useTranslation } from "react-i18next";
 
 export interface Props {

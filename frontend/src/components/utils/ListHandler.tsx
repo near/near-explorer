@@ -3,10 +3,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import * as React from "react";
 import * as ReactQuery from "react-query";
 
-import PaginationSpinner from "./PaginationSpinner";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const LoadButton = styled("button", {
   width: 100,

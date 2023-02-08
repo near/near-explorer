@@ -1,27 +1,29 @@
 import JSBI from "jsbi";
-import { useDateFormat } from "../../hooks/use-date-format";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 
 import { Row, Col } from "react-bootstrap";
 import * as React from "react";
 
-import AccountLink from "../utils/AccountLink";
-import BlockLink from "../utils/BlockLink";
-import CardCell, { CardCellText } from "../utils/CardCell";
-import Balance from "../utils/Balance";
-import Gas from "../utils/Gas";
-import Term from "../utils/Term";
-import TransactionExecutionStatus from "./TransactionExecutionStatus";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import BlockLink from "@explorer/frontend/components/utils/BlockLink";
+import CardCell, {
+  CardCellText,
+} from "@explorer/frontend/components/utils/CardCell";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import Term from "@explorer/frontend/components/utils/Term";
+import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "../../hooks/use-subscription";
-import { styled } from "../../libraries/styles";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
+import * as RPC from "@explorer/common/types/rpc";
 import {
   NestedReceiptWithOutcomeOld,
-  RPC,
   TransactionOld,
-} from "../../types/common";
-import * as BI from "../../libraries/bigint";
-import CopyToClipboard from "../utils/CopyToClipboard";
+} from "@explorer/common/types/procedures";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 
 const HeaderRow = styled(Row);
 

@@ -2,13 +2,13 @@ import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 
-import PaginationSpinner from "../utils/PaginationSpinner";
+import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { TRPCSubscriptionOutput } from "../../types/common";
-import { styled } from "../../libraries/styles";
+import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
 import { Col, Row } from "react-bootstrap";
-import { useSubscription } from "../../hooks/use-subscription";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 
 const getOption = (
   title: string,

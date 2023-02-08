@@ -2,15 +2,15 @@ import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import DashboardCard from "../utils/DashboardCard";
-import LongCardCell from "../utils/LongCardCell";
-import Term from "../utils/Term";
-import GasPrice from "../utils/GasPrice";
-import Link from "../utils/Link";
+import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
+import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
+import Term from "@explorer/frontend/components/utils/Term";
+import GasPrice from "@explorer/frontend/components/utils/GasPrice";
+import Link from "@explorer/frontend/components/utils/Link";
 
-import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
-import { useSubscription } from "../../hooks/use-subscription";
-import { styled } from "../../libraries/styles";
+import DashboardTransactionsHistoryChart from "@explorer/frontend/components/dashboard/DashboardTransactionsHistoryChart";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const TransactionCardNumber = styled(Row, {
   "& > .col-12": {

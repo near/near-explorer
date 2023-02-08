@@ -1,21 +1,21 @@
 import Head from "next/head";
 
-import Content from "../../components/utils/Content";
-import TransactionsByDate from "../../components/stats/TransactionsByDate";
-import GasUsedByDate from "../../components/stats/GasUsedByDate";
-import NewAccountsByDate from "../../components/stats/NewAccountsByDate";
-import NewContractsByDate from "../../components/stats/NewContractsByDate";
-import ActiveAccountsByDate from "../../components/stats/ActiveAccountsByDate";
-import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate";
-import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
-import ActiveContractsList from "../../components/stats/ActiveContractsList";
-import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
-import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
-import { useNetworkContext } from "../../hooks/use-network-context";
+import Content from "@explorer/frontend/components/utils/Content";
+import TransactionsByDate from "@explorer/frontend/components/stats/TransactionsByDate";
+import GasUsedByDate from "@explorer/frontend/components/stats/GasUsedByDate";
+import NewAccountsByDate from "@explorer/frontend/components/stats/NewAccountsByDate";
+import NewContractsByDate from "@explorer/frontend/components/stats/NewContractsByDate";
+import ActiveAccountsByDate from "@explorer/frontend/components/stats/ActiveAccountsByDate";
+import ActiveContractsByDate from "@explorer/frontend/components/stats/ActiveContractsByDate";
+import ActiveAccountsList from "@explorer/frontend/components/stats/ActiveAccountsList";
+import ActiveContractsList from "@explorer/frontend/components/stats/ActiveContractsList";
+import ProtocolConfigInfo from "@explorer/frontend/components/stats/ProtocolConfigInfo";
+import CirculatingSupplyStats from "@explorer/frontend/components/stats/CirculatingSupplyStats";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
 
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
-import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import * as React from "react";
 
 const chartStyle = {

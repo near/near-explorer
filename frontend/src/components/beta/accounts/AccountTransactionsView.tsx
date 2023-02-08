@@ -1,20 +1,20 @@
 import * as React from "react";
 import JSBI from "jsbi";
 import { Trans, useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import AccountActivityBadge from "./AccountActivityBadge";
+import { styled } from "@explorer/frontend/libraries/styles";
+import AccountActivityBadge from "@explorer/frontend/components/beta/accounts/AccountActivityBadge";
 import {
   TransactionListResponse,
   TransactionPreview,
   Action,
-} from "../../../types/common";
-import { NearAmount } from "../../utils/NearAmount";
-import ListHandler from "../../utils/ListHandler";
-import { trpc } from "../../../libraries/trpc";
-import AccountLink from "../common/AccountLink";
-import TransactionLink from "../common/TransactionLink";
-import Timestamp from "../common/Timestamp";
-import ShortenValue from "../common/ShortenValue";
+} from "@explorer/common/types/procedures";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import ListHandler from "@explorer/frontend/components/utils/ListHandler";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import AccountLink from "@explorer/frontend/components/beta/common/AccountLink";
+import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
+import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
+import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
 import { Spinner } from "react-bootstrap";
 
 const TRANSACTIONS_PER_PAGE = 10;

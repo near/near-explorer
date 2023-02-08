@@ -3,11 +3,10 @@ import * as React from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
-import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
-import { TRPCClient } from "../../types/common";
-import { useQueryParam } from "../../hooks/use-query-param";
+import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
 
 const SearchField = styled(FormControl, {
   background: "#ffffff",

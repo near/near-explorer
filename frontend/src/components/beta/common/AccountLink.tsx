@@ -1,7 +1,7 @@
 import * as React from "react";
-import Link from "../../utils/Link";
-import { shortenString } from "../../../libraries/formatting";
-import { styled } from "../../../libraries/styles";
+import Link from "@explorer/frontend/components/utils/Link";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 const AccountLinkWrapper = styled("a", {
   whiteSpace: "nowrap",

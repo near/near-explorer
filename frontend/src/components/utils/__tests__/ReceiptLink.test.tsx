@@ -1,6 +1,6 @@
-import { renderElement } from "../../../testing/utils";
+import { renderElement } from "@explorer/frontend/testing/utils";
 
-import ReceiptLink from "../ReceiptLink";
+import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 
 describe("<ReceiptLink />", () => {
   it("renders successfully in existing transaction", () => {

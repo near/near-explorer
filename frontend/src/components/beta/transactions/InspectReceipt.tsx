@@ -1,14 +1,15 @@
 import JSBI from "jsbi";
 import * as React from "react";
-import { styled } from "../../../libraries/styles";
-import * as BI from "../../../libraries/bigint";
-import { trpc } from "../../../libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import * as BI from "@explorer/frontend/libraries/bigint";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
-import { Action, RPC, TransactionReceipt } from "../../../types/common";
-import { NearAmount } from "../../utils/NearAmount";
-import Gas from "../../utils/Gas";
-import AccountLink from "../common/AccountLink";
-import BlockLink from "../common/BlockLink";
+import * as RPC from "@explorer/common/types/rpc";
+import { Action, TransactionReceipt } from "@explorer/common/types/procedures";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import Gas from "@explorer/frontend/components/utils/Gas";
+import AccountLink from "@explorer/frontend/components/beta/common/AccountLink";
+import BlockLink from "@explorer/frontend/components/beta/common/BlockLink";
 
 type Props = {
   receipt: TransactionReceipt;

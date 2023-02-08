@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import { shortenString } from "../../../libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { shortenString } from "@explorer/frontend/libraries/formatting";
 
-import CopyToClipboard from "../../utils/CopyToClipboard";
-import { NearAmount } from "../../utils/NearAmount";
-import TransactionStatus from "./TransactionStatus";
-import { Transaction } from "../../../types/common";
-import UtcLabel from "../common/UtcLabel";
-import { useDateFormat } from "../../../hooks/use-date-format";
-import StringConditionalOverlay from "../common/StringConditionalOverlay";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
+import TransactionStatus from "@explorer/frontend/components/beta/transactions/TransactionStatus";
+import { Transaction } from "@explorer/common/types/procedures";
+import UtcLabel from "@explorer/frontend/components/beta/common/UtcLabel";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
+import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
 
 type Props = {
   transaction: Transaction;

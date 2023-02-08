@@ -4,10 +4,10 @@ import type {
   BackendConfig,
   ExplorerConfig,
   NearNetwork,
-} from "./src/libraries/config";
+} from "@explorer/frontend/libraries/config";
 import { merge, cloneDeep } from "lodash";
-import { getOverrides } from "./src/libraries/common";
-import type { NetworkName } from "./src/types/common";
+import { getOverrides } from "@explorer/common/utils/environment";
+import type { NetworkName } from "@explorer/common/types/common";
 // @ts-ignore
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 

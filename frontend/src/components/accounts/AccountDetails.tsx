@@ -1,22 +1,24 @@
-import { useDateFormat } from "../../hooks/use-date-format";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import CardCell, { CardCellText } from "../utils/CardCell";
-import Term from "../utils/Term";
-import AccountLink from "../utils/AccountLink";
-import Balance from "../utils/Balance";
-import TransactionLink from "../utils/TransactionLink";
-import WalletLink from "../utils/WalletLink";
-import StorageSize from "../utils/StorageSize";
+import CardCell, {
+  CardCellText,
+} from "@explorer/frontend/components/utils/CardCell";
+import Term from "@explorer/frontend/components/utils/Term";
+import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import Balance from "@explorer/frontend/components/utils/Balance";
+import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
+import WalletLink from "@explorer/frontend/components/utils/WalletLink";
+import StorageSize from "@explorer/frontend/components/utils/StorageSize";
 
 import { Trans, useTranslation } from "react-i18next";
-import { useNetworkContext } from "../../hooks/use-network-context";
-import { trpc } from "../../libraries/trpc";
-import { AccountOld } from "../../types/common";
-import { styled } from "../../libraries/styles";
-import CopyToClipboard from "../utils/CopyToClipboard";
+import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { AccountOld } from "@explorer/common/types/procedures";
+import { styled } from "@explorer/frontend/libraries/styles";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 
 const AccountInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",

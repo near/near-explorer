@@ -1,5 +1,5 @@
 import React from "react";
-import { SECOND } from "../libraries/time";
+import { SECOND } from "@explorer/frontend/libraries/time";
 
 type UseEverySecondOptions = {
   runOnMount?: boolean;

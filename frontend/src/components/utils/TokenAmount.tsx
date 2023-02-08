@@ -1,8 +1,8 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { formatToPowerOfTen } from "../../libraries/formatting";
-import { styled } from "../../libraries/styles";
-import { AccountFungibleToken } from "../../types/common";
+import { formatToPowerOfTen } from "@explorer/frontend/libraries/formatting";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { AccountFungibleToken } from "@explorer/common/types/procedures";
 
 const Offsetted = styled("span", {
   marginLeft: "0.3em",

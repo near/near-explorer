@@ -1,6 +1,6 @@
 import Analytics from "analytics-node";
 import { uniqueId } from "lodash";
-import { getConfig } from "../../libraries/config";
+import { getConfig } from "@explorer/frontend/libraries/config";
 
 export type AnalyticsEvent = {
   [key: string]: any;

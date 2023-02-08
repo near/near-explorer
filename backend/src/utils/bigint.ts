@@ -1,4 +1,7 @@
-import { nearNominationExponent, teraGasNominationExponent } from "../common";
+import {
+  nearNominationExponent,
+  teraGasNominationExponent,
+} from "@explorer/common/utils/near";
 
 export const BIMax = (...args: bigint[]) =>
   args.reduce((m, e) => (e > m ? e : m));

@@ -1,16 +1,18 @@
-import { useDateFormat } from "../../hooks/use-date-format";
+import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import CardCell, { CardCellTitleImage } from "../utils/CardCell";
-import Term from "../utils/Term";
-import TransactionLink from "../utils/TransactionLink";
+import CardCell, {
+  CardCellTitleImage,
+} from "@explorer/frontend/components/utils/CardCell";
+import Term from "@explorer/frontend/components/utils/Term";
+import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
 
 import { Trans, useTranslation } from "react-i18next";
-import { trpc } from "../../libraries/trpc";
-import { styled } from "../../libraries/styles";
-import CopyToClipboard from "../utils/CopyToClipboard";
+import { trpc } from "@explorer/frontend/libraries/trpc";
+import { styled } from "@explorer/frontend/libraries/styles";
+import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 
 const ContractInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",

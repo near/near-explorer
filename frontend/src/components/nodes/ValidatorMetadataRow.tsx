@@ -2,13 +2,13 @@ import * as React from "react";
 
 import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
-import { styled } from "../../libraries/styles";
-import { ValidatorDescription } from "../../types/common";
+import { styled } from "@explorer/frontend/libraries/styles";
+import { ValidatorDescription } from "@explorer/common/types/procedures";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesContentRow,
   ValidatorNodesDetailsTitle,
-} from "./ValidatorRow";
+} from "@explorer/frontend/components/nodes/ValidatorRow";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,

@@ -1,8 +1,8 @@
 import * as nearApi from "near-api-js";
 import { CodeResult } from "near-api-js/lib/providers/provider";
 
-import { config } from "../config";
-import { RPC } from "../types";
+import { config } from "@explorer/backend/config";
+import * as RPC from "@explorer/common/types/rpc";
 
 const nearRpc = new nearApi.providers.JsonRpcProvider({
   url: config.archivalRpcUrl,

@@ -8,7 +8,7 @@ import NextDocument, {
   DocumentInitialProps,
 } from "next/document";
 import * as React from "react";
-import { getCssText } from "../libraries/styles";
+import { getCssText } from "@explorer/frontend/libraries/styles";
 
 interface DocumentType {
   (props: DocumentProps): React.ReactNode;

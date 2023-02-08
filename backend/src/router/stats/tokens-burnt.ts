@@ -2,9 +2,9 @@ import * as trpc from "@trpc/server";
 import { sql } from "kysely";
 import { z } from "zod";
 
-import { Context } from "../../context";
-import { indexerDatabase } from "../../database/databases";
-import { sum } from "../../database/utils";
+import { Context } from "@explorer/backend/context";
+import { indexerDatabase } from "@explorer/backend/database/databases";
+import { sum } from "@explorer/backend/database/utils";
 
 export const router = trpc.router<Context>().query("tokensBurnt", {
   input: z.strictObject({

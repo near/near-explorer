@@ -2,7 +2,7 @@ import * as React from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { TFunction, useTranslation } from "react-i18next";
 
-import { styled } from "../../libraries/styles";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 export type StakingStatus =
   | "active"
