@@ -2,7 +2,6 @@ import createAccount from "@explorer/frontend/public/static/images/icon-t-acct.s
 import functionCall from "@explorer/frontend/public/static/images/icon-t-call.svg";
 import deployContract from "@explorer/frontend/public/static/images/icon-t-contract.svg";
 import deleteAccount from "@explorer/frontend/public/static/images/icon-t-key-delete.svg";
-import deleteKey from "@explorer/frontend/public/static/images/icon-t-key-delete.svg";
 import addKey from "@explorer/frontend/public/static/images/icon-t-key-new.svg";
 import stake from "@explorer/frontend/public/static/images/icon-t-stake.svg";
 import transfer from "@explorer/frontend/public/static/images/icon-t-transfer.svg";
@@ -15,5 +14,5 @@ export default {
   transfer,
   stake,
   addKey,
-  deleteKey,
+  deleteKey: deleteAccount,
 };
