@@ -696,6 +696,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
   description: "staking pool metadata check",
   fn: async (_, context) => {
     let currentIndex = 0;
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       // eslint-disable-next-line no-await-in-loop
       const metadataInfo = await nearApi.callViewMethod<
