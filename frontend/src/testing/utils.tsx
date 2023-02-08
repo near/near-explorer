@@ -31,10 +31,12 @@ const networkContext: NetworkContextType = {
 };
 
 // Variables were set in testing/env.ts
+/* eslint-disable vars-on-top, no-var */
 declare global {
   var i18nInstance: i18n;
   var locale: Locale;
 }
+/* eslint-enable vars-on-top, no-var */
 
 export const renderElement = (
   nextElement: React.ReactNode,
