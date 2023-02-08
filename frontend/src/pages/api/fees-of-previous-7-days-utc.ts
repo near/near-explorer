@@ -16,6 +16,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
     const resp = [];
     for (let i = 1; i <= 7; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
       const tokensBurntPerDay = await getTrpcClient(networkName).query(
         "stats.tokensBurnt",
         { daysFromNow: i }

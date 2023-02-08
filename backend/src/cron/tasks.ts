@@ -695,11 +695,9 @@ const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
   description: "staking pool metadata check",
   fn: async (_, context) => {
-    for (
-      let currentIndex = 0;
-      true;
-      currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT
-    ) {
+    let currentIndex = 0;
+    while (true) {
+      // eslint-disable-next-line no-await-in-loop
       const metadataInfo = await nearApi.callViewMethod<
         Record<string, PoolMetadataAccountInfo>
       >("pool-details.near", "get_all_fields", {
@@ -721,6 +719,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
           url: poolMetadataInfo.url,
         });
       }
+      currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT;
     }
   },
   shouldSkip: () => config.networkName !== "mainnet",
