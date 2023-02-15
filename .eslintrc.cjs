@@ -117,6 +117,12 @@ module.exports = {
                 {}
             ),
         },
+        {
+            files: ["frontend/cypress/**/*"],
+            parserOptions: {
+                project: "frontend/cypress/tsconfig.json",
+            },
+        },
         ...[
             [
                 "frontend",

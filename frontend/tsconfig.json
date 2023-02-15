@@ -1,8 +1,4 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "lib": ["dom", "es2015", "es2016", "es2021"]
-  },
-  "exclude": ["node_modules", "cypress"],
-  "include": ["**/*", "../common/**/*", "**/*.json", "../backend/**/*"]
+  "exclude": ["cypress"]
 }

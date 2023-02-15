@@ -1,3 +1,4 @@
+import { NextApiRequest } from "next";
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
 
@@ -32,7 +33,7 @@ export interface ExplorerConfig {
 export const getConfig = (): ExplorerConfig => getNextConfig();
 
 export function getNearNetworkName(
-  query: ParsedUrlQuery,
+  query: ParsedUrlQuery | NextApiRequest["query"],
   hostname?: string
 ): NetworkName {
   const config = getConfig();

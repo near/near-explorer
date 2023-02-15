@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "NEAR blockchain explorer frontend",
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && npm run cy:typecheck",
     "test": "env TZ=UTC jest",
     "dev": "dotenv -c -e ../frontend.env -- next",
     "build": "next build",
@@ -17,6 +17,7 @@
     "cy:version": "cypress version",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:typecheck": "tsc --project cypress/tsconfig.json --noEmit",
     "compile-nextjs-config": "ncc build next.config.ts --transpile-only --tsconfig-path nextjs.tsconfig.json --out . && mv index.js next.config.js",
     "postinstall": "patch-package"
   },
@@ -98,7 +99,6 @@
     "react-test-renderer": "^17.0.2",
     "ts-jest": "^27.1.5",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2",
     "url-loader": "^1.1.2",
     "wait-on": "^3.3.0",
     "webpack-bundle-analyzer": "^4.5.0"
