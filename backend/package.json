@@ -17,7 +17,7 @@
     "start:shardnet": "dotenv -c -e ../shardnet.env -- npm run start",
     "start:guildnet": "dotenv -c -e ../guildnet.env -- npm run start",
     "db:generate-types": "dotenv -c -e ../mainnet.env -- ts-node kanel.ts",
-    "db:generated-types:prettier:write": "prettier --write 'src/database/models/**/*.ts'"
+    "db:generated-types:fix": "npm run --prefix .. lint:fix && npm run --prefix .. prettier:write"
   },
   "repository": {
     "type": "git",
