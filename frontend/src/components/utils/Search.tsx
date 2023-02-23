@@ -182,7 +182,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
-  const [value, setValue] = useQueryParam("query");
+  const [inputValue, setInputValue] = React.useState<string>("");
+  const [queryValue, setQueryValue] = useQueryParam("query");
   const [searchValue, setSearchValue] = React.useState<string | undefined>(
     undefined
   );
@@ -217,13 +218,17 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setSearchValue(value);
+      setSearchValue(queryValue);
     },
-    [value]
+    [queryValue]
   );
+
   const onChange = React.useCallback(
-    (event) => setValue(event.currentTarget.value),
-    [setValue]
+    ({ currentTarget: { value } }) => {
+      setInputValue(value);
+      setQueryValue(value);
+    },
+    [setQueryValue]
   );
 
   const compact = !dashboard;
@@ -253,7 +258,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
             autoCapitalize="none"
             onChange={onChange}
             compact={compact}
-            value={value || ""}
+            value={inputValue}
           />
 
           {dashboard && (
