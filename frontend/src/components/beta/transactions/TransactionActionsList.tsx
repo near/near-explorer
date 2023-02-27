@@ -78,8 +78,8 @@ const TransactionActionsList: React.FC<Props> = React.memo(
       receipt.outcome.nestedReceipts[receipt.outcome.nestedReceipts.length - 1];
     const pending = formatDistance(
       timestamp,
-      "outcome" in lastNestedTransaction
-        ? lastNestedTransaction?.outcome.block.timestamp
+      lastNestedTransaction && "outcome" in lastNestedTransaction
+        ? lastNestedTransaction.outcome.block.timestamp
         : undefined
     );
 
