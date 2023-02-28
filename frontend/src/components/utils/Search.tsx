@@ -182,8 +182,10 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
-  const [inputValue, setInputValue] = React.useState<string>("");
   const [queryValue, setQueryValue] = useQueryParam("query");
+  const [inputValue, setInputValue] = React.useState<string | undefined>(
+    queryValue
+  );
   const [searchValue, setSearchValue] = React.useState<string | undefined>(
     undefined
   );
