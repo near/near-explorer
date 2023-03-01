@@ -183,12 +183,16 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const track = useAnalyticsTrack();
 
   const [queryValue, setQueryValue] = useQueryParam("query");
-  const [inputValue, setInputValue] = React.useState<string | undefined>(
-    queryValue
-  );
+  const [inputValue, setInputValue] = React.useState<string>(queryValue || "");
   const [searchValue, setSearchValue] = React.useState<string | undefined>(
     undefined
   );
+
+  React.useEffect(() => {
+    setQueryValue(inputValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
+
   trpc.useQuery(
     ["utils.search", { value: searchValue?.replace(/\s/g, "") ?? "" }],
     {
@@ -226,11 +230,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   );
 
   const onChange = React.useCallback(
-    ({ currentTarget: { value } }) => {
-      setInputValue(value);
-      setQueryValue(value);
-    },
-    [setQueryValue]
+    ({ currentTarget: { value } }) => setInputValue(value),
+    []
   );
 
   const compact = !dashboard;
