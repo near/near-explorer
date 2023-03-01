@@ -1,5 +1,5 @@
 diff --git a/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts b/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts
-index 93ec4d1..571566c 100644
+index 93ec4d1..0fc5226 100644
 --- a/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts
 +++ b/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts
 @@ -4,15 +4,18 @@
@@ -20,7 +20,7 @@ index 93ec4d1..571566c 100644
 -        ctx?: NextPageContext;
 +        ctx: NextPageContext;
 +    } | {
-+        props: AppPropsType<P>;
++        props: AppPropsType<NextRouter, P>;
      }) => WithTRPCConfig<TRouter>;
  } & ({
      ssr?: false;
