@@ -1,5 +1,5 @@
 diff --git a/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts b/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts
-index 93ec4d1..4411fbd 100644
+index 93ec4d1..571566c 100644
 --- a/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts
 +++ b/node_modules/@trpc/next/dist/declarations/src/withTRPC.d.ts
 @@ -4,15 +4,18 @@
@@ -14,12 +14,13 @@ index 93ec4d1..4411fbd 100644
      queryClientConfig?: QueryClientConfig;
 +    ssrTimeout?: number;
  };
- export declare function withTRPC<TRouter extends AnyRouter>(opts: {
+-export declare function withTRPC<TRouter extends AnyRouter>(opts: {
++export declare function withTRPC<TRouter extends AnyRouter, P>(opts: {
      config: (info: {
 -        ctx?: NextPageContext;
 +        ctx: NextPageContext;
 +    } | {
-+        props: AppPropsType;
++        props: AppPropsType<P>;
      }) => WithTRPCConfig<TRouter>;
  } & ({
      ssr?: false;
