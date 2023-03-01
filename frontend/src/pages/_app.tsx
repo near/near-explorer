@@ -368,7 +368,7 @@ const getLinks = (
   ];
 };
 
-export default withTRPC<AppRouter>({
+export default withTRPC<AppRouter, ExtraAppInitialProps>({
   config: (info) => {
     const networkName =
       "props" in info

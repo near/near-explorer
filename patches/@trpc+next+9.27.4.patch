@@ -282,17 +282,26 @@ index edf7527..9242b48 100644
                    return _context.stop();
                }
 diff --git a/node_modules/@trpc/next/src/withTRPC.tsx b/node_modules/@trpc/next/src/withTRPC.tsx
-index e7fdf74..b2b2422 100644
+index e7fdf74..e497a77 100644
 --- a/node_modules/@trpc/next/src/withTRPC.tsx
 +++ b/node_modules/@trpc/next/src/withTRPC.tsx
-@@ -54,11 +54,20 @@ function transformQueryOrMutationCacheErrors<
+@@ -11,6 +11,7 @@ import {
+   createTRPCClient,
+ } from '@trpc/react';
+ import type { AnyRouter, Dict, Maybe, ResponseMeta } from '@trpc/server';
++import {NextRouter} from 'next/dist/client/router';
+ import {
+   AppContextType,
+   AppPropsType,
+@@ -54,11 +55,20 @@ function transformQueryOrMutationCacheErrors<
  export type WithTRPCConfig<TRouter extends AnyRouter> =
    CreateTRPCClientOptions<TRouter> & {
      queryClientConfig?: QueryClientConfig;
 +    ssrTimeout?: number;
    };
  
- export function withTRPC<TRouter extends AnyRouter>(
+-export function withTRPC<TRouter extends AnyRouter>(
++export function withTRPC<TRouter extends AnyRouter, P>(
    opts: {
 -    config: (info: { ctx?: NextPageContext }) => WithTRPCConfig<TRouter>;
 +    config: (
@@ -301,13 +310,22 @@ index e7fdf74..b2b2422 100644
 +            ctx: NextPageContext;
 +          }
 +        | {
-+            props: AppPropsType;
++            props: AppPropsType<NextRouter, P>;
 +          },
 +    ) => WithTRPCConfig<TRouter>;
    } & (
      | {
          ssr?: false;
-@@ -94,7 +103,7 @@ export function withTRPC<TRouter extends AnyRouter>(
+@@ -85,7 +95,7 @@ export function withTRPC<TRouter extends AnyRouter>(
+     const trpc = createReactQueryHooks<TRouter, NextPageContext>();
+ 
+     const WithTRPC = (
+-      props: AppPropsType & {
++      props: AppPropsType<NextRouter, P> & {
+         trpc?: TRPCPrepassProps;
+       },
+     ) => {
+@@ -94,7 +104,7 @@ export function withTRPC<TRouter extends AnyRouter>(
            if (props.trpc) {
              return props.trpc;
            }
@@ -316,7 +334,16 @@ index e7fdf74..b2b2422 100644
            const queryClient = new QueryClient(config.queryClientConfig);
            const trpcClient = trpc.createClient(config);
            return {
-@@ -185,7 +194,7 @@ export function withTRPC<TRouter extends AnyRouter>(
+@@ -108,7 +118,7 @@ export function withTRPC<TRouter extends AnyRouter>(
+ 
+       const hydratedState = trpc.useDehydratedState(
+         trpcClient,
+-        props.pageProps?.trpcState,
++        (props.pageProps as any)?.trpcState,
+       );
+ 
+       return (
+@@ -185,7 +195,7 @@ export function withTRPC<TRouter extends AnyRouter>(
            }
  
            // wait until the query cache has settled it's promises
@@ -325,7 +352,7 @@ index e7fdf74..b2b2422 100644
              const unsub = queryClient.getQueryCache().subscribe((event) => {
                if (event?.query.getObserversCount() === 0) {
                  resolve();
-@@ -193,6 +202,19 @@ export function withTRPC<TRouter extends AnyRouter>(
+@@ -193,6 +203,19 @@ export function withTRPC<TRouter extends AnyRouter>(
                }
              });
            });
