@@ -7,6 +7,8 @@ import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
 import * as IndexerActivity from "@explorer/backend/database/models/readOnlyIndexerActivity";
 import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
 
+import type { DatabaseColumnType } from "./types";
+
 const getPgPool = (postgresConfig: PostgresDialectConfig): Pool => {
   const pool = new Pool(postgresConfig);
   pool.on("error", (error) => {
@@ -29,26 +31,50 @@ const getKysely = <T>(postgresConfig: PostgresDialectConfig): Kysely<T> =>
     dialect: new PostgresDialect(getPgPool(postgresConfig)),
   });
 
+type TelemetryDatabase = DatabaseColumnType<
+  Telemetry.SelectorModelTypeMap,
+  Telemetry.InitializerModelTypeMap & Record<string, never>,
+  Telemetry.MutatorModelTypeMap & Record<string, never>
+>;
+
 export const telemetryWriteDatabase = config.db.writeOnlyTelemetry.host
-  ? getKysely<Telemetry.ModelTypeMap>(config.db.writeOnlyTelemetry)
+  ? getKysely<TelemetryDatabase>(config.db.writeOnlyTelemetry)
   : null;
 
-export const telemetryDatabase = getKysely<Telemetry.ModelTypeMap>(
+export const telemetryDatabase = getKysely<TelemetryDatabase>(
   config.db.readOnlyTelemetry
 );
 
-export const indexerDatabase = getKysely<Indexer.ModelTypeMap>(
+type IndexerDatabase = DatabaseColumnType<
+  Indexer.SelectorModelTypeMap,
+  Indexer.InitializerModelTypeMap & Record<string, never>,
+  Indexer.MutatorModelTypeMap & Record<string, never>
+>;
+
+export const indexerDatabase = getKysely<IndexerDatabase>(
   config.db.readOnlyIndexer
 );
 
-export const indexerActivityDatabase = getKysely<IndexerActivity.ModelTypeMap>(
+type IndexerActivityDatabase = DatabaseColumnType<
+  IndexerActivity.SelectorModelTypeMap,
+  IndexerActivity.InitializerModelTypeMap & Record<string, never>,
+  IndexerActivity.MutatorModelTypeMap & Record<string, never>
+>;
+
+export const indexerActivityDatabase = getKysely<IndexerActivityDatabase>(
   config.db.readOnlyIndexerActivity
 );
 
+type AnalyticsDatabase = DatabaseColumnType<
+  Analytics.SelectorModelTypeMap,
+  Analytics.InitializerModelTypeMap & Record<string, never>,
+  Analytics.MutatorModelTypeMap & Record<string, never>
+>;
+
 export const analyticsDatabase = config.db.readOnlyAnalytics.host
-  ? getKysely<Analytics.ModelTypeMap>(config.db.readOnlyAnalytics)
+  ? getKysely<AnalyticsDatabase>(config.db.readOnlyAnalytics)
   : null;
 
 export const extraPool = getPgPool(config.db.writeOnlyTelemetry);
 
-export { Indexer, Analytics, Telemetry };
+export type { Indexer, IndexerDatabase };

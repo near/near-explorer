@@ -3,7 +3,10 @@ import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { Indexer, indexerDatabase } from "@explorer/backend/database/databases";
+import {
+  IndexerDatabase,
+  indexerDatabase,
+} from "@explorer/backend/database/databases";
 import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
@@ -36,8 +39,8 @@ const getTransactionList = async (
   limit: number,
   cursor?: z.infer<typeof validators.transactionPagination>,
   withCondition: <O>(
-    selection: SelectQueryBuilder<Indexer.ModelTypeMap, "transactions", O>
-  ) => SelectQueryBuilder<Indexer.ModelTypeMap, "transactions", O> = id
+    selection: SelectQueryBuilder<IndexerDatabase, "transactions", O>
+  ) => SelectQueryBuilder<IndexerDatabase, "transactions", O> = id
 ): Promise<TransactionList> => {
   let selection = withCondition(
     indexerDatabase.selectFrom("transactions")

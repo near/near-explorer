@@ -7,7 +7,10 @@ import {
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { Indexer, indexerDatabase } from "@explorer/backend/database/databases";
+import {
+  IndexerDatabase,
+  indexerDatabase,
+} from "@explorer/backend/database/databases";
 import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
@@ -21,7 +24,7 @@ import {
 } from "@explorer/backend/utils/receipt-status";
 
 type ActionReceiptsActionDatabaseExpression = TableExpressionDatabase<
-  Indexer.ModelTypeMap,
+  IndexerDatabase,
   "action_receipt_actions"
 >;
 

@@ -143,9 +143,7 @@ jobs:
       - name: Copy original models
         run: cp -r backend/src/database/models backend/src/database/models-original
       - name: Generate types
-        run: npm run -w backend db:generate-types
-      - name: Run lint & prettier on newly generated types
-        run: npm run -w backend db:generated-types:fix
+        run: npm run -w backend db:update-types
       - name: Compare types
         run: diff -bur backend/src/database/models-original backend/src/database/models
 

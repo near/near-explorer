@@ -84,7 +84,7 @@ const queryContractFromAnalytics = async (accountId: string) => {
       "=",
       // Different "flavors" in different DBs
       // there is no way to fix types but force casting
-      contractInfoFromAnalytics.receiptId as Indexer.ReceiptsId
+      contractInfoFromAnalytics.receiptId as Indexer.ReceiptsReceiptId
     )
     .limit(1)
     .executeTakeFirstOrThrow();
