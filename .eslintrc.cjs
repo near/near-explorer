@@ -123,6 +123,12 @@ module.exports = {
                 project: "frontend/cypress/tsconfig.json",
             },
         },
+        {
+            files: ["backend/src/database/models*/**/*"],
+            rules: {
+                "import/no-named-default": "off",
+            },
+        },
         ...[
             [
                 "frontend",
