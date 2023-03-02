@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import Expandable from "@explorer/frontend/components/utils/Expandable";
 import { styled } from "@explorer/frontend/libraries/styles";

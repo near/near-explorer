@@ -2,8 +2,8 @@ import * as React from "react";
 
 import * as echarts from "echarts";
 import ReactEcharts from "echarts-for-react";
+import { useTranslation } from "next-i18next";
 import { Tabs, Tab } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
 import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";

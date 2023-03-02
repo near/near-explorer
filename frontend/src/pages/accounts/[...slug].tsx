@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import { useTranslation } from "next-i18next";
 import { Container, Spinner } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { TRPCQueryResult } from "@explorer/common/types/trpc";
 import AccountDetails from "@explorer/frontend/components/accounts/AccountDetails";

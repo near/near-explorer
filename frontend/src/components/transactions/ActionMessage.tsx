@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { hexy } from "hexy";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { Action } from "@explorer/common/types/procedures";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";

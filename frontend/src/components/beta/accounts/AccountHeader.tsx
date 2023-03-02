@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "next-i18next";
 
 import { Account } from "@explorer/common/types/procedures";
 import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";

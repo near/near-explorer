@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
 import HeaderNavDropdown from "@explorer/frontend/components/utils/HeaderNavDropdown";

@@ -33,8 +33,8 @@
     ]
   },
   "dependencies": {
-    "@explorer/common": "*",
     "@explorer/backend": "*",
+    "@explorer/common": "*",
     "@explorer/frontend": "*",
     "dotenv-cli": "^5.0.0",
     "gleap": "^8.4.7",

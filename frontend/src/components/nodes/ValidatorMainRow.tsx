@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
+import { useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { ValidatorPoolInfo } from "@explorer/common/types/procedures";
 import CumulativeStakeChart from "@explorer/frontend/components/nodes/CumulativeStakeChart";

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { TransactionPreview } from "@explorer/common/types/procedures";
 import ActionGroup from "@explorer/frontend/components/transactions/ActionGroup";

@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { Trans, useTranslation } from "next-i18next";
 import { Col, Row, Badge } from "react-bootstrap";
-import { Trans, useTranslation } from "react-i18next";
 
 import { ValidatorTelemetry } from "@explorer/common/types/procedures";
 import {

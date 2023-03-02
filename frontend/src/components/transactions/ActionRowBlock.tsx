@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 import Timer from "@explorer/frontend/components/utils/Timer";

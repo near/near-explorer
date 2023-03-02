@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { ValidatorFullData } from "@explorer/common/types/procedures";
 import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";

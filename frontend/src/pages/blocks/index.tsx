@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { NextPage } from "next";
 import Head from "next/head";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import Blocks from "@explorer/frontend/components/blocks/Blocks";
 import Content from "@explorer/frontend/components/utils/Content";

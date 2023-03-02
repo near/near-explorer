@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
+import { Trans } from "next-i18next";
 import { Spinner } from "react-bootstrap";
-import { Trans } from "react-i18next";
 
 import {
   TransactionListResponse,

@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { StyledComponent } from "@stitches/react/types/styled-component";
+import { useTranslation } from "next-i18next";
 import { Dropdown } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import Link from "@explorer/frontend/components/utils/Link";
 import { globalCss, styled } from "@explorer/frontend/libraries/styles";

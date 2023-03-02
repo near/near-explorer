@@ -1,7 +1,7 @@
 import React from "react";
 
 import { addMinutes, format, formatISO } from "date-fns";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
 

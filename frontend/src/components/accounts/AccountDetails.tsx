@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { Trans, useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
-import { Trans, useTranslation } from "react-i18next";
 
 import { AccountOld } from "@explorer/common/types/procedures";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
