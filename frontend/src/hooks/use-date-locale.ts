@@ -1,18 +1,25 @@
 import React from "react";
 
+import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
 import {
-  Locale,
   getDateLocale,
+  getCachedDateLocale,
+  setCachedDateLocale,
 } from "@explorer/frontend/libraries/date-locale";
-import { Language } from "@explorer/frontend/libraries/i18n";
 
-export const useDateLocale = (
-  initialLocale: Locale | undefined,
-  language: Language
-) => {
-  const [locale, setLocale] = React.useState(initialLocale);
+export const useDateLocale = () => {
+  const { language } = React.useContext(LanguageContext);
+  const [locale, setLocale] = React.useState(getCachedDateLocale(language));
   React.useEffect(() => {
-    getDateLocale(language).then(setLocale);
-  }, [language]);
+    const cachedLocale = getCachedDateLocale(language);
+    if (cachedLocale) {
+      setLocale(cachedLocale);
+    } else {
+      getDateLocale(language).then((loadedLocale) => {
+        setCachedDateLocale(language, loadedLocale);
+        setLocale(loadedLocale);
+      });
+    }
+  }, [language, locale]);
   return locale;
 };
