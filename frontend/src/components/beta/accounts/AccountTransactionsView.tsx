@@ -314,7 +314,13 @@ const AccountTransactionsView = React.memo<React.FC<Props>>(({ accountId }) => {
   );
 
   return (
-    <ListHandler query={query} parser={parser}>
+    <ListHandler<
+      "transaction.listByAccountId",
+      ReturnType<typeof parser>[number]
+    >
+      query={query}
+      parser={parser}
+    >
       {(items) => {
         if (query.isLoading && items.length === 0) {
           return <Spinner animation="border" />;

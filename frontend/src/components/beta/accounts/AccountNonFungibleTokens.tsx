@@ -3,10 +3,8 @@ import * as React from "react";
 import Image from "next/image";
 import { Spinner } from "react-bootstrap";
 
-import {
-  AccountNonFungibleToken,
-  AccountNonFungibleTokenElement,
-} from "@explorer/common/types/procedures";
+import { TRPCInfiniteQueryOutput } from "@explorer/common/src/types/trpc";
+import { AccountNonFungibleTokenElement } from "@explorer/common/types/procedures";
 import AccountNonFungibleTokensHistory from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
 import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
 import ListHandler from "@explorer/frontend/components/utils/ListHandler";
@@ -156,7 +154,8 @@ type ContractProps = {
   accountId: string;
 };
 
-const parser = (result: AccountNonFungibleToken) => result.items;
+const parser = (result: TRPCInfiniteQueryOutput<"account.nonFungibleTokens">) =>
+  result.items;
 
 const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
   ({ contract, accountId }) => {
@@ -185,7 +184,13 @@ const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
         {query.status === "error" ? (
           <div>Failed to load NFTs</div>
         ) : (
-          <ListHandler query={query} parser={parser}>
+          <ListHandler<
+            "account.nonFungibleTokens",
+            ReturnType<typeof parser>[number]
+          >
+            query={query}
+            parser={parser}
+          >
             {(items) => (
               <TokensWrapper>
                 {items.map((token) => (

@@ -23,7 +23,10 @@ const Accounts: React.FC = React.memo(() => {
     }
   );
   return (
-    <ListHandler<AccountListInfo> query={query} parser={id}>
+    <ListHandler<"account.listByTimestamp", AccountListInfo>
+      query={query}
+      parser={id}
+    >
       {(items) => (
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items.map((account) => (

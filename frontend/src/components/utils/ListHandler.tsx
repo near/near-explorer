@@ -2,8 +2,13 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
-import * as ReactQuery from "react-query";
 
+import {
+  TRPCInfiniteQueryKey,
+  TRPCInfiniteQueryOutput,
+  TRPCInfiniteQueryResult,
+} from "@explorer/common/src/types/trpc";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -32,19 +37,19 @@ const LoadButton = styled("button", {
   },
 });
 
-export type Props<T, R = T[]> = {
-  query: ReactQuery.UseInfiniteQueryResult<R, unknown>;
-  parser: (input: R) => T[];
+export type Props<K extends TRPCInfiniteQueryKey, T> = {
+  query: TRPCInfiniteQueryResult<K>;
+  parser: (input: TRPCInfiniteQueryOutput<K>) => T[];
   children: (items: T[]) => React.ReactNode;
   prependChildren?: React.ReactNode;
 };
 
-const ListHandler = <T, R = T[]>({
+const ListHandler = <K extends TRPCInfiniteQueryKey, T>({
   query,
   parser,
   children,
   prependChildren,
-}: Props<T, R>) => {
+}: Props<K, T>) => {
   const { t } = useTranslation();
   const allItems =
     query.data?.pages.reduce<T[]>(
@@ -54,6 +59,11 @@ const ListHandler = <T, R = T[]>({
   const { fetchNextPage } = query;
   const fetchMore = React.useCallback(() => fetchNextPage(), [fetchNextPage]);
 
+  if (query.error && !query.data) {
+    return (
+      <ErrorMessage onRetry={fetchMore}>{query.error.message}</ErrorMessage>
+    );
+  }
   if (query.isFetching && !query.isFetchingNextPage) {
     return <PaginationSpinner />;
   }
@@ -67,6 +77,10 @@ const ListHandler = <T, R = T[]>({
         loader={
           query.isFetchingNextPage ? (
             <PaginationSpinner />
+          ) : query.error ? (
+            <ErrorMessage onRetry={fetchMore}>
+              {query.error.message}
+            </ErrorMessage>
           ) : (
             <LoadButton onClick={fetchMore} visible={query.hasNextPage}>
               {t("button.load_more")}
