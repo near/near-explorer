@@ -35,7 +35,6 @@ import {
 } from "@explorer/frontend/context/NetworkContext";
 import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
 import { useCookie } from "@explorer/frontend/hooks/use-cookie";
-import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
 import { useI18n } from "@explorer/frontend/hooks/use-i18n";
 import { useWatchBeta } from "@explorer/frontend/hooks/use-watch-beta";
 import {
@@ -46,7 +45,11 @@ import {
   CookieContext,
   getCookiesFromString,
 } from "@explorer/frontend/libraries/cookie";
-import { getDateLocale } from "@explorer/frontend/libraries/date-locale";
+import {
+  getDateLocale,
+  getCachedDateLocale,
+  setCachedDateLocale,
+} from "@explorer/frontend/libraries/date-locale";
 import {
   createI18n,
   Language,
@@ -117,7 +120,6 @@ declare module "next/app" {
   // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
   type ServerAppInitialProps = {
     i18n: i18n;
-    locale: LanguageContextType["locale"];
     cookies: string;
   };
 
@@ -188,7 +190,6 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
       defaultValue: initialLanguage,
     });
 
-    const locale = useDateLocale(serverProps?.locale, language);
     useI18n(serverProps?.i18n || (() => createI18n(language)), language);
 
     React.useEffect(() => {
@@ -209,8 +210,8 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
     const offline = Boolean(currentNetwork?.offline);
 
     const languageContext = React.useMemo(
-      () => ({ language, setLanguage, locale }),
-      [language, setLanguage, locale]
+      () => ({ language, setLanguage }),
+      [language, setLanguage]
     );
 
     useWatchBeta();
@@ -315,9 +316,11 @@ App.getInitialProps = async (appContext) => {
     }
     const serverProps: ServerAppInitialProps = {
       i18n: createI18n(language),
-      locale: await getDateLocale(language),
       cookies: req.headers.cookie ?? "",
     };
+    if (!getCachedDateLocale(language)) {
+      setCachedDateLocale(language, await getDateLocale(language));
+    }
     initialProps = {
       deployInfo,
       networkName: getNearNetworkName(appContext.ctx.query, req.headers.host),

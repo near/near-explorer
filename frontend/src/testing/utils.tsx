@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { i18n } from "i18next";
 import fetch from "isomorphic-fetch";
+import { noop } from "lodash";
 import { setI18n } from "react-i18next";
 import * as ReactQuery from "react-query";
 import renderer, {
@@ -17,7 +17,8 @@ import {
   NetworkContext,
   NetworkContextType,
 } from "@explorer/frontend/context/NetworkContext";
-import { Locale } from "@explorer/frontend/libraries/date-locale";
+import { setCachedDateLocale } from "@explorer/frontend/libraries/date-locale";
+import { Language } from "@explorer/frontend/libraries/i18n";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const networkContext: NetworkContextType = {
@@ -29,14 +30,6 @@ const networkContext: NetworkContextType = {
     },
   },
 };
-
-// Variables were set in testing/env.ts
-/* eslint-disable vars-on-top, no-var */
-declare global {
-  var i18nInstance: i18n;
-  var locale: Locale;
-}
-/* eslint-enable vars-on-top, no-var */
 
 export const renderElement = (
   nextElement: React.ReactNode,
@@ -50,10 +43,10 @@ export const renderElement = (
     fetch,
   });
   const languageContext: LanguageContextType = {
-    language: "en",
-    setLanguage: () => {},
-    locale: global.locale,
+    language: "cimode" as Language,
+    setLanguage: noop,
   };
+  setCachedDateLocale("cimode", global.locale);
   renderer.act(() => {
     root = renderer.create(
       <trpc.Provider queryClient={queryClient} client={client}>

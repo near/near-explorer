@@ -3,7 +3,7 @@ import React from "react";
 import { addMinutes, format, formatISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
 
 type Options = Omit<NonNullable<Parameters<typeof format>[2]>, "locale"> & {
   utc?: boolean;
@@ -11,7 +11,7 @@ type Options = Omit<NonNullable<Parameters<typeof format>[2]>, "locale"> & {
 
 export const useDateFormat = () => {
   const { i18n } = useTranslation();
-  const { locale } = React.useContext(LanguageContext);
+  const locale = useDateLocale();
   return React.useCallback(
     (
       date: Date | number,

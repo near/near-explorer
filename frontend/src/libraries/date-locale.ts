@@ -5,23 +5,39 @@ import { DurationFormatter } from "@explorer/frontend/libraries/locales/index";
 
 export type Locale = RawLocale & { durationFormatter: DurationFormatter };
 
-export const getDateLocale = async (
-  language: Language | "cimode"
-): Promise<Locale> => {
+type LanguageCi = Language | "cimode";
+
+const cachedLocales: Partial<Record<LanguageCi, Locale>> = {};
+
+const getDateLocaleModule = (
+  language: LanguageCi
+): Promise<{ locale: Locale }> => {
   switch (language) {
     case "en":
-      return (await import("./locales/en")).locale;
+      return import("./locales/en");
     case "ru":
-      return (await import("./locales/ru")).locale;
+      return import("./locales/ru");
     case "vi":
-      return (await import("./locales/vi")).locale;
+      return import("./locales/vi");
     case "zh-Hant":
-      return (await import("./locales/zh-Hant")).locale;
+      return import("./locales/zh-Hant");
     case "zh-Hans":
-      return (await import("./locales/zh-Hans")).locale;
+      return import("./locales/zh-Hans");
     case "uk":
-      return (await import("./locales/uk")).locale;
+      return import("./locales/uk");
     case "cimode":
-      return (await import("./locales/cimode")).locale;
+      return import("./locales/cimode");
   }
+};
+
+export const getCachedDateLocale = (language: LanguageCi): Locale | undefined =>
+  cachedLocales[language];
+
+export const setCachedDateLocale = (language: LanguageCi, locale: Locale) => {
+  cachedLocales[language] = locale;
+};
+
+export const getDateLocale = async (language: LanguageCi): Promise<Locale> => {
+  const { locale } = await getDateLocaleModule(language);
+  return locale;
 };

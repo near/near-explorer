@@ -1,8 +1,20 @@
-import i18next from "i18next";
+import i18next, { i18n } from "i18next";
 import JSDomEnvironment from "jest-environment-jsdom";
 import { initReactI18next } from "react-i18next";
 
-import { getDateLocale } from "@explorer/frontend/libraries/date-locale";
+import {
+  getCachedDateLocale,
+  getDateLocale,
+  Locale,
+  setCachedDateLocale,
+} from "@explorer/frontend/libraries/date-locale";
+
+/* eslint-disable vars-on-top, no-var */
+declare global {
+  var i18nInstance: i18n;
+  var locale: Locale;
+}
+/* eslint-enable vars-on-top, no-var */
 
 export default class extends JSDomEnvironment {
   async setup() {
@@ -14,6 +26,11 @@ export default class extends JSDomEnvironment {
     });
     // Will use this variables in renderElement
     this.global.i18nInstance = i18nInstance;
-    this.global.locale = await getDateLocale("cimode");
+    let locale = getCachedDateLocale("cimode");
+    if (!locale) {
+      locale = await getDateLocale("cimode");
+      setCachedDateLocale("cimode", locale);
+    }
+    this.global.locale = locale;
   }
 }

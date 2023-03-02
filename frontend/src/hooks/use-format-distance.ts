@@ -2,7 +2,7 @@ import React from "react";
 
 import { intervalToDuration } from "date-fns";
 
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
 import { DurationFormatter } from "@explorer/frontend/libraries/locales/index";
 
 const durationKeys = [
@@ -35,7 +35,7 @@ const formatDurationString = (
 };
 
 export const useFormatDistance = () => {
-  const { locale } = React.useContext(LanguageContext);
+  const locale = useDateLocale();
   return React.useCallback(
     (
       timestampStart: number | Date,
