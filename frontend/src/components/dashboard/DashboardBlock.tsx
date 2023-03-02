@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { Trans, useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
-import { Trans, useTranslation } from "react-i18next";
 
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";

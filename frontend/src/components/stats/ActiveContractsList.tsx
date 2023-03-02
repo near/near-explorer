@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
 import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";

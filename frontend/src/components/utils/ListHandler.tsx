@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
 import * as ReactQuery from "react-query";
 

@@ -3,7 +3,7 @@ import * as React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
 import ReceiptsExecutedInBlock from "@explorer/frontend/components/receipts/ReceiptsExecutedInBlock";

@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
 import LongCardCell, {

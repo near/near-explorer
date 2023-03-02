@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { BlockBase } from "@explorer/common/types/procedures";
 import Link from "@explorer/frontend/components/utils/Link";

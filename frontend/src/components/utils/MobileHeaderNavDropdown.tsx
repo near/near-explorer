@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { StyledComponent } from "@stitches/react/types/styled-component";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
 import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";

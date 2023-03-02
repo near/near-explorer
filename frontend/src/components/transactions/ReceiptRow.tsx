@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
+import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { NestedReceiptWithOutcomeOld } from "@explorer/common/types/procedures";
 import { Args } from "@explorer/frontend/components/transactions/ActionMessage";

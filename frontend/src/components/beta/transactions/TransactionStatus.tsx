@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { TransactionStatus } from "@explorer/common/types/procedures";
 import { styled } from "@explorer/frontend/libraries/styles";

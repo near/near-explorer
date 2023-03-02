@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { NextPage } from "next";
 import Head from "next/head";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import ActiveAccountsByDate from "@explorer/frontend/components/stats/ActiveAccountsByDate";
 import ActiveAccountsList from "@explorer/frontend/components/stats/ActiveAccountsList";

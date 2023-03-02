@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { TRPCQueryOutput } from "@explorer/common/types/trpc";
 import DashboardBlock from "@explorer/frontend/components/dashboard/DashboardBlock";

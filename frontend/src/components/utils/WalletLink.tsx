@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { truncateAccountId } from "@explorer/frontend/libraries/formatting";

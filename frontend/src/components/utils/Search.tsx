@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
@@ -247,7 +247,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
               <InputGroupText id="search">
                 <img
                   src="/static/images/icon-search.svg"
-                  alt={t("component.utils.Search.title")}
+                  alt={t("component.utils.Search.title")!}
                 />
               </InputGroupText>
             </InputGroup.Prepend>

@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { TFunction, useTranslation } from "next-i18next";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { TFunction, useTranslation } from "react-i18next";
 
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -55,17 +55,16 @@ const ValidatingLabelWrapper = styled(Badge, {
   },
 });
 
-const TOOLTIP_TEXTS: Record<StakingStatus, (t: TFunction<"common">) => string> =
-  {
-    active: (t) => t("component.nodes.ValidatorMainRow.state.active.text"),
-    joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.text"),
-    leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.text"),
-    proposal: (t) => t("component.nodes.ValidatorMainRow.state.proposal.text"),
-    idle: (t) => t("component.nodes.ValidatorMainRow.state.idle.text"),
-    newcomer: (t) => t("component.nodes.ValidatorMainRow.state.newcomer.text"),
-    onHold: (t) => t("component.nodes.ValidatorMainRow.state.onHold.text"),
-  };
-const LABEL_TEXTS: Record<StakingStatus, (t: TFunction<"common">) => string> = {
+const TOOLTIP_TEXTS: Record<StakingStatus, (t: TFunction) => string> = {
+  active: (t) => t("component.nodes.ValidatorMainRow.state.active.text"),
+  joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.text"),
+  leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.text"),
+  proposal: (t) => t("component.nodes.ValidatorMainRow.state.proposal.text"),
+  idle: (t) => t("component.nodes.ValidatorMainRow.state.idle.text"),
+  newcomer: (t) => t("component.nodes.ValidatorMainRow.state.newcomer.text"),
+  onHold: (t) => t("component.nodes.ValidatorMainRow.state.onHold.text"),
+};
+const LABEL_TEXTS: Record<StakingStatus, (t: TFunction) => string> = {
   active: (t) => t("component.nodes.ValidatorMainRow.state.active.title"),
   joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.title"),
   leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.title"),

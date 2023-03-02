@@ -1,11 +1,11 @@
 import * as React from "react";
 
+import { TFunction, useTranslation } from "next-i18next";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { TFunction, useTranslation } from "react-i18next";
 
 import { formatWithCommas } from "@explorer/frontend/components/utils/Balance";
 
-const formatStoreSize = (value: number, t: TFunction<"common">): string => {
+const formatStoreSize = (value: number, t: TFunction): string => {
   let showStorage = value.toString();
   const kilo = 10 ** 3;
 

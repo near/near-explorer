@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { useTranslation } from "next-i18next";
 import { Modal } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { styled } from "@explorer/frontend/libraries/styles";

@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { useTranslation } from "next-i18next";
 import { Badge, Col, Row } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 
 import Link from "@explorer/frontend/components/utils/Link";
 import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
