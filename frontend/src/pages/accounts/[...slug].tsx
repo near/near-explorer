@@ -35,13 +35,34 @@ const InnerAccountDetail = React.memo<{
   accountId: string;
 }>(({ query, accountId }) => {
   const { t } = useTranslation();
+  const transactionsQuery = trpc.useInfiniteQuery(
+    [
+      "transaction.listByAccountId",
+      { accountId, limit: TRANSACTIONS_PER_PAGE },
+    ],
+    // Only load transactions if account exists
+    { getNextPageParam, enabled: Boolean(query.data) }
+  );
   switch (query.status) {
     case "loading":
     case "idle":
       return <Spinner animation="border" />;
     case "success":
       if (query.data) {
-        return <AccountDetails account={query.data} />;
+        return (
+          <>
+            <AccountDetails account={query.data} />
+            <Container>
+              <ContractDetails accountId={accountId} />
+            </Container>
+            <Content
+              icon={<TransactionIcon />}
+              title={<h2>{t("common.transactions.transactions")}</h2>}
+            >
+              <Transactions query={transactionsQuery} />
+            </Content>
+          </>
+        );
       }
       return (
         <>
@@ -66,13 +87,6 @@ const AccountDetail = React.memo(() => {
     accountId,
   });
   const accountQuery = trpc.useQuery(["account.byIdOld", { id: accountId }]);
-  const transactionsQuery = trpc.useInfiniteQuery(
-    [
-      "transaction.listByAccountId",
-      { accountId, limit: TRANSACTIONS_PER_PAGE },
-    ],
-    { getNextPageParam }
-  );
 
   return (
     <>
@@ -90,19 +104,6 @@ const AccountDetail = React.memo(() => {
       >
         <InnerAccountDetail query={accountQuery} accountId={accountId} />
       </Content>
-      {accountQuery.status === "success" ? (
-        <>
-          <Container>
-            <ContractDetails accountId={accountId} />
-          </Container>
-          <Content
-            icon={<TransactionIcon />}
-            title={<h2>{t("common.transactions.transactions")}</h2>}
-          >
-            <Transactions query={transactionsQuery} />
-          </Content>
-        </>
-      ) : null}
     </>
   );
 });
