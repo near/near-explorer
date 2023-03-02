@@ -89,7 +89,7 @@ const validateAndFetch = async <T, V extends ZodType<any, any, any>>(
   return fetchedResult;
 };
 
-export const router = trpc.router<Context>().query("search", {
+export const router = trpc.router<Context>().mutation("search", {
   input: z.strictObject({
     value: z.string(),
   }),

@@ -5,12 +5,13 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import { TRPCQueryOutput } from "@explorer/common/types/trpc";
 import DashboardBlock from "@explorer/frontend/components/dashboard/DashboardBlock";
 import DashboardNode from "@explorer/frontend/components/dashboard/DashboardNode";
 import DashboardTransaction from "@explorer/frontend/components/dashboard/DashboardTransaction";
 import { DashboardCardWrapper } from "@explorer/frontend/components/utils/DashboardCard";
-import Search from "@explorer/frontend/components/utils/Search";
+import Search, {
+  getRedirectPage,
+} from "@explorer/frontend/components/utils/Search";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { getNearNetworkName } from "@explorer/frontend/libraries/config";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -91,27 +92,6 @@ const Dashboard: NextPage = React.memo(() => {
   );
 });
 
-const getRedirectPage = (
-  result: TRPCQueryOutput<"utils.search">
-): string | undefined => {
-  if (!result) {
-    return undefined;
-  }
-  if ("blockHash" in result) {
-    return `/blocks/${result.blockHash}`;
-  }
-  if ("receiptId" in result) {
-    return `/transactions/${result.transactionHash}#${result.receiptId}`;
-  }
-  if ("transactionHash" in result) {
-    return `/transactions/${result.transactionHash}`;
-  }
-  if ("accountId" in result) {
-    return `/accounts/${result.accountId}`;
-  }
-  return undefined;
-};
-
 export const getServerSideProps: GetServerSideProps = async ({
   query,
   req,
@@ -125,7 +105,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const searchQueryValue = Array.isArray(searchQuery)
     ? searchQuery[0]
     : searchQuery;
-  const searchResult = await trpcClient.query("utils.search", {
+  const searchResult = await trpcClient.mutation("utils.search", {
     value: searchQueryValue.replace(/\s/g, ""),
   });
   const redirectPage = getRedirectPage(searchResult);
