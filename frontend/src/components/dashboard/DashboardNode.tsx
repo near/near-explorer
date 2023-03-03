@@ -8,7 +8,6 @@ import LongCardCell, {
   CardCellText,
 } from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -20,7 +19,7 @@ const CountCell = styled(LongCardCell, {
 
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useNetworkStats();
+  const { data: networkStats } = useSubscription(["network-stats"]);
   const onlineNodesCountSub = useSubscription(["onlineNodesCount"]);
 
   return (

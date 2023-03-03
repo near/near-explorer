@@ -4,7 +4,7 @@ import JSBI from "jsbi";
 
 import { ValidatorFullData } from "@explorer/common/types/procedures";
 import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import * as BI from "@explorer/frontend/libraries/bigint";
 
 // The share of "network holders", cumulative amount of validators
@@ -82,7 +82,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
 
-    const { data: networkStats } = useNetworkStats();
+    const { data: networkStats } = useSubscription(["network-stats"]);
     const seatPrice = networkStats?.seatPrice;
 
     return (

@@ -12,12 +12,11 @@ import {
   InfoCard,
   InfoCardCell as Cell,
 } from "@explorer/frontend/components/utils/InfoCard";
-import { useEpochStartBlock } from "@explorer/frontend/hooks/data";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import * as BI from "@explorer/frontend/libraries/bigint";
 import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const ProtocolConfig = styled(InfoCard, {
   margin: "24px 0",
@@ -40,8 +39,12 @@ const BalanceSuffix = styled("span", {
 
 const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useNetworkStats();
-  const epochStartBlock = useEpochStartBlock();
+  const { data: networkStats } = useSubscription(["network-stats"]);
+  const blockHeight = networkStats?.epochStartHeight;
+  const epochStartBlock = trpc.useQuery(
+    ["block.byId", { height: blockHeight ?? 0 }],
+    { enabled: blockHeight !== undefined }
+  ).data;
 
   const genesisConfigSub = useSubscription(["genesisConfig"]);
 
