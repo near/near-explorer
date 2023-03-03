@@ -1,11 +1,12 @@
-name: Deploy to Staging and PROD environment.
+name: Deploy to Staging environment.
 on:
-  push:
-    branches:
-      - ecp88/update-instance-type
+  pull_request:
+  # push:
+  #   branches:
+  #     - ecp88/update-instance-type
 
 jobs:
-  deploy-to-staging-cloud-run:
+  deploy-to-staging:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,9 +20,13 @@ jobs:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTNED_SA_STAGING_KEY }}"
 
       - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v0"
+        uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: "Build Backend Image"
+      - name:
+          "Build and Deploy PR Image"
+          #gcloud builds submit --quiet "./backend" --tag="us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:latest"\
+          #  --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"
         run: |
-          gcloud builds submit --quiet "./backend" --tag="us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:latest"\
-            --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"
+          gcloud builds submit --quiet "." --config="on_pr.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci" --machine-type="e2-highcpu-8"
+        env:
+          PR: "PR-XX"
