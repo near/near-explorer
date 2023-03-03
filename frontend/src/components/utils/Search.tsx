@@ -2,12 +2,35 @@ import * as React from "react";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
+import { Button, FormControl, InputGroup, Row, Spinner } from "react-bootstrap";
 
+import { TRPCMutationOutput } from "@explorer/common/src/types/trpc";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
+
+const LoadingIcon = styled("div", {
+  background: "#ffffff",
+  borderWidth: 2,
+  borderColor: "#eaebeb",
+  borderStyle: "solid",
+  borderRightWidth: 0,
+  borderLeftWidth: 0,
+  display: "flex",
+  alignItems: "center",
+  paddingHorizontal: 16,
+  transition: "border-color 0.15s ease-in-out",
+
+  variants: {
+    compact: {
+      true: {
+        backgroundColor: "#fafafa",
+      },
+    },
+  },
+});
 
 const SearchField = styled(FormControl, {
   background: "#ffffff",
@@ -39,6 +62,11 @@ const SearchField = styled(FormControl, {
         borderRight: "2px solid #eaebeb",
         borderRadius: "0 8px 8px 0",
         paddingLeft: 0,
+      },
+    },
+    loading: {
+      true: {
+        borderRightWidth: 0,
       },
     },
   },
@@ -82,7 +110,7 @@ const InputGroupWrapper = styled(InputGroup, {
     background: "white",
   },
 
-  [`&:focus-within ${SearchField}, &:focus-within .input-group-prepend ${InputGroupText}`]:
+  [`&:focus-within ${SearchField}, &:focus-within .input-group-prepend ${InputGroupText}, &:focus-within .input-group-append ${LoadingIcon}`]:
     {
       borderColor: "#0072ce !important",
       backgroundColor: "white",
@@ -93,9 +121,10 @@ const InputGroupWrapper = styled(InputGroup, {
     borderRadius: 8,
   },
 
-  [`&:hover ${SearchField}, &:hover .input-group-prepend ${InputGroupText}`]: {
-    borderColor: "#cdcfd1",
-  },
+  [`&:hover ${SearchField}, &:hover .input-group-prepend ${InputGroupText}, &:hover .input-group-append ${LoadingIcon}`]:
+    {
+      borderColor: "#cdcfd1",
+    },
 
   [`& ${ButtonSearch}::before`]: {
     content: "",
@@ -139,6 +168,15 @@ const SearchWrapper = styled("form", {
             "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
         },
 
+        [`& .input-group-append ${LoadingIcon}`]: {
+          borderLeft: "none",
+          borderRightWidth: 2,
+          borderTopRightRadius: 8,
+          borderBottomRightRadius: 8,
+          transition:
+            "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
+        },
+
         [`& ${InputGroupWrapper}::after`]: {
           content: "",
           position: "absolute",
@@ -172,6 +210,27 @@ const SearchBox = styled(Row, {
   borderRadius: "inherit",
 });
 
+export const getRedirectPage = (
+  result: TRPCMutationOutput<"utils.search">
+): string | undefined => {
+  if (!result) {
+    return undefined;
+  }
+  if ("blockHash" in result) {
+    return `/blocks/${result.blockHash}`;
+  }
+  if ("receiptId" in result) {
+    return `/transactions/${result.transactionHash}#${result.receiptId}`;
+  }
+  if ("transactionHash" in result) {
+    return `/transactions/${result.transactionHash}`;
+  }
+  if ("accountId" in result) {
+    return `/accounts/${result.accountId}`;
+  }
+  return undefined;
+};
+
 interface Props {
   dashboard?: boolean;
 }
@@ -184,49 +243,33 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
   const [queryValue, setQueryValue] = useQueryParam("query");
   const [inputValue, setInputValue] = React.useState<string>(queryValue || "");
-  const [searchValue, setSearchValue] = React.useState<string | undefined>(
-    undefined
-  );
 
   React.useEffect(() => {
     setQueryValue(inputValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
-  trpc.useQuery(
-    ["utils.search", { value: searchValue?.replace(/\s/g, "") ?? "" }],
-    {
-      enabled: Boolean(searchValue),
-      onSuccess: (result) => {
-        if (!result) {
-          // TODO: add popup with error instead of alert
-          // eslint-disable-next-line no-alert
-          return alert("Result not found!");
-        }
-        track("Explorer Search", { page: result });
-        if ("blockHash" in result) {
-          return router.push(`/blocks/${result.blockHash}`);
-        }
-        if ("receiptId" in result) {
-          return router.push(
-            `/transactions/${result.transactionHash}#${result.receiptId}`
-          );
-        }
-        if ("transactionHash" in result) {
-          return router.push(`/transactions/${result.transactionHash}`);
-        }
-        if ("accountId" in result) {
-          return router.push(`/accounts/${result.accountId}`);
-        }
-      },
-    }
-  );
+  const searchMutation = trpc.useMutation("utils.search", {
+    onSuccess: (result) => {
+      const page = getRedirectPage(result);
+      if (!page) {
+        // TODO: add popup with error instead of alert
+        // eslint-disable-next-line no-alert
+        return alert("Result not found!");
+      }
+      track("Explorer Search", { page: result });
+      router.push(page);
+    },
+  });
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setSearchValue(queryValue);
+      if (searchMutation.status === "loading") {
+        return;
+      }
+      searchMutation.mutate({ value: queryValue?.replace(/\s/g, "") ?? "" });
     },
-    [queryValue]
+    [queryValue, searchMutation]
   );
 
   const onChange = React.useCallback(
@@ -239,39 +282,58 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   // Remove after migration to next.js >= 13
   /* eslint-disable @next/next/no-img-element */
   return (
-    <SearchWrapper onSubmit={onSubmit} compact={compact}>
-      <SearchBox noGutters>
-        <InputGroupWrapper>
-          {!dashboard && (
-            <InputGroup.Prepend>
-              <InputGroupText id="search">
-                <img
-                  src="/static/images/icon-search.svg"
-                  alt={t("component.utils.Search.title")!}
-                />
-              </InputGroupText>
-            </InputGroup.Prepend>
-          )}
+    <>
+      <SearchWrapper onSubmit={onSubmit} compact={compact}>
+        <SearchBox noGutters>
+          <InputGroupWrapper>
+            {!dashboard && (
+              <InputGroup.Prepend>
+                <InputGroupText id="search">
+                  <img
+                    src="/static/images/icon-search.svg"
+                    alt={t("component.utils.Search.title")!}
+                  />
+                </InputGroupText>
+              </InputGroup.Prepend>
+            )}
 
-          <SearchField
-            placeholder={t("component.utils.Search.hint")}
-            aria-label="Search"
-            aria-describedby="search"
-            autoCorrect="off"
-            autoCapitalize="none"
-            onChange={onChange}
-            compact={compact}
-            value={inputValue}
-          />
+            <SearchField
+              placeholder={t("component.utils.Search.hint")}
+              aria-label="Search"
+              aria-describedby="search"
+              autoCorrect="off"
+              autoCapitalize="none"
+              onChange={onChange}
+              compact={compact}
+              loading={searchMutation.isLoading}
+              value={inputValue}
+            />
 
-          {dashboard && (
-            <ButtonSearch type="submit" variant="info">
-              {t("component.utils.Search.title")}
-            </ButtonSearch>
-          )}
-        </InputGroupWrapper>
-      </SearchBox>
-    </SearchWrapper>
+            {searchMutation.isLoading ? (
+              <InputGroup.Append>
+                <LoadingIcon compact={compact}>
+                  <Spinner animation="border" />
+                </LoadingIcon>
+              </InputGroup.Append>
+            ) : null}
+            {dashboard && (
+              <ButtonSearch
+                type="submit"
+                variant="info"
+                disabled={searchMutation.status === "loading"}
+              >
+                {t("component.utils.Search.title")}
+              </ButtonSearch>
+            )}
+          </InputGroupWrapper>
+        </SearchBox>
+      </SearchWrapper>
+      {searchMutation.status === "error" ? (
+        <ErrorMessage onRetry={searchMutation.reset}>
+          {searchMutation.error.message}
+        </ErrorMessage>
+      ) : null}
+    </>
   );
 });
 
