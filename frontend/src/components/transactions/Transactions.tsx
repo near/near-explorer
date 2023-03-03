@@ -3,6 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import * as ReactQuery from "react-query";
 
+import { TRPCError } from "@explorer/common/src/types/trpc";
 import {
   TransactionPreview,
   TransactionListResponse,
@@ -19,14 +20,19 @@ export const getNextPageParam: ReactQuery.GetNextPageParamFunction<
 const parser = (result: TransactionListResponse) => result.items;
 
 interface Props {
-  query: ReactQuery.UseInfiniteQueryResult<TransactionListResponse, unknown>;
+  query: ReactQuery.UseInfiniteQueryResult<TransactionListResponse, TRPCError>;
 }
 
 const Transactions: React.FC<Props> = React.memo(({ query }) => {
   const { t } = useTranslation();
 
   return (
-    <ListHandler<TransactionPreview, TransactionListResponse>
+    <ListHandler<
+      | "transaction.listByAccountId"
+      | "transaction.listByTimestamp"
+      | "transaction.listByBlockHash",
+      TransactionPreview
+    >
       query={query}
       parser={parser}
     >

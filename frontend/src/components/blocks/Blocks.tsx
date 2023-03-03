@@ -34,7 +34,7 @@ const Blocks: React.FC = React.memo(() => {
   const onRefetchClick = React.useCallback(() => refetch(), [refetch]);
 
   return (
-    <ListHandler<BlockBase>
+    <ListHandler<"block.list", BlockBase>
       query={query}
       parser={id}
       prependChildren={

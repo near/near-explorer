@@ -12,7 +12,11 @@ import type {
   ProcedureRecord,
 } from "@trpc/server/dist/declarations/src/router";
 import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
-import type { UseMutationResult, UseQueryResult } from "react-query";
+import type {
+  UseInfiniteQueryResult,
+  UseMutationResult,
+  UseQueryResult,
+} from "react-query";
 import type { Equals } from "tsafe";
 
 import type { AppRouter } from "@explorer/backend/router";
@@ -177,10 +181,16 @@ export type TRPCQueryOutput<Path extends TRPCQueryKey> = DefValues<
   "queries"
 >[Path]["output"];
 
+export type TRPCInfiniteQueryOutput<Path extends TRPCInfiniteQueryKey> =
+  TRPCQueryOutput<Path>;
+
 export type TRPCQueryResult<Path extends TRPCQueryKey> = UseQueryResult<
   TRPCQueryOutput<Path>,
   TRPCError
 >;
+
+export type TRPCInfiniteQueryResult<Path extends TRPCInfiniteQueryKey> =
+  UseInfiniteQueryResult<TRPCInfiniteQueryOutput<Path>, TRPCError>;
 
 export type TRPCMutationKey = DefKey<AppRouter, "mutations">;
 

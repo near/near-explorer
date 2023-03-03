@@ -70,7 +70,10 @@ const FungibleTokens: NextPage = React.memo(() => {
             ? `Total of ${tokensAmountQuery.data} fungible tokens registered`
             : "Loading FTs amount.."}
         </Header>
-        <ListHandler<FungibleTokenItem> query={fungibleTokensQuery} parser={id}>
+        <ListHandler<"fungibleTokens.list", FungibleTokenItem>
+          query={fungibleTokensQuery}
+          parser={id}
+        >
           {(items) => {
             if (items.length === 0) {
               return <Spinner animation="border" />;
