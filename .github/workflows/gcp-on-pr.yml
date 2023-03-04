@@ -1,0 +1,111 @@
+name: Deploy to Staging environment.
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy-frontend:
+    environment:
+      name: dev-frontend
+      url: ${{ steps.gcp_url.outputs.deploy_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout near-explorer"
+
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "Build and Deploy Frontend"
+        run: |
+          gcloud builds submit --quiet "." --config=".github/gcp-configs/gcp-frontend.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+           --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: "Get deployment URL"
+        id: "gcp_url"
+        run: |
+          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "us-central1" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          match="https://"
+          tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"
+          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+  build-and-deploy-backend-testnet:
+    environment:
+      name: dev-backend-testnet
+      url: ${{ steps.gcp_url.outputs.deploy_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout backend-repo"
+
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "Build and Deploy Frontend"
+        run: |
+          gcloud builds submit --quiet "." --config=".github/gcp-configs/gcp-backend-testnet.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+           --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: "Get deployment URL"
+        id: "gcp_url"
+        run: |
+          url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "us-central1" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          match="https://"
+          tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"
+          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+  build-and-deploy-backend-mainnet:
+    environment:
+      name: dev-backend-mainnet
+      url: ${{ steps.gcp_url.outputs.deploy_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout backend-repo"
+
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "Build and Deploy Frontend"
+        run: |
+          gcloud builds submit --quiet "." --config=".github/gcp-configs/gcp-backend-mainnet.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+          --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: "Get deployment URL"
+        id: "gcp_url"
+        run: |
+          url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "us-central1" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          match="https://"
+          tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"
+          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
+        env:
+          PR_NUMBER: ${{ github.event.number }}
