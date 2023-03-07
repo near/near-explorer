@@ -122,9 +122,6 @@ export const router = trpc
   .query("byIdOld", {
     input: z.strictObject({ id: validators.accountId }),
     resolve: async ({ input: { id } }) => {
-      if (/[A-Z]/.test(id)) {
-        return null;
-      }
       const [accountInfo, accountDetails] = await Promise.all([
         getAccountInfo(id),
         getAccountDetails(id),
