@@ -1,7 +1,7 @@
 import React from "react";
 
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast/headless";
 
 import { HealthStatus } from "@explorer/common/types/procedures";
 import Timer from "@explorer/frontend/components/utils/Timer";
