@@ -55,7 +55,7 @@ const IconCellIcon = styled("img", {
   width: 16,
 });
 
-interface Props {
+type Props = React.PropsWithChildren<{
   isRowActive: boolean;
   accountId: string;
   index: number;
@@ -71,7 +71,7 @@ interface Props {
     cumulativePercent: number;
   } | null;
   handleClick: React.MouseEventHandler;
-}
+}>;
 
 const yoctoNearToNear = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(24));
 

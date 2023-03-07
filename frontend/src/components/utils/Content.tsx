@@ -23,7 +23,7 @@ export const ContentHeader = styled(Row, {
   },
 });
 
-export interface Props {
+export type Props = React.PropsWithChildren<{
   title?: React.ReactNode;
   header?: React.ReactNode;
   overrideHeader?: React.FC<React.ComponentProps<typeof ContentHeader>>;
@@ -32,7 +32,7 @@ export interface Props {
   contentFluid?: boolean;
   icon?: React.ReactNode;
   className?: string;
-}
+}>;
 
 const Content: React.FC<Props> = React.memo(
   ({
