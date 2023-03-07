@@ -39,10 +39,6 @@ const TransactionRowTimer = styled("div", {
   fontWeight: 300,
 });
 
-const LinkWrapper = styled("a", {
-  textDecoration: "none",
-});
-
 const AccountIcon = styled("img", {
   width: 15,
 });
@@ -60,61 +56,59 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
   const format = useDateFormat();
 
   return (
-    <Link href={`/accounts/${accountId}`} passHref>
-      <LinkWrapper>
-        <TransactionRow className="mx-0">
-          <Col md="auto" xs="1" className="pr-0">
-            <AccountIcon
-              src={
-                accountInfo?.deleted
-                  ? "/static/images/icon-t-acct-delete.svg"
-                  : "/static/images/icon-t-acct.svg"
-              }
-            />
-          </Col>
-          <TransactionRowTitle md="7" xs="11" className="pt-1">
-            {accountId}
-          </TransactionRowTitle>
-          <TransactionRowTransactionId
-            md="3"
-            xs="5"
-            className="ml-auto pt-1 text-right"
-          >
-            {accountInfo ? (
-              accountInfo.deleted ? (
+    <Link href={`/accounts/${accountId}`}>
+      <TransactionRow className="mx-0">
+        <Col md="auto" xs="1" className="pr-0">
+          <AccountIcon
+            src={
+              accountInfo?.deleted
+                ? "/static/images/icon-t-acct-delete.svg"
+                : "/static/images/icon-t-acct.svg"
+            }
+          />
+        </Col>
+        <TransactionRowTitle md="7" xs="11" className="pt-1">
+          {accountId}
+        </TransactionRowTitle>
+        <TransactionRowTransactionId
+          md="3"
+          xs="5"
+          className="ml-auto pt-1 text-right"
+        >
+          {accountInfo ? (
+            accountInfo.deleted ? (
+              <TransactionRowTimer>
+                {t("component.accounts.AccountRow.deleted_on")}{" "}
+                {format(accountInfo.deleted.timestamp, "PPP")}
+                <CopyToClipboard
+                  text={String(accountInfo.deleted.timestamp)}
+                  css={{ marginLeft: 8 }}
+                />
+              </TransactionRowTimer>
+            ) : (
+              <>
+                <Balance
+                  amount={accountInfo.details?.nonStakedBalance ?? "0"}
+                />
                 <TransactionRowTimer>
-                  {t("component.accounts.AccountRow.deleted_on")}{" "}
-                  {format(accountInfo.deleted.timestamp, "PPP")}
-                  <CopyToClipboard
-                    text={String(accountInfo.deleted.timestamp)}
-                    css={{ marginLeft: 8 }}
-                  />
+                  {t("component.accounts.AccountRow.created_on")}{" "}
+                  {accountInfo.created ? (
+                    <>
+                      {format(accountInfo.created.timestamp, "PPP")}
+                      <CopyToClipboard
+                        text={String(accountInfo.created.timestamp)}
+                        css={{ marginLeft: 8 }}
+                      />
+                    </>
+                  ) : (
+                    "Genesis"
+                  )}
                 </TransactionRowTimer>
-              ) : (
-                <>
-                  <Balance
-                    amount={accountInfo.details?.nonStakedBalance ?? "0"}
-                  />
-                  <TransactionRowTimer>
-                    {t("component.accounts.AccountRow.created_on")}{" "}
-                    {accountInfo.created ? (
-                      <>
-                        {format(accountInfo.created.timestamp, "PPP")}
-                        <CopyToClipboard
-                          text={String(accountInfo.created.timestamp)}
-                          css={{ marginLeft: 8 }}
-                        />
-                      </>
-                    ) : (
-                      "Genesis"
-                    )}
-                  </TransactionRowTimer>
-                </>
-              )
-            ) : null}
-          </TransactionRowTransactionId>
-        </TransactionRow>
-      </LinkWrapper>
+              </>
+            )
+          ) : null}
+        </TransactionRowTransactionId>
+      </TransactionRow>
     </Link>
   );
 });

@@ -140,18 +140,14 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="c-AccountLinkWrapper-dbzzBd"
-                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  gjtur…ockup.near
-                </a>
-              </span>
+                gjtur…ockup.near
+              </a>
             </div>
           </div>
         </div>
@@ -479,18 +475,14 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="c-AccountLinkWrapper-dbzzBd"
-                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  gjtur…ockup.near
-                </a>
-              </span>
+                gjtur…ockup.near
+              </a>
             </div>
           </div>
         </div>
@@ -818,18 +810,14 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="c-AccountLinkWrapper-dbzzBd"
-                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  gjtur…ockup.near
-                </a>
-              </span>
+                gjtur…ockup.near
+              </a>
             </div>
           </div>
         </div>
@@ -1063,20 +1051,17 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp
-              <span
+              <a
+                className="c-Anchor-hIXuvg"
+                href="/transactions/3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  href="/transactions/3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  <img
-                    className="c-TransactionLinkIcon-fCEEVh"
-                    src="/static/images/icon-m-copy.svg"
-                  />
-                </a>
-              </span>
+                <img
+                  className="c-TransactionLinkIcon-fCEEVh"
+                  src="/static/images/icon-m-copy.svg"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -1226,18 +1211,14 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              <span
+              <a
+                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="c-AccountLinkWrapper-dbzzBd"
-                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  gjtur…ockup.near
-                </a>
-              </span>
+                gjtur…ockup.near
+              </a>
             </div>
           </div>
         </div>
@@ -1471,20 +1452,17 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
-              <span
+              <a
+                className="c-Anchor-hIXuvg"
+                href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  <img
-                    className="c-TransactionLinkIcon-fCEEVh"
-                    src="/static/images/icon-m-copy.svg"
-                  />
-                </a>
-              </span>
+                <img
+                  className="c-TransactionLinkIcon-fCEEVh"
+                  src="/static/images/icon-m-copy.svg"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -1828,20 +1806,17 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL
-              <span
+              <a
+                className="c-Anchor-hIXuvg"
+                href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  <img
-                    className="c-TransactionLinkIcon-fCEEVh"
-                    src="/static/images/icon-m-copy.svg"
-                  />
-                </a>
-              </span>
+                <img
+                  className="c-TransactionLinkIcon-fCEEVh"
+                  src="/static/images/icon-m-copy.svg"
+                />
+              </a>
             </div>
           </div>
         </div>

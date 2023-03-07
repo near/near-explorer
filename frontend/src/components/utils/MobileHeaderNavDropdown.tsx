@@ -20,7 +20,7 @@ const Icon = styled("svg", {
   marginRight: 3,
 });
 
-const HeaderNavLink = styled("a", {
+const HeaderNavLink = styled(Link, {
   color: "#a5a5a5",
   display: "block",
   paddingVertical: 14,
@@ -50,12 +50,10 @@ interface Props {
 
 const MobileNavItem: React.FC<Props> = React.memo(
   ({ link, IconElement, text }) => (
-    <Link href={link} passHref>
-      <HeaderNavLink>
-        <Icon as={IconElement} />
-        <NavText>{text}</NavText>
-      </HeaderNavLink>
-    </Link>
+    <HeaderNavLink href={link}>
+      <Icon as={IconElement} />
+      <NavText>{text}</NavText>
+    </HeaderNavLink>
   )
 );
 
@@ -111,7 +109,7 @@ const DropdownContent = styled("div", {
   textAlign: "left",
 });
 
-const LinkWrapper = styled("a", {
+const LinkWrapper = styled(Link, {
   color: "#F8F8F8",
   width: "100%",
 });
@@ -174,9 +172,9 @@ const MobileNavDropdown: React.FC = React.memo(() => {
       {isMenuShown ? (
         <DropdownContent ref={dropdownMenuRef}>
           <MobileNav>
-            <Link href="/" passHref>
-              <LinkWrapper>{t("component.utils.Header.home")}</LinkWrapper>
-            </Link>
+            <LinkWrapper href="/">
+              {t("component.utils.Header.home")}
+            </LinkWrapper>
           </MobileNav>
           <MobileNav>{t("component.utils.HeaderNavDropdown.title")}</MobileNav>
           <MobileNavItem

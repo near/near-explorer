@@ -4,7 +4,7 @@ import Link from "@explorer/frontend/components/utils/Link";
 import { truncateAccountId } from "@explorer/frontend/libraries/formatting";
 import { styled } from "@explorer/frontend/libraries/styles";
 
-const AccountLinkWrapper = styled("a", {
+const AccountLinkWrapper = styled(Link, {
   whiteSpace: "nowrap",
 });
 
@@ -13,9 +13,9 @@ export interface Props {
 }
 
 const AccountLink: React.FC<Props> = React.memo(({ accountId }) => (
-  <Link href={`/accounts/${accountId}`} passHref>
-    <AccountLinkWrapper>{truncateAccountId(accountId)}</AccountLinkWrapper>
-  </Link>
+  <AccountLinkWrapper href={`/accounts/${accountId}`}>
+    {truncateAccountId(accountId)}
+  </AccountLinkWrapper>
 ));
 
 export default AccountLink;

@@ -10,10 +10,8 @@ export interface Props {
 
 const BlockLink: React.FC<Props> = React.memo(
   ({ blockHash, children, truncate = true }) => (
-    <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
-      <a>
-        {children || (truncate ? `${blockHash.substring(0, 7)}...` : blockHash)}
-      </a>
+    <Link href={`/blocks/${blockHash}`}>
+      {children || (truncate ? `${blockHash.substring(0, 7)}...` : blockHash)}
     </Link>
   )
 );

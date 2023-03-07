@@ -17,16 +17,14 @@ const Icon = styled("svg", {
   marginRight: 3,
 });
 
-const HeaderNavLink = styled("a", {
+const HeaderNavLink = styled(Link, {
   display: "block",
   color: "#a5a5a5",
   paddingTop: 10,
   paddingBottom: 15,
   paddingLeft: 18,
-  textDecoration: "none",
   width: "100%",
   height: "100%",
-  cursor: "pointer",
 
   "&:hover": {
     background: "#000000",
@@ -54,12 +52,10 @@ interface Props {
 
 const HeaderNavItem: React.FC<Props> = React.memo(
   ({ link, IconElement, text }) => (
-    <Link href={link} passHref>
-      <HeaderNavLink>
-        <Icon as={IconElement} />
-        <NavText>{text}</NavText>
-      </HeaderNavLink>
-    </Link>
+    <HeaderNavLink href={link}>
+      <Icon as={IconElement} />
+      <NavText>{text}</NavText>
+    </HeaderNavLink>
   )
 );
 

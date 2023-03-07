@@ -49,10 +49,6 @@ const TransactionRowTimerStatus = styled("span", {
   fontWeight: 500,
 });
 
-const LinkWrapper = styled("a", {
-  textDecoration: "none",
-});
-
 const BlockIcon = styled("img", {
   width: 20,
 });
@@ -69,52 +65,50 @@ const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const latestBlockSub = useSubscription(["latestBlock"]);
   return (
-    <Link href={`/blocks/${block.hash}`} passHref>
-      <LinkWrapper>
-        <TransactionRow className="mx-0">
-          <Col md="auto" xs="1" className="pr-0" />
-          <Col md="auto" xs="1" className="pr-0">
-            <BlockIcon src="/static/images/icon-m-block.svg" />
-          </Col>
-          <Col md="7" xs="6">
-            <Row>
-              <TransactionRowTitle>#{block.height}</TransactionRowTitle>
-            </Row>
-            <Row>
-              <TransactionRowText>
-                <Row>
-                  <Col md="auto">
-                    <TransactionIcon src="/static/images/icon-m-transaction.svg" />
-                    {` ${block.transactionsCount}`}
-                  </Col>
-                </Row>
-              </TransactionRowText>
-            </Row>
-          </Col>
-          <Col md="3" xs="4" className="ml-auto text-right">
-            <Row>
-              <TransactionRowTransactionId>
-                {block.hash !== undefined
-                  ? `${block.hash.substring(0, 7)}...`
-                  : null}
-              </TransactionRowTransactionId>
-            </Row>
-            <Row>
-              <TransactionRowTimer>
-                <TransactionRowTimerStatus>
-                  {latestBlockSub.status !== "success"
-                    ? t("common.blocks.status.checking_finality")
-                    : block.timestamp < latestBlockSub.data.timestamp
-                    ? t("common.blocks.status.finalized")
-                    : t("common.blocks.status.finalizing")}
-                </TransactionRowTimerStatus>
-                &nbsp;&nbsp;
-                <Timer time={block.timestamp} />
-              </TransactionRowTimer>
-            </Row>
-          </Col>
-        </TransactionRow>
-      </LinkWrapper>
+    <Link href={`/blocks/${block.hash}`}>
+      <TransactionRow className="mx-0">
+        <Col md="auto" xs="1" className="pr-0" />
+        <Col md="auto" xs="1" className="pr-0">
+          <BlockIcon src="/static/images/icon-m-block.svg" />
+        </Col>
+        <Col md="7" xs="6">
+          <Row>
+            <TransactionRowTitle>#{block.height}</TransactionRowTitle>
+          </Row>
+          <Row>
+            <TransactionRowText>
+              <Row>
+                <Col md="auto">
+                  <TransactionIcon src="/static/images/icon-m-transaction.svg" />
+                  {` ${block.transactionsCount}`}
+                </Col>
+              </Row>
+            </TransactionRowText>
+          </Row>
+        </Col>
+        <Col md="3" xs="4" className="ml-auto text-right">
+          <Row>
+            <TransactionRowTransactionId>
+              {block.hash !== undefined
+                ? `${block.hash.substring(0, 7)}...`
+                : null}
+            </TransactionRowTransactionId>
+          </Row>
+          <Row>
+            <TransactionRowTimer>
+              <TransactionRowTimerStatus>
+                {latestBlockSub.status !== "success"
+                  ? t("common.blocks.status.checking_finality")
+                  : block.timestamp < latestBlockSub.data.timestamp
+                  ? t("common.blocks.status.finalized")
+                  : t("common.blocks.status.finalizing")}
+              </TransactionRowTimerStatus>
+              &nbsp;&nbsp;
+              <Timer time={block.timestamp} />
+            </TransactionRowTimer>
+          </Row>
+        </Col>
+      </TransactionRow>
     </Link>
   );
 });

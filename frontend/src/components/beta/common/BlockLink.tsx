@@ -8,15 +8,12 @@ export interface Props {
   blockHeight: number;
 }
 
-const LinkWrapper = styled("a", {
+const LinkWrapper = styled(Link, {
   whiteSpace: "nowrap",
-  cursor: "pointer",
 });
 
 const BlockLink: React.FC<Props> = React.memo(({ blockHash, blockHeight }) => (
-  <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
-    <LinkWrapper>{`#${blockHeight}`}</LinkWrapper>
-  </Link>
+  <LinkWrapper href={`/blocks/${blockHash}`}>{`#${blockHeight}`}</LinkWrapper>
 ));
 
 export default BlockLink;

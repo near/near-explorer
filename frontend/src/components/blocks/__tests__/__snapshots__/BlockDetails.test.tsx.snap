@@ -140,18 +140,14 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
-                <span
+                <a
+                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  href="/accounts/near.near"
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                 >
-                  <a
-                    className="c-AccountLinkWrapper-dbzzBd"
-                    href="/accounts/near.near"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                  >
-                    near.near
-                  </a>
-                </span>
+                  near.near
+                </a>
               </div>
             </div>
           </div>
@@ -374,17 +370,14 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
-                <span
+                <a
+                  className="c-Anchor-hIXuvg"
+                  href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                 >
-                  <a
-                    href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                  >
-                    EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
-                  </a>
-                </span>
+                  EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
+                </a>
               </div>
             </div>
           </div>

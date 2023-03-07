@@ -113,13 +113,7 @@ export const Tabs = React.memo(<T extends string>(props: Props<T>) => {
               ref={(element) => (labelsRecordRef.current[id] = element)}
               disabled={Boolean(disabled)}
             >
-              {href ? (
-                <LinkWrapper href={href} shallow>
-                  {label}
-                </LinkWrapper>
-              ) : (
-                label
-              )}
+              {href ? <LinkWrapper href={href}>{label}</LinkWrapper> : label}
             </TabHeader>
           );
         })}

@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
+import LinkWrapper from "@explorer/frontend/components/utils/Link";
 import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
@@ -58,11 +59,12 @@ const DashboardNode: React.FC = React.memo(() => {
               />
             }
             subscription={networkStatsSub}
-            href="/nodes/validators"
             textCss={{ color: "#00c08b" }}
           >
             {(networkStats) => (
-              <>{networkStats.currentValidatorsCount.toLocaleString()}</>
+              <LinkWrapper href="/nodes/validators">
+                {networkStats.currentValidatorsCount.toLocaleString()}
+              </LinkWrapper>
             )}
           </LongCardCell>
         </Col>

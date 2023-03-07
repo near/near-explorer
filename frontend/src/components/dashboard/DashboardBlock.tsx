@@ -32,8 +32,8 @@ const DashboardBlock: React.FC = React.memo(() => {
       iconPath="/static/images/icon-blocks.svg"
       title={t("common.blocks.blocks")}
       headerRight={
-        <Link href="/blocks">
-          <a>{t("button.view_all")}</a>
+        <Link href="/blocks" css={{ color: "#007bff" }}>
+          {t("button.view_all")}
         </Link>
       }
     >

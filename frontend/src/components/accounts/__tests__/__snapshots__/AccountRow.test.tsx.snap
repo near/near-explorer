@@ -1,69 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AccountRow /> renders with long name 1`] = `
-<span
+<a
+  className="c-Anchor-hIXuvg"
+  href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
-  <a
-    className="c-LinkWrapper-cIdiJW"
-    href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
+  <div
+    className="c-TransactionRow-keHKEY mx-0 row"
   >
     <div
-      className="c-TransactionRow-keHKEY mx-0 row"
+      className="pr-0 col-md-auto col-1"
     >
-      <div
-        className="pr-0 col-md-auto col-1"
-      >
-        <img
-          className="c-AccountIcon-exgREZ"
-          src="/static/images/icon-t-acct.svg"
-        />
-      </div>
-      <div
-        className="c-TransactionRowTitle-bvTgKA pt-1 col-md-7 col-11"
-      >
-        b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near
-      </div>
-      <div
-        className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
+      <img
+        className="c-AccountIcon-exgREZ"
+        src="/static/images/icon-t-acct.svg"
       />
     </div>
-  </a>
-</span>
+    <div
+      className="c-TransactionRowTitle-bvTgKA pt-1 col-md-7 col-11"
+    >
+      b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near
+    </div>
+    <div
+      className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
+    />
+  </div>
+</a>
 `;
 
 exports[`<AccountRow /> renders with short name 1`] = `
-<span
+<a
+  className="c-Anchor-hIXuvg"
+  href="/accounts/account"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
-  <a
-    className="c-LinkWrapper-cIdiJW"
-    href="/accounts/account"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
+  <div
+    className="c-TransactionRow-keHKEY mx-0 row"
   >
     <div
-      className="c-TransactionRow-keHKEY mx-0 row"
+      className="pr-0 col-md-auto col-1"
     >
-      <div
-        className="pr-0 col-md-auto col-1"
-      >
-        <img
-          className="c-AccountIcon-exgREZ"
-          src="/static/images/icon-t-acct.svg"
-        />
-      </div>
-      <div
-        className="c-TransactionRowTitle-bvTgKA pt-1 col-md-7 col-11"
-      >
-        account
-      </div>
-      <div
-        className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
+      <img
+        className="c-AccountIcon-exgREZ"
+        src="/static/images/icon-t-acct.svg"
       />
     </div>
-  </a>
-</span>
+    <div
+      className="c-TransactionRowTitle-bvTgKA pt-1 col-md-7 col-11"
+    >
+      account
+    </div>
+    <div
+      className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
+    />
+  </div>
+</a>
 `;

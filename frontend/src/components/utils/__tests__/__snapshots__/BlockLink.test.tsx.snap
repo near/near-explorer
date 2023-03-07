@@ -1,15 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<BlockLink /> renders 1`] = `
-<span
+<a
+  className="c-Anchor-hIXuvg"
+  href="/blocks/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
-  <a
-    href="/blocks/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-  >
-    H4CpspC...
-  </a>
-</span>
+  H4CpspC...
+</a>
 `;

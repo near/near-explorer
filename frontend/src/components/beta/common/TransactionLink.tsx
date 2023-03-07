@@ -5,7 +5,7 @@ import Link from "@explorer/frontend/components/utils/Link";
 import { shortenString } from "@explorer/frontend/libraries/formatting";
 import { styled } from "@explorer/frontend/libraries/styles";
 
-const TransactionLinkWrapper = styled("a", {
+const TransactionLinkWrapper = styled(Link, {
   whiteSpace: "nowrap",
 });
 
@@ -15,9 +15,9 @@ export interface Props {
 
 const TransactionLink: React.FC<Props> = React.memo(({ hash }) => (
   <>
-    <Link href={`/transactions/${hash}`} passHref>
-      <TransactionLinkWrapper>{shortenString(hash)}</TransactionLinkWrapper>
-    </Link>
+    <TransactionLinkWrapper href={`/transactions/${hash}`}>
+      {shortenString(hash)}
+    </TransactionLinkWrapper>
     <CopyToClipboard
       text={hash}
       css={{

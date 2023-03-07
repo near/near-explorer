@@ -31,8 +31,8 @@ const DashboardTransaction: React.FC = React.memo(() => {
       iconPath="/static/images/icon-transactions.svg"
       title={t("common.transactions.transactions")}
       headerRight={
-        <Link href="/transactions">
-          <a>{t("button.view_all")}</a>
+        <Link href="/transactions" css={{ color: "#007bff" }}>
+          {t("button.view_all")}
         </Link>
       }
     >

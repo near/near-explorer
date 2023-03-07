@@ -1,95 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<BlocksRow /> renders 1`] = `
-<span
+<a
+  className="c-Anchor-hIXuvg"
+  href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
-  <a
-    className="c-LinkWrapper-cIdiJW"
-    href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
+  <div
+    className="c-TransactionRow-keHKEY mx-0 row"
   >
     <div
-      className="c-TransactionRow-keHKEY mx-0 row"
+      className="pr-0 col-md-auto col-1"
+    />
+    <div
+      className="pr-0 col-md-auto col-1"
+    >
+      <img
+        className="c-BlockIcon-dPulhb"
+        src="/static/images/icon-m-block.svg"
+      />
+    </div>
+    <div
+      className="col-md-7 col-6"
     >
       <div
-        className="pr-0 col-md-auto col-1"
-      />
-      <div
-        className="pr-0 col-md-auto col-1"
+        className="row"
       >
-        <img
-          className="c-BlockIcon-dPulhb"
-          src="/static/images/icon-m-block.svg"
-        />
+        <div
+          className="c-TransactionRowTitle-bvTgKA col"
+        >
+          #
+          12345
+        </div>
       </div>
       <div
-        className="col-md-7 col-6"
+        className="row"
       >
         <div
-          className="row"
+          className="c-TransactionRowText-kkbyDv col"
         >
           <div
-            className="c-TransactionRowTitle-bvTgKA col"
-          >
-            #
-            12345
-          </div>
-        </div>
-        <div
-          className="row"
-        >
-          <div
-            className="c-TransactionRowText-kkbyDv col"
+            className="row"
           >
             <div
-              className="row"
+              className="col-md-auto"
             >
-              <div
-                className="col-md-auto"
-              >
-                <img
-                  className="c-TransactionIcon-hDGfVG"
-                  src="/static/images/icon-m-transaction.svg"
-                />
-                 3
-              </div>
+              <img
+                className="c-TransactionIcon-hDGfVG"
+                src="/static/images/icon-m-transaction.svg"
+              />
+               3
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="ml-auto text-right col-md-3 col-4"
+    >
       <div
-        className="ml-auto text-right col-md-3 col-4"
+        className="row"
       >
         <div
-          className="row"
+          className="c-TransactionRowTransactionId-lbSlCc col"
         >
-          <div
-            className="c-TransactionRowTransactionId-lbSlCc col"
-          >
-            EVvWW1S...
-          </div>
+          EVvWW1S...
         </div>
+      </div>
+      <div
+        className="row"
+      >
         <div
-          className="row"
+          className="c-TransactionRowTimer-iiZTaa col"
         >
-          <div
-            className="c-TransactionRowTimer-iiZTaa col"
+          <span
+            className="c-TransactionRowTimerStatus-cJbzxd"
           >
-            <span
-              className="c-TransactionRowTimerStatus-cJbzxd"
-            >
-              common.blocks.status.checking_finality
-            </span>
-              
-            <span>
-              0s
-            </span>
-          </div>
+            common.blocks.status.checking_finality
+          </span>
+            
+          <span>
+            0s
+          </span>
         </div>
       </div>
     </div>
-  </a>
-</span>
+  </div>
+</a>
 `;
