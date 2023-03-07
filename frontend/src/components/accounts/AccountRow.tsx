@@ -3,6 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
+import { TRPCQueryOutput } from "@explorer/common/types/trpc";
 import Balance from "@explorer/frontend/components/utils/Balance";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import Link from "@explorer/frontend/components/utils/Link";
@@ -44,69 +45,67 @@ const AccountIcon = styled("img", {
 });
 
 export interface Props {
-  accountId: string;
+  account: TRPCQueryOutput<"account.listByTimestamp">[number];
 }
 
-const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
+const AccountRow: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { data: accountInfo } = trpc.useQuery([
-    "account.byIdOld",
-    { id: accountId },
+  const balanceQuery = trpc.useQuery([
+    "account.nonStakedBalance",
+    { id: account.id },
   ]);
   const format = useDateFormat();
 
   return (
-    <Link href={`/accounts/${accountId}`}>
+    <Link href={`/accounts/${account.id}`}>
       <TransactionRow className="mx-0">
         <Col md="auto" xs="1" className="pr-0">
           <AccountIcon
             src={
-              accountInfo?.deleted
+              account.deletedTimestamp
                 ? "/static/images/icon-t-acct-delete.svg"
                 : "/static/images/icon-t-acct.svg"
             }
           />
         </Col>
         <TransactionRowTitle md="7" xs="11" className="pt-1">
-          {accountId}
+          {account.id}
         </TransactionRowTitle>
         <TransactionRowTransactionId
           md="3"
           xs="5"
           className="ml-auto pt-1 text-right"
         >
-          {accountInfo ? (
-            accountInfo.deleted ? (
+          {account.deletedTimestamp ? (
+            <TransactionRowTimer>
+              {t("component.accounts.AccountRow.deleted_on")}{" "}
+              {format(account.deletedTimestamp, "PPP")}
+              <CopyToClipboard
+                text={String(account.deletedTimestamp)}
+                css={{ marginLeft: 8 }}
+              />
+            </TransactionRowTimer>
+          ) : (
+            <>
+              {balanceQuery.status === "success" ? (
+                <Balance amount={balanceQuery.data} />
+              ) : null}
               <TransactionRowTimer>
-                {t("component.accounts.AccountRow.deleted_on")}{" "}
-                {format(accountInfo.deleted.timestamp, "PPP")}
-                <CopyToClipboard
-                  text={String(accountInfo.deleted.timestamp)}
-                  css={{ marginLeft: 8 }}
-                />
+                {t("component.accounts.AccountRow.created_on")}{" "}
+                {account.createdTimestamp ? (
+                  <>
+                    {format(account.createdTimestamp, "PPP")}
+                    <CopyToClipboard
+                      text={String(account.createdTimestamp)}
+                      css={{ marginLeft: 8 }}
+                    />
+                  </>
+                ) : (
+                  "Genesis"
+                )}
               </TransactionRowTimer>
-            ) : (
-              <>
-                <Balance
-                  amount={accountInfo.details?.nonStakedBalance ?? "0"}
-                />
-                <TransactionRowTimer>
-                  {t("component.accounts.AccountRow.created_on")}{" "}
-                  {accountInfo.created ? (
-                    <>
-                      {format(accountInfo.created.timestamp, "PPP")}
-                      <CopyToClipboard
-                        text={String(accountInfo.created.timestamp)}
-                        css={{ marginLeft: 8 }}
-                      />
-                    </>
-                  ) : (
-                    "Genesis"
-                  )}
-                </TransactionRowTimer>
-              </>
-            )
-          ) : null}
+            </>
+          )}
         </TransactionRowTransactionId>
       </TransactionRow>
     </Link>

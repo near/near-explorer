@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
+import { div } from "@explorer/backend/database/utils";
 import { validators } from "@explorer/backend/router/validators";
 
 export const router = trpc.router<Context>().query("listByTimestamp", {
@@ -13,20 +14,54 @@ export const router = trpc.router<Context>().query("listByTimestamp", {
   resolve: async ({ input: { limit, cursor } }) => {
     let selection = indexerDatabase
       .selectFrom("accounts")
-      .select(["account_id as accountId", "id as accountIndex"])
-      .leftJoin("receipts", (jb) =>
-        jb.onRef("receipt_id", "=", "created_by_receipt_id")
-      );
+      .leftJoin("receipts as creationReceipt", (jb) =>
+        jb.onRef(
+          "creationReceipt.receipt_id",
+          "=",
+          "accounts.created_by_receipt_id"
+        )
+      )
+      .leftJoin("receipts as deletionReceipt", (jb) =>
+        jb.onRef(
+          "deletionReceipt.receipt_id",
+          "=",
+          "accounts.deleted_by_receipt_id"
+        )
+      )
+      .select([
+        "account_id as id",
+        "id as index",
+        (eb) =>
+          div(
+            eb,
+            "creationReceipt.included_in_block_timestamp",
+            1000 * 1000,
+            "createdTimestamp"
+          ),
+        (eb) =>
+          div(
+            eb,
+            "deletionReceipt.included_in_block_timestamp",
+            1000 * 1000,
+            "deletedTimestamp"
+          ),
+      ]);
     if (cursor) {
       selection = selection.where("id", "<", cursor.index.toString());
     }
     const accountsList = await selection
-      .orderBy("accountIndex", "desc")
+      .orderBy("index", "desc")
       .limit(limit)
       .execute();
     return accountsList.map((account) => ({
-      accountId: account.accountId,
-      accountIndex: parseInt(account.accountIndex, 10),
+      id: account.id,
+      index: parseInt(account.index, 10),
+      createdTimestamp: account.createdTimestamp
+        ? parseInt(account.createdTimestamp, 10)
+        : undefined,
+      deletedTimestamp: account.deletedTimestamp
+        ? parseInt(account.deletedTimestamp, 10)
+        : undefined,
     }));
   },
 });
