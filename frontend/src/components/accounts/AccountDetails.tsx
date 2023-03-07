@@ -12,7 +12,6 @@ import CardCell, {
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import StorageSize from "@explorer/frontend/components/utils/StorageSize";
 import Term from "@explorer/frontend/components/utils/Term";
-import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
 import WalletLink from "@explorer/frontend/components/utils/WalletLink";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
@@ -29,11 +28,6 @@ const AccountInfoContainer = styled("div", {
   "& > .row": {
     borderBottom: "2px solid #e6e6e6",
   },
-});
-
-const TransactionLinkIcon = styled("img", {
-  width: 15,
-  margin: "0 0 12px 12px",
 });
 
 const ColoredCell = styled(CardCell, {
@@ -283,9 +277,10 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 text={
                   <>
                     {account.created.hash}
-                    <TransactionLink transactionHash={account.created.hash}>
-                      <TransactionLinkIcon src="/static/images/icon-m-copy.svg" />
-                    </TransactionLink>
+                    <CopyToClipboard
+                      text={account.created.hash}
+                      css={{ marginLeft: 8 }}
+                    />
                   </>
                 }
                 className="border-0"
@@ -337,9 +332,10 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               text={
                 <>
                   {account.deleted.hash}
-                  <TransactionLink transactionHash={account.deleted.hash}>
-                    <TransactionLinkIcon src="/static/images/icon-m-copy.svg" />
-                  </TransactionLink>
+                  <CopyToClipboard
+                    text={account.deleted.hash}
+                    css={{ marginLeft: 8 }}
+                  />
                 </>
               }
               className="border-0"
