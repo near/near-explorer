@@ -7,7 +7,7 @@ import {
   TRPCInfiniteQueryKey,
   TRPCInfiniteQueryOutput,
   TRPCInfiniteQueryResult,
-} from "@explorer/common/src/types/trpc";
+} from "@explorer/common/types/trpc";
 import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 import { typedMemo } from "@explorer/frontend/libraries/react";

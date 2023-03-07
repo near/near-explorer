@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Button, FormControl, InputGroup, Row, Spinner } from "react-bootstrap";
 
-import { TRPCMutationOutput } from "@explorer/common/src/types/trpc";
+import { TRPCMutationOutput } from "@explorer/common/types/trpc";
 import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";

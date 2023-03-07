@@ -3,8 +3,8 @@ import * as React from "react";
 import Image from "next/image";
 import { Spinner } from "react-bootstrap";
 
-import { TRPCInfiniteQueryOutput } from "@explorer/common/src/types/trpc";
 import { AccountNonFungibleTokenElement } from "@explorer/common/types/procedures";
+import { TRPCInfiniteQueryOutput } from "@explorer/common/types/trpc";
 import AccountNonFungibleTokensHistory from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
 import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
 import ListHandler from "@explorer/frontend/components/utils/ListHandler";

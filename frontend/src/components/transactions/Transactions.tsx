@@ -3,11 +3,11 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import * as ReactQuery from "react-query";
 
-import { TRPCError } from "@explorer/common/src/types/trpc";
 import {
   TransactionPreview,
   TransactionListResponse,
 } from "@explorer/common/types/procedures";
+import { TRPCError } from "@explorer/common/types/trpc";
 import TransactionAction from "@explorer/frontend/components/transactions/TransactionAction";
 import FlipMove from "@explorer/frontend/components/utils/FlipMove";
 import ListHandler from "@explorer/frontend/components/utils/ListHandler";
