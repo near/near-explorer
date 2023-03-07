@@ -37,7 +37,7 @@ type TransactionList = {
 
 const getTransactionList = async (
   limit: number,
-  cursor?: z.infer<typeof validators.transactionPagination>,
+  cursor?: z.infer<typeof validators.transactionPagination> | null,
   withCondition: <O>(
     selection: SelectQueryBuilder<IndexerDatabase, "transactions", O>
   ) => SelectQueryBuilder<IndexerDatabase, "transactions", O> = id
@@ -53,7 +53,7 @@ const getTransactionList = async (
     "index_in_chunk as indexInChunk",
     "status",
   ]);
-  if (cursor !== undefined) {
+  if (cursor) {
     selection = selection.where((wi) =>
       wi
         .where("block_timestamp", "<", cursor.timestamp)
@@ -117,7 +117,7 @@ export const router = trpc
   .query("listByTimestamp", {
     input: z.strictObject({
       limit: validators.limit,
-      cursor: validators.transactionPagination.optional(),
+      cursor: validators.transactionPagination.nullish(),
     }),
     resolve: async ({ input: { limit, cursor } }) =>
       getTransactionList(limit, cursor),
@@ -126,7 +126,7 @@ export const router = trpc
     input: z.strictObject({
       accountId: validators.accountId,
       limit: validators.limit,
-      cursor: validators.transactionPagination.optional(),
+      cursor: validators.transactionPagination.nullish(),
     }),
     resolve: async ({ input: { accountId, limit, cursor } }) =>
       getTransactionList(limit, cursor, (selection) =>
@@ -143,7 +143,7 @@ export const router = trpc
     input: z.strictObject({
       blockHash: validators.blockHash,
       limit: validators.limit,
-      cursor: validators.transactionPagination.optional(),
+      cursor: validators.transactionPagination.nullish(),
     }),
     resolve: async ({ input: { blockHash, limit, cursor } }) =>
       getTransactionList(limit, cursor, (selection) =>

@@ -10,17 +10,17 @@ import { millisecondsToNanoseconds } from "@explorer/backend/utils/bigint";
 export const router = trpc.router<Context>().query("list", {
   input: z.strictObject({
     limit: validators.limit,
-    cursor: validators.blockPagination.optional(),
+    cursor: validators.blockPagination.nullish(),
   }),
   resolve: async ({ input: { limit, cursor } }) => {
     const selection = await indexerDatabase
       .selectFrom((eb) => {
         let innerSelection = eb.selectFrom("blocks").select("block_hash");
-        if (cursor !== undefined) {
+        if (cursor) {
           innerSelection = innerSelection.where(
             "block_timestamp",
             "<",
-            millisecondsToNanoseconds(cursor).toString()
+            millisecondsToNanoseconds(cursor.timestamp).toString()
           );
         }
         return innerSelection
