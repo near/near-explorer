@@ -29,37 +29,33 @@ type QueryProps = {
   options: AccountPageOptions;
 };
 
-const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
-  const { t } = useTranslation();
-  switch (props.query.status) {
-    case "success":
-      if (props.query.data) {
+const AccountQueryView: React.FC<QueryProps> = React.memo(
+  ({ query, options }) => {
+    const { t } = useTranslation();
+    switch (query.status) {
+      case "success":
+        if (!query.data) {
+          return <>{t("page.accounts.error.account_not_found")}</>;
+        }
         return (
           <>
-            <AccountHeader account={props.query.data} />
-            <AccountTabs account={props.query.data} options={props.options} />
+            <AccountHeader account={query.data} />
+            <AccountTabs account={query.data} options={options} />
           </>
         );
-      }
-      return (
-        <div>
-          {t("page.accounts.error.account_not_found", {
-            account_id: props.options.accountId,
-          })}
-        </div>
-      );
-    case "error":
-      return (
-        <ErrorMessage onRetry={props.query.refetch}>
-          {props.query.error.message}
-        </ErrorMessage>
-      );
-    case "loading":
-      return <Spinner animation="border" />;
-    default:
-      return null;
+      case "error":
+        return (
+          <ErrorMessage onRetry={query.refetch}>
+            {query.error.message}
+          </ErrorMessage>
+        );
+      case "loading":
+        return <Spinner animation="border" />;
+      default:
+        return null;
+    }
   }
-});
+);
 
 const AccountPage: NextPage = React.memo(() => {
   const options = useAccountPageOptions();

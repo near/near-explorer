@@ -45,7 +45,11 @@ const TransactionDetailsPage = React.memo(() => {
         border={false}
       >
         {!transaction ? (
-          t("page.transactions.error.transaction_fetching")
+          transactionQuery.isLoading ? (
+            t("page.transactions.error.transaction_fetching")
+          ) : (
+            t("page.transactions.error.notFound")
+          )
         ) : (
           <TransactionDetails transaction={transaction} />
         )}

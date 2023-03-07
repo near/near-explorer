@@ -30,45 +30,47 @@ const TransactionIcon = styled(TransactionIconSvg, {
 
 const TRANSACTIONS_PER_PAGE = 10;
 
-const InnerAccountDetail = React.memo<{
-  query: TRPCQueryResult<"account.byIdOld">;
+type TransactionProps = {
   accountId: string;
-}>(({ query, accountId }) => {
-  const { t } = useTranslation();
+};
+
+const AccountTransactions = React.memo<TransactionProps>(({ accountId }) => {
   const transactionsQuery = trpc.useInfiniteQuery(
     [
       "transaction.listByAccountId",
       { accountId, limit: TRANSACTIONS_PER_PAGE },
     ],
-    // Only load transactions if account exists
-    { getNextPageParam, enabled: Boolean(query.data) }
+    { getNextPageParam }
   );
+  return <Transactions query={transactionsQuery} />;
+});
+
+type QueryProps = {
+  query: TRPCQueryResult<"account.byIdOld">;
+};
+
+const InnerAccountDetail = React.memo<QueryProps>(({ query }) => {
+  const { t } = useTranslation();
   switch (query.status) {
     case "loading":
     case "idle":
       return <Spinner animation="border" />;
     case "success":
-      if (query.data) {
-        return (
-          <>
-            <AccountDetails account={query.data} />
-            <Container>
-              <ContractDetails accountId={accountId} />
-            </Container>
-            <Content
-              icon={<TransactionIcon />}
-              title={<h2>{t("common.transactions.transactions")}</h2>}
-            >
-              <Transactions query={transactionsQuery} />
-            </Content>
-          </>
-        );
+      if (!query.data) {
+        return <>{t("page.accounts.error.account_not_found")}</>;
       }
       return (
         <>
-          {t("page.accounts.error.account_not_found", {
-            account_id: accountId,
-          })}
+          <AccountDetails account={query.data} />
+          <Container>
+            <ContractDetails accountId={query.data.accountId} />
+          </Container>
+          <Content
+            icon={<TransactionIcon />}
+            title={<h2>{t("common.transactions.transactions")}</h2>}
+          >
+            <AccountTransactions accountId={query.data.accountId} />
+          </Content>
         </>
       );
     case "error":
@@ -102,7 +104,7 @@ const AccountDetail = React.memo(() => {
         }
         border={false}
       >
-        <InnerAccountDetail query={accountQuery} accountId={accountId} />
+        <InnerAccountDetail query={accountQuery} />
       </Content>
     </>
   );
