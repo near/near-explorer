@@ -20,7 +20,9 @@ const SHOW_COPY_OK_TIME = 2000;
 const CopyToClipboard: React.FC<Props> = React.memo(
   ({ onCopy: onCopyRaw, text, css }) => {
     const [copiedCounter, setCopiedCounter] = React.useState(0);
-    const onCopy = React.useCallback(
+    const onCopy = React.useCallback<
+      NonNullable<React.ComponentProps<typeof RawCopyToClipboard>["onCopy"]>
+    >(
       (copiedText, result) => {
         onCopyRaw?.(copiedText, result);
         setCopiedCounter((x) => x + 1);

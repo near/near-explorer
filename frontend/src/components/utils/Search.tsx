@@ -272,8 +272,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
     [queryValue, searchMutation]
   );
 
-  const onChange = React.useCallback(
-    ({ currentTarget: { value } }) => setInputValue(value),
+  const onChange = React.useCallback<React.MouseEventHandler<HTMLInputElement>>(
+    (event) => setInputValue(event.currentTarget.value),
     []
   );
 

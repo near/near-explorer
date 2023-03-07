@@ -159,8 +159,10 @@ const parser = (result: TRPCInfiniteQueryOutput<"account.nonFungibleTokens">) =>
 
 const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
   ({ contract, accountId }) => {
-    const [selectedId, setSelectedId] = React.useState(null);
-    const showModal = React.useCallback(
+    const [selectedId, setSelectedId] = React.useState<string | null>(null);
+    const showModal = React.useCallback<
+      (id: string) => React.ReactEventHandler
+    >(
       (id) => () => setSelectedId((prevId) => (prevId === id ? null : id)),
       [setSelectedId]
     );
@@ -216,11 +218,10 @@ type Props = {
 
 const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
   ({ options }) => {
-    const [selectedContract, setContract] = React.useState(null);
-    const setActiveContract = React.useCallback(
-      (contract) => () => setContract(contract),
-      [setContract]
-    );
+    const [selectedContract, setContract] = React.useState<string | null>(null);
+    const setActiveContract = React.useCallback<
+      (contract: string) => React.MouseEventHandler
+    >((contract) => () => setContract(contract), [setContract]);
 
     const query = trpc.useQuery([
       "account.nonFungibleTokenContracts",

@@ -29,7 +29,7 @@ const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
   const [isModalShown, setModalShown] = React.useState(false);
   const track = useAnalyticsTrack();
 
-  const showModal = React.useCallback(
+  const showModal = React.useCallback<React.MouseEventHandler>(
     (e) => {
       e.preventDefault();
       setModalShown(true);
@@ -39,9 +39,12 @@ const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
   const hideModal = React.useCallback(() => {
     setModalShown(false);
   }, [setModalShown]);
-  const preventClickPropagation = React.useCallback((e) => {
-    e.stopPropagation();
-  }, []);
+  const preventClickPropagation = React.useCallback<React.MouseEventHandler>(
+    (e) => {
+      e.stopPropagation();
+    },
+    []
+  );
 
   return (
     <>
