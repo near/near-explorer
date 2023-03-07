@@ -16,7 +16,6 @@ import { trpc } from "@explorer/frontend/libraries/trpc";
 const ContractInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",
   borderRadius: 4,
-  margin: "0 15px",
   background: "#f8f8f8",
 });
 

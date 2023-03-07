@@ -3,7 +3,7 @@ import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
-import { Container, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 
 import { TRPCQueryResult } from "@explorer/common/types/trpc";
 import AccountDetails from "@explorer/frontend/components/accounts/AccountDetails";
@@ -62,12 +62,11 @@ const InnerAccountDetail = React.memo<QueryProps>(({ query }) => {
       return (
         <>
           <AccountDetails account={query.data} />
-          <Container>
-            <ContractDetails accountId={query.data.accountId} />
-          </Container>
+          <ContractDetails accountId={query.data.accountId} />
           <Content
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
+            className="p-0"
           >
             <AccountTransactions accountId={query.data.accountId} />
           </Content>
