@@ -1,3 +1,5 @@
+import { Indexer } from "@explorer/backend/database/databases";
+import { ActionKind } from "@explorer/backend/database/models/readOnlyIndexer";
 import * as RPC from "@explorer/common/types/rpc";
 
 export type Action =
@@ -64,103 +66,56 @@ export type Action =
       };
     };
 
-type DatabaseAddKey = {
-  kind: "ADD_KEY";
-  args: {
-    public_key: string;
-    access_key: {
-      nonce: number;
-      permission:
-        | {
-            permission_kind: "FUNCTION_CALL";
-            permission_details: {
-              allowance: string;
-              receiver_id: string;
-              method_names: string[];
-            };
-          }
-        | {
-            permission_kind: "FULL_ACCESS";
-          };
-    };
-  };
+type DatabaseArgs =
+  Indexer.SelectorModelTypeMap["action_receipt_actions"]["args"];
+
+type DatabaseAddKeyArgs = Extract<DatabaseArgs, { access_key: unknown }>;
+type DatabaseCreateAccountArgs = Extract<DatabaseArgs, Record<string, never>>;
+type DatabaseDeleteAccountArgs = Extract<
+  DatabaseArgs,
+  { beneficiary_id: unknown }
+>;
+type DatabaseDeleteKeyArgs = Extract<
+  Exclude<DatabaseArgs, DatabaseAddKeyArgs | DatabaseStakeArgs>,
+  { public_key: unknown }
+>;
+type DatabaseDeployContractArgs = Extract<
+  DatabaseArgs,
+  { code_sha256: unknown }
+>;
+type DatabaseFunctionCallArgs = Extract<DatabaseArgs, { method_name: unknown }>;
+type DatabaseStakeArgs = Extract<DatabaseArgs, { stake: unknown }>;
+type DatabaseTransferArgs = Extract<
+  Exclude<DatabaseArgs, DatabaseFunctionCallArgs>,
+  { deposit: unknown }
+>;
+
+type DatabaseActionMapping = {
+  ADD_KEY: DatabaseAddKeyArgs;
+  CREATE_ACCOUNT: DatabaseCreateAccountArgs;
+  DELETE_ACCOUNT: DatabaseDeleteAccountArgs;
+  DELETE_KEY: DatabaseDeleteKeyArgs;
+  DEPLOY_CONTRACT: DatabaseDeployContractArgs;
+  FUNCTION_CALL: DatabaseFunctionCallArgs;
+  STAKE: DatabaseStakeArgs;
+  TRANSFER: DatabaseTransferArgs;
 };
 
-type DatabaseCreateAccount = {
-  kind: "CREATE_ACCOUNT";
-  args: {};
-};
+type ArgsTuple<Mapping extends DatabaseActionMapping = DatabaseActionMapping> =
+  {
+    [Kind in keyof Mapping]: [Kind, Mapping[Kind]];
+  }[keyof Mapping];
 
-type DatabaseDeleteAccount = {
-  kind: "DELETE_ACCOUNT";
-  args: {
-    beneficiary_id: string;
-  };
-};
-
-type DatabaseDeleteKey = {
-  kind: "DELETE_KEY";
-  args: {
-    public_key: string;
-  };
-};
-
-type DatabaseDeployContract = {
-  kind: "DEPLOY_CONTRACT";
-  args: {
-    code_sha256: string;
-  };
-};
-
-type DatabaseFunctionCall = {
-  kind: "FUNCTION_CALL";
-  args: {
-    gas: number;
-    deposit: string;
-    method_name: string;
-    args_json?: Record<string, unknown>;
-    args_base64: string;
-  };
-};
-
-type DatabaseStake = {
-  kind: "STAKE";
-  args: {
-    public_key: string;
-    stake: string;
-  };
-};
-
-type DatabaseTransfer = {
-  kind: "TRANSFER";
-  args: {
-    deposit: string;
-  };
-};
-
-export type DatabaseAction = {
-  hash: string;
-} & (
-  | DatabaseAddKey
-  | DatabaseCreateAccount
-  | DatabaseDeleteAccount
-  | DatabaseDeleteKey
-  | DatabaseDeployContract
-  | DatabaseFunctionCall
-  | DatabaseStake
-  | DatabaseTransfer
-);
-
-export const mapDatabaseActionToAction = (action: DatabaseAction): Action => {
-  switch (action.kind) {
+const mapDatabaseActionToAction = (...[kind, args]: ArgsTuple): Action => {
+  switch (kind) {
     case "ADD_KEY": {
-      if (action.args.access_key.permission.permission_kind === "FULL_ACCESS") {
+      if (args.access_key.permission.permission_kind === "FULL_ACCESS") {
         return {
           kind: "addKey",
           args: {
-            publicKey: action.args.public_key,
+            publicKey: args.public_key,
             accessKey: {
-              nonce: action.args.access_key.nonce,
+              nonce: args.access_key.nonce,
               permission: {
                 type: "fullAccess",
               },
@@ -171,17 +126,15 @@ export const mapDatabaseActionToAction = (action: DatabaseAction): Action => {
       return {
         kind: "addKey",
         args: {
-          publicKey: action.args.public_key,
+          publicKey: args.public_key,
           accessKey: {
-            nonce: action.args.access_key.nonce,
+            nonce: args.access_key.nonce,
             permission: {
               type: "functionCall",
               contractId:
-                action.args.access_key.permission.permission_details
-                  .receiver_id,
+                args.access_key.permission.permission_details.receiver_id,
               methodNames:
-                action.args.access_key.permission.permission_details
-                  .method_names,
+                args.access_key.permission.permission_details.method_names,
             },
           },
         },
@@ -193,50 +146,57 @@ export const mapDatabaseActionToAction = (action: DatabaseAction): Action => {
       return {
         kind: "deleteAccount",
         args: {
-          beneficiaryId: action.args.beneficiary_id,
+          beneficiaryId: args.beneficiary_id,
         },
       };
     case "DELETE_KEY":
       return {
         kind: "deleteKey",
         args: {
-          publicKey: action.args.public_key,
+          publicKey: args.public_key,
         },
       };
     case "DEPLOY_CONTRACT":
       return {
         kind: "deployContract",
         args: {
-          code: action.args.code_sha256,
+          code: args.code_sha256,
         },
       };
     case "FUNCTION_CALL":
       return {
         kind: "functionCall",
         args: {
-          methodName: action.args.method_name,
-          args: action.args.args_base64,
-          gas: action.args.gas,
-          deposit: action.args.deposit,
+          methodName: args.method_name,
+          args: args.args_base64,
+          gas: args.gas,
+          deposit: args.deposit,
         },
       };
     case "STAKE":
       return {
         kind: "stake",
         args: {
-          publicKey: action.args.public_key,
-          stake: action.args.stake,
+          publicKey: args.public_key,
+          stake: args.stake,
         },
       };
     case "TRANSFER":
       return {
         kind: "transfer",
         args: {
-          deposit: action.args.deposit,
+          deposit: args.deposit,
         },
       };
   }
 };
+
+export const mapForceDatabaseActionToAction = <
+  T extends { kind: ActionKind; args: DatabaseArgs }
+>(
+  action: T
+  // We forcefully cast type as we assume there's always a match in DB between kind and args
+) => mapDatabaseActionToAction(action.kind, action.args as any);
 
 export const mapRpcActionToAction = (rpcAction: RPC.ActionView): Action => {
   if (rpcAction === "CreateAccount") {

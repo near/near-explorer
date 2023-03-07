@@ -17,7 +17,41 @@ export default interface TransactionActions {
 
   action_kind: ActionKind;
 
-  args: unknown;
+  args:
+    | {
+        public_key: string;
+        access_key: {
+          nonce: number;
+          permission:
+            | {
+                permission_kind: "FUNCTION_CALL";
+                permission_details: {
+                  allowance: string;
+                  receiver_id: string;
+                  method_names: string[];
+                };
+              }
+            | {
+                permission_kind: "FULL_ACCESS";
+              };
+        };
+      }
+    | {}
+    | { beneficiary_id: string }
+    | { public_key: string }
+    | { code_sha256: string }
+    | {
+        gas: number;
+        deposit: string;
+        method_name: string;
+        args_json?: Record<string, unknown>;
+        args_base64: string;
+      }
+    | {
+        public_key: string;
+        stake: string;
+      }
+    | { deposit: string };
 }
 
 /** Represents the initializer for the table public.transaction_actions */
@@ -28,7 +62,41 @@ export interface TransactionActionsInitializer {
 
   action_kind: ActionKind;
 
-  args: unknown;
+  args:
+    | {
+        public_key: string;
+        access_key: {
+          nonce: number;
+          permission:
+            | {
+                permission_kind: "FUNCTION_CALL";
+                permission_details: {
+                  allowance: string;
+                  receiver_id: string;
+                  method_names: string[];
+                };
+              }
+            | {
+                permission_kind: "FULL_ACCESS";
+              };
+        };
+      }
+    | {}
+    | { beneficiary_id: string }
+    | { public_key: string }
+    | { code_sha256: string }
+    | {
+        gas: number;
+        deposit: string;
+        method_name: string;
+        args_json?: Record<string, unknown>;
+        args_base64: string;
+      }
+    | {
+        public_key: string;
+        stake: string;
+      }
+    | { deposit: string };
 }
 
 /** Represents the mutator for the table public.transaction_actions */
@@ -39,5 +107,39 @@ export interface TransactionActionsMutator {
 
   action_kind?: ActionKind;
 
-  args?: unknown;
+  args?:
+    | {
+        public_key: string;
+        access_key: {
+          nonce: number;
+          permission:
+            | {
+                permission_kind: "FUNCTION_CALL";
+                permission_details: {
+                  allowance: string;
+                  receiver_id: string;
+                  method_names: string[];
+                };
+              }
+            | {
+                permission_kind: "FULL_ACCESS";
+              };
+        };
+      }
+    | {}
+    | { beneficiary_id: string }
+    | { public_key: string }
+    | { code_sha256: string }
+    | {
+        gas: number;
+        deposit: string;
+        method_name: string;
+        args_json?: Record<string, unknown>;
+        args_base64: string;
+      }
+    | {
+        public_key: string;
+        stake: string;
+      }
+    | { deposit: string };
 }

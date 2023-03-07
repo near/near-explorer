@@ -9,11 +9,67 @@ import {
   TypeImport,
   defaultGenerateIdentifierType,
   PreRenderHook,
+  defaultGetPropertyMetadata,
 } from "kanel";
 import path from "path";
 
 import { config } from "@explorer/backend/config";
 import { notNullGuard } from "@explorer/common/utils/utils";
+
+type DatabaseName = string;
+type TableName = string;
+type TableField = string;
+
+const ACTIONS_TYPE = `
+| {
+  public_key: string;
+  access_key: {
+    nonce: number;
+    permission:
+      | {
+          permission_kind: "FUNCTION_CALL";
+          permission_details: {
+            allowance: string;
+            receiver_id: string;
+            method_names: string[];
+          };
+        }
+      | {
+          permission_kind: "FULL_ACCESS";
+        };
+  };
+}
+| {}
+| { beneficiary_id: string; }
+| { public_key: string; }
+| { code_sha256: string; }
+| {
+  gas: number;
+  deposit: string;
+  method_name: string;
+  args_json?: Record<string, unknown>;
+  args_base64: string;
+}
+| {
+  public_key: string;
+  stake: string;
+}
+| { deposit: string; }
+`;
+
+const TYPE_OVERRIDES: Record<
+  DatabaseName,
+  Record<TableName, Record<TableField, string>>
+> = {
+  readOnlyIndexer: {
+    action_receipt_actions: {
+      args: ACTIONS_TYPE,
+    },
+    transaction_actions: {
+      args: ACTIONS_TYPE,
+    },
+  },
+};
 
 type TableDetails = Extract<Details, { kind: "table" }>;
 
@@ -135,6 +191,7 @@ const run = async () => {
       ) {
         return;
       }
+      const databaseTypesOverride = TYPE_OVERRIDES[database];
       console.log(`\n> Generating types for ${database}...`);
       try {
         await processDatabase({
@@ -165,6 +222,31 @@ const run = async () => {
               ...result,
               typeDefinition: [`${match[1]} & { __flavor?: '${match[2]}' }`],
             };
+          },
+          getPropertyMetadata: (
+            property,
+            details,
+            generateFor,
+            instantiatedConfig
+          ) => {
+            const metadata = defaultGetPropertyMetadata(
+              property,
+              details,
+              generateFor,
+              instantiatedConfig
+            );
+            if (!databaseTypesOverride) {
+              return metadata;
+            }
+            const tableTypesOverride = databaseTypesOverride[details.name];
+            if (!tableTypesOverride) {
+              return metadata;
+            }
+            const columnTypeOverride = tableTypesOverride[property.name];
+            if (!columnTypeOverride) {
+              return metadata;
+            }
+            return { ...metadata, typeOverride: columnTypeOverride };
           },
           typeFilter: (type) =>
             type.kind !== "table" || type.name !== "__diesel_schema_migrations",

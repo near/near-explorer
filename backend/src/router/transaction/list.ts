@@ -10,8 +10,7 @@ import {
 import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
-  DatabaseAction,
-  mapDatabaseActionToAction,
+  mapForceDatabaseActionToAction,
 } from "@explorer/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
 import {
@@ -90,7 +89,7 @@ const getTransactionList = async (
     (mapping, action) =>
       mapping.set(action.hash, [
         ...(mapping.get(action.hash) || []),
-        mapDatabaseActionToAction(action as DatabaseAction),
+        mapForceDatabaseActionToAction(action),
       ]),
     new Map<string, Action[]>()
   );
