@@ -1,6 +1,11 @@
 import React from "react";
 
-import { useToaster, toast, ToastType } from "react-hot-toast";
+import {
+  useToaster,
+  toast,
+  ToastType,
+  resolveValue,
+} from "react-hot-toast/headless";
 
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -77,7 +82,9 @@ export const ToastController: React.FC = () => {
                 fill="currentColor"
               />
             </svg>
-            <Message>{toastInstance.message}</Message>
+            <Message>
+              {resolveValue(toastInstance.message, toastInstance)}
+            </Message>
           </Toast>
         ))}
     </Wrapper>
