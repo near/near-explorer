@@ -10,6 +10,7 @@ import {
 } from "@explorer/common/src/types/trpc";
 import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
+import { typedMemo } from "@explorer/frontend/libraries/react";
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const LoadButton = styled("button", {
@@ -44,55 +45,57 @@ export type Props<K extends TRPCInfiniteQueryKey, T> = {
   prependChildren?: React.ReactNode;
 };
 
-const ListHandler = <K extends TRPCInfiniteQueryKey, T>({
-  query,
-  parser,
-  children,
-  prependChildren,
-}: Props<K, T>) => {
-  const { t } = useTranslation();
-  const allItems =
-    query.data?.pages.reduce<T[]>(
-      (acc, page) => [...acc, ...parser(page)],
-      []
-    ) ?? [];
-  const { fetchNextPage } = query;
-  const fetchMore = React.useCallback(() => fetchNextPage(), [fetchNextPage]);
+const ListHandler = typedMemo(
+  <K extends TRPCInfiniteQueryKey, T>({
+    query,
+    parser,
+    children,
+    prependChildren,
+  }: Props<K, T>) => {
+    const { t } = useTranslation();
+    const allItems =
+      query.data?.pages.reduce<T[]>(
+        (acc, page) => [...acc, ...parser(page)],
+        []
+      ) ?? [];
+    const { fetchNextPage } = query;
+    const fetchMore = React.useCallback(() => fetchNextPage(), [fetchNextPage]);
 
-  if (query.error && !query.data) {
+    if (query.error && !query.data) {
+      return (
+        <ErrorMessage onRetry={fetchMore}>{query.error.message}</ErrorMessage>
+      );
+    }
+    if (query.isFetching && !query.isFetchingNextPage) {
+      return <PaginationSpinner />;
+    }
     return (
-      <ErrorMessage onRetry={fetchMore}>{query.error.message}</ErrorMessage>
+      <>
+        {prependChildren}
+        <InfiniteScroll
+          dataLength={allItems.length}
+          next={fetchMore}
+          hasMore={query.hasNextPage ?? true}
+          loader={
+            query.isFetchingNextPage ? (
+              <PaginationSpinner />
+            ) : query.error ? (
+              <ErrorMessage onRetry={fetchMore}>
+                {query.error.message}
+              </ErrorMessage>
+            ) : (
+              <LoadButton onClick={fetchMore} visible={query.hasNextPage}>
+                {t("button.load_more")}
+              </LoadButton>
+            )
+          }
+          style={{ overflowX: "hidden" }}
+        >
+          {children(allItems)}
+        </InfiniteScroll>
+      </>
     );
   }
-  if (query.isFetching && !query.isFetchingNextPage) {
-    return <PaginationSpinner />;
-  }
-  return (
-    <>
-      {prependChildren}
-      <InfiniteScroll
-        dataLength={allItems.length}
-        next={fetchMore}
-        hasMore={query.hasNextPage ?? true}
-        loader={
-          query.isFetchingNextPage ? (
-            <PaginationSpinner />
-          ) : query.error ? (
-            <ErrorMessage onRetry={fetchMore}>
-              {query.error.message}
-            </ErrorMessage>
-          ) : (
-            <LoadButton onClick={fetchMore} visible={query.hasNextPage}>
-              {t("button.load_more")}
-            </LoadButton>
-          )
-        }
-        style={{ overflowX: "hidden" }}
-      >
-        {children(allItems)}
-      </InfiniteScroll>
-    </>
-  );
-};
+);
 
 export default ListHandler;

@@ -4,22 +4,13 @@ import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
 import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
-import LongCardCell, {
-  CardCellText,
-} from "@explorer/frontend/components/utils/LongCardCell";
+import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
-
-const CountCell = styled(LongCardCell, {
-  [`& ${CardCellText}`]: {
-    color: "#00c08b",
-  },
-});
 
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useSubscription(["network-stats"]);
+  const networkStatsSub = useSubscription(["network-stats"]);
   const onlineNodesCountSub = useSubscription(["onlineNodesCount"]);
 
   return (
@@ -40,20 +31,21 @@ const DashboardNode: React.FC = React.memo(() => {
                 href="https://docs.near.org/docs/develop/node/intro/what-is-a-node"
               />
             }
-            loading={onlineNodesCountSub.status === "loading"}
-            text={
-              onlineNodesCountSub.status === "success"
-                ? onlineNodesCountSub.data === 0
+            subscription={onlineNodesCountSub}
+          >
+            {(onlineNodesCount) => (
+              <>
+                {onlineNodesCount === 0
                   ? t(
                       "component.dashboard.DashboardNode.nodes_validating.unavailable"
                     )
-                  : onlineNodesCountSub.data.toLocaleString()
-                : null
-            }
-          />
+                  : onlineNodesCount.toLocaleString()}
+              </>
+            )}
+          </LongCardCell>
         </Col>
         <Col xs="6" md="12">
-          <CountCell
+          <LongCardCell
             title={
               <Term
                 title={t(
@@ -65,10 +57,14 @@ const DashboardNode: React.FC = React.memo(() => {
                 href="https://docs.near.org/docs/roles/integrator/faq#validators"
               />
             }
-            loading={networkStats === undefined}
-            text={networkStats?.currentValidatorsCount.toLocaleString()}
+            subscription={networkStatsSub}
             href="/nodes/validators"
-          />
+            textCss={{ color: "#00c08b" }}
+          >
+            {(networkStats) => (
+              <>{networkStats.currentValidatorsCount.toLocaleString()}</>
+            )}
+          </LongCardCell>
         </Col>
       </Row>
     </DashboardCard>

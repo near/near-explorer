@@ -3,11 +3,17 @@ import * as React from "react";
 import cx from "classnames";
 import { Row, Col, Spinner } from "react-bootstrap";
 
+import {
+  TRPCSubscriptionKey,
+  TRPCSubscriptionOutput,
+} from "@explorer/common/types/trpc";
 import Link from "@explorer/frontend/components/utils/Link";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { UseSubscriptionResultByTopic } from "@explorer/frontend/hooks/use-subscription";
+import { typedMemo } from "@explorer/frontend/libraries/react";
+import { CSS, styled } from "@explorer/frontend/libraries/styles";
 import RightArrowSvg from "@explorer/frontend/public/static/images/right-arrow.svg";
 
-export const CardCellText = styled(Col, {
+const CardCellText = styled(Col, {
   fontWeight: 900,
   fontSize: 31,
   color: "#25272a",
@@ -63,23 +69,41 @@ const RightArrow = styled(Col, {
   },
 });
 
-export interface Props {
+export interface Props<K extends TRPCSubscriptionKey> {
   title: React.ReactNode;
-  text?: React.ReactNode;
-  loading?: boolean;
+  subscription: UseSubscriptionResultByTopic<K>;
+  children: (result: TRPCSubscriptionOutput<K>) => React.ReactNode;
   href?: string;
   className?: string;
+  textCss?: CSS;
 }
 
-const LongCardCell: React.FC<Props> = React.memo(
-  ({ title, text, loading, href, className }) => {
+const LongCardCell = typedMemo(
+  <K extends TRPCSubscriptionKey>({
+    title,
+    subscription,
+    href,
+    className,
+    textCss,
+    children,
+  }: Props<K>) => {
     const plainCell = (
       <Row noGutters>
         <LongCardCellTitle xs="12" className="align-self-center">
           {title}
         </LongCardCellTitle>
-        <CardCellText xs="12" md="12" className="ml-auto align-self-center">
-          {loading ? <Spinner animation="border" variant="secondary" /> : text}
+        <CardCellText
+          xs="12"
+          md="12"
+          className="ml-auto align-self-center"
+          css={textCss}
+        >
+          {subscription.status === "loading" ||
+          subscription.status === "idle" ? (
+            <Spinner animation="border" variant="secondary" />
+          ) : subscription.status === "success" ? (
+            children(subscription.data)
+          ) : null}
         </CardCellText>
       </Row>
     );
