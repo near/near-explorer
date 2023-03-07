@@ -8,7 +8,7 @@ import { validators } from "@explorer/backend/router/validators";
 export const router = trpc.router<Context>().query("listByTimestamp", {
   input: z.strictObject({
     limit: validators.limit,
-    cursor: validators.accountPagination.optional(),
+    cursor: validators.accountPagination.nullish(),
   }),
   resolve: async ({ input: { limit, cursor } }) => {
     let selection = indexerDatabase
@@ -17,8 +17,8 @@ export const router = trpc.router<Context>().query("listByTimestamp", {
       .leftJoin("receipts", (jb) =>
         jb.onRef("receipt_id", "=", "created_by_receipt_id")
       );
-    if (cursor !== undefined) {
-      selection = selection.where("id", "<", cursor.toString());
+    if (cursor) {
+      selection = selection.where("id", "<", cursor.index.toString());
     }
     const accountsList = await selection
       .orderBy("accountIndex", "desc")

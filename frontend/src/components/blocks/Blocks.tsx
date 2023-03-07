@@ -25,7 +25,7 @@ const Blocks: React.FC = React.memo(() => {
         if (!lastElement) {
           return;
         }
-        return lastElement.timestamp;
+        return { timestamp: lastElement.timestamp };
       },
     }
   );

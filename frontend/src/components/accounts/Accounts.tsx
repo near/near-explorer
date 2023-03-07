@@ -18,7 +18,7 @@ const Accounts: React.FC = React.memo(() => {
         if (!lastElement) {
           return;
         }
-        return lastElement.accountIndex;
+        return { index: lastElement.accountIndex };
       },
     }
   );
