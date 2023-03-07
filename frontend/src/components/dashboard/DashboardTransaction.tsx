@@ -50,13 +50,12 @@ const DashboardTransaction: React.FC = React.memo(() => {
                 href="https://docs.near.org/docs/concepts/transaction"
               />
             }
-            loading={recentTransactionsCountSub.status === "loading"}
-            text={
-              recentTransactionsCountSub.status === "success"
-                ? recentTransactionsCountSub.data.toLocaleString()
-                : null
-            }
-          />
+            subscription={recentTransactionsCountSub}
+          >
+            {(recentTransactionsCount) => (
+              <>{recentTransactionsCount.toLocaleString()}</>
+            )}
+          </LongCardCell>
         </Col>
         <Col xs="12" md="8">
           <LongCardCell
@@ -71,13 +70,10 @@ const DashboardTransaction: React.FC = React.memo(() => {
                 href="https://docs.near.org/docs/concepts/gas"
               />
             }
-            loading={latestGasPriceSub.status === "loading"}
-            text={
-              latestGasPriceSub.status === "success" ? (
-                <GasPrice gasPrice={latestGasPriceSub.data} />
-              ) : undefined
-            }
-          />
+            subscription={latestGasPriceSub}
+          >
+            {(latestGasPrice) => <GasPrice gasPrice={latestGasPrice} />}
+          </LongCardCell>
         </Col>
       </TransactionCardNumber>
       <DashboardTransactionsHistoryChart />

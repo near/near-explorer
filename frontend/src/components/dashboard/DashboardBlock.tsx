@@ -54,18 +54,15 @@ const DashboardBlock: React.FC = React.memo(() => {
                 href="https://docs.near.org/docs/concepts/new-to-near"
               />
             }
-            loading={latestBlockSub.status === "loading"}
-            text={
-              latestBlockSub.status === "success" ? (
-                <ElementWrapper>
-                  <span>{latestBlockSub.data.height.toLocaleString()}</span>
-                  <CopyToClipboard
-                    text={latestBlockSub.data.height.toString()}
-                  />
-                </ElementWrapper>
-              ) : null
-            }
-          />
+            subscription={latestBlockSub}
+          >
+            {(latestBlock) => (
+              <ElementWrapper>
+                <span>{latestBlock.height.toLocaleString()}</span>
+                <CopyToClipboard text={latestBlock.height.toString()} />
+              </ElementWrapper>
+            )}
+          </LongCardCell>
         </Col>
         <Col xs="6" md="12">
           <LongCardCell
@@ -79,19 +76,20 @@ const DashboardBlock: React.FC = React.memo(() => {
                 )}
               />
             }
-            loading={blockProductionSpeedSub.status === "loading"}
-            text={
-              blockProductionSpeedSub.status === "success"
-                ? blockProductionSpeedSub.data === 0
+            subscription={blockProductionSpeedSub}
+          >
+            {(blockProductionSpeed) => (
+              <>
+                {blockProductionSpeed === 0
                   ? t(
                       "component.dashboard.DashboardBlock.avg_block_time.unavailable"
                     )
-                  : `${(1.0 / blockProductionSpeedSub.data).toFixed(4)} ${t(
+                  : `${(1.0 / blockProductionSpeed).toFixed(4)} ${t(
                       "common.unit.seconds"
-                    )}`
-                : undefined
-            }
-          />
+                    )}`}
+              </>
+            )}
+          </LongCardCell>
         </Col>
       </Row>
     </DashboardCard>
