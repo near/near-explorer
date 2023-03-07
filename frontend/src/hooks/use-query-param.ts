@@ -17,7 +17,9 @@ const extractParam = (
 export const useQueryParam = (paramName: string) => {
   const router = useRouter();
   const currValue = extractParam(router.query[paramName]);
-  const setValue = React.useCallback(
+  const setValue = React.useCallback<
+    React.Dispatch<React.SetStateAction<string | undefined>>
+  >(
     (nextValueOrUpdater) => {
       const nextValue =
         typeof nextValueOrUpdater === "function"
