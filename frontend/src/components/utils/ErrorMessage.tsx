@@ -7,7 +7,7 @@ import { styled } from "@explorer/frontend/libraries/styles";
 type Props = {
   header?: string;
   children: string;
-  onRetry?: () => void;
+  onRetry: () => void;
   retryText?: string;
 };
 
@@ -38,8 +38,15 @@ const RetryButton = styled("button", {
 });
 
 const ErrorMessage = React.memo<Props>(
-  ({ header, children, onRetry, retryText }) => {
+  ({ header, children, onRetry: onRetryRaw, retryText }) => {
     const { t } = useTranslation();
+    const onRetry = React.useCallback<React.MouseEventHandler>(
+      (e) => {
+        e.stopPropagation();
+        onRetryRaw();
+      },
+      [onRetryRaw]
+    );
     return (
       <Wrapper>
         <Header>
@@ -47,11 +54,9 @@ const ErrorMessage = React.memo<Props>(
           {header ? `: ${header}` : null}
         </Header>
         <Message>{children}</Message>
-        {onRetry ? (
-          <RetryButton onClick={onRetry}>
-            {retryText || t("common.retry")}
-          </RetryButton>
-        ) : null}
+        <RetryButton onClick={onRetry}>
+          {retryText || t("common.retry")}
+        </RetryButton>
       </Wrapper>
     );
   }
