@@ -149,10 +149,10 @@ const wrapRouterHandlerMaintainNetwork =
     );
   };
 
-type ContextProps = {
+type ContextProps = React.PropsWithChildren<{
   networkState: NetworkContextType;
   languageContext: LanguageContextType;
-};
+}>;
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => (
   <LanguageContext.Provider value={props.languageContext}>

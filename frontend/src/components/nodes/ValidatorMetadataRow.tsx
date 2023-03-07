@@ -33,9 +33,9 @@ const ValidatorNodesText = styled(Col, {
   color: "#3f4045",
 });
 
-type ElementProps = {
+type ElementProps = React.PropsWithChildren<{
   header: React.ReactNode;
-};
+}>;
 
 const ValidatorMetadataElement: React.FC<ElementProps> = React.memo(
   ({ children, header }) => {
