@@ -12,9 +12,9 @@ import Content, {
   ContentHeader,
 } from "@explorer/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { useEpochStartBlock } from "@explorer/frontend/hooks/data";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const NodesPage = styled(Content, {
   backgroundColor: "#ffffff",
@@ -44,8 +44,12 @@ const ValidatorsWrapper = styled(Container, {
 const ValidatorsPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Validator Node page");
 
-  const { data: networkStats } = useNetworkStats();
-  const epochStartBlock = useEpochStartBlock();
+  const { data: networkStats } = useSubscription(["network-stats"]);
+  const blockHeight = networkStats?.epochStartHeight;
+  const epochStartBlock = trpc.useQuery(
+    ["block.byId", { height: blockHeight ?? 0 }],
+    { enabled: blockHeight !== undefined }
+  ).data;
 
   return (
     <>

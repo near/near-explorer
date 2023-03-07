@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { Badge, Col, Row } from "react-bootstrap";
 
 import Link from "@explorer/frontend/components/utils/Link";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
 const NodeSelector = styled(Col, {
@@ -41,7 +41,7 @@ const NodeLink = styled("a", {
 
 const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useNetworkStats();
+  const { data: networkStats } = useSubscription(["network-stats"]);
 
   return (
     <Row>

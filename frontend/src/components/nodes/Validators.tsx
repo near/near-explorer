@@ -8,7 +8,6 @@ import ValidatorsList, {
 import { PaginateWrapper } from "@explorer/frontend/components/utils/Pagination";
 import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
 import { Table, OnPageChange } from "@explorer/frontend/components/utils/Table";
-import { useNetworkStats } from "@explorer/frontend/hooks/subscriptions";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -32,7 +31,7 @@ const Validators: React.FC = React.memo(() => {
   );
 
   const validatorsSub = useSubscription(["validators"]);
-  const { data: networkStats } = useNetworkStats();
+  const { data: networkStats } = useSubscription(["network-stats"]);
   const totalStake = networkStats?.totalStake;
 
   if (validatorsSub.status !== "success" || !totalStake) {
