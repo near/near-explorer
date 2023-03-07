@@ -56,10 +56,8 @@ const SearchBoxColumn = styled(Col, {
   margin: "0 16px",
 });
 
-const HeaderHome = styled("a", {
+const HeaderHome = styled(Link, {
   fontWeight: 500,
-  color: "#000000",
-  textDecoration: "none",
 });
 
 const Header: React.FC = React.memo(() => {
@@ -77,17 +75,13 @@ const Header: React.FC = React.memo(() => {
           <HeaderMainBar noGutters>
             <Col md="6" className="d-none d-md-block d-lg-block">
               <Link href="/">
-                <a>
-                  <NearLogo />
-                </a>
+                <NearLogo />
               </Link>
             </Col>
 
             <Col xs="2" className="d-md-none text-left">
               <Link href="/">
-                <a>
-                  <NearMiniLogo />
-                </a>
+                <NearMiniLogo />
               </Link>
             </Col>
 
@@ -135,9 +129,9 @@ const Header: React.FC = React.memo(() => {
               <LanguageToggle />
             </Col>
             <Col md={shouldShowSwitch ? 3 : 4} className="align-self-center">
-              <Link href="/" passHref>
-                <HeaderHome>{t("component.utils.Header.home")}</HeaderHome>
-              </Link>
+              <HeaderHome href="/">
+                {t("component.utils.Header.home")}
+              </HeaderHome>
             </Col>
             <Col md={shouldShowSwitch ? 4 : 5} className="align-self-center">
               <HeaderNavDropdown />

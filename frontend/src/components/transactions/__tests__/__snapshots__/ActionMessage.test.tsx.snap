@@ -3,18 +3,14 @@
 exports[`<ActionMessage /> renders AddKey with permission FullAccess 1`] = `
 Array [
   "component.transactions.ActionMessage.AddKey.new_key_added",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+    receiver.test
+  </a>,
   ": ed25519:BgXFiJS...",
   <p>
     component.transactions.ActionMessage.AddKey.fullAccessPermission
@@ -25,18 +21,14 @@ Array [
 exports[`<ActionMessage /> renders AddKey with permission function call to call any method 1`] = `
 Array [
   "component.transactions.ActionMessage.AddKey.access_key_added_for_contract",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/stake"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/stake"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      stake
-    </a>
-  </span>,
+    stake
+  </a>,
   ": ed25519:BgXFiJS...",
   <p>
     component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce
@@ -47,18 +39,14 @@ Array [
 exports[`<ActionMessage /> renders AddKey with permission function call to call specific methods 1`] = `
 Array [
   "component.transactions.ActionMessage.AddKey.access_key_added_for_contract",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/stake"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/stake"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      stake
-    </a>
-  </span>,
+    stake
+  </a>,
   ": ed25519:BgXFiJS...",
   <p>
     component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce
@@ -69,49 +57,37 @@ Array [
 exports[`<ActionMessage /> renders CreateAccount 1`] = `
 Array [
   "component.transactions.ActionMessage.CreateAccount.new_account_created",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+    receiver.test
+  </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders DeleteAccount 1`] = `
 Array [
   "component.transactions.ActionMessage.DeleteAccount.delete_account",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+    receiver.test
+  </a>,
   "component.transactions.ActionMessage.DeleteAccount.and_transfer_fund_to",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/near"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/near"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      near
-    </a>
-  </span>,
+    near
+  </a>,
 ]
 `;
 
@@ -120,54 +96,42 @@ exports[`<ActionMessage /> renders DeleteKey 1`] = `"component.transactions.Acti
 exports[`<ActionMessage /> renders DeployContract 1`] = `
 Array [
   "component.transactions.ActionMessage.DeployContract.contract_deployed",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+    receiver.test
+  </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
   "component.transactions.ActionMessage.FunctionCall.called_method",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+    receiver.test
+  </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
 Array [
   "component.transactions.ActionMessage.FunctionCall.called_method",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver2.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver2.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver2.test
-    </a>
-  </span>,
+    receiver2.test
+  </a>,
   <dl>
     <dt>
       component.transactions.ActionMessage.FunctionCall.arguments
@@ -230,17 +194,13 @@ Array [
     Ⓝ
   </span>,
   "component.transactions.ActionMessage.Transfer.to",
-  <span
+  <a
+    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    href="/accounts/receiver.test"
     onClick={[Function]}
+    onMouseEnter={[Function]}
   >
-    <a
-      className="c-AccountLinkWrapper-dbzzBd"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+    receiver.test
+  </a>,
 ]
 `;

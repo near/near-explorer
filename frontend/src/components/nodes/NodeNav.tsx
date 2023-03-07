@@ -32,7 +32,7 @@ const NodeAmountLabel = styled(Badge, {
   color: "#ffffff",
 });
 
-const NodeLink = styled("a", {
+const NodeLink = styled(Link, {
   color: "inherit",
   "&:hover": {
     color: "inherit",
@@ -46,14 +46,12 @@ const NodeNav: React.FC = React.memo(() => {
   return (
     <Row>
       <NodeSelector xs="auto" selected className="pt-2 pb-2">
-        <Link href="/nodes/validators" passHref>
-          <NodeLink>
-            {t("component.nodes.NodeNav.validating")}{" "}
-            <NodeAmountLabel pill>
-              {networkStats ? networkStats.currentValidatorsCount : "--"}
-            </NodeAmountLabel>
-          </NodeLink>
-        </Link>
+        <NodeLink href="/nodes/validators">
+          {t("component.nodes.NodeNav.validating")}{" "}
+          <NodeAmountLabel pill>
+            {networkStats ? networkStats.currentValidatorsCount : "--"}
+          </NodeAmountLabel>
+        </NodeLink>
       </NodeSelector>
     </Row>
   );

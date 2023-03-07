@@ -31,13 +31,7 @@ const Tokens = styled("div", {
   flexDirection: "column",
 });
 
-const TokenLink = styled(LinkWrapper, {
-  "& + &": {
-    marginTop: 12,
-  },
-});
-
-const Token = styled("div", {
+const Token = styled(LinkWrapper, {
   cursor: "pointer",
   display: "flex",
   justifyContent: "space-between",
@@ -61,6 +55,10 @@ const Token = styled("div", {
         border: "1px solid #1E93FF",
       },
     },
+  },
+
+  "& + &": {
+    marginTop: 12,
   },
 });
 
@@ -104,34 +102,32 @@ type ItemProps = {
 
 const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(
   ({ token, options, selected }) => (
-    <TokenLink
+    <Token
+      selected={selected}
       href={buildAccountUrl({ ...options, token: token.authorAccountId })}
-      shallow
     >
-      <Token selected={selected}>
-        <TokenHeader>
-          <TokenLogo>
-            {token.icon ? (
-              <Image src={token.icon} layout="fill" />
-            ) : (
-              <TokenEmptyLogo />
-            )}
-          </TokenLogo>
-          {shortenString(token.name).length === token.name.length ? (
-            <TokenName>{token.name}</TokenName>
+      <TokenHeader>
+        <TokenLogo>
+          {token.icon ? (
+            <Image src={token.icon} layout="fill" />
           ) : (
-            <OverlayTrigger
-              overlay={<Tooltip id="token-name">{token.name}</Tooltip>}
-            >
-              <TokenName>{shortenString(token.name)}</TokenName>
-            </OverlayTrigger>
+            <TokenEmptyLogo />
           )}
-        </TokenHeader>
-        <TokenAmountWrapper>
-          <TokenAmount token={token} />
-        </TokenAmountWrapper>
-      </Token>
-    </TokenLink>
+        </TokenLogo>
+        {shortenString(token.name).length === token.name.length ? (
+          <TokenName>{token.name}</TokenName>
+        ) : (
+          <OverlayTrigger
+            overlay={<Tooltip id="token-name">{token.name}</Tooltip>}
+          >
+            <TokenName>{shortenString(token.name)}</TokenName>
+          </OverlayTrigger>
+        )}
+      </TokenHeader>
+      <TokenAmountWrapper>
+        <TokenAmount token={token} />
+      </TokenAmountWrapper>
+    </Token>
   )
 );
 

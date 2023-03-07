@@ -63,18 +63,6 @@ const TableElement = styled("td", {
   paddingRight: 12,
 });
 
-const Link = styled(LinkWrapper, {
-  cursor: "pointer",
-
-  variants: {
-    disabled: {
-      true: {
-        cursor: "inherit",
-      },
-    },
-  },
-});
-
 type ItemProps = {
   item: AccountFungibleTokenHistoryElement;
   balance: string;
@@ -87,17 +75,15 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
     const format = useDateFormat();
     return (
       <TableRow>
-        <Link
+        <LinkWrapper
           href={
             item.counterparty
               ? buildAccountUrl({
                   accountId: item.counterparty,
                   tab: "fungible-tokens",
                 })
-              : ""
+              : undefined
           }
-          shallow
-          disabled={!item.counterparty}
         >
           <TableElement>
             {item.counterparty
@@ -106,7 +92,7 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
               ? "MINT"
               : "BURN"}
           </TableElement>
-        </Link>
+        </LinkWrapper>
         <TableElement>
           <TokenAmount
             token={{
@@ -120,12 +106,11 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
         <TableElement>
           <TokenAmount token={{ ...token, balance }} noSymbol />
         </TableElement>
-        <Link
+        <LinkWrapper
           href={`/transactions/${item.transactionHash}#${item.receiptId}`}
-          shallow
         >
           <TableElement>{shortenString(item.receiptId)}</TableElement>
-        </Link>
+        </LinkWrapper>
         <TableElement>
           {format(item.timestamp, t("common.date_time.date_format"))}
           <CopyToClipboard

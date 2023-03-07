@@ -14,7 +14,7 @@ const ReceiptLink: React.FC<Props> = React.memo(
     const children = truncate ? `${receiptId.substring(0, 7)}...` : receiptId;
     return (
       <Link href={`/transactions/${transactionHash}#${receiptId}`}>
-        <a>{children}</a>
+        {children}
       </Link>
     );
   }
