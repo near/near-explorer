@@ -10,8 +10,7 @@ import { div } from "@explorer/backend/database/utils";
 import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
-  DatabaseAction,
-  mapDatabaseActionToAction,
+  mapForceDatabaseActionToAction,
 } from "@explorer/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
 import {
@@ -323,11 +322,7 @@ const getReceiptMapping = (
   initialMapping: Map<string, ReceiptPreview> = new Map()
 ) =>
   receiptRows.reduce((mapping, receipt) => {
-    const action = mapDatabaseActionToAction({
-      hash: receipt.originatedFromTransactionHash,
-      kind: receipt.kind,
-      args: receipt.args,
-    } as DatabaseAction);
+    const action = mapForceDatabaseActionToAction(receipt);
     const existingReceipt = mapping.get(receipt.id);
     if (!existingReceipt) {
       return mapping.set(receipt.id, {
@@ -454,7 +449,7 @@ const getTransactionsByHashes = async (
     (mapping, action) =>
       mapping.set(action.hash, [
         ...(mapping.get(action.hash) || []),
-        mapDatabaseActionToAction(action as DatabaseAction),
+        mapForceDatabaseActionToAction(action),
       ]),
     new Map<string, Action[]>()
   );

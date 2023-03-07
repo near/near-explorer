@@ -14,8 +14,7 @@ import {
 import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
-  DatabaseAction,
-  mapDatabaseActionToAction,
+  mapForceDatabaseActionToAction,
 } from "@explorer/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
 import {
@@ -117,9 +116,7 @@ const groupReceiptActionsIntoReceipts = (
         tokensBurnt: action.tokensBurnt,
       });
     }
-    acc[acc.length - 1].actions.push(
-      mapDatabaseActionToAction(action as DatabaseAction)
-    );
+    acc[acc.length - 1].actions.push(mapForceDatabaseActionToAction(action));
     return acc;
   }, []);
 export const router = trpc

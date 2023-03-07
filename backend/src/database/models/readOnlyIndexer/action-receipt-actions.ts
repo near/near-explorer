@@ -17,7 +17,41 @@ export default interface ActionReceiptActions {
 
   action_kind: ActionKind;
 
-  args: unknown;
+  args:
+    | {
+        public_key: string;
+        access_key: {
+          nonce: number;
+          permission:
+            | {
+                permission_kind: "FUNCTION_CALL";
+                permission_details: {
+                  allowance: string;
+                  receiver_id: string;
+                  method_names: string[];
+                };
+              }
+            | {
+                permission_kind: "FULL_ACCESS";
+              };
+        };
+      }
+    | {}
+    | { beneficiary_id: string }
+    | { public_key: string }
+    | { code_sha256: string }
+    | {
+        gas: number;
+        deposit: string;
+        method_name: string;
+        args_json?: Record<string, unknown>;
+        args_base64: string;
+      }
+    | {
+        public_key: string;
+        stake: string;
+      }
+    | { deposit: string };
 
   receipt_predecessor_account_id: string;
 
@@ -34,7 +68,41 @@ export interface ActionReceiptActionsInitializer {
 
   action_kind: ActionKind;
 
-  args: unknown;
+  args:
+    | {
+        public_key: string;
+        access_key: {
+          nonce: number;
+          permission:
+            | {
+                permission_kind: "FUNCTION_CALL";
+                permission_details: {
+                  allowance: string;
+                  receiver_id: string;
+                  method_names: string[];
+                };
+              }
+            | {
+                permission_kind: "FULL_ACCESS";
+              };
+        };
+      }
+    | {}
+    | { beneficiary_id: string }
+    | { public_key: string }
+    | { code_sha256: string }
+    | {
+        gas: number;
+        deposit: string;
+        method_name: string;
+        args_json?: Record<string, unknown>;
+        args_base64: string;
+      }
+    | {
+        public_key: string;
+        stake: string;
+      }
+    | { deposit: string };
 
   receipt_predecessor_account_id: string;
 
@@ -51,7 +119,41 @@ export interface ActionReceiptActionsMutator {
 
   action_kind?: ActionKind;
 
-  args?: unknown;
+  args?:
+    | {
+        public_key: string;
+        access_key: {
+          nonce: number;
+          permission:
+            | {
+                permission_kind: "FUNCTION_CALL";
+                permission_details: {
+                  allowance: string;
+                  receiver_id: string;
+                  method_names: string[];
+                };
+              }
+            | {
+                permission_kind: "FULL_ACCESS";
+              };
+        };
+      }
+    | {}
+    | { beneficiary_id: string }
+    | { public_key: string }
+    | { code_sha256: string }
+    | {
+        gas: number;
+        deposit: string;
+        method_name: string;
+        args_json?: Record<string, unknown>;
+        args_base64: string;
+      }
+    | {
+        public_key: string;
+        stake: string;
+      }
+    | { deposit: string };
 
   receipt_predecessor_account_id?: string;
 
