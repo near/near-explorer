@@ -33,14 +33,17 @@ const getLockupAccountId = async (
   return lockupAccountId;
 };
 
+export const getAccountRpcData = (accountId: string) =>
+  nearApi
+    .sendJsonRpcQuery("view_account", {
+      finality: "final",
+      account_id: accountId,
+    })
+    .catch(ignoreIfDoesNotExist);
+
 const getAccountDetails = async (accountId: string) => {
   const [accountInfo, lockupAccountId] = await Promise.all([
-    nearApi
-      .sendJsonRpcQuery("view_account", {
-        finality: "final",
-        account_id: accountId,
-      })
-      .catch(ignoreIfDoesNotExist),
+    getAccountRpcData(accountId),
     getLockupAccountId(accountId),
   ]);
 

@@ -18,7 +18,7 @@ const Accounts: React.FC = React.memo(() => {
         if (!lastElement) {
           return;
         }
-        return { index: lastElement.accountIndex };
+        return { index: lastElement.index };
       },
     }
   );
@@ -30,9 +30,7 @@ const Accounts: React.FC = React.memo(() => {
       {(items) => (
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items.map((account) => (
-            <div key={account.accountId}>
-              <AccountRow accountId={account.accountId} />
-            </div>
+            <AccountRow key={account.id} account={account} />
           ))}
         </FlipMove>
       )}
