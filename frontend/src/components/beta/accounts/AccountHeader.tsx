@@ -4,10 +4,10 @@ import JSBI from "jsbi";
 import { Trans, useTranslation } from "next-i18next";
 
 import { Account } from "@explorer/common/types/procedures";
-import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
+import AccountContract, {
+  SmallHeader,
+} from "@explorer/frontend/components/beta/accounts/AccountContract";
 import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
-import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
-import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
 import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
 import Timer from "@explorer/frontend/components/utils/Timer";
@@ -20,7 +20,6 @@ import {
   shortenString,
 } from "@explorer/frontend/libraries/formatting";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 
 type Props = {
   account: Account;
@@ -44,6 +43,10 @@ const HorizontalBlock = styled("div", {
   "@media (max-width: 1000px)": {
     flexDirection: "column",
   },
+
+  "&:empty": {
+    display: "none",
+  },
 });
 
 const BaseInfo = styled("div", {
@@ -53,18 +56,6 @@ const BaseInfo = styled("div", {
   "@media (max-width: 1000px)": {
     marginRight: 0,
     marginBottom: 48,
-  },
-});
-
-const ContractInfo = styled("div", {
-  display: "flex",
-  flexWrap: "wrap",
-
-  "> *": {
-    marginRight: 24,
-  },
-  "> *:last-child": {
-    marginRight: 0,
   },
 });
 
@@ -129,11 +120,6 @@ const NumericInfo = styled("div", {
   alignItems: "center",
 });
 
-const SmallHeader = styled("div", {
-  fontSize: 12,
-  color: "#c9c9c9",
-});
-
 const Quantity = styled("div", {
   fontWeight: 500,
   fontSize: 24,
@@ -151,10 +137,6 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
           props.account.transactionsQuantity.toString(),
           6
         );
-  const contractQuery = trpc.useQuery([
-    "contract.byId",
-    { id: props.account.id },
-  ]);
   return (
     <Wrapper>
       <HorizontalBlock>
@@ -250,44 +232,9 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
           </div>
         </NumericInfo>
       </HorizontalBlock>
-      {contractQuery.data ? (
-        <HorizontalBlock>
-          <ContractInfo>
-            <div>
-              <SmallHeader>
-                {t("pages.account.header.contract.lockedStatus")}
-              </SmallHeader>
-              <span>
-                {contractQuery.data.locked
-                  ? t("pages.account.header.contract.status.locked")
-                  : t("pages.account.header.contract.status.unlocked")}
-              </span>
-            </div>
-            <div>
-              <SmallHeader>
-                {t("pages.account.header.contract.codeHash")}
-              </SmallHeader>
-              <ShortenValue>{contractQuery.data.codeHash}</ShortenValue>
-            </div>
-            {contractQuery.data.timestamp ? (
-              <div>
-                <SmallHeader>
-                  {t("pages.account.header.contract.updatedTimestamp")}
-                </SmallHeader>
-                <Timestamp timestamp={contractQuery.data.timestamp} />
-              </div>
-            ) : null}
-            {contractQuery.data.transactionHash ? (
-              <div>
-                <SmallHeader>
-                  {t("pages.account.header.contract.updatedTransaction")}
-                </SmallHeader>
-                <TransactionLink hash={contractQuery.data.transactionHash} />
-              </div>
-            ) : null}
-          </ContractInfo>
-        </HorizontalBlock>
-      ) : null}
+      <HorizontalBlock>
+        <AccountContract id={props.account.id} />
+      </HorizontalBlock>
     </Wrapper>
   );
 });
