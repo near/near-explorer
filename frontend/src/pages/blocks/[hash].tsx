@@ -54,7 +54,11 @@ const BlockDetail: NextPage = React.memo(() => {
         border={false}
       >
         {!blockQuery.data ? (
-          <>{t("page.blocks.error.block_fetching")}</>
+          blockQuery.isLoading ? (
+            t("page.blocks.error.block_fetching")
+          ) : (
+            t("page.blocks.error.notFound")
+          )
         ) : (
           <BlockDetails block={blockQuery.data} />
         )}

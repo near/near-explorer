@@ -92,19 +92,21 @@
     "accounts": {
       "account": "账户",
       "error": {
-        "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
+        "account_not_found": "Account not found. Please, check if the account name is correct or try later."
       }
     },
     "blocks": {
       "title": "区块",
       "error": {
-        "block_fetching": "Information is not available at the moment. Please, check if the block hash is correct or try later."
+        "block_fetching": "Information is not available at the moment. Please, check if the block hash is correct or try later.",
+        "notFound": "Block not found. Please, check if the block hash is correct or refresh page if the block was added to the network recently."
       }
     },
     "transactions": {
       "transaction_execution_plan": "交易执行计划",
       "error": {
-        "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+        "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later.",
+        "notFound": "Transaction not found. Please, check if the transaction hash is correct or refresh page if the transaction was added to the network recently."
       }
     }
   },
