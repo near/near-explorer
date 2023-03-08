@@ -10,7 +10,7 @@
     "dev:mainnet": "dotenv -c -e ../mainnet.env -- npm run dev",
     "dev:shardnet": "dotenv -c -e ../shardnet.env -- npm run dev",
     "dev:guildnet": "dotenv -c -e ../guildnet.env -- npm run dev",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register build/backend/src/index.js",
     "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
     "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start",
@@ -44,6 +44,7 @@
     "pg": "^8.7.3",
     "ts-node": "^10.4.0",
     "tsafe": "^0.10.0",
+    "tsconfig-paths": "^4.1.2",
     "ws": "^8.6.0",
     "zod": "^3.16.0",
     "zod-error": "^1.1.0"
@@ -59,6 +60,7 @@
     "@types/ws": "^8.5.3",
     "kanel": "^3.2.0",
     "nodemon": "^2.0.15",
+    "tsc-alias": "^1.8.3",
     "typed-emitter": "^2.1.0"
   }
 }
