@@ -40,11 +40,33 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.number }}
 
-  build-and-deploy-backend-testnet:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout backend-repo"
+
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "Build the Backend"
+        run: |
+          gcloud builds submit --quiet "." --config=".github/gcp-configs/gcp-backend-build.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+           --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+  deploy-backend-testnet:
     environment:
       name: dev-backend-testnet
       url: ${{ steps.gcp_url.outputs.deploy_url }}
     runs-on: ubuntu-latest
+    needs: build-backend
     steps:
       - uses: actions/checkout@v3
         name: "Checkout backend-repo"
@@ -75,11 +97,12 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.number }}
 
-  build-and-deploy-backend-mainnet:
+  deploy-backend-mainnet:
     environment:
       name: dev-backend-mainnet
       url: ${{ steps.gcp_url.outputs.deploy_url }}
     runs-on: ubuntu-latest
+    needs: build-backend
     steps:
       - uses: actions/checkout@v3
         name: "Checkout backend-repo"

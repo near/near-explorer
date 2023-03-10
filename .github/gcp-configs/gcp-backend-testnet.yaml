@@ -1,22 +1,4 @@
-# Build the BackEnd
 steps:
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "build",
-        "-f",
-        "backend/Dockerfile",
-        "-t",
-        "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:${_PR_NUMBER}",
-        ".",
-      ]
-  # Push Backend to Artifact Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:${_PR_NUMBER}",
-      ]
   # Deploy Backend Testnet
   - name: "gcr.io/cloud-builders/gcloud"
     args:
