@@ -7,13 +7,9 @@ steps:
         "-f",
         "backend/Dockerfile",
         "-t",
-        "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:${_PR_NUMBER}",
+        "${_IMAGE}:${_PR_NUMBER}",
         ".",
       ]
   # Push Backend to Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend:${_PR_NUMBER}",
-      ]
+    args: ["push", "${_IMAGE}:${_PR_NUMBER}"]

@@ -4,6 +4,11 @@ on:
     branches:
       - master
 
+env:
+  BACKEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend"
+  FRONTEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-frontend"
+  REGION: "us-central1"
+
 jobs:
   build-and-deploy-frontend:
     environment:
@@ -21,15 +26,15 @@ jobs:
 
       - name: "Build and Deploy Frontend"
         run: |
-          gcloud builds submit --quiet "." --config=".github/gcp-configs/gcp-frontend.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER,_BRANCH=GITHUB_REF_NAME,_COMMIT_SHA=GITHUB_SHA"
+          gcloud builds submit "." --config=".github/gcp-configs/gcp-frontend.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+           --machine-type="e2-highcpu-8" --substitutions="_PR_NUMBER=$PR_NUMBER,_BRANCH=$GITHUB_REF_NAME,_COMMIT_SHA=$GITHUB_SHA,_IMAGE=$FRONTEND_IMAGE"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
       - name: "Get deployment URL"
         id: "gcp_url"
         run: |
-          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "us-central1" --project "pagoda-data-stack-dev"\
+          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "${REGION}" --project "pagoda-data-stack-dev"\
            --format 'value(status.url)')
           match="https://"
           tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"
@@ -51,7 +56,7 @@ jobs:
       - name: "Build the Backend"
         run: |
           gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-build.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+           --machine-type="e2-highcpu-8" --substitutions="_PR_NUMBER=$PR_NUMBER,_IMAGE=$BACKEND_IMAGE"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
@@ -70,17 +75,17 @@ jobs:
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-      - name: "Build and Deploy Frontend"
+      - name: "Deploy Backend Testnet"
         run: |
-          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-testnet.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-deploy.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+           --machine-type="e2-highcpu-8" --substitutions="_CLOUD_RUN_SERVICE=explorer-backend-testnet,_IMAGE=$BACKEND_IMAGE,_PR_NUMBER=$PR_NUMBER,_REGION=$REGION"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
       - name: "Get deployment URL"
         id: "gcp_url"
         run: |
-          url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "us-central1" --project "pagoda-data-stack-dev"\
+          url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "${REGION}" --project "pagoda-data-stack-dev"\
            --format 'value(status.url)')
           match="https://"
           tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"
@@ -103,17 +108,17 @@ jobs:
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-      - name: "Build and Deploy Frontend"
+      - name: "Deploy Backend Mainnet"
         run: |
-          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-mainnet.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-          --machine-type="e2-highcpu-8" --substitutions=_PR_NUMBER="$PR_NUMBER"
+          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-deploy.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+          --machine-type="e2-highcpu-8" --substitutions="_CLOUD_RUN_SERVICE=explorer-backend-mainnet,_PR_NUMBER=$PR_NUMBER,_REGION=$REGION,_IMAGE=$BACKEND_IMAGE"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
       - name: "Get deployment URL"
         id: "gcp_url"
         run: |
-          url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "us-central1" --project "pagoda-data-stack-dev"\
+          url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "${REGION}" --project "pagoda-data-stack-dev"\
            --format 'value(status.url)')
           match="https://"
           tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"

@@ -7,16 +7,12 @@ steps:
         "-f",
         "frontend/Dockerfile",
         "-t",
-        "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-frontend:${_PR_NUMBER}",
+        "${_IMAGE}:${_PR_NUMBER}",
         ".",
       ]
   # Push Frontend to Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-frontend:${_PR_NUMBER}",
-      ]
+    args: ["push", "${_IMAGE}:${_PR_NUMBER}"]
   # Deploy Frontend
   - name: "gcr.io/cloud-builders/gcloud"
     args:
@@ -24,7 +20,7 @@ steps:
       - "deploy"
       - "explorer-frontend"
       - "--image"
-      - "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-frontend:${_PR_NUMBER}"
+      - "${_IMAGE}:${_PR_NUMBER}"
       - "--region"
       - "us-central1"
       - "--tag"
