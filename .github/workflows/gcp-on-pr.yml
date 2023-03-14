@@ -38,24 +38,22 @@ jobs:
           file: ./frontend/Dockerfile
           tags: "${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}"
 
-  # deploy-frontend:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       name: "Checkout near-explorer"
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: build-frontend
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout near-explorer"
 
-  #     - name: "Authenticate to GCloud"
-  #       uses: "google-github-actions/auth@v1"
-  #       with:
-  #         credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-  #     - name: "Build the Frontend"
-  #       run: |
-  #         docker build -f "frontend/Dockerfile" -t "${_IMAGE}:${_PR_NUMBER}" "."
-
-  #     - name: "Configure docker with gcloud"
-  #       run: |
-  #         gcloud auth configure-docker -q
+      - name: "Deploy the Frontend"
+        run: |
+          gcloud run deploy explorer-frontend --image="${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
+            --tag="pr-${{ env.PR_NUMBER }}"
 
   build-backend:
     runs-on: ubuntu-latest
@@ -71,9 +69,7 @@ jobs:
       - name: "Build the Backend"
         run: |
           gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-build.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions="_PR_NUMBER=$PR_NUMBER,_IMAGE=$BACKEND_IMAGE"
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+           --machine-type="e2-highcpu-8" --substitutions="_PR_NUMBER=${{ env.PR_NUMBER }},_IMAGE=${{ env.BACKEND_IMAGE }}"
 
   deploy-backend-testnet:
     environment:
