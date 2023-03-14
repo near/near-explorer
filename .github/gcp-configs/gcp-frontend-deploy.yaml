@@ -1,18 +1,4 @@
 steps:
-  # Build the Frontend
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "build",
-        "-f",
-        "frontend/Dockerfile",
-        "-t",
-        "${_IMAGE}:${_PR_NUMBER}",
-        ".",
-      ]
-  # Push Frontend to Artifact Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "${_IMAGE}:${_PR_NUMBER}"]
   # Deploy Frontend
   - name: "gcr.io/cloud-builders/gcloud"
     args:

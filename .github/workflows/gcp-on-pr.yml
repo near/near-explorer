@@ -7,13 +7,11 @@ on:
 env:
   BACKEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend"
   FRONTEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-frontend"
+  PR_NUMBER: ${{ github.event.number }}
   REGION: "us-central1"
 
 jobs:
-  build-and-deploy-frontend:
-    environment:
-      name: dev-frontend
-      url: ${{ steps.gcp_url.outputs.deploy_url }}
+  build-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,26 +19,46 @@ jobs:
 
       - name: "Authenticate to GCloud"
         uses: "google-github-actions/auth@v1"
+        id: "auth"
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-      - name: "Build and Deploy Frontend"
+      - name: "Build the Frontend"
         run: |
-          gcloud builds submit "." --config=".github/gcp-configs/gcp-frontend.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions="_PR_NUMBER=$PR_NUMBER,_BRANCH=$GITHUB_REF_NAME,_COMMIT_SHA=$GITHUB_SHA,_IMAGE=$FRONTEND_IMAGE"
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+          docker build -f "frontend/Dockerfile" -t "${FRONTEND_IMAGE}:${PR_NUMBER}" "."
 
-      - name: "Get deployment URL"
-        id: "gcp_url"
-        run: |
-          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "${REGION}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
-          match="https://"
-          tagged_url="https://${url%%${match}*}pr-${PR_NUMBER}---${url##*${match}}"
-          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v1
+        with:
+          registry: us-central1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - id: docker-push-tagged
+        name: Tag Docker image and push to Google Artifact Registry
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${FRONTEND_IMAGE}:${PR_NUMBER}
+
+  # deploy-frontend:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       name: "Checkout near-explorer"
+
+  #     - name: "Authenticate to GCloud"
+  #       uses: "google-github-actions/auth@v1"
+  #       with:
+  #         credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+
+  #     - name: "Build the Frontend"
+  #       run: |
+  #         docker build -f "frontend/Dockerfile" -t "${_IMAGE}:${_PR_NUMBER}" "."
+
+  #     - name: "Configure docker with gcloud"
+  #       run: |
+  #         gcloud auth configure-docker -q
 
   build-backend:
     runs-on: ubuntu-latest

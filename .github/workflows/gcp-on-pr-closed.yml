@@ -19,18 +19,18 @@ jobs:
 
       - name: "Remove Frontend dev environment for closed PR"
         run: |
-          gcloud run services update-traffic "explorer-frontend" --remove_tags "$PR_NUMBER"
+          gcloud run services update-traffic "explorer-frontend" --remove_tags "pr-$PR_NUMBER"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
       - name: "Remove Backend Testnet dev environment for closed PR"
         run: |
-          gcloud run services update-traffic "explorer-backend-testnet" --remove_tags "$PR_NUMBER"
+          gcloud run services update-traffic "explorer-backend-testnet" --remove_tags "pr-$PR_NUMBER"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
       - name: "Remove Backend Mainnet dev environment for closed PR"
         run: |
-          gcloud run services update-traffic "explorer-backend-mainnet" --remove_tags "$PR_NUMBER"
+          gcloud run services update-traffic "explorer-backend-mainnet" --remove_tags "pr-$PR_NUMBER"
         env:
           PR_NUMBER: ${{ github.event.number }}
