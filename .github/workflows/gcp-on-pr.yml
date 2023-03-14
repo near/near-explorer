@@ -74,12 +74,15 @@ jobs:
         run: |
           gcloud run deploy explorer-frontend --image="${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
             --tag="pr-${{ env.PR_NUMBER }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---$BACKEND_TESTNET_URL"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---"BACKEND_MAINNET_URL\
             --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"\
             --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"\
             --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
             --update-env-vars "COMMIT_SHA=$GITHUB_SHA"
+        env:
+          BACKEND_TESTNET_URL="${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"
+          BACKEND_MAINNET_URL="${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"
 
   build-backend:
     runs-on: ubuntu-latest
