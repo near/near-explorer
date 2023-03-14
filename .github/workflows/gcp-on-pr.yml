@@ -41,6 +41,9 @@ jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
     needs: build-frontend
+    environment:
+      name: dev-frontend
+      url: ${{ steps.gcp_url.outputs.deploy_url }}
     steps:
       - uses: actions/checkout@v3
         name: "Checkout near-explorer"
@@ -73,6 +76,15 @@ jobs:
             --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"\
             --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
             --update-env-vars "COMMIT_SHA=$GITHUB_SHA"
+
+      - name: "Get deployment URL"
+        id: "gcp_url"
+        run: |
+          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          match="https://"
+          tagged_url="https://${url%%${match}*}pr-${{ env.PR_NUMBER }}---${url##*${match}}"
+          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
 
   build-backend:
     runs-on: ubuntu-latest
