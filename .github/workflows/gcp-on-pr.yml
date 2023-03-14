@@ -53,7 +53,13 @@ jobs:
       - name: "Deploy the Frontend"
         run: |
           gcloud run deploy explorer-frontend --image="${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
-            --tag="pr-${{ env.PR_NUMBER }}"
+            --tag="pr-${{ env.PR_NUMBER }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---explorer-backend-testnet-vcqilefdcq-uc.a.run.app"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---explorer-backend-mainnet-vcqilefdcq-uc.a.run.app"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---explorer-backend-testnet-vcqilefdcq-uc.a.run.app"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---explorer-backend-mainnet-vcqilefdcq-uc.a.run.app"\
+            --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
+            --update-env-vars "COMMIT_SHA=$GITHUB_SHA"
 
   build-backend:
     runs-on: ubuntu-latest
@@ -66,10 +72,20 @@ jobs:
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-      - name: "Build the Backend"
-        run: |
-          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-build.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions="_PR_NUMBER=${{ env.PR_NUMBER }},_IMAGE=${{ env.BACKEND_IMAGE }}"
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: us-central1-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}
+
+      - id: docker-push-tagged
+        name: Tag Docker image and push to Google Artifact Registry
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          file: ./backend/Dockerfile
+          tags: "${{ env.BACKEND_IMAGE }}:${{ env.PR_NUMBER }}"
 
   deploy-backend-testnet:
     environment:
@@ -88,10 +104,15 @@ jobs:
 
       - name: "Deploy Backend Testnet"
         run: |
-          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-deploy.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-           --machine-type="e2-highcpu-8" --substitutions="_CLOUD_RUN_SERVICE=explorer-backend-testnet,_IMAGE=$BACKEND_IMAGE,_PR_NUMBER=$PR_NUMBER,_REGION=$REGION"
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+          gcloud run deploy explorer-backend-testnet --image="${{ env.BACKEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
+            --tag="pr-${{ env.PR_NUMBER }}"
+
+      # - name: "Deploy Backend Testnet"
+      #   run: |
+      #     gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-deploy.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+      #      --machine-type="e2-highcpu-8" --substitutions="_CLOUD_RUN_SERVICE=explorer-backend-testnet,_IMAGE=$BACKEND_IMAGE,_PR_NUMBER=$PR_NUMBER,_REGION=$REGION"
+      #   env:
+      #     PR_NUMBER: ${{ github.event.number }}
 
       - name: "Get deployment URL"
         id: "gcp_url"
@@ -121,10 +142,15 @@ jobs:
 
       - name: "Deploy Backend Mainnet"
         run: |
-          gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-deploy.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
-          --machine-type="e2-highcpu-8" --substitutions="_CLOUD_RUN_SERVICE=explorer-backend-mainnet,_PR_NUMBER=$PR_NUMBER,_REGION=$REGION,_IMAGE=$BACKEND_IMAGE"
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+          gcloud run deploy explorer-backend-mainnet --image="${{ env.BACKEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
+            --tag="pr-${{ env.PR_NUMBER }}"
+
+      # - name: "Deploy Backend Mainnet"
+      #   run: |
+      #     gcloud builds submit "." --config=".github/gcp-configs/gcp-backend-deploy.yaml" --gcs-log-dir="gs://near-explorer-frontend-ci-logs/explorer-ci"\
+      #     --machine-type="e2-highcpu-8" --substitutions="_CLOUD_RUN_SERVICE=explorer-backend-mainnet,_PR_NUMBER=$PR_NUMBER,_REGION=$REGION,_IMAGE=$BACKEND_IMAGE"
+      #   env:
+      #     PR_NUMBER: ${{ github.event.number }}
 
       - name: "Get deployment URL"
         id: "gcp_url"
