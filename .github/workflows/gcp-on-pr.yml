@@ -5,10 +5,10 @@ on:
       - master
 
 env:
+  REGION: "us-central1"
   BACKEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-backend"
   FRONTEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-dev/cloud-run-source-deploy/explorer-frontend"
   PR_NUMBER: ${{ github.event.number }}
-  REGION: "us-central1"
 
 jobs:
   build-frontend:
@@ -26,7 +26,7 @@ jobs:
       - name: Login to Artifact Registry
         uses: docker/login-action@v2
         with:
-          registry: us-central1-docker.pkg.dev
+          registry: ${{ env.REGION }}-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}
 
@@ -50,14 +50,27 @@ jobs:
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
+      - name: "Get services URLs"
+        id: "gcp_services_urls"
+        run: |
+          backend_testnet_url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          backend_mainnet_url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          prefix="https://"
+          backend_testnet_url="${backend_testnet_url#"$prefix"}"
+          backend_mainnet_url="${backend_mainnet_url#"$prefix"}"
+          echo backend-testnet-url=$backend_testnet_url >> $GITHUB_OUTPUT
+          echo backend-mainnet-url=$backend_mainnet_url >> $GITHUB_OUTPUT
+
       - name: "Deploy the Frontend"
         run: |
           gcloud run deploy explorer-frontend --image="${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
             --tag="pr-${{ env.PR_NUMBER }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---explorer-backend-testnet-vcqilefdcq-uc.a.run.app"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---explorer-backend-mainnet-vcqilefdcq-uc.a.run.app"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---explorer-backend-testnet-vcqilefdcq-uc.a.run.app"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---explorer-backend-mainnet-vcqilefdcq-uc.a.run.app"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"\
             --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
             --update-env-vars "COMMIT_SHA=$GITHUB_SHA"
 
@@ -75,7 +88,7 @@ jobs:
       - name: Login to Artifact Registry
         uses: docker/login-action@v2
         with:
-          registry: us-central1-docker.pkg.dev
+          registry: ${{ env.REGION }}-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}
 

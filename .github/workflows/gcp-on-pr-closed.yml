@@ -1,6 +1,6 @@
 name: Delete GCP Explorer Environments of closed PR
 
-# only trigger on pull request closed events
+# only trigger on pull request closed/merged events
 on:
   pull_request:
     types: [closed]
