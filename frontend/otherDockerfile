@@ -1,0 +1,3 @@
+FROM mhart/alpine-node:16 AS build
+
+ENTRYPOINT ["cat", "-f", "/dev/null"]

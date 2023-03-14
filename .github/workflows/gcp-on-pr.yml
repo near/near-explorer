@@ -23,23 +23,20 @@ jobs:
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-      - name: "Build the Frontend"
-        run: |
-          docker build -f "frontend/Dockerfile" -t "${FRONTEND_IMAGE}:${PR_NUMBER}" "."
-
       - name: Login to Artifact Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: us-central1-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+          username: _json_key
+          password: ${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}
 
       - id: docker-push-tagged
         name: Tag Docker image and push to Google Artifact Registry
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${FRONTEND_IMAGE}:${PR_NUMBER}
+          file: ./frontend/Dockerfile
+          tags: "${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}"
 
   # deploy-frontend:
   #   runs-on: ubuntu-latest
