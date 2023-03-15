@@ -43,7 +43,7 @@ jobs:
     needs: build-frontend
     environment:
       name: dev-frontend
-      url: ${{ steps.gcp_services_urls.outputs.frontend_url }}
+      url: ${{ steps.gcp_url.outputs.deploy_url }}
     steps:
       - uses: actions/checkout@v3
         name: "Checkout near-explorer"
@@ -53,36 +53,38 @@ jobs:
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
 
-      - name: "Get services URLs"
+      - name: "Get Backend services URLs"
         id: "gcp_services_urls"
         run: |
           backend_testnet_url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
            --format 'value(status.url)')
           backend_mainnet_url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
            --format 'value(status.url)')
-          frontend_url=$(gcloud run services describe "explorer-frontend" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
           prefix="https://"
           backend_testnet_url="${backend_testnet_url#"$prefix"}"
           backend_mainnet_url="${backend_mainnet_url#"$prefix"}"
-          frontend_url="${frontend_url#"$prefix"}"
-          echo backend-testnet-url=$backend_testnet_url >> $GITHUB_OUTPUT
-          echo backend-mainnet-url=$backend_mainnet_url >> $GITHUB_OUTPUT
-          echo frontend_url=$frontend_url >> $GITHUB_OUTPUT
+          echo "::set-output name=backend-testnet-url::${backend_testnet_url}"
+          echo "::set-output name=backend-mainnet-url::${backend_mainnet_url}"
 
       - name: "Deploy the Frontend"
         run: |
           gcloud run deploy explorer-frontend --image="${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
             --tag="pr-${{ env.PR_NUMBER }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---$BACKEND_TESTNET_URL"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---"BACKEND_MAINNET_URL\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend-testnet-url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend-mainnet-url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend-testnet-url }}"\
+            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ steps.gcp_services_urls.outputs.backend-mainnet-url }}"\
             --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
             --update-env-vars "COMMIT_SHA=$GITHUB_SHA"
-        env:
-          BACKEND_TESTNET_URL="${{ steps.gcp_services_urls.outputs.backend_testnet_url }}"
-          BACKEND_MAINNET_URL="${{ steps.gcp_services_urls.outputs.backend_mainnet_url }}"
+
+      - name: "Get deployment URL"
+        id: "gcp_url"
+        run: |
+          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
+           --format 'value(status.url)')
+          match="https://"
+          tagged_url="https://${url%%${match}*}pr-${{ env.PR_NUMBER }}---${url##*${match}}"
+          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
 
   build-backend:
     runs-on: ubuntu-latest
