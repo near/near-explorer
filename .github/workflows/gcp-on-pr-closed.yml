@@ -17,19 +17,19 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: "Remove Frontend dev environment for closed PR"
+      - name: "Remove Frontend dev environment tags for closed PR"
         run: |
           gcloud run services update-traffic "explorer-frontend" --remove_tags "pr-$PR_NUMBER"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
-      - name: "Remove Backend Testnet dev environment for closed PR"
+      - name: "Remove Backend Testnet dev environment tags for closed PR"
         run: |
           gcloud run services update-traffic "explorer-backend-testnet" --remove_tags "pr-$PR_NUMBER"
         env:
           PR_NUMBER: ${{ github.event.number }}
 
-      - name: "Remove Backend Mainnet dev environment for closed PR"
+      - name: "Remove Backend Mainnet dev environment tags for closed PR"
         run: |
           gcloud run services update-traffic "explorer-backend-mainnet" --remove_tags "pr-$PR_NUMBER"
         env:
