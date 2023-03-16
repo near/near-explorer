@@ -12,7 +12,7 @@ jobs:
       - name: "Authenticate to GCloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"

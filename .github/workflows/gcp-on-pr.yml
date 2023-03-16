@@ -22,7 +22,7 @@ jobs:
         with:
           registry: ${{ env.REGION }}-docker.pkg.dev
           username: _json_key
-          password: ${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}
+          password: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
 
       - name: Build Docker image and push to Google Artifact Registry
         id: docker-push-tagged
@@ -45,7 +45,7 @@ jobs:
       - name: "Authenticate to GCloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
 
       - name: "Get Backend services URLs"
         id: "gcp_services_urls"
@@ -91,7 +91,7 @@ jobs:
         with:
           registry: ${{ env.REGION }}-docker.pkg.dev
           username: _json_key
-          password: ${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}
+          password: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
 
       - name: Build Docker image and push to Google Artifact Registry
         id: docker-push-tagged
@@ -114,7 +114,7 @@ jobs:
       - name: "Authenticate to GCloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
 
       - name: "Deploy Backend Testnet"
         run: |
@@ -143,7 +143,7 @@ jobs:
       - name: "Authenticate to GCloud"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.CI_EXPLORER_FRONTEND_SA_STAGING_KEY }}"
+          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
 
       - name: "Deploy Backend Mainnet"
         run: |
