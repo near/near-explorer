@@ -18,7 +18,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:typecheck": "tsc --project cypress/tsconfig.json --noEmit",
-    "compile-nextjs-config": "ncc build next.config.ts --transpile-only --tsconfig-path nextjs.tsconfig.json --out . && mv index.js next.config.js",
+    "compile-nextjs-config": "ncc build next.config.ts --transpile-only --tsconfig-path nextjs.tsconfig.json --out . && mv index.js next.config.mjs",
     "postinstall": "patch-package"
   },
   "repository": {
