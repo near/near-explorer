@@ -17,8 +17,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import type { AppRouter } from "@explorer/backend/router";
 import { NetworkName } from "@explorer/common/types/common";
 import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
-import { getEnvironment } from "@explorer/common/utils/environment";
-import { getBranch, getShortCommitSha } from "@explorer/common/utils/git";
+import { getEnvironmentVariables } from "@explorer/common/utils/environment";
 import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
 import { DeployInfo } from "@explorer/frontend/components/utils/DeployInfo";
 import Footer from "@explorer/frontend/components/utils/Footer";
@@ -290,30 +289,7 @@ App.getInitialProps = async (appContext) => {
       req,
       req.headers["accept-language"]
     );
-    let deployInfo: DeployInfoProps;
-    if (process.env.RENDER) {
-      deployInfo = {
-        branch: process.env.RENDER_GIT_BRANCH || "unknown",
-        commit: process.env.RENDER_GIT_COMMIT || "unknown",
-        instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
-        serviceId: process.env.RENDER_SERVICE_ID || "unknown",
-        serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
-        environment: getEnvironment(),
-      };
-    } else {
-      const [branch, commit] = await Promise.all([
-        getBranch(),
-        getShortCommitSha(),
-      ]);
-      deployInfo = {
-        branch,
-        commit,
-        instanceId: "local",
-        serviceId: "local",
-        serviceName: "frontend",
-        environment: "dev" as const,
-      };
-    }
+    const deployInfo = await getEnvironmentVariables("frontend");
     const serverProps: ServerAppInitialProps = {
       i18n: createI18n(language),
       cookies: req.headers.cookie ?? "",
