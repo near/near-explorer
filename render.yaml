@@ -1,4 +1,3 @@
-previewsEnabled: true
 services:
   ## Explorer frontend
   - type: web
