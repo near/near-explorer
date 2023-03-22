@@ -65,6 +65,9 @@ const ActionType = styled("div", {
       deleteAccount: {
         backgroundColor: "#FAF2F2",
       },
+      delegateAction: {
+        backgroundColor: "#EEFAFF",
+      },
     },
   },
 });

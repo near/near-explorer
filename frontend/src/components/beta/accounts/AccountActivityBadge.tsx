@@ -51,6 +51,9 @@ const Wrapper = styled("div", {
       batch: {
         backgroundColor: "#E9E8E8",
       },
+      delegateAction: {
+        backgroundColor: "#EEFAFF",
+      },
     },
   },
 });

@@ -64,6 +64,10 @@ export type Action =
       args: {
         beneficiaryId: string;
       };
+    }
+  | {
+      kind: "delegateAction";
+      args: {};
     };
 
 type DatabaseArgs =
@@ -89,6 +93,7 @@ type DatabaseTransferArgs = Extract<
   Exclude<DatabaseArgs, DatabaseFunctionCallArgs>,
   { deposit: unknown }
 >;
+type DatabaseDelegateArgs = {};
 
 type DatabaseActionMapping = {
   ADD_KEY: DatabaseAddKeyArgs;
@@ -99,6 +104,7 @@ type DatabaseActionMapping = {
   FUNCTION_CALL: DatabaseFunctionCallArgs;
   STAKE: DatabaseStakeArgs;
   TRANSFER: DatabaseTransferArgs;
+  DELEGATE_ACTION: DatabaseDelegateArgs;
 };
 
 type ArgsTuple<Mapping extends DatabaseActionMapping = DatabaseActionMapping> =
@@ -187,6 +193,11 @@ const mapDatabaseActionToAction = (...[kind, args]: ArgsTuple): Action => {
         args: {
           deposit: args.deposit,
         },
+      };
+    case "DELEGATE_ACTION":
+      return {
+        kind: "delegateAction",
+        args: {},
       };
   }
 };

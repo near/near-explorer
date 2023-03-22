@@ -206,6 +206,9 @@ const deleteKey: TransactionMessageRenderers["deleteKey"] = React.memo(
   }
 );
 
+const delegateAction: TransactionMessageRenderers["delegateAction"] =
+  React.memo(() => <>Delegate action: not yet implemented</>);
+
 const transactionMessageRenderers: TransactionMessageRenderers = {
   createAccount,
   deleteAccount,
@@ -215,6 +218,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   stake,
   addKey,
   deleteKey,
+  delegateAction,
 };
 
 const ActionMessage: React.FC<Props<Action>> = React.memo((props) => {

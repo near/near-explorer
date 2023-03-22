@@ -15,4 +15,5 @@ export default {
   stake,
   addKey,
   deleteKey: deleteAccount,
+  delegateAction: functionCall,
 };
