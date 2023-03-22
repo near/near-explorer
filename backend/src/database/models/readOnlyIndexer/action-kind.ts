@@ -10,6 +10,7 @@ type ActionKind =
   | "STAKE"
   | "ADD_KEY"
   | "DELETE_KEY"
-  | "DELETE_ACCOUNT";
+  | "DELETE_ACCOUNT"
+  | "DELEGATE_ACTION";
 
 export default ActionKind;

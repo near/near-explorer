@@ -58,6 +58,12 @@ export default interface ActionReceiptActions {
   receipt_receiver_account_id: string;
 
   receipt_included_in_block_timestamp: string;
+
+  is_delegate_action: boolean;
+
+  delegate_parameters: unknown | null;
+
+  delegate_parent_index_in_action_receipt: number | null;
 }
 
 /** Represents the initializer for the table public.action_receipt_actions */
@@ -109,6 +115,12 @@ export interface ActionReceiptActionsInitializer {
   receipt_receiver_account_id: string;
 
   receipt_included_in_block_timestamp: string;
+
+  is_delegate_action: boolean;
+
+  delegate_parameters?: unknown | null;
+
+  delegate_parent_index_in_action_receipt?: number | null;
 }
 
 /** Represents the mutator for the table public.action_receipt_actions */
@@ -160,4 +172,10 @@ export interface ActionReceiptActionsMutator {
   receipt_receiver_account_id?: string;
 
   receipt_included_in_block_timestamp?: string;
+
+  is_delegate_action?: boolean;
+
+  delegate_parameters?: unknown | null;
+
+  delegate_parent_index_in_action_receipt?: number | null;
 }

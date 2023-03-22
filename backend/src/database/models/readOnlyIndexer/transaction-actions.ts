@@ -52,6 +52,12 @@ export default interface TransactionActions {
         stake: string;
       }
     | { deposit: string };
+
+  is_delegate_action: boolean;
+
+  delegate_parameters: unknown | null;
+
+  delegate_parent_index_in_transaction: number | null;
 }
 
 /** Represents the initializer for the table public.transaction_actions */
@@ -97,6 +103,12 @@ export interface TransactionActionsInitializer {
         stake: string;
       }
     | { deposit: string };
+
+  is_delegate_action: boolean;
+
+  delegate_parameters?: unknown | null;
+
+  delegate_parent_index_in_transaction?: number | null;
 }
 
 /** Represents the mutator for the table public.transaction_actions */
@@ -142,4 +154,10 @@ export interface TransactionActionsMutator {
         stake: string;
       }
     | { deposit: string };
+
+  is_delegate_action?: boolean;
+
+  delegate_parameters?: unknown | null;
+
+  delegate_parent_index_in_transaction?: number | null;
 }

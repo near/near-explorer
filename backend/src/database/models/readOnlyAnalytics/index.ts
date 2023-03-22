@@ -223,17 +223,17 @@ export type {
   TransactionsWithConvertedReceiptsReceiptId,
 } from "./transactions-with-converted-receipts";
 export type {
-  default as DailyNewUniqueContractsCount,
-  DailyNewUniqueContractsCountInitializer,
-  DailyNewUniqueContractsCountMutator,
-  DailyNewUniqueContractsCountCollectedForDay,
-} from "./daily-new-unique-contracts-count";
-export type {
   default as NearEcosystemEntities,
   NearEcosystemEntitiesInitializer,
   NearEcosystemEntitiesMutator,
   NearEcosystemEntitiesSlug,
 } from "./near-ecosystem-entities";
+export type {
+  default as DailyNewUniqueContractsCount,
+  DailyNewUniqueContractsCountInitializer,
+  DailyNewUniqueContractsCountMutator,
+  DailyNewUniqueContractsCountCollectedForDay,
+} from "./daily-new-unique-contracts-count";
 export type {
   default as DeployedContracts,
   DeployedContractsInitializer,
@@ -278,9 +278,9 @@ export interface SelectorModelTypeMap {
 
   transactions_with_converted_receipts: TransactionsWithConvertedReceipts;
 
-  daily_new_unique_contracts_count: DailyNewUniqueContractsCount;
-
   near_ecosystem_entities: NearEcosystemEntities;
+
+  daily_new_unique_contracts_count: DailyNewUniqueContractsCount;
 
   deployed_contracts: DeployedContracts;
 }
@@ -322,9 +322,9 @@ export interface InitializerModelTypeMap {
 
   transactions_with_converted_receipts: TransactionsWithConvertedReceiptsInitializer;
 
-  daily_new_unique_contracts_count: DailyNewUniqueContractsCountInitializer;
-
   near_ecosystem_entities: NearEcosystemEntitiesInitializer;
+
+  daily_new_unique_contracts_count: DailyNewUniqueContractsCountInitializer;
 
   deployed_contracts: DeployedContractsInitializer;
 }
@@ -366,9 +366,9 @@ export interface MutatorModelTypeMap {
 
   transactions_with_converted_receipts: TransactionsWithConvertedReceiptsMutator;
 
-  daily_new_unique_contracts_count: DailyNewUniqueContractsCountMutator;
-
   near_ecosystem_entities: NearEcosystemEntitiesMutator;
+
+  daily_new_unique_contracts_count: DailyNewUniqueContractsCountMutator;
 
   deployed_contracts: DeployedContractsMutator;
 }
