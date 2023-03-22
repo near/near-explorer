@@ -1,0 +1,36 @@
+name: Delete GCP Explorer Environments Tags of closed PR
+
+# only trigger on pull request closed/merged events
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  merge_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "Remove Frontend dev environment tags for closed PR"
+        run: |
+          gcloud run services update-traffic "explorer-frontend" --remove-tags "pr-$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: "Remove Backend Testnet dev environment tags for closed PR"
+        run: |
+          gcloud run services update-traffic "explorer-backend-testnet" --remove-tags "pr-$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+
+      - name: "Remove Backend Mainnet dev environment tags for closed PR"
+        run: |
+          gcloud run services update-traffic "explorer-backend-mainnet" --remove-tags "pr-$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.number }}
