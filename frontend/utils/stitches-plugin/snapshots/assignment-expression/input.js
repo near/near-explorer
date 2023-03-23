@@ -1,0 +1,1 @@
+foo = styled("div", {});

@@ -19,7 +19,19 @@
     "cy:run": "cypress run",
     "cy:typecheck": "tsc --project cypress/tsconfig.json --noEmit",
     "compile-nextjs-config": "ncc build next.config-prod.js --transpile-only --tsconfig-path nextjs.tsconfig.json --out . && mv index.js next.config.js",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "plugin:test": "ava"
+  },
+  "ava": {
+    "files": [
+      "utils/**/*.test.ts"
+    ],
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   },
   "repository": {
     "type": "git",
@@ -32,13 +44,12 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
-    "@stitches/react": "^1.2.8",
+    "@stitches/react": "^1.3.1-1",
     "@trpc/client": "^9.27.4",
     "@trpc/next": "^9.27.4",
     "@trpc/react": "^9.27.4",
     "@types/analytics-node": "^3.1.9",
     "analytics-node": "^6.2.0",
-    "babel-plugin-named-stitches-classnames": "^0.1.0",
     "bootstrap": "^4.6.1",
     "classnames": "^2.3.1",
     "country-data": "0.0.31",
@@ -75,6 +86,8 @@
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/types": "^7.21.3",
     "@svgr/webpack": "^6.1.2",
     "@types/country-data": "0.0.2",
     "@types/d3": "^5.16.4",
@@ -90,6 +103,7 @@
     "@vercel/ncc": "^0.34.0",
     "@welldone-software/why-did-you-render": "^6.2.3",
     "autoprefixer": "^10.4.0",
+    "ava": "^5.2.0",
     "babel-jest": "^27.5.1",
     "cypress": "^8.7.0",
     "file-loader": "^3.0.1",

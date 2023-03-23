@@ -1,4 +1,4 @@
 {
     "presets": ["next/babel"],
-    "plugins": ["named-stitches-classnames"]
+    "plugins": ["./utils/stitches-plugin/plugin.ts"]
 }
