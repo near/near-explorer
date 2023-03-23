@@ -70,9 +70,9 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
           <Title>Client:</Title>
           <div>Branch: {client.branch}</div>
           <div>Commit: {client.commit}</div>
-          <div>Instance id: {client.instanceId}</div>
-          <div>Service id: {client.serviceId}</div>
           <div>Service name: {client.serviceName}</div>
+          <div>Revision id: {client.revisionId}</div>
+          <div>Instance id: {client.instanceId}</div>
         </Section>
         <Section>
           <Title>Server:</Title>
@@ -80,9 +80,9 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
             <>
               <div>Branch: {server.branch}</div>
               <div>Commit: {server.commit}</div>
-              <div>Instance id: {server.instanceId}</div>
-              <div>Service id: {server.serviceId}</div>
               <div>Service name: {server.serviceName}</div>
+              <div>Revision id: {server.revisionId}</div>
+              <div>Instance id: {server.instanceId}</div>
             </>
           ) : (
             <Spinner animation="border" />
