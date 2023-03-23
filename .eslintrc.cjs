@@ -138,6 +138,7 @@ module.exports = {
                     "src/testing/**/*",
                     "src/libraries/wdyr.ts",
                     "jest.config.ts",
+                    "utils/stitches-plugin/**/*",
                 ],
             ],
             ["backend", ["kanel.ts"]],

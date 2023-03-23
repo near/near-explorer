@@ -10,6 +10,7 @@ const createJestConfig = nextJest({
 export default createJestConfig({
   setupFiles: ["<rootDir>/jest.setup.ts"],
   testRegex: "(\\.|/)test\\.[jt]sx?$",
+  testPathIgnorePatterns: ["/node_modules/", "./utils/"],
   testEnvironment: "<rootDir>/src/testing/env.ts",
   collectCoverage: false,
   timers: "modern",
