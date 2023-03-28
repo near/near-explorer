@@ -12,13 +12,12 @@ const FooterContainer = styled(Container, {
   fontSize: 12,
   lineHeight: "40px",
   color: "#999999",
-  height: 118,
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "row",
+  marginTop: "auto",
 
   "& > .col-12": {
-    minHeight: 70,
     paddingTop: 20,
     paddingBottom: 25,
   },
@@ -26,8 +25,7 @@ const FooterContainer = styled(Container, {
   "@media (max-width: 767.98px)": {
     flexDirection: "column-reverse",
     padding: 0,
-    height: 92,
-    marginTop: 144,
+    height: "auto",
   },
 });
 

@@ -103,8 +103,9 @@ const BackgroundImage = styled("img", {
 });
 
 const AppWrapper = styled("div", {
-  position: "relative",
-  minHeight: "calc(100vh - 120px)",
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
 });
 
 const {
@@ -237,9 +238,9 @@ const InnerApp: React.FC<AppPropsType> = React.memo(
             <ToastController />
             <BackgroundImage src="/static/images/explorer-bg.svg" />
             {offline ? <OfflineSplash /> : <Component {...restPageProps} />}
+            <Footer />
+            <DeployInfo client={deployInfo} />
           </AppWrapper>
-          <Footer />
-          <DeployInfo client={deployInfo} />
           <ReactQueryDevtools />
         </AppContextWrapper>
         {googleAnalytics ? (
