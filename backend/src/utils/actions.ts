@@ -281,6 +281,12 @@ export const mapRpcActionToAction = (rpcAction: RPC.ActionView): Action => {
       },
     };
   }
+  if ("Delegate" in rpcAction) {
+    return {
+      kind: "delegateAction",
+      args: {},
+    };
+  }
   return {
     kind: "deleteAccount",
     args: {
