@@ -10,6 +10,7 @@ import {
   defaultGenerateIdentifierType,
   PreRenderHook,
   defaultGetPropertyMetadata,
+  InstantiatedConfig,
 } from "kanel";
 import path from "path";
 
@@ -177,6 +178,23 @@ const generateTypeMappings: PreRenderHook = async (
   };
 };
 
+const withSortedTables = (
+  instantiatedConfig: InstantiatedConfig
+): InstantiatedConfig => ({
+  ...instantiatedConfig,
+  schemas: Object.fromEntries(
+    Object.entries(instantiatedConfig.schemas).map(([key, schema]) => [
+      key,
+      {
+        ...schema,
+        tables: [...schema.tables].sort((tableA, tableB) =>
+          tableA.name.localeCompare(tableB.name)
+        ),
+      },
+    ])
+  ),
+});
+
 /* eslint-disable no-console */
 
 const run = async () => {
@@ -251,7 +269,10 @@ const run = async () => {
           typeFilter: (type) =>
             type.kind !== "table" || type.name !== "__diesel_schema_migrations",
           enumStyle: "type",
-          preRenderHooks: [generateIndexFile, generateTypeMappings],
+          preRenderHooks: [generateIndexFile, generateTypeMappings].map(
+            (hook) => (output, instantiatedConfig) =>
+              hook(output, withSortedTables(instantiatedConfig))
+          ),
           schemas: ["public"],
           outputPath: path.join(__dirname, "src/database/models", database),
         });
