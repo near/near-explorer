@@ -111,10 +111,47 @@ type ReceiptActionError =
     }
   | { type: "onlyImplicitAccountCreationAllowed"; accountId: string }
   | { type: "deleteAccountWithLargeState"; accountId: string }
+  | { type: "delegateActionExpired" }
+  | { type: "delegateActionInvalidSignature" }
+  | {
+      type: "delegateActionSenderDoesNotMatchTxReceiver";
+      receiverId: string;
+      senderId: string;
+    }
+  | { type: "delegateActionAccessKeyError"; error: InvalidAccessKeyError }
+  | {
+      type: "delegateActionInvalidNonce";
+      akNonce: number;
+      delegateNonce: number;
+    }
+  | {
+      type: "delegateActionNonceTooLarge";
+      delegateNonce: number;
+      upperBound: number;
+    }
+  | UnknownError;
+
+type InvalidAccessKeyError =
+  | { type: "depositWithFunctionCall" }
+  | { type: "requiresFullAccess" }
+  | { type: "accessKeyNotFound"; accountId: string; publicKey: string }
+  | {
+      type: "receiverMismatch";
+      akReceiver: string;
+      transactionReceiver: string;
+    }
+  | { type: "methodNameMismatch"; methodName: string }
+  | {
+      type: "notEnoughAllowance";
+      accountId: string;
+      allowance: string;
+      cost: string;
+      publicKey: string;
+    }
   | UnknownError;
 
 type ReceiptTransactionError =
-  | { type: "invalidAccessKeyError" }
+  | { type: "invalidAccessKeyError"; error: InvalidAccessKeyError }
   | { type: "invalidSignerId"; signerId: string }
   | { type: "signerDoesNotExist"; signerId: string }
   | { type: "invalidNonce"; transactionNonce: number; akNonce: number }
@@ -291,12 +328,58 @@ const mapRpcNewReceiptValidationError = (
   return UNKNOWN_ERROR;
 };
 
+const mapRpcInvalidAccessKeyError = (
+  error: RPC.InvalidAccessKeyError
+): InvalidAccessKeyError => {
+  if (error === "DepositWithFunctionCall") {
+    return {
+      type: "depositWithFunctionCall",
+    };
+  }
+  if (error === "RequiresFullAccess") {
+    return {
+      type: "requiresFullAccess",
+    };
+  }
+  if ("AccessKeyNotFound" in error) {
+    return {
+      type: "accessKeyNotFound",
+      accountId: error.AccessKeyNotFound.account_id,
+      publicKey: error.AccessKeyNotFound.public_key,
+    };
+  }
+  if ("ReceiverMismatch" in error) {
+    return {
+      type: "receiverMismatch",
+      akReceiver: error.ReceiverMismatch.ak_receiver,
+      transactionReceiver: error.ReceiverMismatch.tx_receiver,
+    };
+  }
+  if ("MethodNameMismatch" in error) {
+    return {
+      type: "methodNameMismatch",
+      methodName: error.MethodNameMismatch.method_name,
+    };
+  }
+  if ("NotEnoughAllowance" in error) {
+    return {
+      type: "notEnoughAllowance",
+      accountId: error.NotEnoughAllowance.account_id,
+      allowance: error.NotEnoughAllowance.allowance,
+      cost: error.NotEnoughAllowance.cost,
+      publicKey: error.NotEnoughAllowance.public_key,
+    };
+  }
+  return UNKNOWN_ERROR;
+};
+
 const mapRpcReceiptInvalidTxError = (
   error: RPC.InvalidTxError
 ): ReceiptTransactionError => {
   if ("InvalidAccessKeyError" in error) {
     return {
       type: "invalidAccessKeyError",
+      error: mapRpcInvalidAccessKeyError(error.InvalidAccessKeyError),
     };
   }
   if ("InvalidSignerId" in error) {
@@ -385,6 +468,43 @@ const mapRpcReceiptActionError = (
   error: RPC.ActionError
 ): ReceiptActionError => {
   const { kind } = error;
+  if (kind === "DelegateActionExpired") {
+    return {
+      type: "delegateActionExpired",
+    };
+  }
+  if (kind === "DelegateActionInvalidSignature") {
+    return {
+      type: "delegateActionInvalidSignature",
+    };
+  }
+  if ("DelegateActionSenderDoesNotMatchTxReceiver" in kind) {
+    return {
+      type: "delegateActionSenderDoesNotMatchTxReceiver",
+      receiverId: kind.DelegateActionSenderDoesNotMatchTxReceiver.receiver_id,
+      senderId: kind.DelegateActionSenderDoesNotMatchTxReceiver.sender_id,
+    };
+  }
+  if ("DelegateActionAccessKeyError" in kind) {
+    return {
+      type: "delegateActionAccessKeyError",
+      error: mapRpcInvalidAccessKeyError(kind.DelegateActionAccessKeyError),
+    };
+  }
+  if ("DelegateActionInvalidNonce" in kind) {
+    return {
+      type: "delegateActionInvalidNonce",
+      akNonce: kind.DelegateActionInvalidNonce.ak_nonce,
+      delegateNonce: kind.DelegateActionInvalidNonce.delegate_nonce,
+    };
+  }
+  if ("DelegateActionNonceTooLarge" in kind) {
+    return {
+      type: "delegateActionNonceTooLarge",
+      delegateNonce: kind.DelegateActionNonceTooLarge.delegate_nonce,
+      upperBound: kind.DelegateActionNonceTooLarge.upper_bound,
+    };
+  }
   if ("AccountAlreadyExists" in kind) {
     return {
       type: "accountAlreadyExists",

@@ -689,6 +689,36 @@ export type NewReceiptValidationError =
     }
   | { ActionsValidation: ActionsValidation };
 
+// https://docs.rs/near-primitives/0.16.0/near_primitives/errors/enum.InvalidAccessKeyError.html
+export type InvalidAccessKeyError =
+  | {
+      AccessKeyNotFound: {
+        account_id: AccountId;
+        public_key: PublicKey;
+      };
+    }
+  | {
+      ReceiverMismatch: {
+        tx_receiver: AccountId;
+        ak_receiver: String;
+      };
+    }
+  | {
+      MethodNameMismatch: {
+        method_name: String;
+      };
+    }
+  | "RequiresFullAccess"
+  | {
+      NotEnoughAllowance: {
+        account_id: AccountId;
+        public_key: PublicKey;
+        allowance: Balance;
+        cost: Balance;
+      };
+    }
+  | "DepositWithFunctionCall";
+
 type ActionErrorKind =
   | { AccountAlreadyExists: { account_id: AccountId } }
   | { AccountDoesNotExist: { account_id: AccountId } }
@@ -729,7 +759,23 @@ type ActionErrorKind =
   | { FunctionCallError: FunctionCallError }
   | { NewReceiptValidationError: NewReceiptValidationError }
   | { OnlyImplicitAccountCreationAllowed: { account_id: AccountId } }
-  | { DeleteAccountWithLargeState: { account_id: AccountId } };
+  | { DeleteAccountWithLargeState: { account_id: AccountId } }
+  | "DelegateActionInvalidSignature"
+  | {
+      DelegateActionSenderDoesNotMatchTxReceiver: {
+        sender_id: AccountId;
+        receiver_id: AccountId;
+      };
+    }
+  | "DelegateActionExpired"
+  | { DelegateActionAccessKeyError: InvalidAccessKeyError }
+  | { DelegateActionInvalidNonce: { delegate_nonce: Nonce; ak_nonce: Nonce } }
+  | {
+      DelegateActionNonceTooLarge: {
+        delegate_nonce: Nonce;
+        upper_bound: Nonce;
+      };
+    };
 
 export type ActionError = {
   index: U64;
@@ -737,8 +783,7 @@ export type ActionError = {
 };
 
 export type InvalidTxError =
-  // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.InvalidAccessKeyError.html
-  | { InvalidAccessKeyError: unknown }
+  | { InvalidAccessKeyError: InvalidAccessKeyError }
   | { InvalidSignerId: { signer_id: String } }
   | { SignerDoesNotExist: { signer_id: AccountId } }
   | { InvalidNonce: { tx_nonce: Nonce; ak_nonce: Nonce } }
@@ -812,7 +857,20 @@ export type FinalExecutionOutcomeView = {
   receipts_outcome: Vec<ExecutionOutcomeWithIdView>;
 };
 
-// https://docs.rs/near-primitives/0.12.0/near_primitives/views/enum.ActionView.html
+// https://docs.rs/near-primitives/0.16.0/near_primitives/delegate_action/struct.NonDelegateAction.html
+export type NonDelegateActionView = Exclude<ActionView, DelegateActionView>;
+
+// https://docs.rs/near-primitives/0.16.0/near_primitives/delegate_action/struct.DelegateAction.html
+export type DelegateAction = {
+  sender_id: AccountId;
+  receiver_id: AccountId;
+  actions: Vec<NonDelegateActionView>;
+  nonce: Nonce;
+  max_block_height: BlockHeight;
+  public_key: PublicKey;
+};
+
+// https://docs.rs/near-primitives/0.16.0/near_primitives/views/enum.ActionView.html
 export type DeployContractActionView = {
   DeployContract: {
     code: String;
@@ -853,6 +911,12 @@ export type DeleteAccountActionView = {
     beneficiary_id: AccountId;
   };
 };
+export type DelegateActionView = {
+  Delegate: {
+    delegate_action: DelegateAction;
+    signature: Signature;
+  };
+};
 export type ActionView =
   | "CreateAccount"
   | DeployContractActionView
@@ -861,7 +925,8 @@ export type ActionView =
   | StakeActionView
   | AddKeyActionView
   | DeleteKeyActionView
-  | DeleteAccountActionView;
+  | DeleteAccountActionView
+  | DelegateActionView;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.DataReceiverView.html
 type DataReceiverView = {
