@@ -173,7 +173,8 @@
           "createAccount": "Account created",
           "deleteAccount": "Account removed",
           "batch": "Batch (${quantity})",
-          "validatorReward": "Validator reward"
+          "validatorReward": "Validator reward",
+          "delegateAction": "Delegate action"
         },
         "dateFormat": "dd/MM/yyyy hh:mm"
       }
@@ -206,7 +207,8 @@
         "functionCall": "",
         "createAccount": "Account created",
         "deleteAccount": "Account removed",
-        "refund": "Refund"
+        "refund": "Refund",
+        "delegateAction": "Delegate action"
       }
     }
   },

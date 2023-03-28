@@ -173,7 +173,8 @@
           "createAccount": "Создание аккаунта",
           "deleteAccount": "Удаление аккаунта",
           "batch": "Пакет (${quantity})",
-          "validatorReward": "Награда валидатора"
+          "validatorReward": "Награда валидатора",
+          "delegateAction": "Делегирование"
         },
         "dateFormat": "dd/MM/yyyy hh:mm"
       }
@@ -206,7 +207,8 @@
         "functionCall": "",
         "createAccount": "Создание аккаунта",
         "deleteAccount": "Удаление аккаунта",
-        "refund": "Сдача"
+        "refund": "Сдача",
+        "delegateAction": "Делегирование"
       }
     }
   },
