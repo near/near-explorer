@@ -8,6 +8,7 @@ import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
 import { withTRPC } from "@trpc/next";
 import Gleap from "gleap";
 import { i18n } from "i18next";
+import { NextPage } from "next";
 import { ExtraAppInitialProps, ServerAppInitialProps } from "next/app";
 import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
 import Head from "next/head";
@@ -149,6 +150,21 @@ const wrapRouterHandlerMaintainNetwork =
     );
   };
 
+type GetLayout = (page: React.ReactElement) => React.ReactNode;
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: GetLayout;
+};
+
+const defaultGetLayout: GetLayout = (children) => (
+  <AppWrapper>
+    <Header />
+    <ToastController />
+    <BackgroundImage src="/static/images/explorer-bg.svg" />
+    {children}
+    <Footer />
+  </AppWrapper>
+);
+
 type ContextProps = React.PropsWithChildren<{
   networkState: NetworkContextType;
   languageContext: LanguageContextType;
@@ -164,108 +180,101 @@ const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => (
 
 let extraAppInitialPropsCache: Omit<ExtraAppInitialProps, "getServerProps">;
 
-const InnerApp: React.FC<AppPropsType> = React.memo(
-  ({ Component, pageProps }) => {
-    const {
+const InnerApp: React.FC<
+  AppPropsType & {
+    Component: NextPageWithLayout;
+  }
+> = React.memo(({ Component, pageProps }) => {
+  const {
+    networkName,
+    language: initialLanguage,
+    deployInfo,
+    getServerProps,
+    ...restPageProps
+  } = pageProps;
+  extraAppInitialPropsCache = {
+    language: initialLanguage,
+    deployInfo,
+    networkName,
+  };
+  const serverProps = getServerProps?.();
+
+  const router = useRouter();
+  React.useEffect(() => {
+    router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
+    router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
+  }, [router]);
+
+  const [language, setLanguage] = useCookie<Language>(LANGUAGE_COOKIE, {
+    defaultValue: initialLanguage,
+  });
+
+  useI18n(serverProps?.i18n || (() => createI18n(language)), language);
+
+  React.useEffect(() => {
+    Gleap.setLanguage(language);
+  }, [language]);
+
+  useAnalyticsInit();
+  globalStyles();
+
+  const networkState = React.useMemo(
+    () => ({
       networkName,
-      language: initialLanguage,
-      deployInfo,
-      getServerProps,
-      ...restPageProps
-    } = pageProps;
-    extraAppInitialPropsCache = {
-      language: initialLanguage,
-      deployInfo,
-      networkName,
-    };
-    const serverProps = getServerProps?.();
+      networks: nearNetworks,
+    }),
+    [networkName]
+  );
+  const currentNetwork = nearNetworks[networkName];
+  const offline = Boolean(currentNetwork?.offline);
 
-    const router = useRouter();
-    React.useEffect(() => {
-      router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
-      router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
-    }, [router]);
+  const languageContext = React.useMemo(
+    () => ({ language, setLanguage }),
+    [language, setLanguage]
+  );
 
-    const [language, setLanguage] = useCookie<Language>(LANGUAGE_COOKIE, {
-      defaultValue: initialLanguage,
-    });
+  useWatchBeta();
 
-    useI18n(serverProps?.i18n || (() => createI18n(language)), language);
+  const getLayout = Component.getLayout || defaultGetLayout;
 
-    React.useEffect(() => {
-      Gleap.setLanguage(language);
-    }, [language]);
-
-    useAnalyticsInit();
-    globalStyles();
-
-    const networkState = React.useMemo(
-      () => ({
-        networkName,
-        networks: nearNetworks,
-      }),
-      [networkName]
-    );
-    const currentNetwork = nearNetworks[networkName];
-    const offline = Boolean(currentNetwork?.offline);
-
-    const languageContext = React.useMemo(
-      () => ({ language, setLanguage }),
-      [language, setLanguage]
-    );
-
-    useWatchBeta();
-
-    return (
-      <>
-        <Head>
-          <link
-            rel="shortcut icon"
-            type="image/png"
-            href="/static/favicon.ico"
+  return (
+    <>
+      <Head>
+        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <AppContextWrapper
+        networkState={networkState}
+        languageContext={languageContext}
+      >
+        {getLayout(
+          offline ? <OfflineSplash /> : <Component {...restPageProps} />
+        )}
+        <DeployInfo client={deployInfo} />
+        <ReactQueryDevtools />
+      </AppContextWrapper>
+      {googleAnalytics ? (
+        /* eslint-disable react/no-danger */ <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
           />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <AppContextWrapper
-          networkState={networkState}
-          languageContext={languageContext}
-        >
-          <AppWrapper>
-            <Header />
-            <ToastController />
-            <BackgroundImage src="/static/images/explorer-bg.svg" />
-            {offline ? <OfflineSplash /> : <Component {...restPageProps} />}
-            <Footer />
-            <DeployInfo client={deployInfo} />
-          </AppWrapper>
-          <ReactQueryDevtools />
-        </AppContextWrapper>
-        {googleAnalytics ? (
-          /* eslint-disable react/no-danger */ <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
                 gtag('config', '${googleAnalytics}');
               `,
-              }}
-            />
-          </>
-        ) : null}
-      </>
-    );
-  }
-);
+            }}
+          />
+        </>
+      ) : null}
+    </>
+  );
+});
 
 const App: AppType = ({ pageProps, ...props }) => {
   const [cookies] = React.useState(() =>
