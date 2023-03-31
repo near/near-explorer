@@ -7,7 +7,7 @@ import * as RPC from "@explorer/common/types/rpc";
 const nearRpc = new nearApi.providers.JsonRpcProvider({
   url: config.archivalRpcUrl,
   headers: config.archivalRpcApiKey
-    ? { "x-api-key": config.archivalRpcApiKey, referrer: "near-explorer" }
+    ? { "x-api-key": config.archivalRpcApiKey, referer: "near-explorer" }
     : undefined,
 });
 
