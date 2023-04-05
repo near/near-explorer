@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
@@ -13,13 +14,8 @@ import Transactions, {
 } from "@explorer/frontend/components/transactions/Transactions";
 import Content from "@explorer/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
-
-const TransactionIcon = styled(TransactionIconSvg, {
-  width: 22,
-});
+import transactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TRANSACTIONS_PER_PAGE = 1000;
 
@@ -66,21 +62,21 @@ const BlockDetail: NextPage = React.memo(() => {
       {!blockQuery.isError ? (
         <>
           <Content
-            icon={<TransactionIcon />}
+            icon={<Image src={transactionIconSvg.src} width={22} height={22} />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
             <Transactions query={query} />
           </Content>
 
           <Content
-            icon={<TransactionIcon />}
+            icon={<Image src={transactionIconSvg.src} width={22} height={22} />}
             title={<h2>{t("component.receipts.ReceiptsIncludedInBlock")}</h2>}
           >
             <ReceiptsIncludedInBlock blockHash={hash} />
           </Content>
 
           <Content
-            icon={<TransactionIcon />}
+            icon={<Image src={transactionIconSvg.src} width={22} height={22} />}
             title={<h2>{t("component.receipts.ReceiptsExecutedInBlock")}</h2>}
           >
             <ReceiptsExecutedInBlock blockHash={hash} />

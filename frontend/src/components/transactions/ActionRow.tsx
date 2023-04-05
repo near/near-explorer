@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import Image from "next/image";
+
 import { Action } from "@explorer/common/types/procedures";
 import actionIcons from "@explorer/frontend/components/transactions/ActionIcons";
 import ActionMessage from "@explorer/frontend/components/transactions/ActionMessage";
@@ -34,7 +36,7 @@ const ActionRow: React.FC<Props> = React.memo(
     status,
     isFinal,
   }) => {
-    const ActionIcon = actionIcons[action.kind];
+    const actionIcon = actionIcons[action.kind];
     return (
       <ActionRowBlock
         viewMode={viewMode}
@@ -42,7 +44,15 @@ const ActionRow: React.FC<Props> = React.memo(
         signerId={signerId}
         blockTimestamp={blockTimestamp}
         detailsLink={detailsLink}
-        icon={ActionIcon && <ActionIcon />}
+        icon={
+          actionIcon ? (
+            <Image
+              {...actionIcon}
+              width={viewMode === "compact" ? 12 : 16}
+              height={viewMode === "compact" ? 12 : 16}
+            />
+          ) : null
+        }
         title={
           <ActionMessage
             receiverId={receiverId}

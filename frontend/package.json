@@ -88,7 +88,6 @@
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/types": "^7.21.3",
-    "@svgr/webpack": "^6.1.2",
     "@types/country-data": "0.0.2",
     "@types/d3": "^5.16.4",
     "@types/isomorphic-fetch": "^0.0.36",

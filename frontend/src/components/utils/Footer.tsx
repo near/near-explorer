@@ -1,11 +1,12 @@
 import * as React from "react";
 
+import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { styled } from "@explorer/frontend/libraries/styles";
-import NearSvg from "@explorer/frontend/public/static/images/near_logo.svg";
+import nearSvg from "@explorer/frontend/public/static/images/near_logo.svg";
 
 const FooterContainer = styled(Container, {
   backgroundColor: "#f8f8f8",
@@ -29,20 +30,10 @@ const FooterContainer = styled(Container, {
   },
 });
 
-const NearLogo = styled(NearSvg, {
-  width: 100,
-  height: 60,
-  fill: "#acacac",
-
-  "@media (max-width: 767.98px)": {
-    padding: 10,
-    width: "100%",
-  },
-});
-
 const NearLogoWrapper = styled("div", {
   padding: 30,
   width: "70%",
+  alignSelf: "center",
   fontWeight: "normal",
 });
 
@@ -68,6 +59,12 @@ const FooterHelpLink = styled("a", {
   "&:hover": {
     textDecoration: "none !important",
   },
+});
+
+const LogoCol = styled(Col, {
+  opacity: 0.3,
+  display: "flex",
+  justifyContent: "center",
 });
 
 const NeedHelpContact = styled("span", {
@@ -111,9 +108,13 @@ const Footer: React.FC = React.memo(() => {
     <FooterContainer fluid>
       <NearLogoWrapper>
         <Row noGutters>
-          <Col className="align-self-center text-center px-0" xs="12" md="3">
-            <NearLogo />
-          </Col>
+          <LogoCol
+            className="align-self-center text-center px-0"
+            xs="12"
+            md="3"
+          >
+            <Image src={nearSvg.src} width={100} height={60} />
+          </LogoCol>
           <FooterLink
             className="align-self-center text-md-left text-center pl-0"
             xs="12"

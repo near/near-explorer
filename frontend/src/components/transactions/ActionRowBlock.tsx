@@ -14,10 +14,6 @@ const ActionRowImage = styled("div", {
         margin: 10,
         display: "inline",
         size: 20,
-
-        "& svg": {
-          size: 16,
-        },
       },
       compact: {
         size: 24,
@@ -27,10 +23,6 @@ const ActionRowImage = styled("div", {
         marginRight: 8,
         textAlign: "center",
         lineHeight: 1.1,
-
-        "& svg": {
-          size: 12,
-        },
       },
     },
   },

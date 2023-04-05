@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
@@ -17,16 +18,11 @@ import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use
 import { useAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
 import { useBeta } from "@explorer/frontend/hooks/use-beta";
 import { getBetaOptionsFromReq } from "@explorer/frontend/libraries/beta";
-import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 import BetaAccountPage, {
   getServerSideProps as getBetaServerSideProps,
 } from "@explorer/frontend/pages/beta/accounts/[...slug]";
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
-
-const TransactionIcon = styled(TransactionIconSvg, {
-  width: 22,
-});
+import transactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TRANSACTIONS_PER_PAGE = 10;
 
@@ -64,7 +60,7 @@ const InnerAccountDetail = React.memo<QueryProps>(({ query }) => {
           <AccountDetails account={query.data} />
           <ContractDetails accountId={query.data.accountId} />
           <Content
-            icon={<TransactionIcon />}
+            icon={<Image src={transactionIconSvg.src} width={22} height={22} />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
             className="p-0"
           >

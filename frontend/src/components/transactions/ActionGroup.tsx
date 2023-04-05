@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import Image from "next/image";
+
 import { Receipt, TransactionPreview } from "@explorer/common/types/procedures";
 import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
 import ActionRowBlock, {
@@ -7,7 +9,7 @@ import ActionRowBlock, {
 } from "@explorer/frontend/components/transactions/ActionRowBlock";
 import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import BatchTransactionIcon from "@explorer/frontend/public/static/images/icon-m-batch.svg";
+import batchTransactionIcon from "@explorer/frontend/public/static/images/icon-m-batch.svg";
 
 interface Props {
   actionGroup: Receipt | TransactionPreview;
@@ -37,7 +39,7 @@ const ActionGroup: React.FC<Props> = React.memo(
             signerId={actionGroup.signerId}
             blockTimestamp={actionGroup.blockTimestamp}
             detailsLink={detailsLink}
-            icon={icon ?? <BatchTransactionIcon />}
+            icon={icon ? <Image {...batchTransactionIcon} /> : null}
             title={title}
             status={status}
             isFinal={isFinal}

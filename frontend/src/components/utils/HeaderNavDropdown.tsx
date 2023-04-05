@@ -1,24 +1,19 @@
 import * as React from "react";
 
-import { StyledComponent } from "@stitches/react/types/styled-component";
+import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { Dropdown } from "react-bootstrap";
 
 import Link from "@explorer/frontend/components/utils/Link";
 import { globalCss, styled } from "@explorer/frontend/libraries/styles";
-import IconAccounts from "@explorer/frontend/public/static/images/icon-accounts.svg";
-import IconBlocks from "@explorer/frontend/public/static/images/icon-blocks.svg";
-import IconNodes from "@explorer/frontend/public/static/images/icon-nodes.svg";
-import IconStats from "@explorer/frontend/public/static/images/icon-stats.svg";
-import IconTransactions from "@explorer/frontend/public/static/images/icon-transactions.svg";
-
-const Icon = styled("svg", {
-  width: 16,
-  marginRight: 3,
-});
+import iconAccounts from "@explorer/frontend/public/static/images/icon-accounts.svg";
+import iconBlocks from "@explorer/frontend/public/static/images/icon-blocks.svg";
+import iconNodes from "@explorer/frontend/public/static/images/icon-nodes.svg";
+import iconStats from "@explorer/frontend/public/static/images/icon-stats.svg";
+import iconTransactions from "@explorer/frontend/public/static/images/icon-transactions.svg";
 
 const HeaderNavLink = styled(Link, {
-  display: "block",
+  display: "flex",
   color: "#a5a5a5",
   paddingTop: 10,
   paddingBottom: 15,
@@ -29,10 +24,6 @@ const HeaderNavLink = styled(Link, {
   "&:hover": {
     background: "#000000",
     color: "white",
-  },
-
-  [`&:hover ${Icon}`]: {
-    stroke: "#00c1de",
   },
 });
 
@@ -46,18 +37,16 @@ const NavText = styled("span", {
 
 interface Props {
   link: string;
-  IconElement: StyledComponent;
+  iconSrc: string;
   text: React.ReactNode;
 }
 
-const HeaderNavItem: React.FC<Props> = React.memo(
-  ({ link, IconElement, text }) => (
-    <HeaderNavLink href={link}>
-      <Icon as={IconElement} />
-      <NavText>{text}</NavText>
-    </HeaderNavLink>
-  )
-);
+const HeaderNavItem: React.FC<Props> = React.memo(({ link, iconSrc, text }) => (
+  <HeaderNavLink href={link}>
+    <Image src={iconSrc} width={16} height={16} />
+    <NavText>{text}</NavText>
+  </HeaderNavLink>
+));
 
 const ChainHeader = styled(Dropdown.Toggle, {
   color: "#000000",
@@ -113,27 +102,27 @@ const HeaderNavDropdown: React.FC = React.memo(() => {
       <HeaderDropdownMenu>
         <HeaderNavItem
           link="/accounts"
-          IconElement={IconAccounts}
+          iconSrc={iconAccounts.src}
           text={t("common.accounts.accounts")}
         />
         <HeaderNavItem
           link="/blocks"
-          IconElement={IconBlocks}
+          iconSrc={iconBlocks.src}
           text={t("common.blocks.blocks")}
         />
         <HeaderNavItem
           link="/transactions"
-          IconElement={IconTransactions}
+          iconSrc={iconTransactions.src}
           text={t("common.transactions.transactions")}
         />
         <HeaderNavItem
           link="/nodes/validators"
-          IconElement={IconNodes}
+          iconSrc={iconNodes.src}
           text={t("common.nodes.title")}
         />
         <HeaderNavItem
           link="/stats"
-          IconElement={IconStats}
+          iconSrc={iconStats.src}
           text={t("common.stats.title_charts_and_stats")}
         />
       </HeaderDropdownMenu>

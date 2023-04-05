@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { StyledComponent } from "@stitches/react/types/styled-component";
+import Image from "next/image";
 import { useTranslation } from "next-i18next";
 
 import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
@@ -9,20 +9,15 @@ import Link from "@explorer/frontend/components/utils/Link";
 import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
 import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
 import { styled } from "@explorer/frontend/libraries/styles";
-import IconAccountsSvg from "@explorer/frontend/public/static/images/icon-accounts.svg";
-import IconBlocksSvg from "@explorer/frontend/public/static/images/icon-blocks.svg";
-import IconNodesSvg from "@explorer/frontend/public/static/images/icon-nodes.svg";
-import IconStatsSvg from "@explorer/frontend/public/static/images/icon-stats.svg";
-import IconTransactionsSvg from "@explorer/frontend/public/static/images/icon-transactions.svg";
-
-const Icon = styled("svg", {
-  width: 16,
-  marginRight: 3,
-});
+import iconAccountsSvg from "@explorer/frontend/public/static/images/icon-accounts.svg";
+import iconBlocksSvg from "@explorer/frontend/public/static/images/icon-blocks.svg";
+import iconNodesSvg from "@explorer/frontend/public/static/images/icon-nodes.svg";
+import iconStatsSvg from "@explorer/frontend/public/static/images/icon-stats.svg";
+import iconTransactionsSvg from "@explorer/frontend/public/static/images/icon-transactions.svg";
 
 const HeaderNavLink = styled(Link, {
   color: "#a5a5a5",
-  display: "block",
+  display: "flex",
   paddingVertical: 14,
   paddingLeft: 16,
   width: "100%",
@@ -44,18 +39,16 @@ const NavText = styled("span", {
 
 interface Props {
   link: string;
-  IconElement: StyledComponent;
+  iconSrc: string;
   text: React.ReactNode;
 }
 
-const MobileNavItem: React.FC<Props> = React.memo(
-  ({ link, IconElement, text }) => (
-    <HeaderNavLink href={link}>
-      <Icon as={IconElement} />
-      <NavText>{text}</NavText>
-    </HeaderNavLink>
-  )
-);
+const MobileNavItem: React.FC<Props> = React.memo(({ link, iconSrc, text }) => (
+  <HeaderNavLink href={link}>
+    <Image src={iconSrc} width={16} height={16} />
+    <NavText>{text}</NavText>
+  </HeaderNavLink>
+));
 
 const MobileHeaderNav = styled("div", {
   display: "inline-block",
@@ -179,27 +172,27 @@ const MobileNavDropdown: React.FC = React.memo(() => {
           <MobileNav>{t("component.utils.HeaderNavDropdown.title")}</MobileNav>
           <MobileNavItem
             link="/accounts"
-            IconElement={IconAccountsSvg}
+            iconSrc={iconAccountsSvg.src}
             text={t("common.accounts.accounts")}
           />
           <MobileNavItem
             link="/blocks"
-            IconElement={IconBlocksSvg}
+            iconSrc={iconBlocksSvg.src}
             text={t("common.blocks.blocks")}
           />
           <MobileNavItem
             link="/transactions"
-            IconElement={IconTransactionsSvg}
+            iconSrc={iconTransactionsSvg.src}
             text={t("common.transactions.transactions")}
           />
           <MobileNavItem
             link="/nodes/validators"
-            IconElement={IconNodesSvg}
+            iconSrc={iconNodesSvg.src}
             text={t("common.nodes.title")}
           />
           <MobileNavItem
             link="/stats"
-            IconElement={IconStatsSvg}
+            iconSrc={iconStatsSvg.src}
             text={t("common.stats.title_charts_and_stats")}
           />
           <MobileNav>

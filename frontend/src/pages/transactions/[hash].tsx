@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
@@ -12,14 +13,9 @@ import TransactionOutcome from "@explorer/frontend/components/transactions/Trans
 import Content from "@explorer/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { useBeta } from "@explorer/frontend/hooks/use-beta";
-import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 import BetaTransactionPage from "@explorer/frontend/pages/beta/transactions/[hash]";
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
-
-const TransactionIcon = styled(TransactionIconSvg, {
-  width: 22,
-});
+import transactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionDetailsPage = React.memo(() => {
   const hash = useRouter().query.hash as string;
@@ -56,7 +52,7 @@ const TransactionDetailsPage = React.memo(() => {
       </Content>
       {transaction && (
         <Content
-          icon={<TransactionIcon />}
+          icon={<Image src={transactionIconSvg.src} width={22} height={22} />}
           title={<h2>{t("common.actions.actions")}</h2>}
         >
           <ActionsList
@@ -72,7 +68,7 @@ const TransactionDetailsPage = React.memo(() => {
 
       {transaction?.receipt && (
         <Content
-          icon={<TransactionIcon />}
+          icon={<Image src={transactionIconSvg.src} width={22} height={22} />}
           title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
         >
           <TransactionOutcome outcome={transaction.outcome} />

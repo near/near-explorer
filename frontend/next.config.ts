@@ -62,10 +62,6 @@ const nextConfig: ExplorerConfig & NextConfig = {
         child_process: false,
       };
     }
-    webpackConfig.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
     if (statsOptions.enabled) {
       webpackConfig.plugins.push(
         // Analyzer with foam plot

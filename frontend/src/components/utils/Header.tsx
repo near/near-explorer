@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
@@ -16,8 +17,8 @@ import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
 import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
 import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
 import { styled } from "@explorer/frontend/libraries/styles";
-import NearLogoSvg from "@explorer/frontend/public/static/images/near_logo.svg";
-import NearMiniLogoSvg from "@explorer/frontend/public/static/images/near_logo_icon.svg";
+import nearLogoSvg from "@explorer/frontend/public/static/images/near_logo.svg";
+import nearMiniLogoSvg from "@explorer/frontend/public/static/images/near_logo_icon.svg";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",
@@ -32,14 +33,9 @@ const MobileNavBarWrapper = styled(Col, {
   paddingTop: 8,
 });
 
-const NearLogo = styled(NearLogoSvg, {
-  width: 120,
-  height: 72,
+const NearLogo = styled("div", {
   padding: 6,
-});
-
-const NearMiniLogo = styled(NearMiniLogoSvg, {
-  width: 48,
+  display: "inline-flex",
 });
 
 const HeaderMainBar = styled(Row, {
@@ -75,13 +71,15 @@ const Header: React.FC = React.memo(() => {
           <HeaderMainBar noGutters>
             <Col md="6" className="d-none d-md-block d-lg-block">
               <Link href="/">
-                <NearLogo />
+                <NearLogo>
+                  <Image src={nearLogoSvg.src} width={108} height={60} />
+                </NearLogo>
               </Link>
             </Col>
 
             <Col xs="2" className="d-md-none text-left">
               <Link href="/">
-                <NearMiniLogo />
+                <Image src={nearMiniLogoSvg.src} width={48} layout="fill" />
               </Link>
             </Col>
 
