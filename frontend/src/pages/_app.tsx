@@ -20,6 +20,7 @@ import { NetworkName } from "@explorer/common/types/common";
 import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
 import { getEnvironmentVariables } from "@explorer/common/utils/environment";
 import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
+import { id } from "@explorer/common/utils/utils";
 import { DeployInfo } from "@explorer/frontend/components/utils/DeployInfo";
 import Footer from "@explorer/frontend/components/utils/Footer";
 import Header from "@explorer/frontend/components/utils/Header";
@@ -235,7 +236,9 @@ const InnerApp: React.FC<
 
   useWatchBeta();
 
-  const getLayout = Component.getLayout || defaultGetLayout;
+  const getLayout = router.query.embedded
+    ? id
+    : Component.getLayout || defaultGetLayout;
 
   return (
     <>
