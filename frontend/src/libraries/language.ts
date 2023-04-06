@@ -8,7 +8,7 @@
 import { IncomingMessage } from "http";
 
 import { getCookiesFromReq } from "@explorer/frontend/libraries/cookie";
-import { DEFAULT_LANGUAGE, Language } from "@explorer/frontend/libraries/i18n";
+import { isLanguage, Language } from "@explorer/frontend/libraries/i18n";
 
 export const LANGUAGE_COOKIE = "NEXT_LOCALE";
 
@@ -104,20 +104,10 @@ export function getAcceptedLanguage(
   }
 }
 
-const LANGUAGES: Record<Language, true> = {
-  en: true,
-  uk: true,
-  "zh-Hant": true,
-  "zh-Hans": true,
-  vi: true,
-  ru: true,
-};
-const isLanguage = (input: string): input is Language =>
-  Object.keys(LANGUAGES).includes(input);
-
 export function getLanguage(
-  languages: readonly Language[],
+  languages: Language[],
   req: IncomingMessage,
+  defaultLanguage: Language,
   acceptedLanguages?: string
 ): Language {
   const parsedCookies = getCookiesFromReq(req);
@@ -129,5 +119,5 @@ export function getLanguage(
   if (acceptedLanguage && isLanguage(acceptedLanguage)) {
     return acceptedLanguage;
   }
-  return DEFAULT_LANGUAGE;
+  return defaultLanguage;
 }

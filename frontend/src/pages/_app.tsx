@@ -7,12 +7,17 @@ import { splitLink } from "@trpc/client/links/splitLink";
 import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
 import { withTRPC } from "@trpc/next";
 import Gleap from "gleap";
-import { i18n } from "i18next";
 import { NextPage } from "next";
-import { ExtraAppInitialProps, ServerAppInitialProps } from "next/app";
+import {
+  AppInitialProps,
+  AppProps,
+  ExtraAppInitialProps,
+  ServerAppInitialProps,
+} from "next/app";
 import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
+import { appWithTranslation, SSRConfig } from "next-i18next";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import type { AppRouter } from "@explorer/backend/router";
@@ -27,16 +32,12 @@ import Header from "@explorer/frontend/components/utils/Header";
 import OfflineSplash from "@explorer/frontend/components/utils/OfflineSplash";
 import { ToastController } from "@explorer/frontend/components/utils/ToastController";
 import {
-  LanguageContext,
-  LanguageContextType,
-} from "@explorer/frontend/context/LanguageContext";
-import {
   NetworkContext,
   NetworkContextType,
 } from "@explorer/frontend/context/NetworkContext";
 import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
 import { useCookie } from "@explorer/frontend/hooks/use-cookie";
-import { useI18n } from "@explorer/frontend/hooks/use-i18n";
+import { useLanguage } from "@explorer/frontend/hooks/use-language";
 import { useWatchBeta } from "@explorer/frontend/hooks/use-watch-beta";
 import {
   getConfig,
@@ -52,7 +53,9 @@ import {
   setCachedDateLocale,
 } from "@explorer/frontend/libraries/date-locale";
 import {
-  createI18n,
+  DEFAULT_LANGUAGE,
+  getSsrProps,
+  i18nUserConfig,
   Language,
   LANGUAGES,
 } from "@explorer/frontend/libraries/i18n";
@@ -121,16 +124,15 @@ if (typeof window !== "undefined" && gleapKey) {
 declare module "next/app" {
   // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
   type ServerAppInitialProps = {
-    i18n: i18n;
     cookies: string;
   };
 
   type ExtraAppInitialProps = {
-    language: LanguageContextType["language"];
+    language: Language;
     networkName: NetworkName;
     deployInfo: DeployInfoProps;
     getServerProps?: () => ServerAppInitialProps;
-  };
+  } & SSRConfig;
 
   interface AppInitialProps {
     pageProps: ExtraAppInitialProps;
@@ -168,116 +170,113 @@ const defaultGetLayout: GetLayout = (children) => (
 
 type ContextProps = React.PropsWithChildren<{
   networkState: NetworkContextType;
-  languageContext: LanguageContextType;
 }>;
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => (
-  <LanguageContext.Provider value={props.languageContext}>
-    <NetworkContext.Provider value={props.networkState}>
-      {props.children}
-    </NetworkContext.Provider>
-  </LanguageContext.Provider>
+  <NetworkContext.Provider value={props.networkState}>
+    {props.children}
+  </NetworkContext.Provider>
 ));
 
 let extraAppInitialPropsCache: Omit<ExtraAppInitialProps, "getServerProps">;
 
-const InnerApp: React.FC<
-  AppPropsType & {
-    Component: NextPageWithLayout;
-  }
-> = React.memo(({ Component, pageProps }) => {
-  const {
-    networkName,
-    language: initialLanguage,
-    deployInfo,
-    getServerProps,
-    ...restPageProps
-  } = pageProps;
-  extraAppInitialPropsCache = {
-    language: initialLanguage,
-    deployInfo,
-    networkName,
-  };
-  const serverProps = getServerProps?.();
-
-  const router = useRouter();
-  React.useEffect(() => {
-    router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
-    router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
-  }, [router]);
-
-  const [language, setLanguage] = useCookie<Language>(LANGUAGE_COOKIE, {
-    defaultValue: initialLanguage,
-  });
-
-  useI18n(serverProps?.i18n || (() => createI18n(language)), language);
-
-  React.useEffect(() => {
-    Gleap.setLanguage(language);
-  }, [language]);
-
-  useAnalyticsInit();
-  globalStyles();
-
-  const networkState = React.useMemo(
-    () => ({
+const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
+  React.memo(({ Component, pageProps }) => {
+    const {
       networkName,
-      networks: nearNetworks,
-    }),
-    [networkName]
-  );
-  const currentNetwork = nearNetworks[networkName];
-  const offline = Boolean(currentNetwork?.offline);
+      language: initialLanguage,
+      deployInfo,
+      getServerProps,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _nextI18Next,
+      ...restPageProps
+    } = pageProps;
+    extraAppInitialPropsCache = {
+      language: initialLanguage,
+      deployInfo,
+      networkName,
+      _nextI18Next,
+    };
 
-  const languageContext = React.useMemo(
-    () => ({ language, setLanguage }),
-    [language, setLanguage]
-  );
+    const router = useRouter();
+    React.useEffect(() => {
+      router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
+      router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
+    }, [router]);
 
-  useWatchBeta();
+    const [language] = useLanguage();
+    const [, setLanguageCookie] = useCookie<Language>(LANGUAGE_COOKIE, {
+      defaultValue: language,
+    });
+    React.useEffect(() => {
+      setLanguageCookie(language);
+    }, [setLanguageCookie, language]);
 
-  const getLayout = router.query.embedded
-    ? id
-    : Component.getLayout || defaultGetLayout;
+    React.useEffect(() => {
+      Gleap.setLanguage(language);
+    }, [language]);
 
-  return (
-    <>
-      <Head>
-        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <AppContextWrapper
-        networkState={networkState}
-        languageContext={languageContext}
-      >
-        {getLayout(
-          offline ? <OfflineSplash /> : <Component {...restPageProps} />
-        )}
-        <DeployInfo client={deployInfo} />
-        <ReactQueryDevtools />
-      </AppContextWrapper>
-      {googleAnalytics ? (
-        /* eslint-disable react/no-danger */ <>
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+    useAnalyticsInit();
+    globalStyles();
+
+    const networkState = React.useMemo(
+      () => ({
+        networkName,
+        networks: nearNetworks,
+      }),
+      [networkName]
+    );
+    const currentNetwork = nearNetworks[networkName];
+    const offline = Boolean(currentNetwork?.offline);
+
+    useWatchBeta();
+
+    const getLayout = router.query.embedded
+      ? id
+      : Component.getLayout || defaultGetLayout;
+
+    return (
+      <>
+        <Head>
+          <link
+            rel="shortcut icon"
+            type="image/png"
+            href="/static/favicon.ico"
           />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <AppContextWrapper networkState={networkState}>
+          {getLayout(
+            offline ? <OfflineSplash /> : <Component {...restPageProps} />
+          )}
+          <DeployInfo client={deployInfo} />
+          <ReactQueryDevtools />
+        </AppContextWrapper>
+        {googleAnalytics ? (
+          /* eslint-disable react/no-danger */ <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
                 gtag('config', '${googleAnalytics}');
               `,
-            }}
-          />
-        </>
-      ) : null}
-    </>
-  );
-});
+              }}
+            />
+          </>
+        ) : null}
+      </>
+    );
+  });
 
 const App: AppType = ({ pageProps, ...props }) => {
   const [cookies] = React.useState(() =>
@@ -300,11 +299,11 @@ App.getInitialProps = async (appContext) => {
     const language = getLanguage(
       LANGUAGES,
       req,
+      DEFAULT_LANGUAGE,
       req.headers["accept-language"]
     );
     const deployInfo = await getEnvironmentVariables("frontend");
     const serverProps: ServerAppInitialProps = {
-      i18n: createI18n(language),
       cookies: req.headers.cookie ?? "",
     };
     if (!getCachedDateLocale(language)) {
@@ -315,6 +314,7 @@ App.getInitialProps = async (appContext) => {
       networkName: getNearNetworkName(appContext.ctx.query, req.headers.host),
       language,
       getServerProps: () => serverProps,
+      ...(await getSsrProps(language)),
     };
     appContext.ctx.res!.setHeader("set-cookie", [
       // We forgot to append a path to our cookie so now we may have
@@ -384,4 +384,9 @@ export default withTRPC<AppRouter, ExtraAppInitialProps>({
     };
   },
   ssr: true,
-})(App);
+})(
+  appWithTranslation(
+    App as React.ComponentType<AppProps & AppInitialProps>,
+    i18nUserConfig
+  )
+);

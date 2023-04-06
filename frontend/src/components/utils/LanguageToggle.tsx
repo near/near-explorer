@@ -1,8 +1,6 @@
 import * as React from "react";
 
-import { useTranslation } from "next-i18next";
-
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { useLanguage } from "@explorer/frontend/hooks/use-language";
 import { Language, LANGUAGES } from "@explorer/frontend/libraries/i18n";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -60,14 +58,13 @@ type Props = {
 };
 
 const LanguageToggle: React.FC<Props> = React.memo((props) => {
-  const { i18n } = useTranslation();
-  const { setLanguage } = React.useContext(LanguageContext);
+  const [language, setLanguage] = useLanguage();
 
   return (
     <LangSelector
       name="lang"
-      value={i18n.language}
-      onChange={(e) => setLanguage(e.currentTarget.value as Language)}
+      value={language}
+      onChange={(e) => setLanguage(e.currentTarget.value)}
       type={props.mobile ? "mobile" : "desktop"}
     >
       {LANGUAGES.map((langCode) => (
