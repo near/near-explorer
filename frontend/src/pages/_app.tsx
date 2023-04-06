@@ -60,7 +60,7 @@ import {
   LANGUAGES,
 } from "@explorer/frontend/libraries/i18n";
 import {
-  getLanguage,
+  getServerLanguage,
   LANGUAGE_COOKIE,
 } from "@explorer/frontend/libraries/language";
 import { globalCss, styled } from "@explorer/frontend/libraries/styles";
@@ -145,12 +145,13 @@ const wrapRouterHandlerMaintainNetwork =
     originalHandler: NextRouter["replace"]
   ): NextRouter["replace"] =>
   (href, as, ...args) => {
-    const { network } = router.query;
-    return originalHandler(
-      network ? `${href}?network=${network}` : href,
-      network ? `${as}?network=${network}` : as,
-      ...args
-    );
+    const { network, language } = router.query;
+    const params = Object.entries({ network, language })
+      .map(([key, value]) => (value ? `${key}=${value}` : ""))
+      .filter(Boolean)
+      .join(`&`);
+    const tail = `${params.length === 0 ? "" : "?"}${params}`;
+    return originalHandler(`${href}${tail}`, `${as}${tail}`, ...args);
   };
 
 type GetLayout = (page: React.ReactElement) => React.ReactNode;
@@ -204,14 +205,15 @@ const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
       router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
     }, [router]);
 
-    const [language] = useLanguage();
+    const [language, , isQuery] = useLanguage();
     const [, setLanguageCookie] = useCookie<Language>(LANGUAGE_COOKIE, {
       defaultValue: language,
     });
     React.useEffect(() => {
-      setLanguageCookie(language);
-    }, [setLanguageCookie, language]);
-
+      if (!isQuery) {
+        setLanguageCookie(language);
+      }
+    }, [setLanguageCookie, language, isQuery]);
     React.useEffect(() => {
       Gleap.setLanguage(language);
     }, [language]);
@@ -296,12 +298,9 @@ App.getInitialProps = async (appContext) => {
   let initialProps: ExtraAppInitialProps;
   if (req) {
     // Being server-side can be detected with 'req' existence
-    const language = getLanguage(
-      LANGUAGES,
-      req,
-      DEFAULT_LANGUAGE,
-      req.headers["accept-language"]
-    );
+    const { query: queryLanguage, default: defaultLanguage } =
+      getServerLanguage(LANGUAGES, DEFAULT_LANGUAGE, req, appContext.ctx.query);
+    const language = queryLanguage || defaultLanguage;
     const deployInfo = await getEnvironmentVariables("frontend");
     const serverProps: ServerAppInitialProps = {
       cookies: req.headers.cookie ?? "",
@@ -320,8 +319,8 @@ App.getInitialProps = async (appContext) => {
       // We forgot to append a path to our cookie so now we may have
       // a bunch of different language cookies for each path.
       // So we're wiping them out and putting a proper one.
-      `${LANGUAGE_COOKIE}=${language}; Max-Age=-1; Path=${appContext.ctx.pathname}`,
-      `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}; Path=/`,
+      `${LANGUAGE_COOKIE}=${defaultLanguage}; Max-Age=-1; Path=${appContext.ctx.pathname}`,
+      `${LANGUAGE_COOKIE}=${defaultLanguage}; Max-Age=${YEAR / 1000}; Path=/`,
     ]);
   } else {
     // This branch is called only on page change hence we don't need to calculate language at the moment

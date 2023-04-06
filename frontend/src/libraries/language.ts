@@ -6,6 +6,7 @@
  */
 
 import { IncomingMessage } from "http";
+import { ParsedUrlQuery } from "querystring";
 
 import { getCookiesFromReq } from "@explorer/frontend/libraries/cookie";
 import { isLanguage, Language } from "@explorer/frontend/libraries/i18n";
@@ -104,20 +105,39 @@ export function getAcceptedLanguage(
   }
 }
 
-export function getLanguage(
-  languages: Language[],
-  req: IncomingMessage,
+export const getQueryLanguage = (query: ParsedUrlQuery) => {
+  const queryLanguage = Array.isArray(query.language)
+    ? query.language[0]
+    : query.language;
+  if (isLanguage(queryLanguage)) {
+    return queryLanguage;
+  }
+};
+
+const getDefaultServerLanguage = (
+  languages: readonly Language[],
   defaultLanguage: Language,
-  acceptedLanguages?: string
-): Language {
+  req: IncomingMessage
+) => {
   const parsedCookies = getCookiesFromReq(req);
   const languageCookie = parsedCookies.get(LANGUAGE_COOKIE);
   if (languageCookie && isLanguage(languageCookie)) {
     return languageCookie;
   }
+  const acceptedLanguages = req.headers["accept-language"];
   const acceptedLanguage = getAcceptedLanguage(languages, acceptedLanguages);
   if (acceptedLanguage && isLanguage(acceptedLanguage)) {
     return acceptedLanguage;
   }
   return defaultLanguage;
-}
+};
+
+export const getServerLanguage = (
+  languages: readonly Language[],
+  defaultLanguage: Language,
+  req: IncomingMessage,
+  query: ParsedUrlQuery
+): { query: Language | undefined; default: Language } => ({
+  query: getQueryLanguage(query),
+  default: getDefaultServerLanguage(languages, defaultLanguage, req),
+});
