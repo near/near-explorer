@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LanguageContext } from "@explorer/frontend/context/LanguageContext";
+import { useLanguage } from "@explorer/frontend/hooks/use-language";
 import {
   getDateLocale,
   getCachedDateLocale,
@@ -8,7 +8,7 @@ import {
 } from "@explorer/frontend/libraries/date-locale";
 
 export const useDateLocale = () => {
-  const { language } = React.useContext(LanguageContext);
+  const [language] = useLanguage();
   const [locale, setLocale] = React.useState(getCachedDateLocale(language));
   React.useEffect(() => {
     const cachedLocale = getCachedDateLocale(language);
