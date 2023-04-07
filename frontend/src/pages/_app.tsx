@@ -45,6 +45,7 @@ import {
 } from "@explorer/frontend/libraries/config";
 import {
   CookieContext,
+  getClientCookiesSafe,
   getCookiesFromString,
 } from "@explorer/frontend/libraries/cookie";
 import {
@@ -283,7 +284,7 @@ const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
 const App: AppType = ({ pageProps, ...props }) => {
   const [cookies] = React.useState(() =>
     getCookiesFromString(
-      pageProps.getServerProps?.().cookies ?? document.cookie
+      pageProps.getServerProps?.().cookies ?? getClientCookiesSafe()
     )
   );
   return (
