@@ -152,7 +152,11 @@ const wrapRouterHandlerMaintainNetwork =
       .filter(Boolean)
       .join(`&`);
     const tail = `${params.length === 0 ? "" : "?"}${params}`;
-    return originalHandler(`${href}${tail}`, `${as}${tail}`, ...args);
+    return originalHandler(
+      typeof href === "string" ? `${href}${tail}` : href,
+      typeof as === "string" ? `${as}${tail}` : as,
+      ...args
+    );
   };
 
 type GetLayout = (page: React.ReactElement) => React.ReactNode;
