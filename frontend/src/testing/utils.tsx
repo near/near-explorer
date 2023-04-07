@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import fetch from "isomorphic-fetch";
+import { RouterContext } from "next/dist/shared/lib/router-context";
+import { NextRouter } from "next/router";
 import { setI18n } from "react-i18next";
 import * as ReactQuery from "react-query";
 import renderer, {
@@ -25,6 +27,29 @@ const networkContext: NetworkContextType = {
   },
 };
 
+const mockRouter: NextRouter = {
+  basePath: "",
+  pathname: "/",
+  route: "/",
+  asPath: "/",
+  query: {},
+  push: jest.fn(),
+  replace: jest.fn(),
+  reload: jest.fn(),
+  back: jest.fn(),
+  prefetch: jest.fn(),
+  beforePopState: jest.fn(),
+  events: {
+    on: jest.fn(),
+    off: jest.fn(),
+    emit: jest.fn(),
+  },
+  isFallback: false,
+  isLocaleDomain: false,
+  isReady: false,
+  isPreview: false,
+};
+
 export const renderElement = (
   nextElement: React.ReactNode,
   options?: TestRendererOptions
@@ -42,7 +67,9 @@ export const renderElement = (
       <trpc.Provider queryClient={queryClient} client={client}>
         <ReactQuery.QueryClientProvider client={queryClient}>
           <NetworkContext.Provider value={networkContext}>
-            {nextElement}
+            <RouterContext.Provider value={mockRouter}>
+              {nextElement}
+            </RouterContext.Provider>
           </NetworkContext.Provider>
         </ReactQuery.QueryClientProvider>
       </trpc.Provider>,

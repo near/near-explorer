@@ -58,7 +58,10 @@ type Props = {
 };
 
 const LanguageToggle: React.FC<Props> = React.memo((props) => {
-  const [language, setLanguage] = useLanguage();
+  const [language, setLanguage, isQuery] = useLanguage();
+  if (isQuery) {
+    return null;
+  }
 
   return (
     <LangSelector
