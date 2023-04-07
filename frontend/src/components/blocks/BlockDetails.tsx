@@ -16,6 +16,7 @@ import Gas from "@explorer/frontend/components/utils/Gas";
 import GasPrice from "@explorer/frontend/components/utils/GasPrice";
 import Term from "@explorer/frontend/components/utils/Term";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
+import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -60,6 +61,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
     [block.gasUsed]
   );
   const format = useDateFormat();
+  const formatNumber = useFormatNumber();
 
   return (
     <Row noGutters>
@@ -75,7 +77,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 />
               }
               imgLink="/static/images/icon-m-transaction.svg"
-              text={block.transactionsCount.toLocaleString()}
+              text={formatNumber(block.transactionsCount)}
               className="border-0"
             />
           </Col>

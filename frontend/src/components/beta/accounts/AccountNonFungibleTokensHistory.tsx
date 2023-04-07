@@ -10,7 +10,7 @@ import {
 import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
-import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
+import Timer from "@explorer/frontend/components/utils/Timer";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
@@ -102,8 +102,6 @@ type ElementProps = {
 };
 const AccountNonFungibleTokensHistoryElement: React.FC<ElementProps> =
   React.memo(({ element }) => {
-    const formatDuration = useFormatDistance();
-
     let eventType;
     if (element.eventKind === "MINT") {
       eventType = "minted by";
@@ -124,7 +122,7 @@ const AccountNonFungibleTokensHistoryElement: React.FC<ElementProps> =
           transactionHash={element.transactionHash}
           receiptId={element.receiptId}
         />
-        <span>{formatDuration(element.timestamp)}</span>
+        <Timer time={element.timestamp} />
       </History>
     );
   });

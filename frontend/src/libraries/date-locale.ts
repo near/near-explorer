@@ -30,6 +30,10 @@ const getDateLocaleModule = (
   }
 };
 
+export const getLocaleSync = (language: LanguageCi): Locale =>
+  // eslint-disable-next-line import/no-dynamic-require, global-require
+  require(`./locales/${language}`).locale;
+
 export const getCachedDateLocale = (language: LanguageCi): Locale | undefined =>
   cachedLocales[language];
 
@@ -37,7 +41,5 @@ export const setCachedDateLocale = (language: LanguageCi, locale: Locale) => {
   cachedLocales[language] = locale;
 };
 
-export const getDateLocale = async (language: LanguageCi): Promise<Locale> => {
-  const { locale } = await getDateLocaleModule(language);
-  return locale;
-};
+export const fetchDateLocale = async (language: LanguageCi): Promise<Locale> =>
+  getDateLocaleModule(language).then(({ locale }) => locale);

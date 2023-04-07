@@ -9,6 +9,7 @@ import GasPrice from "@explorer/frontend/components/utils/GasPrice";
 import Link from "@explorer/frontend/components/utils/Link";
 import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
+import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -24,6 +25,7 @@ const DashboardTransaction: React.FC = React.memo(() => {
     "recentTransactionsCount",
   ]);
   const latestGasPriceSub = useSubscription(["latestGasPrice"]);
+  const formatNumber = useFormatNumber();
 
   return (
     <DashboardCard
@@ -53,7 +55,7 @@ const DashboardTransaction: React.FC = React.memo(() => {
             subscription={recentTransactionsCountSub}
           >
             {(recentTransactionsCount) => (
-              <>{recentTransactionsCount.toLocaleString()}</>
+              <>{formatNumber(recentTransactionsCount)}</>
             )}
           </LongCardCell>
         </Col>

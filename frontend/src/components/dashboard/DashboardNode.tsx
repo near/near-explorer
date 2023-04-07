@@ -7,12 +7,14 @@ import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
 import LinkWrapper from "@explorer/frontend/components/utils/Link";
 import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
+import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const networkStatsSub = useSubscription(["network-stats"]);
   const onlineNodesCountSub = useSubscription(["onlineNodesCount"]);
+  const formatNumber = useFormatNumber();
 
   return (
     <DashboardCard
@@ -40,7 +42,7 @@ const DashboardNode: React.FC = React.memo(() => {
                   ? t(
                       "component.dashboard.DashboardNode.nodes_validating.unavailable"
                     )
-                  : onlineNodesCount.toLocaleString()}
+                  : formatNumber(onlineNodesCount)}
               </>
             )}
           </LongCardCell>
@@ -63,7 +65,7 @@ const DashboardNode: React.FC = React.memo(() => {
           >
             {(networkStats) => (
               <LinkWrapper href="/nodes/validators">
-                {networkStats.currentValidatorsCount.toLocaleString()}
+                {formatNumber(networkStats.currentValidatorsCount)}
               </LinkWrapper>
             )}
           </LongCardCell>
