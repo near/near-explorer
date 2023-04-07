@@ -1,6 +1,7 @@
 import { merge, cloneDeep } from "lodash";
 import type { NextConfig } from "next";
 import path from "path";
+import type { Configuration } from "webpack";
 // @ts-ignore
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
@@ -53,35 +54,42 @@ const nextConfig: ExplorerConfig & NextConfig = {
     segmentWriteKey: config.segmentWriteKey,
     gleapKey: config.gleapKey,
   },
-  webpack: (webpackConfig, { isServer }) => {
-    // Fixes npm packages that depend on `fs` module
-    if (!isServer) {
-      webpackConfig.resolve.fallback = {
-        ...webpackConfig.resolve.fallback,
+  webpack: (webpackConfig: Configuration, { isServer }): Configuration => ({
+    ...webpackConfig,
+    resolve: {
+      ...webpackConfig.resolve,
+      fallback: {
+        ...webpackConfig.resolve?.fallback,
+        // Fixes npm packages that depend on `fs` module
         fs: false,
         child_process: false,
-      };
-    }
-    webpackConfig.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-    if (statsOptions.enabled) {
-      webpackConfig.plugins.push(
-        // Analyzer with foam plot
-        new BundleAnalyzerPlugin({
-          analyzerMode: "static",
-          openAnalyzer: statsOptions.openAnalyzer,
-          reportFilename: isServer
-            ? path.join(statsOptions.baseDir, "./server.html")
-            : path.join(statsOptions.baseDir, "./client.html"),
-          generateStatsFile: true,
-        })
-      );
-    }
-
-    return webpackConfig;
-  },
+      },
+    },
+    module: {
+      ...webpackConfig.module,
+      rules: [
+        ...(webpackConfig.module?.rules ?? []),
+        {
+          test: /\.svg$/,
+          use: ["@svgr/webpack"],
+        },
+      ],
+    },
+    plugins: statsOptions.enabled
+      ? [
+          ...(webpackConfig.plugins ?? []),
+          // Analyzer with foam plot
+          new BundleAnalyzerPlugin({
+            analyzerMode: "static",
+            openAnalyzer: statsOptions.openAnalyzer,
+            reportFilename: isServer
+              ? path.join(statsOptions.baseDir, "./server.html")
+              : path.join(statsOptions.baseDir, "./client.html"),
+            generateStatsFile: true,
+          }),
+        ]
+      : webpackConfig.plugins,
+  }),
   experimental: {
     externalDir: true,
   },
