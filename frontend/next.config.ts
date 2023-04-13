@@ -1,7 +1,7 @@
 import { merge, cloneDeep } from "lodash";
 import type { NextConfig } from "next";
 import path from "path";
-import type { Configuration } from "webpack";
+import type { Configuration, NormalModule } from "webpack";
 // @ts-ignore
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
@@ -12,6 +12,8 @@ import type {
   ExplorerConfig,
   NearNetwork,
 } from "@explorer/frontend/libraries/config";
+
+const IGNORED_WARN_MODULES = ["next-i18next", "i18next-fs-backend"];
 
 const statsOptions = {
   baseDir: "stats",
@@ -89,6 +91,27 @@ const nextConfig: ExplorerConfig & NextConfig = {
           }),
         ]
       : webpackConfig.plugins,
+    ignoreWarnings: [
+      ...(webpackConfig.ignoreWarnings || []),
+      (warning) => {
+        if (
+          warning.constructor.name === "ModuleDependencyWarning" &&
+          (warning as any) /* ModuleDependencyWarning has no types whatsoever */
+            .error.constructor.name === "CriticalDependencyWarning" &&
+          warning.module.constructor.name === "NormalModule"
+        ) {
+          const normalModule = warning.module as NormalModule;
+          if (
+            IGNORED_WARN_MODULES.map((ignoreModule) =>
+              `node_modules/${ignoreModule}`.includes(normalModule.resource)
+            )
+          ) {
+            return true;
+          }
+        }
+        return false;
+      },
+    ],
   }),
   experimental: {
     externalDir: true,
