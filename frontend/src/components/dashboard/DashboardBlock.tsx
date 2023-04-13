@@ -8,6 +8,7 @@ import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
 import Link from "@explorer/frontend/components/utils/Link";
 import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
 import Term from "@explorer/frontend/components/utils/Term";
+import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
 
@@ -24,6 +25,7 @@ const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockSub = useSubscription(["latestBlock"]);
   const blockProductionSpeedSub = useSubscription(["blockProductionSpeed"]);
+  const formatNumber = useFormatNumber();
 
   return (
     <DashboardCard
@@ -58,7 +60,7 @@ const DashboardBlock: React.FC = React.memo(() => {
           >
             {(latestBlock) => (
               <ElementWrapper>
-                <span>{latestBlock.height.toLocaleString()}</span>
+                <span>{formatNumber(latestBlock.height)}</span>
                 <CopyToClipboard text={latestBlock.height.toString()} />
               </ElementWrapper>
             )}

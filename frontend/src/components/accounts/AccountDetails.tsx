@@ -14,6 +14,7 @@ import StorageSize from "@explorer/frontend/components/utils/StorageSize";
 import Term from "@explorer/frontend/components/utils/Term";
 import WalletLink from "@explorer/frontend/components/utils/WalletLink";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
+import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
 import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
@@ -170,6 +171,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
     { id: account.accountId },
   ]);
   const format = useDateFormat();
+  const formatNumber = useFormatNumber();
 
   return (
     <AccountInfoContainer>
@@ -195,7 +197,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                   ) : transactionCount === undefined ? (
                     "-"
                   ) : (
-                    transactionCount.outTransactionsCount.toLocaleString()
+                    formatNumber(transactionCount.outTransactionsCount)
                   )}
                 </span>
                 &nbsp;&nbsp;
@@ -206,7 +208,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                   ) : transactionCount === undefined ? (
                     "-"
                   ) : (
-                    transactionCount.inTransactionsCount.toLocaleString()
+                    formatNumber(transactionCount.inTransactionsCount)
                   )}
                 </span>
               </>

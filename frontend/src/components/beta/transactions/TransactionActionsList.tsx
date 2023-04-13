@@ -1,11 +1,12 @@
 import * as React from "react";
 
+import { intervalToDuration } from "date-fns";
 import { useTranslation } from "next-i18next";
 
 import { Transaction } from "@explorer/common/types/procedures";
 import TransactionReceipt from "@explorer/frontend/components/beta/transactions/TransactionReceipt";
-import { useFormatDistance } from "@explorer/frontend/hooks/use-format-distance";
 import { styled } from "@explorer/frontend/libraries/styles";
+import { formatDurationString } from "@explorer/frontend/libraries/time";
 
 type Props = {
   transaction: Transaction;
@@ -72,16 +73,17 @@ const TransactionActionsList: React.FC<Props> = React.memo(
       [setExpandAll]
     );
     const { t } = useTranslation();
-    const formatDistance = useFormatDistance();
 
     const lastNestedTransaction =
       receipt.outcome.nestedReceipts[receipt.outcome.nestedReceipts.length - 1];
-    const pending = formatDistance(
-      timestamp,
-      lastNestedTransaction && "outcome" in lastNestedTransaction
-        ? lastNestedTransaction.outcome.block.timestamp
-        : undefined
-    );
+
+    const duration = intervalToDuration({
+      start: timestamp,
+      end:
+        lastNestedTransaction && "outcome" in lastNestedTransaction
+          ? lastNestedTransaction.outcome.block.timestamp
+          : Date.now(),
+    });
 
     return (
       <Container>
@@ -91,7 +93,10 @@ const TransactionActionsList: React.FC<Props> = React.memo(
               <Title>{t("pages.transaction.executionPlan")}</Title>
               <span>
                 {t("pages.transaction.processed", {
-                  time: pending,
+                  time: formatDurationString(
+                    duration,
+                    locale.durationFormatter
+                  ),
                 })}
               </span>
             </div>

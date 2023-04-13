@@ -4,7 +4,7 @@ import { initReactI18next } from "react-i18next";
 
 import {
   getCachedDateLocale,
-  getDateLocale,
+  fetchDateLocale,
   Locale,
   setCachedDateLocale,
 } from "@explorer/frontend/libraries/date-locale";
@@ -26,11 +26,9 @@ export default class extends JSDomEnvironment {
     });
     // Will use this variables in renderElement
     this.global.i18nInstance = i18nInstance;
-    let locale = getCachedDateLocale("cimode");
-    if (!locale) {
-      locale = await getDateLocale("cimode");
-      setCachedDateLocale("cimode", locale);
+    if (!getCachedDateLocale("cimode")) {
+      setCachedDateLocale("cimode", await fetchDateLocale("cimode"));
     }
-    this.global.locale = locale;
+    this.global.locale = getCachedDateLocale("cimode")!;
   }
 }
