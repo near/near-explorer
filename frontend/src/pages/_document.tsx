@@ -18,7 +18,7 @@ interface DocumentType {
 }
 
 /* eslint-disable react/no-danger */
-const Document: DocumentType = React.memo(() => (
+const Document: DocumentType = React.memo((ctx) => (
   <Html>
     <Head>
       <link
@@ -39,6 +39,16 @@ const Document: DocumentType = React.memo(() => (
         rel="stylesheet"
       />
       <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+      {/* see https://github.com/vercel/next.js/discussions/35064 */}
+      {/* eslint-disable-next-line no-underscore-dangle */}
+      {ctx.__NEXT_DATA__.query.iframe ? (
+        // This version is pinned in alpha.near.org VM
+        // See https://github.com/NearSocial/VM/releases/tag/1.2.0
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.contentWindow.min.js"
+          async
+        />
+      ) : null}
     </Head>
     <body>
       <Main />
