@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 
 import { Transaction } from "@explorer/common/types/procedures";
 import TransactionReceipt from "@explorer/frontend/components/beta/transactions/TransactionReceipt";
+import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { formatDurationString } from "@explorer/frontend/libraries/time";
 
@@ -84,6 +85,7 @@ const TransactionActionsList: React.FC<Props> = React.memo(
           ? lastNestedTransaction.outcome.block.timestamp
           : Date.now(),
     });
+    const locale = useDateLocale();
 
     return (
       <Container>

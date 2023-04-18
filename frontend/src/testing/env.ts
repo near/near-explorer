@@ -12,7 +12,7 @@ import {
 /* eslint-disable vars-on-top, no-var */
 declare global {
   var i18nInstance: i18n;
-  var locale: Locale;
+  var cachedLocale: Locale;
 }
 /* eslint-enable vars-on-top, no-var */
 
@@ -29,6 +29,6 @@ export default class extends JSDomEnvironment {
     if (!getCachedDateLocale("cimode")) {
       setCachedDateLocale("cimode", await fetchDateLocale("cimode"));
     }
-    this.global.locale = getCachedDateLocale("cimode")!;
+    this.global.cachedLocale = getCachedDateLocale("cimode")!;
   }
 }

@@ -61,7 +61,7 @@ export const renderElement = (
     url: "http://localhost/",
     fetch,
   });
-  setCachedDateLocale("cimode", global.locale);
+  setCachedDateLocale("cimode", global.cachedLocale);
   renderer.act(() => {
     root = renderer.create(
       <trpc.Provider queryClient={queryClient} client={client}>
