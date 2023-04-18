@@ -7,6 +7,7 @@ import { Action } from "@explorer/common/types/procedures";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
 import Balance from "@explorer/frontend/components/utils/Balance";
 import CodePreview from "@explorer/frontend/components/utils/CodePreview";
+import { styled } from "@explorer/frontend/libraries/styles";
 
 export interface Props<A extends Action> {
   action: A;
@@ -206,8 +207,44 @@ const deleteKey: TransactionMessageRenderers["deleteKey"] = React.memo(
   }
 );
 
+const DelegateActionsWrapper = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  marginLeft: 16,
+});
+
+const DelegateActionWrapper = styled("div", {
+  marginTop: 4,
+});
+
 const delegateAction: TransactionMessageRenderers["delegateAction"] =
-  React.memo(() => <>Delegate action: not yet implemented</>);
+  React.memo(({ action, showDetails }) => {
+    const { t } = useTranslation();
+    return (
+      <>
+        {t("component.transactions.ActionMessage.Delegate.delegated", {
+          senderId: action.args.senderId,
+        })}
+        <DelegateActionsWrapper>
+          {[...action.args.actions]
+            .sort(
+              (actionA, actionB) =>
+                actionA.delegateIndex - actionB.delegateIndex
+            )
+            .map((subaction) => (
+              <DelegateActionWrapper key={subaction.delegateIndex}>
+                {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
+                <ActionMessage
+                  receiverId={action.args.receiverId}
+                  action={subaction}
+                  showDetails={showDetails}
+                />
+              </DelegateActionWrapper>
+            ))}
+        </DelegateActionsWrapper>
+      </>
+    );
+  });
 
 const transactionMessageRenderers: TransactionMessageRenderers = {
   createAccount,

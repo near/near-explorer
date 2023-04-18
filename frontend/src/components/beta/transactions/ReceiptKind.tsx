@@ -9,7 +9,7 @@ import { styled } from "@explorer/frontend/libraries/styles";
 
 interface Props {
   action: Action;
-  onClick: React.MouseEventHandler;
+  onClick?: React.MouseEventHandler;
   isTxTypeActive: boolean;
 }
 
@@ -33,11 +33,6 @@ const ActionType = styled("div", {
   lineHeight: "21px",
   transition: "all .15s ease-in-out",
   cursor: "pointer",
-
-  "&:hover": {
-    color: "#fff",
-    backgroundColor: "#1E93FF",
-  },
 
   variants: {
     kind: {
@@ -69,6 +64,15 @@ const ActionType = styled("div", {
         backgroundColor: "#EEFAFF",
       },
     },
+
+    disabled: {
+      false: {
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#1E93FF",
+        },
+      },
+    },
   },
 });
 
@@ -98,12 +102,14 @@ const ReceiptKind: React.FC<Props> = React.memo(
 
     return (
       <Wrapper>
-        <ActionType kind={action.kind} onClick={onClick}>
+        <ActionType kind={action.kind} onClick={onClick} disabled={!onClick}>
           {t(`pages.transaction.type.${action.kind}`)}
           {action.kind === "functionCall" ? (
             <Description>{`'${action.args.methodName}'`}</Description>
           ) : null}
-          <ExpandSign>{isTxTypeActive ? "-" : "+"}</ExpandSign>
+          {onClick ? (
+            <ExpandSign>{isTxTypeActive ? "-" : "+"}</ExpandSign>
+          ) : null}
         </ActionType>
         {action.kind === "transfer" ? (
           <Description>
@@ -113,10 +119,30 @@ const ReceiptKind: React.FC<Props> = React.memo(
           </Description>
         ) : null}
 
-        {action.kind === "functionCall" && isTxTypeActive ? (
-          <ArgsWrapper>
-            <CodeArgs args={action.args.args} />
-          </ArgsWrapper>
+        {isTxTypeActive ? (
+          action.kind === "functionCall" ? (
+            <ArgsWrapper>
+              <CodeArgs args={action.args.args} />
+            </ArgsWrapper>
+          ) : action.kind === "delegateAction" ? (
+            <ArgsWrapper>
+              {t("component.transactions.ActionMessage.Delegate.delegated", {
+                senderId: action.args.senderId,
+              })}
+              {[...action.args.actions]
+                .sort(
+                  (actionA, actionB) =>
+                    actionA.delegateIndex - actionB.delegateIndex
+                )
+                .map((subaction) => (
+                  <ReceiptKind
+                    key={subaction.delegateIndex}
+                    action={subaction}
+                    isTxTypeActive={isTxTypeActive}
+                  />
+                ))}
+            </ArgsWrapper>
+          ) : null
         ) : null}
       </Wrapper>
     );

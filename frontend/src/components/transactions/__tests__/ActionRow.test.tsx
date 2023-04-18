@@ -140,4 +140,40 @@ describe("<ActionRow />", () => {
       )
     ).toMatchSnapshot();
   });
+
+  const originalSender = "alice.testnet";
+  const originalReceiver = "bob.testnet";
+  const relayer = "relayer.testnet";
+
+  const delegateAction: Action = {
+    kind: "delegateAction",
+    args: {
+      actions: [
+        { ...actionFunctionCall, delegateIndex: 0 },
+        {
+          kind: "transfer",
+          args: {
+            deposit: "1000000000000000000000000",
+          },
+          delegateIndex: 1,
+        },
+      ],
+      receiverId: originalReceiver,
+      senderId: originalSender,
+    },
+  };
+
+  it("renders delegateAction with details", () => {
+    expect(
+      renderElement(
+        <ActionRow
+          signerId={relayer}
+          receiverId={originalSender}
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
+          action={delegateAction}
+          showDetails
+        />
+      )
+    ).toMatchSnapshot();
+  });
 });

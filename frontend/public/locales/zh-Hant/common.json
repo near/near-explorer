@@ -351,6 +351,9 @@
         },
         "DeleteKey": {
           "key_deleted": "已刪除密鑰: ${public_key}..."
+        },
+        "Delegate": {
+          "delegated": "Actions delegated for ${senderId}:"
         }
       },
       "TransactionAction": {
@@ -364,6 +367,10 @@
         "signed_by": {
           "title": "簽名賬戶",
           "text": "簽名並發送交易的賬戶"
+        },
+        "delegator": {
+          "title": "Delegator",
+          "text": "The account for whom the transaction was executed by the relayer."
         },
         "receiver": {
           "title": "接收賬戶",

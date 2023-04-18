@@ -138,6 +138,9 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
 
   const latestBlockSub = useSubscription(["latestBlock"]);
   const format = useDateFormat();
+  const isDelegateAction =
+    transaction.actions.length === 1 &&
+    transaction.actions.every((action) => action.kind === "delegateAction");
 
   return (
     <TransactionInfoContainer>
@@ -165,10 +168,14 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
             title={
               <Term
                 title={t(
-                  "component.transactions.TransactionDetails.receiver.title"
+                  `component.transactions.TransactionDetails.${
+                    isDelegateAction ? "delegator" : "receiver"
+                  }.title`
                 )}
                 text={t(
-                  "component.transactions.TransactionDetails.receiver.text"
+                  `component.transactions.TransactionDetails.${
+                    isDelegateAction ? "delegator" : "receiver"
+                  }.text`
                 )}
                 href="https://docs.near.org/docs/concepts/account"
               />

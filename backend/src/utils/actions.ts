@@ -1,8 +1,9 @@
 import { Indexer } from "@explorer/backend/database/databases";
 import { ActionKind } from "@explorer/backend/database/models/readOnlyIndexer";
 import * as RPC from "@explorer/common/types/rpc";
+import { notNullGuard } from "@explorer/common/utils/utils";
 
-export type Action =
+type NonDelegateAction =
   | {
       kind: "createAccount";
       args: {};
@@ -64,14 +65,23 @@ export type Action =
       args: {
         beneficiaryId: string;
       };
-    }
-  | {
-      kind: "delegateAction";
-      args: {};
     };
 
-type DatabaseArgs =
-  Indexer.SelectorModelTypeMap["action_receipt_actions"]["args"];
+type DelegateAction = {
+  kind: "delegateAction";
+  args: {
+    actions: (NonDelegateAction & { delegateIndex: number })[];
+    receiverId: string;
+    senderId: string;
+  };
+};
+
+export type Action = NonDelegateAction | DelegateAction;
+
+type DatabaseType = Indexer.SelectorModelTypeMap["action_receipt_actions"];
+
+type DatabaseArgs = DatabaseType["args"];
+type DatabaseDelegateParams = DatabaseType["delegate_parameters"];
 
 type DatabaseAddKeyArgs = Extract<DatabaseArgs, { access_key: unknown }>;
 type DatabaseCreateAccountArgs = Extract<DatabaseArgs, Record<string, never>>;
@@ -93,7 +103,12 @@ type DatabaseTransferArgs = Extract<
   Exclude<DatabaseArgs, DatabaseFunctionCallArgs>,
   { deposit: unknown }
 >;
-type DatabaseDelegateArgs = {};
+type DatabaseDelegateArgs = {
+  // That is only true after mapping with mapActionResultsWithDelegateActions
+  actions: ArgsTuple<WithDelegatedIndex<NonDelegateDatabaseActionMapping>>[];
+};
+
+type WithDelegatedIndex<T> = { [K in keyof T]: T & { delegateIndex: number } };
 
 type DatabaseActionMapping = {
   ADD_KEY: DatabaseAddKeyArgs;
@@ -107,12 +122,59 @@ type DatabaseActionMapping = {
   DELEGATE_ACTION: DatabaseDelegateArgs;
 };
 
-type ArgsTuple<Mapping extends DatabaseActionMapping = DatabaseActionMapping> =
-  {
-    [Kind in keyof Mapping]: [Kind, Mapping[Kind]];
-  }[keyof Mapping];
+type NonDelegateDatabaseActionMapping = Omit<
+  DatabaseActionMapping,
+  "DELEGATE_ACTION"
+>;
 
-const mapDatabaseActionToAction = (...[kind, args]: ArgsTuple): Action => {
+// Helper that converts DB nested delegate actions (which are separate rows) into actual nested actions
+export const mapActionResultsWithDelegateActions = <
+  T extends {
+    kind: DatabaseType["action_kind"];
+    args: DatabaseType["args"];
+    delegateParameters: DatabaseType["delegate_parameters"];
+    delegateIndex: DatabaseType["delegate_parent_index_in_action_receipt"];
+  }
+>(
+  result: T[],
+  isSameOrigin: (a: T, b: T) => boolean
+) =>
+  result
+    .map((action) => {
+      if (action.kind === "DELEGATE_ACTION") {
+        return {
+          ...action,
+          args: {
+            actions: result
+              .filter(
+                (lookupAction) =>
+                  isSameOrigin(lookupAction, action) &&
+                  lookupAction.delegateIndex !== null
+              )
+              .map((lookupAction) => [
+                lookupAction.kind,
+                {
+                  ...lookupAction.args,
+                  delegateIndex: lookupAction.delegateIndex,
+                },
+              ]),
+          },
+        };
+      }
+      if (action.delegateIndex !== null) {
+        return null;
+      }
+      return action;
+    })
+    .filter(notNullGuard);
+
+type ArgsTuple<Mapping = DatabaseActionMapping> = {
+  [Kind in keyof Mapping]: [Kind, Mapping[Kind]];
+}[keyof Mapping];
+
+const mapNonDelegateDatabaseActionToAction = (
+  ...[kind, args]: ArgsTuple<NonDelegateDatabaseActionMapping>
+): NonDelegateAction => {
   switch (kind) {
     case "ADD_KEY": {
       if (args.access_key.permission.permission_kind === "FULL_ACCESS") {
@@ -194,22 +256,50 @@ const mapDatabaseActionToAction = (...[kind, args]: ArgsTuple): Action => {
           deposit: args.deposit,
         },
       };
-    case "DELEGATE_ACTION":
-      return {
-        kind: "delegateAction",
-        args: {},
-      };
   }
 };
 
+const mapDatabaseActionToAction = (
+  delegateParameters: DatabaseDelegateParams,
+  ...[kind, args]: ArgsTuple
+): Action => {
+  if (kind === "DELEGATE_ACTION") {
+    return {
+      kind: "delegateAction",
+      args: {
+        actions: args.actions.map(
+          ([subKind, { delegateIndex, ...subArgs }]) => ({
+            ...mapNonDelegateDatabaseActionToAction(subKind, subArgs as any),
+            delegateIndex,
+          })
+        ),
+        receiverId: delegateParameters!.receiver_id,
+        senderId: delegateParameters!.sender_id,
+      },
+    };
+  }
+  return mapNonDelegateDatabaseActionToAction(kind, args as any);
+};
+
 export const mapForceDatabaseActionToAction = <
-  T extends { kind: ActionKind; args: DatabaseArgs }
+  T extends {
+    kind: ActionKind;
+    args: DatabaseArgs;
+    delegateParameters: DatabaseDelegateParams;
+  }
 >(
   action: T
   // We forcefully cast type as we assume there's always a match in DB between kind and args
-) => mapDatabaseActionToAction(action.kind, action.args as any);
+) =>
+  mapDatabaseActionToAction(
+    action.delegateParameters,
+    action.kind,
+    action.args as any
+  );
 
-export const mapRpcActionToAction = (rpcAction: RPC.ActionView): Action => {
+const mapNonDelegateRpcActionToAction = (
+  rpcAction: RPC.NonDelegateActionView
+): NonDelegateAction => {
   if (rpcAction === "CreateAccount") {
     return {
       kind: "createAccount",
@@ -281,16 +371,29 @@ export const mapRpcActionToAction = (rpcAction: RPC.ActionView): Action => {
       },
     };
   }
-  if ("Delegate" in rpcAction) {
-    return {
-      kind: "delegateAction",
-      args: {},
-    };
-  }
   return {
     kind: "deleteAccount",
     args: {
       beneficiaryId: rpcAction.DeleteAccount.beneficiary_id,
     },
   };
+};
+
+export const mapRpcActionToAction = (rpcAction: RPC.ActionView): Action => {
+  if (typeof rpcAction === "object" && "Delegate" in rpcAction) {
+    return {
+      kind: "delegateAction",
+      args: {
+        actions: rpcAction.Delegate.delegate_action.actions.map(
+          (subaction, index) => ({
+            ...mapNonDelegateRpcActionToAction(subaction),
+            delegateIndex: index,
+          })
+        ),
+        receiverId: rpcAction.Delegate.delegate_action.receiver_id,
+        senderId: rpcAction.Delegate.delegate_action.sender_id,
+      },
+    };
+  }
+  return mapNonDelegateRpcActionToAction(rpcAction);
 };

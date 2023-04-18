@@ -10,6 +10,7 @@ import {
 import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
+  mapActionResultsWithDelegateActions,
   mapForceDatabaseActionToAction,
 } from "@explorer/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
@@ -77,7 +78,13 @@ const getTransactionList = async (
 
   const transactionsActions = await indexerDatabase
     .selectFrom("transaction_actions")
-    .select(["transaction_hash as hash", "action_kind as kind", "args"])
+    .select([
+      "transaction_hash as hash",
+      "action_kind as kind",
+      "args",
+      "transaction_actions.delegate_parameters as delegateParameters",
+      "transaction_actions.delegate_parent_index_in_transaction as delegateIndex",
+    ])
     .where(
       "transaction_hash",
       "in",
@@ -85,7 +92,10 @@ const getTransactionList = async (
     )
     .orderBy("transaction_hash")
     .execute();
-  const transactionsActionsList = transactionsActions.reduce(
+  const transactionsActionsList = mapActionResultsWithDelegateActions(
+    transactionsActions,
+    (transactionA, transactionB) => transactionA.hash === transactionB.hash
+  ).reduce(
     (mapping, action) =>
       mapping.set(action.hash, [
         ...(mapping.get(action.hash) || []),

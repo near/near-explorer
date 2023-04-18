@@ -150,6 +150,158 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
 </div>
 `;
 
+exports[`<ActionRow /> renders delegateAction with details 1`] = `
+<div
+  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
+>
+  <div
+    className="col-auto"
+  >
+    <div
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
+    >
+      <test-file-stub />
+    </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv col"
+  >
+    <div
+      className="c-ActionRowMessage-PJLV row no-gutters"
+    >
+      <div
+        className="col-md-8 col-7"
+      >
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="c-ActionRowTitle-cYlxUq col"
+          >
+            component.transactions.ActionMessage.Delegate.delegated
+            <div
+              className="c-DelegateActionsWrapper-bjJnGc"
+            >
+              <div
+                className="c-DelegateActionWrapper-gTfNJm"
+              >
+                component.transactions.ActionMessage.FunctionCall.called_method
+                <a
+                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  href="/accounts/bob.testnet"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  bob.testnet
+                </a>
+                <dl>
+                  <dt>
+                    component.transactions.ActionMessage.FunctionCall.arguments
+                  </dt>
+                  <dd>
+                    <div
+                      className="c-Wrapper-hgxcBQ"
+                    >
+                      <div
+                        className="c-Wrapper-fswXQT"
+                        style={
+                          Object {
+                            "maxHeight": 200,
+                          }
+                        }
+                      >
+                        <div
+                          className="c-CodePreviewWrapper-gJFGlx"
+                        >
+                          {
+  "value": 1
+}
+                        </div>
+                      </div>
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+              <div
+                className="c-DelegateActionWrapper-gTfNJm"
+              >
+                component.transactions.ActionMessage.Transfer.transferred
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  1
+                   
+                  Ⓝ
+                </span>
+                component.transactions.ActionMessage.Transfer.to
+                <a
+                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  href="/accounts/bob.testnet"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  bob.testnet
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="c-ActionRowText-gopnJP col"
+          >
+            component.transactions.ActionRowBlock.by
+             
+            <a
+              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              href="/accounts/relayer.testnet"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              relayer.testnet
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTransaction-lbSlCc col"
+          />
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTimer-iiZTaa col"
+          >
+            <span
+              className="c-ActionRowTimerStatus-cJbzxd"
+            >
+              common.blocks.status.fetching_status
+              /common.blocks.status.checking_finality
+            </span>
+             
+            <span>
+              0s
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`<ActionRow /> renders functioncall with detail 1`] = `
 <div
   className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"

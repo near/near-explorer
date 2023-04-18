@@ -15,6 +15,7 @@ import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
   mapForceDatabaseActionToAction,
+  mapActionResultsWithDelegateActions,
 } from "@explorer/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
 import {
@@ -64,7 +65,7 @@ const getReceiptActions = async (
       )
     );
   selection = handler(selection);
-  return selection
+  const result = await selection
     .where("receipt_kind", "=", "ACTION")
     .select([
       "receipts.receipt_id as receiptId",
@@ -77,10 +78,16 @@ const getReceiptActions = async (
       "executed_in_block_timestamp as timestamp",
       "action_kind as kind",
       "args",
+      "action_receipt_actions.delegate_parameters as delegateParameters",
+      "action_receipt_actions.delegate_parent_index_in_action_receipt as delegateIndex",
     ])
     .orderBy("execution_outcomes.index_in_chunk")
     .orderBy("action_receipt_actions.index_in_action_receipt")
     .execute();
+  return mapActionResultsWithDelegateActions(
+    result,
+    (receiptA, receiptB) => receiptA.receiptId === receiptB.receiptId
+  );
 };
 
 type Receipt = {

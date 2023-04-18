@@ -351,6 +351,9 @@
         },
         "DeleteKey": {
           "key_deleted": "Ключ видалено: ${public_key}..."
+        },
+        "Delegate": {
+          "delegated": "Делеговані дії для ${senderId}:"
         }
       },
       "TransactionAction": {
@@ -364,6 +367,10 @@
         "signed_by": {
           "title": "Підписано",
           "text": "Обліковий запис, який підписав та надіслав транзакцію."
+        },
+        "delegator": {
+          "title": "Делегатор",
+          "text": "Аккаунт, від імені якого були виконані транзакції."
         },
         "receiver": {
           "title": "Отримувач",
