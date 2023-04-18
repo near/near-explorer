@@ -57,6 +57,16 @@ const ACTIONS_TYPE = `
 }
 | { deposit: string; }
 `;
+const DELEGATE_PARAMS_TYPE = `
+| {
+  nonce: number;
+  sender_id: string;
+  receiver_id: string;
+  signature: string;
+  public_key: string;
+  max_block_height: number;
+}
+`;
 
 const TYPE_OVERRIDES: Record<
   DatabaseName,
@@ -65,9 +75,11 @@ const TYPE_OVERRIDES: Record<
   readOnlyIndexer: {
     action_receipt_actions: {
       args: ACTIONS_TYPE,
+      delegate_parameters: DELEGATE_PARAMS_TYPE,
     },
     transaction_actions: {
       args: ACTIONS_TYPE,
+      delegate_parameters: DELEGATE_PARAMS_TYPE,
     },
   },
 };

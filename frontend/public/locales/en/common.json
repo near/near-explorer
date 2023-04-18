@@ -351,6 +351,9 @@
         },
         "DeleteKey": {
           "key_deleted": "Key deleted: ${public_key}..."
+        },
+        "Delegate": {
+          "delegated": "Actions delegated for ${senderId}:"
         }
       },
       "TransactionAction": {
@@ -364,6 +367,10 @@
         "signed_by": {
           "title": "Signed by",
           "text": "Account that signed and sent the transaction."
+        },
+        "delegator": {
+          "title": "Delegator",
+          "text": "The account for whom the transaction was executed by the relayer."
         },
         "receiver": {
           "title": "Receiver",

@@ -61,7 +61,14 @@ export default interface ActionReceiptActions {
 
   is_delegate_action: boolean;
 
-  delegate_parameters: unknown | null;
+  delegate_parameters: {
+    nonce: number;
+    sender_id: string;
+    receiver_id: string;
+    signature: string;
+    public_key: string;
+    max_block_height: number;
+  } | null;
 
   delegate_parent_index_in_action_receipt: number | null;
 }
@@ -118,7 +125,14 @@ export interface ActionReceiptActionsInitializer {
 
   is_delegate_action: boolean;
 
-  delegate_parameters?: unknown | null;
+  delegate_parameters?: {
+    nonce: number;
+    sender_id: string;
+    receiver_id: string;
+    signature: string;
+    public_key: string;
+    max_block_height: number;
+  } | null;
 
   delegate_parent_index_in_action_receipt?: number | null;
 }
@@ -175,7 +189,14 @@ export interface ActionReceiptActionsMutator {
 
   is_delegate_action?: boolean;
 
-  delegate_parameters?: unknown | null;
+  delegate_parameters?: {
+    nonce: number;
+    sender_id: string;
+    receiver_id: string;
+    signature: string;
+    public_key: string;
+    max_block_height: number;
+  } | null;
 
   delegate_parent_index_in_action_receipt?: number | null;
 }

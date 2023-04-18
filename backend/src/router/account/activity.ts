@@ -11,6 +11,7 @@ import { validators } from "@explorer/backend/router/validators";
 import {
   Action,
   mapForceDatabaseActionToAction,
+  mapActionResultsWithDelegateActions,
 } from "@explorer/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
 import {
@@ -290,8 +291,8 @@ const getBlockHeightsByTimestamps = async (blockTimestamps: string[]) => {
   );
 };
 
-const queryReceiptsByIds = async (ids: string[]) =>
-  indexerDatabase
+const queryReceiptsByIds = async (ids: string[]) => {
+  const result = await indexerDatabase
     .selectFrom("action_receipt_actions")
     .innerJoin("receipts", (jb) =>
       jb.onRef("receipts.receipt_id", "=", "action_receipt_actions.receipt_id")
@@ -311,11 +312,18 @@ const queryReceiptsByIds = async (ids: string[]) =>
       "status",
       "executed_in_block_timestamp as blockTimestamp",
       "action_kind as kind",
+      "action_receipt_actions.delegate_parameters as delegateParameters",
+      "action_receipt_actions.delegate_parent_index_in_action_receipt as delegateIndex",
       "args",
     ])
     .where("action_receipt_actions.receipt_id", "in", ids)
     .where("receipt_kind", "=", "ACTION")
     .execute();
+  return mapActionResultsWithDelegateActions(
+    result,
+    (receiptA, receiptB) => receiptA.id === receiptB.id
+  );
+};
 
 const getReceiptMapping = (
   receiptRows: Awaited<ReturnType<typeof queryReceiptsByIds>>,
@@ -437,7 +445,13 @@ const getTransactionsByHashes = async (
   }
   const transactionsActions = await indexerDatabase
     .selectFrom("transaction_actions")
-    .select(["transaction_hash as hash", "action_kind as kind", "args"])
+    .select([
+      "transaction_hash as hash",
+      "action_kind as kind",
+      "args",
+      "delegate_parameters as delegateParameters",
+      "transaction_actions.delegate_parent_index_in_transaction as delegateIndex",
+    ])
     .where(
       "transaction_hash",
       "in",
@@ -445,7 +459,10 @@ const getTransactionsByHashes = async (
     )
     .orderBy("transaction_hash")
     .execute();
-  const transactionsActionsList = transactionsActions.reduce(
+  const transactionsActionsList = mapActionResultsWithDelegateActions(
+    transactionsActions,
+    (transactionA, transactionB) => transactionA.hash === transactionB.hash
+  ).reduce(
     (mapping, action) =>
       mapping.set(action.hash, [
         ...(mapping.get(action.hash) || []),
