@@ -114,7 +114,10 @@ export const getServerSideProps: GetServerSideProps<
   { slug: string[] }
 > = async (context) => {
   if (getBetaOptionsFromReq(context.req)?.enabled) {
-    return getBetaServerSideProps(context);
+    return getBetaServerSideProps({
+      ...context,
+      query: { ...context.query, noPrefix: true },
+    });
   }
   const accountId = context.params?.slug[0] ?? "";
   if (/[A-Z]/.test(accountId)) {

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import JSBI from "jsbi";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
@@ -73,12 +74,14 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
   ({ item, token, balance }) => {
     const { t } = useTranslation();
     const format = useDateFormat();
+    const router = useRouter();
     return (
       <TableRow>
         <LinkWrapper
           href={
             item.counterparty
               ? buildAccountUrl({
+                  usePrefix: router.pathname.startsWith("/beta"),
                   accountId: item.counterparty,
                   tab: "fungible-tokens",
                 })

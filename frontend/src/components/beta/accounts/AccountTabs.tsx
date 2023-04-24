@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import { Account } from "@explorer/common/types/procedures";
@@ -33,6 +34,7 @@ const TabDetails = styled("div", {
 
 const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
   const { t } = useTranslation();
+  const router = useRouter();
   const transactionsQuantity =
     account.transactionsQuantity === undefined
       ? undefined
@@ -56,8 +58,12 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
     <Tabs<AccountTab>
       buildHref={React.useCallback(
         (tab: AccountTab) =>
-          buildAccountUrl({ accountId: options.accountId, tab }),
-        [options.accountId]
+          buildAccountUrl({
+            usePrefix: router.pathname.startsWith("/beta"),
+            accountId: options.accountId,
+            tab,
+          }),
+        [options.accountId, router]
       )}
       initialSelectedId={options.tab}
       tabs={[

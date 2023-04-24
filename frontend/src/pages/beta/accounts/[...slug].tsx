@@ -82,9 +82,9 @@ const AccountPage: NextPage = React.memo(() => {
 export const getServerSideProps: GetServerSideProps<
   {},
   { slug: string[] }
-> = async ({ params }) => {
+> = async ({ params, query }) => {
   try {
-    const options = parseAccountSlug(params?.slug ?? []);
+    const options = parseAccountSlug(!query.noPrefix, params?.slug ?? []);
     if (/[A-Z]/.test(options.accountId)) {
       return {
         redirect: {

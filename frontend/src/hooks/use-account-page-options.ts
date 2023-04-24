@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 type BaseAccountPageOptions = {
   accountId: string;
+  usePrefix: boolean;
 };
 
 export type FungibleTokensAccountPageOptions = BaseAccountPageOptions & {
@@ -24,7 +25,10 @@ export type AccountPageOptions =
 
 export type AccountTab = AccountPageOptions["tab"];
 
-export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
+export const parseAccountSlug = (
+  isBeta: boolean,
+  slug: string[]
+): AccountPageOptions => {
   const [accountId, tab, ...restSlug] = slug.filter(Boolean);
   if (!accountId) {
     throw new Error("No account id in slug");
@@ -39,6 +43,7 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
           accountId,
           tab: "fungible-tokens",
           token: restSlug[0],
+          usePrefix: isBeta,
         };
       }
       case "activity": {
@@ -48,6 +53,7 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
         return {
           accountId,
           tab: "transactions",
+          usePrefix: isBeta,
         };
       }
       case "collectibles": {
@@ -57,6 +63,7 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
         return {
           accountId,
           tab: "collectibles",
+          usePrefix: isBeta,
         };
       }
       default:
@@ -66,6 +73,7 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
   return {
     accountId,
     tab: "transactions",
+    usePrefix: isBeta,
   };
 };
 
@@ -81,9 +89,14 @@ const getAccountTabParts = (options: AccountPageOptions) => {
 };
 
 export const buildAccountUrl = (options: AccountPageOptions) =>
-  ["/accounts", options.accountId, ...getAccountTabParts(options)]
+  `/${[
+    options.usePrefix ? "beta" : undefined,
+    "accounts",
+    options.accountId,
+    ...getAccountTabParts(options),
+  ]
     .filter(Boolean)
-    .join("/");
+    .join("/")}`;
 
 export const useAccountPageOptions = (): AccountPageOptions => {
   const router = useRouter();
@@ -96,5 +109,8 @@ export const useAccountPageOptions = (): AccountPageOptions => {
       "useAccountPageOptions hook is used in non-account subpage!"
     );
   }
-  return parseAccountSlug(router.query.slug as string[]);
+  return parseAccountSlug(
+    router.pathname.startsWith("/beta"),
+    router.query.slug as string[]
+  );
 };
