@@ -116,7 +116,8 @@ export const getServerSideProps: GetServerSideProps<
   if (getBetaOptionsFromReq(context.req)?.enabled) {
     return getBetaServerSideProps({
       ...context,
-      query: { ...context.query, noPrefix: true },
+      // We explicitly set noPrefix to true to disable /beta prefixes on non-beta page
+      query: { ...context.query, noPrefix: "true" },
     });
   }
   const accountId = context.params?.slug[0] ?? "";
