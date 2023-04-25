@@ -87,6 +87,7 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
         },
         {
           id: "fungible-tokens",
+          disabled: true,
           label: <TabLabel>{t("pages.account.tabs.tokens")}</TabLabel>,
           node:
             options.tab === "fungible-tokens" ? (
@@ -95,6 +96,7 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
         },
         {
           id: "collectibles",
+          disabled: true,
           label: (
             <TabLabel>
               {t("pages.account.tabs.collectibles")}
