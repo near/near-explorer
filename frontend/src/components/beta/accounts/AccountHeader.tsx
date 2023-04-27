@@ -9,6 +9,7 @@ import AccountContract, {
 } from "@explorer/frontend/components/beta/accounts/AccountContract";
 import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import LinkWrapper from "@explorer/frontend/components/utils/Link";
 import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
 import Timer from "@explorer/frontend/components/utils/Timer";
 import * as BI from "@explorer/frontend/libraries/bigint";
@@ -85,8 +86,14 @@ const InfoLine = styled("span", {
   fontSize: 12,
 });
 
-const CreatedBy = styled(InfoLine, {
+const CreatedBy = styled(LinkWrapper, {
+  color: "#c9c9c9",
+  fontSize: 12,
   textDecoration: "underline",
+  "&:hover": {
+    color: "#c9c9c9",
+    textDecoration: "underline",
+  },
 });
 
 const NumericDivider = styled("div", {
@@ -155,7 +162,6 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
             </StringConditionalOverlay>
             <BaseInfoDetails>
               <CreatedBy
-                as={props.account.created ? "a" : undefined}
                 href={
                   props.account.created
                     ? `/transactions/${props.account.created.hash}`
