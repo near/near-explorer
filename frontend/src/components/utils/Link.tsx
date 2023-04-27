@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { CSS, styled } from "@explorer/frontend/libraries/styles";
@@ -32,16 +33,18 @@ type Props = Omit<LinkProps, "href"> & {
 
 const LinkWrapper = React.memo<Props>(
   ({ onClick: onClickRaw, shallow, css, className, href, ...props }) => {
+    const router = useRouter();
     const track = useAnalyticsTrack();
+    const isIframe = Boolean(router.query.iframe);
     const onClick = React.useCallback<NonNullable<Props["onClick"]>>(
       (e) => {
-        if (!href) {
+        if (!href || isIframe) {
           e.preventDefault();
         }
         track("Explorer Click Link", { href });
         onClickRaw?.(e);
       },
-      [onClickRaw, track, href]
+      [onClickRaw, track, href, isIframe]
     );
 
     const anchor = (
@@ -55,7 +58,7 @@ const LinkWrapper = React.memo<Props>(
       </Anchor>
     );
 
-    if (!href) {
+    if (!href || isIframe) {
       return anchor;
     }
 
