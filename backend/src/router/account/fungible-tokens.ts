@@ -2,8 +2,6 @@ import * as trpc from "@trpc/server";
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { indexerDatabase } from "@explorer/backend/database/databases";
-import { div } from "@explorer/backend/database/utils";
 import { FungibleTokenMetadata } from "@explorer/backend/router/fungible-tokens";
 import { validators } from "@explorer/backend/router/validators";
 import * as nearApi from "@explorer/backend/utils/near";
@@ -26,14 +24,8 @@ export const router = trpc
       accountId: validators.accountId,
     }),
     resolve: async ({ input: { accountId } }) => {
-      const selection = await indexerDatabase
-        .selectFrom("assets__fungible_token_events")
-        .select("emitted_by_contract_account_id as contractId")
-        .distinctOn("emitted_by_contract_account_id")
-        .where("token_new_owner_account_id", "=", accountId)
-        .orWhere("token_old_owner_account_id", "=", accountId)
-        .orderBy("emitted_by_contract_account_id", "desc")
-        .execute();
+      // TODO: add data from Enhanced API
+      const selection: any[] = [];
       const contractIds = selection.map((row) => row.contractId);
       const tokens = await Promise.all(
         contractIds.map(async (contractId) => {
@@ -71,36 +63,8 @@ export const router = trpc
       tokenAuthorAccountId: validators.accountId,
     }),
     resolve: async ({ input: { accountId, tokenAuthorAccountId } }) => {
-      const elements = await indexerDatabase
-        .selectFrom("assets__fungible_token_events")
-        .innerJoin("receipts", (qb) =>
-          qb.onRef("emitted_for_receipt_id", "=", "receipts.receipt_id")
-        )
-        .innerJoin("blocks", (qb) =>
-          qb.onRef("blocks.block_hash", "=", "receipts.included_in_block_hash")
-        )
-        .select([
-          "amount",
-          "token_old_owner_account_id as prevAccountId",
-          "token_new_owner_account_id as nextAccountId",
-          "emitted_for_receipt_id as receiptId",
-          (eb) =>
-            div(eb, "emitted_at_block_timestamp", 1000 * 1000, "timestamp"),
-          "originated_from_transaction_hash as transactionHash",
-          "block_height as blockHeight",
-        ])
-        .where("emitted_by_contract_account_id", "=", tokenAuthorAccountId)
-        .where((wi) =>
-          wi
-            .where("token_new_owner_account_id", "=", accountId)
-            .orWhere("token_old_owner_account_id", "=", accountId)
-        )
-        .orderBy("emitted_at_block_timestamp", "desc")
-        .orderBy("emitted_in_shard_id", "desc")
-        .orderBy("emitted_index_of_event_entry_in_shard", "desc")
-        // Pagination to be introduced soon..
-        .limit(200)
-        .execute();
+      // TODO: add data from Enhanced API
+      const elements: any[] = [];
       const baseAmount = await nearApi.callViewMethod<string>(
         tokenAuthorAccountId,
         "ft_balance_of",

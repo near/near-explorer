@@ -7,11 +7,6 @@ import type {
   AccessKeysMutator,
 } from "./access-keys";
 import type {
-  default as AccountChanges,
-  AccountChangesInitializer,
-  AccountChangesMutator,
-} from "./account-changes";
-import type {
   default as Accounts,
   AccountsInitializer,
   AccountsMutator,
@@ -41,11 +36,6 @@ import type {
   AggregatedCirculatingSupplyInitializer,
   AggregatedCirculatingSupplyMutator,
 } from "./aggregated-circulating-supply";
-import type {
-  default as AssetsFungibleTokenEvents,
-  AssetsFungibleTokenEventsInitializer,
-  AssetsFungibleTokenEventsMutator,
-} from "./assets-fungible-token-events";
 import type {
   default as AssetsNonFungibleTokenEvents,
   AssetsNonFungibleTokenEventsInitializer,
@@ -107,12 +97,6 @@ export type {
   AccessKeysAccountId,
 } from "./access-keys";
 export type {
-  default as AccountChanges,
-  AccountChangesInitializer,
-  AccountChangesMutator,
-  AccountChangesId,
-} from "./account-changes";
-export type {
   default as Accounts,
   AccountsInitializer,
   AccountsMutator,
@@ -146,12 +130,6 @@ export type {
   AggregatedCirculatingSupplyInitializer,
   AggregatedCirculatingSupplyMutator,
 } from "./aggregated-circulating-supply";
-export type {
-  default as AssetsFungibleTokenEvents,
-  AssetsFungibleTokenEventsInitializer,
-  AssetsFungibleTokenEventsMutator,
-  AssetsFungibleTokenEventsEmittedIndexOfEventEntryInShard,
-} from "./assets-fungible-token-events";
 export type {
   default as AssetsNonFungibleTokenEvents,
   AssetsNonFungibleTokenEventsInitializer,
@@ -211,8 +189,6 @@ export type { default as AggregatedLockups } from "./aggregated-lockups";
 export interface SelectorModelTypeMap {
   access_keys: AccessKeys;
 
-  account_changes: AccountChanges;
-
   accounts: Accounts;
 
   action_receipt_actions: ActionReceiptActions;
@@ -224,8 +200,6 @@ export interface SelectorModelTypeMap {
   action_receipts: ActionReceipts;
 
   aggregated__circulating_supply: AggregatedCirculatingSupply;
-
-  assets__fungible_token_events: AssetsFungibleTokenEvents;
 
   assets__non_fungible_token_events: AssetsNonFungibleTokenEvents;
 
@@ -249,8 +223,6 @@ export interface SelectorModelTypeMap {
 export interface InitializerModelTypeMap {
   access_keys: AccessKeysInitializer;
 
-  account_changes: AccountChangesInitializer;
-
   accounts: AccountsInitializer;
 
   action_receipt_actions: ActionReceiptActionsInitializer;
@@ -262,8 +234,6 @@ export interface InitializerModelTypeMap {
   action_receipts: ActionReceiptsInitializer;
 
   aggregated__circulating_supply: AggregatedCirculatingSupplyInitializer;
-
-  assets__fungible_token_events: AssetsFungibleTokenEventsInitializer;
 
   assets__non_fungible_token_events: AssetsNonFungibleTokenEventsInitializer;
 
@@ -287,8 +257,6 @@ export interface InitializerModelTypeMap {
 export interface MutatorModelTypeMap {
   access_keys: AccessKeysMutator;
 
-  account_changes: AccountChangesMutator;
-
   accounts: AccountsMutator;
 
   action_receipt_actions: ActionReceiptActionsMutator;
@@ -300,8 +268,6 @@ export interface MutatorModelTypeMap {
   action_receipts: ActionReceiptsMutator;
 
   aggregated__circulating_supply: AggregatedCirculatingSupplyMutator;
-
-  assets__fungible_token_events: AssetsFungibleTokenEventsMutator;
 
   assets__non_fungible_token_events: AssetsNonFungibleTokenEventsMutator;
 
