@@ -3,9 +3,11 @@ import * as React from "react";
 import LinkWrapper from "@explorer/frontend/components/utils/Link";
 import { styled } from "@explorer/frontend/libraries/styles";
 
-const Wrapper = styled("div", {});
-
 const PADDING = 36;
+
+const Wrapper = styled("div", {
+  paddingTop: PADDING / 2,
+});
 
 const TabLabels = styled("div", {
   background: "white",
@@ -17,7 +19,8 @@ const TabLabels = styled("div", {
 });
 
 const TabHeader = styled("div", {
-  margin: PADDING,
+  marginHorizontal: PADDING,
+  marginVertical: PADDING / 2,
 
   variants: {
     disabled: {
@@ -33,6 +36,7 @@ const TabHeader = styled("div", {
 
 const Tab = styled("div", {
   display: "none",
+  marginTop: PADDING / 2,
 
   variants: {
     selected: {
@@ -49,7 +53,7 @@ const TabSlider = styled("div", {
   borderColor: "#3f4246",
 
   position: "absolute",
-  bottom: PADDING - 10,
+  bottom: 8,
   transition: "all 0.2s linear",
 });
 
@@ -79,7 +83,8 @@ export const Tabs = React.memo(<T extends string>(props: Props<T>) => {
   const [selectedId, setSelectedId] = React.useState(
     props.initialSelectedId || (firstEnabledTab ?? props.tabs[0]).id
   );
-  const labelsElementRef = React.useRef<HTMLDivElement>(null);
+  const oneOrLessTabsEnabled =
+    props.tabs.filter((tab) => !tab.disabled).length <= 1;
   const labelsRecordRef = React.useRef<Record<string, HTMLDivElement | null>>(
     {}
   );
@@ -103,22 +108,24 @@ export const Tabs = React.memo(<T extends string>(props: Props<T>) => {
 
   return (
     <Wrapper>
-      <TabLabels ref={labelsElementRef}>
-        {props.tabs.map(({ label, id, disabled }) => {
-          const href = disabled ? undefined : props.buildHref?.(id);
-          return (
-            <TabHeader
-              key={id}
-              onClick={disabled ? undefined : () => setSelectedId(id)}
-              ref={(element) => (labelsRecordRef.current[id] = element)}
-              disabled={Boolean(disabled)}
-            >
-              {href ? <LinkWrapper href={href}>{label}</LinkWrapper> : label}
-            </TabHeader>
-          );
-        })}
-        <TabSlider style={sliderPosition} />
-      </TabLabels>
+      {oneOrLessTabsEnabled ? null : (
+        <TabLabels>
+          {props.tabs.map(({ label, id, disabled }) => {
+            const href = disabled ? undefined : props.buildHref?.(id);
+            return (
+              <TabHeader
+                key={id}
+                onClick={disabled ? undefined : () => setSelectedId(id)}
+                ref={(element) => (labelsRecordRef.current[id] = element)}
+                disabled={Boolean(disabled)}
+              >
+                {href ? <LinkWrapper href={href}>{label}</LinkWrapper> : label}
+              </TabHeader>
+            );
+          })}
+          <TabSlider style={sliderPosition} />
+        </TabLabels>
+      )}
       {props.tabs.map(({ node, id }) => (
         <Tab key={id} selected={id === selectedId}>
           {node}
