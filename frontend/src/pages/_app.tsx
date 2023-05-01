@@ -35,7 +35,10 @@ import {
   NetworkContext,
   NetworkContextType,
 } from "@explorer/frontend/context/NetworkContext";
-import { SSRContext } from "@explorer/frontend/context/SSRContext";
+import {
+  SSRContext,
+  SSRContextType,
+} from "@explorer/frontend/context/SSRContext";
 import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
 import { useCookie } from "@explorer/frontend/hooks/use-cookie";
 import { useLanguage } from "@explorer/frontend/hooks/use-language";
@@ -133,9 +136,9 @@ declare module "next/app" {
     language: Language;
     networkName: NetworkName;
     deployInfo: DeployInfoProps;
-    nowTimestamp: number;
     getServerProps?: () => ServerAppInitialProps;
-  } & SSRConfig;
+  } & SSRConfig &
+    Omit<SSRContextType, "isFirstRender">;
 
   interface AppInitialProps {
     pageProps: ExtraAppInitialProps;
@@ -177,15 +180,15 @@ const defaultGetLayout: GetLayout = (children) => (
 );
 
 const SSRContextWrapper: React.FC<
-  React.PropsWithChildren<{ nowTimestamp: number }>
-> = React.memo(({ children, nowTimestamp }) => {
+  React.PropsWithChildren<Omit<SSRContextType, "isFirstRender">>
+> = React.memo(({ children, nowTimestamp, tzOffset }) => {
   const [isMounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
   return (
     <SSRContext.Provider
       value={React.useMemo(
-        () => ({ isFirstRender: !isMounted, nowTimestamp }),
-        [nowTimestamp, isMounted]
+        () => ({ isFirstRender: !isMounted, nowTimestamp, tzOffset }),
+        [nowTimestamp, tzOffset, isMounted]
       )}
     >
       {children}
@@ -211,6 +214,7 @@ const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
       networkName,
       language: initialLanguage,
       nowTimestamp,
+      tzOffset,
       deployInfo,
       getServerProps,
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -220,6 +224,7 @@ const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
     extraAppInitialPropsCache = {
       language: initialLanguage,
       nowTimestamp,
+      tzOffset,
       deployInfo,
       networkName,
       _nextI18Next,
@@ -276,7 +281,7 @@ const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <SSRContextWrapper nowTimestamp={nowTimestamp}>
+        <SSRContextWrapper nowTimestamp={nowTimestamp} tzOffset={tzOffset}>
           <NetworkWrapper networkState={networkState}>
             {getLayout(
               offline ? <OfflineSplash /> : <Component {...restPageProps} />
@@ -339,6 +344,7 @@ App.getInitialProps = async (appContext) => {
     initialProps = {
       deployInfo,
       nowTimestamp: Date.now(),
+      tzOffset: new Date().getTimezoneOffset(),
       networkName: getNearNetworkName(appContext.ctx.query, req.headers.host),
       language,
       getServerProps: () => serverProps,

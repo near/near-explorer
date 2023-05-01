@@ -156,7 +156,8 @@ const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
             <CenteredContainer>
               {format(
                 transaction.timestamp,
-                t("common.date_time.transaction_date_format")
+                t("common.date_time.transaction_date_format"),
+                { utc: true }
               )}
               <UtcLabel />
               <CopyToClipboard
