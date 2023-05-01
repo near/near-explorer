@@ -57,7 +57,7 @@ const DashboardNode: React.FC = React.memo(() => {
                 text={t(
                   "component.dashboard.DashboardNode.nodes_validating.text"
                 )}
-                href="https://docs.near.org/docs/roles/integrator/faq#validators"
+                href="https://near.org/about/network/validators/"
               />
             }
             subscription={networkStatsSub}
