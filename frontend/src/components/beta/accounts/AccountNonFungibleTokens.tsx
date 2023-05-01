@@ -7,6 +7,7 @@ import { AccountNonFungibleTokenElement } from "@explorer/common/types/procedure
 import { TRPCInfiniteQueryOutput } from "@explorer/common/types/trpc";
 import AccountNonFungibleTokensHistory from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
 import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import ListHandler from "@explorer/frontend/components/utils/ListHandler";
 import { NonFungibleTokensAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -223,27 +224,35 @@ const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
       (contract: string) => React.MouseEventHandler
     >((contract) => () => setContract(contract), [setContract]);
 
-    const query = trpc.useQuery([
+    const contractQuery = trpc.useQuery([
       "account.nonFungibleTokenContracts",
       { accountId: options.accountId },
     ]);
-    const contracts = query.data || [];
-    if (query.status === "loading") {
+    if (contractQuery.status === "loading" || contractQuery.status === "idle") {
       return (
         <Wrapper>
           <Spinner animation="border" />
         </Wrapper>
       );
     }
+    if (contractQuery.status === "error") {
+      return (
+        <Wrapper>
+          <ErrorMessage onRetry={contractQuery.refetch}>
+            {contractQuery.error.message}
+          </ErrorMessage>
+        </Wrapper>
+      );
+    }
 
-    if (contracts.length === 0) {
-      return <div>No collectibles yet!</div>;
+    if (contractQuery.data.length === 0) {
+      return <Wrapper>No collectibles yet!</Wrapper>;
     }
 
     return (
       <Wrapper>
         <ContractsWrapper>
-          {contracts.map((contract) => (
+          {contractQuery.data.map((contract) => (
             <ContractItem
               key={contract}
               onClick={setActiveContract(contract)}

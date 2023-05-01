@@ -7,6 +7,7 @@ import CardCell, {
   CardCellTitleImage,
 } from "@explorer/frontend/components/utils/CardCell";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import Term from "@explorer/frontend/components/utils/Term";
 import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
@@ -48,13 +49,21 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const { data: contractInfo } = trpc.useQuery([
-    "contract.byId",
-    { id: accountId },
-  ]);
+  const contractQuery = trpc.useQuery(["contract.byId", { id: accountId }]);
   const format = useDateFormat();
-  if (!contractInfo) {
+  if (
+    contractQuery.status === "loading" ||
+    contractQuery.status === "idle" ||
+    !contractQuery.data
+  ) {
     return null;
+  }
+  if (contractQuery.status === "error") {
+    return (
+      <ErrorMessage onRetry={contractQuery.refetch}>
+        {contractQuery.error.message}
+      </ErrorMessage>
+    );
   }
   return (
     <>
@@ -78,14 +87,14 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                 />
               }
               text={
-                contractInfo.timestamp ? (
+                contractQuery.data.timestamp ? (
                   <>
                     {format(
-                      contractInfo.timestamp,
+                      contractQuery.data.timestamp,
                       t("common.date_time.date_time_format")
                     )}
                     <CopyToClipboard
-                      text={String(contractInfo.timestamp)}
+                      text={String(contractQuery.data.timestamp)}
                       css={{ marginLeft: 8 }}
                     />
                   </>
@@ -109,11 +118,11 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                 />
               }
               text={
-                contractInfo.transactionHash ? (
+                contractQuery.data.transactionHash ? (
                   <TransactionLink
-                    transactionHash={contractInfo.transactionHash}
+                    transactionHash={contractQuery.data.transactionHash}
                   >
-                    {contractInfo.transactionHash}
+                    {contractQuery.data.transactionHash}
                   </TransactionLink>
                 ) : (
                   t("common.state.not_available")
@@ -138,7 +147,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                 />
               }
               text={
-                contractInfo.locked
+                contractQuery.data.locked
                   ? t("common.state.yes")
                   : t("common.state.no")
               }
@@ -155,7 +164,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                   text={t("component.contracts.ContractDetails.code_hash.text")}
                 />
               }
-              text={contractInfo.codeHash}
+              text={contractQuery.data.codeHash}
               className="border-0"
             />
           </Col>

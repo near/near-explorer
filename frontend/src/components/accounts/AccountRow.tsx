@@ -1,11 +1,12 @@
 import * as React from "react";
 
 import { useTranslation } from "next-i18next";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 
 import { TRPCQueryOutput } from "@explorer/common/types/trpc";
 import Balance from "@explorer/frontend/components/utils/Balance";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import Link from "@explorer/frontend/components/utils/Link";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -89,7 +90,14 @@ const AccountRow: React.FC<Props> = React.memo(({ account }) => {
             <>
               {balanceQuery.status === "success" ? (
                 <Balance amount={balanceQuery.data} />
-              ) : null}
+              ) : balanceQuery.status === "loading" ||
+                balanceQuery.status === "idle" ? (
+                <Spinner animation="border" />
+              ) : (
+                <ErrorMessage onRetry={balanceQuery.refetch}>
+                  {balanceQuery.error.message}
+                </ErrorMessage>
+              )}
               <TransactionRowTimer>
                 {t("component.accounts.AccountRow.created_on")}{" "}
                 {account.createdTimestamp ? (

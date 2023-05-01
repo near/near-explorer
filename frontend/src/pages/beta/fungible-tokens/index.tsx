@@ -7,6 +7,7 @@ import { Spinner } from "react-bootstrap";
 import { FungibleTokenItem } from "@explorer/common/types/procedures";
 import { id } from "@explorer/common/utils/utils";
 import Content from "@explorer/frontend/components/utils/Content";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import ListHandler from "@explorer/frontend/components/utils/ListHandler";
 import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -66,9 +67,16 @@ const FungibleTokens: NextPage = React.memo(() => {
       </Head>
       <Content title={<h1>Fungible tokens</h1>}>
         <Header>
-          {tokensAmountQuery.status === "success"
-            ? `Total of ${tokensAmountQuery.data} fungible tokens registered`
-            : "Loading FTs amount.."}
+          {tokensAmountQuery.status === "loading" ||
+          tokensAmountQuery.status === "idle" ? (
+            <Spinner animation="border" />
+          ) : tokensAmountQuery.status === "error" ? (
+            <ErrorMessage onRetry={tokensAmountQuery.refetch}>
+              {tokensAmountQuery.error.message}
+            </ErrorMessage>
+          ) : (
+            `Total of ${tokensAmountQuery.data} fungible tokens registered`
+          )}
         </Header>
         <ListHandler<"fungibleTokens.list", FungibleTokenItem>
           query={fungibleTokensQuery}

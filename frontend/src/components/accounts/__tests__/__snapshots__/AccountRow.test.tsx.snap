@@ -28,6 +28,9 @@ exports[`<AccountRow /> renders with long name 1`] = `
       className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
     >
       <div
+        className="spinner-border"
+      />
+      <div
         className="c-TransactionRowTimer-ehtocQ"
       >
         component.accounts.AccountRow.created_on
@@ -85,6 +88,9 @@ exports[`<AccountRow /> renders with short name 1`] = `
     <div
       className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
     >
+      <div
+        className="spinner-border"
+      />
       <div
         className="c-TransactionRowTimer-ehtocQ"
       >
