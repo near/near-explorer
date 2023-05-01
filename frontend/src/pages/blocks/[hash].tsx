@@ -22,7 +22,7 @@ const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
 });
 
-const TRANSACTIONS_PER_PAGE = 1000;
+const TRANSACTIONS_PER_PAGE = 20;
 
 const BlockDetail: NextPage = React.memo(() => {
   const hash = useRouter().query.hash as string;
