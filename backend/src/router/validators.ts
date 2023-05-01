@@ -20,7 +20,7 @@ const milliTimestamp = z.number();
 const indexInChunk = z.number().gte(0);
 const shardId = z.number().gte(0);
 
-const limit = z.number().positive();
+const limit = z.number().positive().lte(100);
 
 export const validators = {
   transactionPagination: z.strictObject({
