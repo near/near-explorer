@@ -1,7 +1,7 @@
-name: Setup node v16
+name: Setup node v20
 runs:
   using: composite
   steps:
     - uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: 20

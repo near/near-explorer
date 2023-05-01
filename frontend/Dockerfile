@@ -1,4 +1,4 @@
-FROM node:16-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /near-explorer
 ENV HOME=/tmp
@@ -16,7 +16,7 @@ RUN rm -rf ./node_modules
 RUN npm install patch-package
 RUN npm install -w frontend -w common --prod
 
-FROM node:16-alpine
+FROM node:20-alpine
 
 RUN apk add --no-cache git
 
