@@ -23,7 +23,7 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo(({ query }) => {
   switch (query.status) {
     case "success":
       if (!query.data) {
-        return t("page.transactions.error.notFound");
+        return <>{t("page.transactions.error.notFound")}</>;
       }
       return (
         <>
@@ -34,9 +34,8 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo(({ query }) => {
     case "error":
       return <>{query.error.message}</>;
     case "loading":
+    case "idle":
       return <Spinner animation="border" />;
-    default:
-      return null;
   }
 });
 

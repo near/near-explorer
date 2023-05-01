@@ -2,10 +2,11 @@
 
 exports[`<AccountRow /> renders with long name 1`] = `
 <a
-  className="c-Anchor-hIXuvg"
+  className="c-StyledLink-hIXuvg"
   href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
   onClick={[Function]}
   onMouseEnter={[Function]}
+  onTouchStart={[Function]}
 >
   <div
     className="c-TransactionRow-keHKEY mx-0 row"
@@ -59,10 +60,11 @@ exports[`<AccountRow /> renders with long name 1`] = `
 
 exports[`<AccountRow /> renders with short name 1`] = `
 <a
-  className="c-Anchor-hIXuvg"
+  className="c-StyledLink-hIXuvg"
   href="/accounts/account"
   onClick={[Function]}
   onMouseEnter={[Function]}
+  onTouchStart={[Function]}
 >
   <div
     className="c-TransactionRow-keHKEY mx-0 row"

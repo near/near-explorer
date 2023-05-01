@@ -33,10 +33,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <a
-          className="c-Anchor-hIXuvg"
+          className="c-StyledLink-hIXuvg"
           href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           R1111111111111111111111111111111111111111111
         </a>
@@ -55,10 +56,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <a
-          className="c-Anchor-hIXuvg"
+          className="c-StyledLink-hIXuvg"
           href="/blocks/B111111111111111111111111111111111111111111"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           B111111111111111111111111111111111111111111
         </a>
@@ -78,10 +80,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         title="signer.test"
       >
         <a
-          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
           href="/accounts/signer.test"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           signer.test
         </a>
@@ -101,10 +104,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         title="receiver.test"
       >
         <a
-          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
           href="/accounts/receiver.test"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           receiver.test
         </a>
@@ -163,9 +167,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
           >
             <div
               className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-            >
-              <test-file-stub />
-            </div>
+            />
           </div>
           <div
             className="c-ActionRowDetails-jUwbjv col"
@@ -184,10 +186,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   >
                     component.transactions.ActionMessage.FunctionCall.called_method
                     <a
-                      className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                      className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                       href="/accounts/receiver.test"
                       onClick={[Function]}
                       onMouseEnter={[Function]}
+                      onTouchStart={[Function]}
                     >
                       receiver.test
                     </a>
@@ -299,10 +302,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   R2222222222222222222222222222222222222222222
                 </a>
@@ -321,10 +325,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/blocks/B222222222222222222222222222222222222222222"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   B222222222222222222222222222222222222222222
                 </a>
@@ -344,10 +349,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 title="system"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/system"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   system
                 </a>
@@ -367,10 +373,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 title="receiver.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   receiver.test
                 </a>
@@ -429,9 +436,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   >
                     <div
                       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                    >
-                      <test-file-stub />
-                    </div>
+                    />
                   </div>
                   <div
                     className="c-ActionRowDetails-jUwbjv col"
@@ -461,10 +466,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                             </span>
                             component.transactions.ActionMessage.Transfer.to
                             <a
-                              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                               href="/accounts/receiver.test"
                               onClick={[Function]}
                               onMouseEnter={[Function]}
+                              onTouchStart={[Function]}
                             >
                               receiver.test
                             </a>
@@ -535,10 +541,11 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <a
-          className="c-Anchor-hIXuvg"
+          className="c-StyledLink-hIXuvg"
           href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           R1111111111111111111111111111111111111111111
         </a>
@@ -557,10 +564,11 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <a
-          className="c-Anchor-hIXuvg"
+          className="c-StyledLink-hIXuvg"
           href="/blocks/B222222222222222222222222222222222222222222"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           B222222222222222222222222222222222222222222
         </a>
@@ -580,10 +588,11 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         title="signer.test"
       >
         <a
-          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
           href="/accounts/signer.test"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           signer.test
         </a>
@@ -603,10 +612,11 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         title="receiver.test"
       >
         <a
-          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
           href="/accounts/receiver.test"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           receiver.test
         </a>
@@ -665,9 +675,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
           >
             <div
               className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-            >
-              <test-file-stub />
-            </div>
+            />
           </div>
           <div
             className="c-ActionRowDetails-jUwbjv col"
@@ -686,10 +694,11 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                   >
                     component.transactions.ActionMessage.FunctionCall.called_method
                     <a
-                      className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                      className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                       href="/accounts/receiver.test"
                       onClick={[Function]}
                       onMouseEnter={[Function]}
+                      onTouchStart={[Function]}
                     >
                       receiver.test
                     </a>
@@ -796,10 +805,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/transactions/T1111111111111111111111111111111111111111111#R222222222222222222222222222222222222222222"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   R222222222222222222222222222222222222222222
                 </a>
@@ -818,10 +828,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/blocks/B333333333333333333333333333333333333333333"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   B333333333333333333333333333333333333333333
                 </a>
@@ -841,10 +852,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="signer1.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/signer1.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   signer1.test
                 </a>
@@ -864,10 +876,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="receiver.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   receiver.test
                 </a>
@@ -926,9 +939,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   >
                     <div
                       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                    >
-                      <test-file-stub />
-                    </div>
+                    />
                   </div>
                   <div
                     className="c-ActionRowDetails-jUwbjv col"
@@ -947,10 +958,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           >
                             component.transactions.ActionMessage.FunctionCall.called_method
                             <a
-                              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                               href="/accounts/receiver.test"
                               onClick={[Function]}
                               onMouseEnter={[Function]}
+                              onTouchStart={[Function]}
                             >
                               receiver.test
                             </a>
@@ -1068,10 +1080,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <a
-                          className="c-Anchor-hIXuvg"
+                          className="c-StyledLink-hIXuvg"
                           href="/transactions/T1111111111111111111111111111111111111111111#R555555555555555555555555555555555555555555"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           R555555555555555555555555555555555555555555
                         </a>
@@ -1090,10 +1103,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <a
-                          className="c-Anchor-hIXuvg"
+                          className="c-StyledLink-hIXuvg"
                           href="/blocks/B444444444444444444444444444444444444444444"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           B444444444444444444444444444444444444444444
                         </a>
@@ -1113,10 +1127,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         title="system"
                       >
                         <a
-                          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                           href="/accounts/system"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           system
                         </a>
@@ -1136,10 +1151,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         title="receiver.test"
                       >
                         <a
-                          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                           href="/accounts/receiver.test"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           receiver.test
                         </a>
@@ -1198,9 +1214,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           >
                             <div
                               className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                            >
-                              <test-file-stub />
-                            </div>
+                            />
                           </div>
                           <div
                             className="c-ActionRowDetails-jUwbjv col"
@@ -1230,10 +1244,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </span>
                                     component.transactions.ActionMessage.Transfer.to
                                     <a
-                                      className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                                      className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                                       href="/accounts/receiver.test"
                                       onClick={[Function]}
                                       onMouseEnter={[Function]}
+                                      onTouchStart={[Function]}
                                     >
                                       receiver.test
                                     </a>
@@ -1309,10 +1324,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/transactions/T1111111111111111111111111111111111111111111#R3333333333333333333333333333333333333333333"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   R3333333333333333333333333333333333333333333
                 </a>
@@ -1331,10 +1347,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/blocks/B4444444444444444444444444444444444444444444"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   B4444444444444444444444444444444444444444444
                 </a>
@@ -1354,10 +1371,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="signer1.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/signer1.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   signer1.test
                 </a>
@@ -1377,10 +1395,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="receiver1.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver1.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   receiver1.test
                 </a>
@@ -1439,9 +1458,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   >
                     <div
                       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                    >
-                      <test-file-stub />
-                    </div>
+                    />
                   </div>
                   <div
                     className="c-ActionRowDetails-jUwbjv col"
@@ -1460,10 +1477,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           >
                             component.transactions.ActionMessage.FunctionCall.called_method
                             <a
-                              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                               href="/accounts/receiver1.test"
                               onClick={[Function]}
                               onMouseEnter={[Function]}
+                              onTouchStart={[Function]}
                             >
                               receiver1.test
                             </a>
@@ -1581,10 +1599,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <a
-                          className="c-Anchor-hIXuvg"
+                          className="c-StyledLink-hIXuvg"
                           href="/transactions/T1111111111111111111111111111111111111111111#R6666666666666666666666666666666666666666666"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           R6666666666666666666666666666666666666666666
                         </a>
@@ -1603,10 +1622,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <a
-                          className="c-Anchor-hIXuvg"
+                          className="c-StyledLink-hIXuvg"
                           href="/blocks/B666666666666666666666666666666666666666666"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           B666666666666666666666666666666666666666666
                         </a>
@@ -1626,10 +1646,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         title="system"
                       >
                         <a
-                          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                           href="/accounts/system"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           system
                         </a>
@@ -1649,10 +1670,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         title="receiver.test"
                       >
                         <a
-                          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                           href="/accounts/receiver.test"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
                         >
                           receiver.test
                         </a>
@@ -1711,9 +1733,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           >
                             <div
                               className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                            >
-                              <test-file-stub />
-                            </div>
+                            />
                           </div>
                           <div
                             className="c-ActionRowDetails-jUwbjv col"
@@ -1743,10 +1763,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </span>
                                     component.transactions.ActionMessage.Transfer.to
                                     <a
-                                      className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                                      className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                                       href="/accounts/receiver.test"
                                       onClick={[Function]}
                                       onMouseEnter={[Function]}
+                                      onTouchStart={[Function]}
                                     >
                                       receiver.test
                                     </a>
@@ -1822,10 +1843,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/transactions/T1111111111111111111111111111111111111111111#R4444444444444444444444444444444444444444444"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   R4444444444444444444444444444444444444444444
                 </a>
@@ -1844,10 +1866,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/blocks/B555555555555555555555555555555555555555555"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   B555555555555555555555555555555555555555555
                 </a>
@@ -1867,10 +1890,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="system"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/system"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   system
                 </a>
@@ -1890,10 +1914,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="receiver.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   receiver.test
                 </a>
@@ -1952,9 +1977,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   >
                     <div
                       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                    >
-                      <test-file-stub />
-                    </div>
+                    />
                   </div>
                   <div
                     className="c-ActionRowDetails-jUwbjv col"
@@ -1984,10 +2007,11 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             </span>
                             component.transactions.ActionMessage.Transfer.to
                             <a
-                              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                               href="/accounts/receiver.test"
                               onClick={[Function]}
                               onMouseEnter={[Function]}
+                              onTouchStart={[Function]}
                             >
                               receiver.test
                             </a>
@@ -2058,10 +2082,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <a
-          className="c-Anchor-hIXuvg"
+          className="c-StyledLink-hIXuvg"
           href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           R1111111111111111111111111111111111111111111
         </a>
@@ -2080,10 +2105,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <a
-          className="c-Anchor-hIXuvg"
+          className="c-StyledLink-hIXuvg"
           href="/blocks/B222222222222222222222222222222222222222222"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           B222222222222222222222222222222222222222222
         </a>
@@ -2103,10 +2129,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         title="signer.test"
       >
         <a
-          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
           href="/accounts/signer.test"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           signer.test
         </a>
@@ -2126,10 +2153,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         title="receiver.test"
       >
         <a
-          className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+          className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
           href="/accounts/receiver.test"
           onClick={[Function]}
           onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           receiver.test
         </a>
@@ -2188,9 +2216,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           >
             <div
               className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-            >
-              <test-file-stub />
-            </div>
+            />
           </div>
           <div
             className="c-ActionRowDetails-jUwbjv col"
@@ -2209,10 +2235,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   >
                     component.transactions.ActionMessage.FunctionCall.called_method
                     <a
-                      className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                      className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                       href="/accounts/receiver.test"
                       onClick={[Function]}
                       onMouseEnter={[Function]}
+                      onTouchStart={[Function]}
                     >
                       receiver.test
                     </a>
@@ -2335,10 +2362,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   R2222222222222222222222222222222222222222222
                 </a>
@@ -2357,10 +2385,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/blocks/B333333333333333333333333333333333333333333"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   B333333333333333333333333333333333333333333
                 </a>
@@ -2380,10 +2409,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 title="system"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/system"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   system
                 </a>
@@ -2403,10 +2433,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 title="receiver.test"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   receiver.test
                 </a>
@@ -2465,9 +2496,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   >
                     <div
                       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-                    >
-                      <test-file-stub />
-                    </div>
+                    />
                   </div>
                   <div
                     className="c-ActionRowDetails-jUwbjv col"
@@ -2497,10 +2526,11 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                             </span>
                             component.transactions.ActionMessage.Transfer.to
                             <a
-                              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                               href="/accounts/receiver.test"
                               onClick={[Function]}
                               onMouseEnter={[Function]}
+                              onTouchStart={[Function]}
                             >
                               receiver.test
                             </a>

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
 import { AccountFungibleToken } from "@explorer/common/types/procedures";

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Spinner } from "react-bootstrap";
 
 import { AccountNonFungibleTokenElement } from "@explorer/common/types/procedures";

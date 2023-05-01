@@ -15,9 +15,12 @@ export default createJestConfig({
   collectCoverage: false,
   timers: "modern",
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": path.join(__dirname, "./babel-jest-wrapper"),
+    "^.+\\.(js|jsx|ts|tsx|mjs)$": path.join(__dirname, "./babel-jest-wrapper"),
   },
-  moduleNameMapper: pathsToModuleNameMapper(tsConfig.compilerOptions.paths, {
-    prefix: `<rootDir>/../${tsConfig.compilerOptions.baseUrl}/`,
-  }),
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(tsConfig.compilerOptions.paths, {
+      prefix: `<rootDir>/../${tsConfig.compilerOptions.baseUrl}/`,
+    }),
+    "^.+\\.(svg)$": "<rootDir>/src/testing/svg-mock.ts",
+  },
 });

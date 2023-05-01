@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Button, FormControl, InputGroup, Row, Spinner } from "react-bootstrap";
@@ -279,8 +280,6 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
   const compact = !dashboard;
 
-  // Remove after migration to next.js >= 13
-  /* eslint-disable @next/next/no-img-element */
   return (
     <>
       <SearchWrapper onSubmit={onSubmit} compact={compact}>
@@ -289,9 +288,11 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
             {!dashboard && (
               <InputGroup.Prepend>
                 <InputGroupText id="search">
-                  <img
+                  <Image
                     src="/static/images/icon-search.svg"
                     alt={t("component.utils.Search.title")!}
+                    width={14}
+                    height={14}
                   />
                 </InputGroupText>
               </InputGroup.Prepend>

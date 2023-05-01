@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
 import { CSS, styled } from "@explorer/frontend/libraries/styles";
 
-const Anchor = styled("a", {
+const StyledLink = styled(Link, {
   textDecoration: "none",
   color: "inherit",
   "&:hover": {
@@ -32,7 +32,13 @@ type Props = Omit<LinkProps, "href"> & {
 };
 
 const LinkWrapper = React.memo<Props>(
-  ({ onClick: onClickRaw, shallow, css, className, href, ...props }) => {
+  ({
+    onClick: onClickRaw,
+    shallow = true,
+    href,
+    prefetch = false,
+    ...props
+  }) => {
     const router = useRouter();
     const track = useAnalyticsTrack();
     const isIframe = Boolean(router.query.iframe);
@@ -40,6 +46,7 @@ const LinkWrapper = React.memo<Props>(
       (e) => {
         if (!href || isIframe) {
           e.preventDefault();
+          return;
         }
         track("Explorer Click Link", { href });
         onClickRaw?.(e);
@@ -47,30 +54,18 @@ const LinkWrapper = React.memo<Props>(
       [onClickRaw, track, href, isIframe]
     );
 
-    const anchor = (
-      <Anchor
-        onClick={onClick}
-        css={css}
-        className={className}
-        disabled={!href}
-      >
-        {props.children}
-      </Anchor>
-    );
-
-    if (!href || isIframe) {
-      return anchor;
-    }
-
     return (
-      <Link
-        shallow={shallow === false ? shallow : true}
+      <StyledLink
         passHref
-        href={href}
+        href={href || ""}
+        onClick={onClick}
+        disabled={!href || isIframe}
+        prefetch={prefetch}
+        shallow={shallow}
         {...props}
       >
-        {anchor}
-      </Link>
+        {props.children}
+      </StyledLink>
     );
   }
 );

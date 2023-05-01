@@ -25,6 +25,7 @@
     "paths": {
       "@explorer/common/*": ["./common/src/*"],
       "@explorer/backend/*": ["./backend/src/*"],
+      "@explorer/frontend/public/*": ["./frontend/public/*"],
       "@explorer/frontend/*": ["./frontend/src/*"]
     }
   },
