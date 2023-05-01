@@ -29,7 +29,7 @@ const DashboardBlock: React.FC = React.memo(() => {
 
   return (
     <DashboardCard
-      dataId="blocks"
+      dataTestId="dashboard-blocks"
       className="ml-md-4"
       iconPath="/static/images/icon-blocks.svg"
       title={t("common.blocks.blocks")}

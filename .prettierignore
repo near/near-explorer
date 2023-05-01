@@ -1,3 +1,4 @@
 frontend/.next
 .history
 backend/build
+playwright-report

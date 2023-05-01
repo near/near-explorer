@@ -1,4 +1,4 @@
 {
   "extends": "../tsconfig.json",
-  "exclude": ["cypress"]
+  "exclude": ["node_modules"]
 }

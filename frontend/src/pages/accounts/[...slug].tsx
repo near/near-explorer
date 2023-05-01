@@ -3,6 +3,7 @@ import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
+import { stringify } from "querystring";
 import { Spinner } from "react-bootstrap";
 
 import { TRPCQueryResult } from "@explorer/common/types/trpc";
@@ -125,7 +126,9 @@ export const getServerSideProps: GetServerSideProps<
     return {
       redirect: {
         permanent: true,
-        destination: `/accounts/${accountId.toLowerCase()}`,
+        destination: `/accounts/${accountId.toLowerCase()}${`?${stringify(
+          context.query
+        )}`}`,
       },
     };
   }

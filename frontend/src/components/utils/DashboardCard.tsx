@@ -40,7 +40,7 @@ const DashboardIcon = styled("img", {
 
 interface Props {
   className?: string;
-  dataId: string;
+  dataTestId: string;
   iconPath: string;
   title: string;
   headerRight?: React.ReactNode;
@@ -48,8 +48,12 @@ interface Props {
 }
 
 const DashboardCard: React.FC<Props> = React.memo(
-  ({ iconPath, title, headerRight, className, dataId, children }) => (
-    <DashboardCardWrapper noGutters className={className} data-id={dataId}>
+  ({ iconPath, title, headerRight, className, dataTestId, children }) => (
+    <DashboardCardWrapper
+      noGutters
+      className={className}
+      data-testid={dataTestId}
+    >
       <Col xs="12">
         <DashboardCardHeader>
           <Col>

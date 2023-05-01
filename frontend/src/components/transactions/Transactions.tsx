@@ -47,7 +47,7 @@ const Transactions: React.FC<Props> = React.memo(({ query }) => {
         return (
           <FlipMove duration={1000} staggerDurationBy={0}>
             {items.map((transaction) => (
-              <div key={transaction.hash}>
+              <div key={transaction.hash} data-testid="transaction-item">
                 <TransactionAction transaction={transaction} />
               </div>
             ))}

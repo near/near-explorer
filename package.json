@@ -10,9 +10,10 @@
     "docker:up:shardnet": "ENV=shardnet docker-compose up",
     "docker:up:guildnet": "ENV=guildnet docker-compose up",
     "typecheck": "npm run -w frontend typecheck && npm run -w backend typecheck",
+    "build": "npm run -w frontend build && npm run -w backend build",
     "start": "concurrently \"npm run -w frontend start\" \"npm run -w backend start:mainnet\"",
-    "test:ci": "start-server-and-test start \"3000|http://localhost:10000/ping\" \"npm run -w frontend cy:run\"",
-    "postinstall": "patch-package && npm --workspaces --if-present run postinstall"
+    "postinstall": "patch-package && npm --workspaces --if-present run postinstall",
+    "test:e2e": "playwright test -c frontend"
   },
   "workspaces": [
     "common",
