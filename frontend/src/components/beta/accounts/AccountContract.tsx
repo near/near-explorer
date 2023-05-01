@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
 import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
 import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
@@ -32,8 +33,19 @@ export const SmallHeader = styled("div", {
 const AccountContract: React.FC<Props> = React.memo(({ id }) => {
   const { t } = useTranslation();
   const contractQuery = trpc.useQuery(["contract.byId", { id }]);
-  if (!contractQuery.data) {
+  if (
+    contractQuery.status === "loading" ||
+    contractQuery.status === "idle" ||
+    contractQuery.data === null
+  ) {
     return null;
+  }
+  if (contractQuery.status === "error") {
+    return (
+      <ErrorMessage onRetry={contractQuery.refetch}>
+        {contractQuery.error.message}
+      </ErrorMessage>
+    );
   }
   return (
     <ContractInfo>

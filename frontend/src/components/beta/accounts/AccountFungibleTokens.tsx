@@ -5,6 +5,7 @@ import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
 import { AccountFungibleToken } from "@explorer/common/types/procedures";
 import AccountFungibleTokenHistory from "@explorer/frontend/components/beta/accounts/AccountFungibleTokenHistory";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import LinkWrapper from "@explorer/frontend/components/utils/Link";
 import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
 import {
@@ -140,14 +141,23 @@ const AccountFungibleTokensView: React.FC<Props> = React.memo(({ options }) => {
     "account.fungibleTokens",
     { accountId: options.accountId },
   ]);
-  if (tokensQuery.status === "loading") {
+  if (tokensQuery.status === "loading" || tokensQuery.status === "idle") {
     return (
       <Wrapper>
         <Spinner animation="border" />
       </Wrapper>
     );
   }
-  const tokens = tokensQuery.data || [];
+  if (tokensQuery.status === "error") {
+    return (
+      <Wrapper>
+        <ErrorMessage onRetry={tokensQuery.refetch}>
+          {tokensQuery.error.message}
+        </ErrorMessage>
+      </Wrapper>
+    );
+  }
+  const tokens = tokensQuery.data;
   if (tokens.length === 0) {
     return <div>No fungible tokens yet!</div>;
   }

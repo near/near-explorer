@@ -9,6 +9,7 @@ import {
 } from "@explorer/common/types/procedures";
 import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
 import AccountLink from "@explorer/frontend/components/utils/AccountLink";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
 import Timer from "@explorer/frontend/components/utils/Timer";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -138,7 +139,6 @@ const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
       "account.nonFungibleTokenHistory",
       { tokenAuthorAccountId: token.authorAccountId, tokenId: token.tokenId },
     ]);
-    const elements = tokenHistoryQuery.data ?? [];
 
     return (
       <Wrapper>
@@ -171,15 +171,21 @@ const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
         <Description>{token.ownerId}</Description>
 
         <Heading>History</Heading>
-        {tokenHistoryQuery.status === "loading" ? (
+        {tokenHistoryQuery.status === "loading" ||
+        tokenHistoryQuery.status === "idle" ? (
           <Spinner animation="border" />
-        ) : null}
-        {elements.map((element) => (
-          <AccountNonFungibleTokensHistoryElement
-            key={`${element.receiptId}_${element.tokenId}`}
-            element={element}
-          />
-        ))}
+        ) : tokenHistoryQuery.status === "error" ? (
+          <ErrorMessage onRetry={tokenHistoryQuery.refetch}>
+            {tokenHistoryQuery.error.message}
+          </ErrorMessage>
+        ) : (
+          tokenHistoryQuery.data.map((element) => (
+            <AccountNonFungibleTokensHistoryElement
+              key={`${element.receiptId}_${element.tokenId}`}
+              element={element}
+            />
+          ))
+        )}
       </Wrapper>
     );
   }

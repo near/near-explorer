@@ -10,6 +10,7 @@ import ReceiptRow from "@explorer/frontend/components/transactions/ReceiptRow";
 import TransactionDetails from "@explorer/frontend/components/transactions/TransactionDetails";
 import TransactionOutcome from "@explorer/frontend/components/transactions/TransactionOutcome";
 import Content from "@explorer/frontend/components/utils/Content";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { useBeta } from "@explorer/frontend/hooks/use-beta";
 import { styled } from "@explorer/frontend/libraries/styles";
@@ -28,7 +29,6 @@ const TransactionDetailsPage = React.memo(() => {
     transaction_hash: hash,
   });
   const transactionQuery = trpc.useQuery(["transaction.byHashOld", { hash }]);
-  const transaction = transactionQuery.data;
 
   return (
     <>
@@ -44,45 +44,47 @@ const TransactionDetailsPage = React.memo(() => {
         }
         border={false}
       >
-        {!transaction ? (
-          transactionQuery.isLoading ? (
-            t("page.transactions.error.transaction_fetching")
-          ) : (
-            t("page.transactions.error.notFound")
-          )
+        {transactionQuery.status === "loading" ||
+        transactionQuery.status === "idle" ? (
+          t("page.transactions.error.transaction_fetching")
+        ) : transactionQuery.status === "error" ? (
+          <ErrorMessage onRetry={transactionQuery.refetch}>
+            {transactionQuery.error.message}
+          </ErrorMessage>
+        ) : transactionQuery.data ? (
+          <TransactionDetails transaction={transactionQuery.data} />
         ) : (
-          <TransactionDetails transaction={transaction} />
+          t("page.transactions.error.notFound")
         )}
       </Content>
-      {transaction && (
-        <Content
-          icon={<TransactionIcon />}
-          title={<h2>{t("common.actions.actions")}</h2>}
-        >
-          <ActionsList
-            actions={transaction.actions}
-            signerId={transaction.signerId}
-            receiverId={transaction.receiverId}
-            blockTimestamp={transaction.blockTimestamp}
-            detalizationMode="minimal"
-            showDetails
-          />
-        </Content>
-      )}
+      {transactionQuery.data ? (
+        <>
+          <Content
+            icon={<TransactionIcon />}
+            title={<h2>{t("common.actions.actions")}</h2>}
+          >
+            <ActionsList
+              actions={transactionQuery.data.actions}
+              signerId={transactionQuery.data.signerId}
+              receiverId={transactionQuery.data.receiverId}
+              blockTimestamp={transactionQuery.data.blockTimestamp}
+              detalizationMode="minimal"
+              showDetails
+            />
+          </Content>
+          <Content
+            icon={<TransactionIcon />}
+            title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
+          >
+            <TransactionOutcome outcome={transactionQuery.data.outcome} />
 
-      {transaction?.receipt && (
-        <Content
-          icon={<TransactionIcon />}
-          title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
-        >
-          <TransactionOutcome outcome={transaction.outcome} />
-
-          <ReceiptRow
-            receipt={transaction.receipt}
-            transactionHash={transaction.hash}
-          />
-        </Content>
-      )}
+            <ReceiptRow
+              receipt={transactionQuery.data.receipt}
+              transactionHash={transactionQuery.data.hash}
+            />
+          </Content>
+        </>
+      ) : null}
     </>
   );
 });

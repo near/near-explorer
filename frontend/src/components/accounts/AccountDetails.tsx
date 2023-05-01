@@ -10,6 +10,7 @@ import CardCell, {
   CardCellText,
 } from "@explorer/frontend/components/utils/CardCell";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import StorageSize from "@explorer/frontend/components/utils/StorageSize";
 import Term from "@explorer/frontend/components/utils/Term";
 import WalletLink from "@explorer/frontend/components/utils/WalletLink";
@@ -33,6 +34,12 @@ const AccountInfoContainer = styled("div", {
 
 const ColoredCell = styled(CardCell, {
   backgroundColor: "#f8f8f8",
+});
+
+const TransactionsAmount = styled("span", {
+  "& + &": {
+    marginLeft: 10,
+  },
 });
 
 type StakingBalanceProps = {
@@ -166,7 +173,7 @@ export interface Props {
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { data: transactionCount, isLoading } = trpc.useQuery([
+  const transactionsQuery = trpc.useQuery([
     "account.transactionsCount",
     { id: account.accountId },
   ]);
@@ -189,29 +196,25 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
             }
             imgLink="/static/images/icon-m-transaction.svg"
             text={
-              <>
-                <span>
-                  &uarr;
-                  {isLoading ? (
-                    <Spinner animation="border" variant="secondary" />
-                  ) : transactionCount === undefined ? (
-                    "-"
-                  ) : (
-                    formatNumber(transactionCount.outTransactionsCount)
-                  )}
-                </span>
-                &nbsp;&nbsp;
-                <span>
-                  &darr;
-                  {isLoading ? (
-                    <Spinner animation="border" variant="secondary" />
-                  ) : transactionCount === undefined ? (
-                    "-"
-                  ) : (
-                    formatNumber(transactionCount.inTransactionsCount)
-                  )}
-                </span>
-              </>
+              transactionsQuery.status === "loading" ||
+              transactionsQuery.status === "idle" ? (
+                <Spinner animation="border" variant="secondary" />
+              ) : transactionsQuery.status === "error" ? (
+                <ErrorMessage onRetry={transactionsQuery.refetch}>
+                  {transactionsQuery.error.message}
+                </ErrorMessage>
+              ) : transactionsQuery.data ? (
+                <>
+                  <TransactionsAmount>
+                    ↑{formatNumber(transactionsQuery.data.outTransactionsCount)}
+                  </TransactionsAmount>
+                  <TransactionsAmount>
+                    ↓{formatNumber(transactionsQuery.data.inTransactionsCount)}
+                  </TransactionsAmount>
+                </>
+              ) : (
+                "-"
+              )
             }
             className="border-0"
           />

@@ -12,6 +12,7 @@ import Transactions, {
   getNextPageParam,
 } from "@explorer/frontend/components/transactions/Transactions";
 import Content from "@explorer/frontend/components/utils/Content";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { styled } from "@explorer/frontend/libraries/styles";
 import { trpc } from "@explorer/frontend/libraries/trpc";
@@ -53,17 +54,19 @@ const BlockDetail: NextPage = React.memo(() => {
         }
         border={false}
       >
-        {!blockQuery.data ? (
-          blockQuery.isLoading ? (
-            t("page.blocks.error.block_fetching")
-          ) : (
-            t("page.blocks.error.notFound")
-          )
-        ) : (
+        {blockQuery.status === "loading" || blockQuery.status === "idle" ? (
+          t("page.blocks.error.block_fetching")
+        ) : blockQuery.status === "error" ? (
+          <ErrorMessage onRetry={blockQuery.refetch}>
+            {blockQuery.error.message}
+          </ErrorMessage>
+        ) : blockQuery.data ? (
           <BlockDetails block={blockQuery.data} />
+        ) : (
+          t("page.blocks.error.notFound")
         )}
       </Content>
-      {!blockQuery.isError ? (
+      {blockQuery.status === "success" ? (
         <>
           <Content
             icon={<TransactionIcon />}

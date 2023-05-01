@@ -10,6 +10,7 @@ import {
   AccountFungibleTokenHistoryElement,
 } from "@explorer/common/types/procedures";
 import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import LinkWrapper from "@explorer/frontend/components/utils/Link";
 import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
 import { buildAccountUrl } from "@explorer/frontend/hooks/use-account-page-options";
@@ -137,11 +138,18 @@ const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
       "account.fungibleTokenHistory",
       { accountId, tokenAuthorAccountId: token.authorAccountId },
     ]);
-    if (tokenHistoryQuery.status !== "success") {
-      if (tokenHistoryQuery.status === "loading") {
-        return <Spinner animation="border" />;
-      }
-      return null;
+    if (
+      tokenHistoryQuery.status === "loading" ||
+      tokenHistoryQuery.status === "idle"
+    ) {
+      return <Spinner animation="border" />;
+    }
+    if (tokenHistoryQuery.status === "error") {
+      return (
+        <ErrorMessage onRetry={tokenHistoryQuery.refetch}>
+          {tokenHistoryQuery.error.message}
+        </ErrorMessage>
+      );
     }
     const { elements, baseAmount } = tokenHistoryQuery.data;
     const cumulativeBalance = elements
