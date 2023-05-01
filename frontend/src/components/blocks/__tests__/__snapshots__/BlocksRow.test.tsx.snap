@@ -2,10 +2,11 @@
 
 exports[`<BlocksRow /> renders 1`] = `
 <a
-  className="c-Anchor-hIXuvg"
+  className="c-StyledLink-hIXuvg"
   href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
   onClick={[Function]}
   onMouseEnter={[Function]}
+  onTouchStart={[Function]}
 >
   <div
     className="c-TransactionRow-keHKEY mx-0 row"

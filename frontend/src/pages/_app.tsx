@@ -8,12 +8,7 @@ import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
 import { withTRPC } from "@trpc/next";
 import Gleap from "gleap";
 import { NextPage } from "next";
-import {
-  AppInitialProps,
-  AppProps,
-  ExtraAppInitialProps,
-  ServerAppInitialProps,
-} from "next/app";
+import { AppProps } from "next/app";
 import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
@@ -126,23 +121,21 @@ if (typeof window !== "undefined" && gleapKey) {
   Gleap.initialize(gleapKey);
 }
 
-declare module "next/app" {
-  // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
-  type ServerAppInitialProps = {
-    cookies: string;
-  };
+// Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
+type ServerAppInitialProps = {
+  cookies: string;
+};
 
-  type ExtraAppInitialProps = {
-    language: Language;
-    networkName: NetworkName;
-    deployInfo: DeployInfoProps;
-    getServerProps?: () => ServerAppInitialProps;
-  } & SSRConfig &
-    Omit<SSRContextType, "isFirstRender">;
+type ExtraAppInitialProps = {
+  language: Language;
+  networkName: NetworkName;
+  deployInfo: DeployInfoProps;
+  getServerProps?: () => ServerAppInitialProps;
+} & SSRConfig &
+  Omit<SSRContextType, "isFirstRender">;
 
-  interface AppInitialProps {
-    pageProps: ExtraAppInitialProps;
-  }
+interface AppInitialProps {
+  pageProps: ExtraAppInitialProps;
 }
 
 const wrapRouterHandlerMaintainNetwork =
@@ -208,112 +201,113 @@ const NetworkWrapper: React.FC<
 
 let extraAppInitialPropsCache: Omit<ExtraAppInitialProps, "getServerProps">;
 
-const InnerApp: React.FC<AppPropsType & { Component: NextPageWithLayout }> =
-  React.memo(({ Component, pageProps }) => {
-    const {
+const InnerApp: React.FC<
+  AppPropsType<NextRouter, ExtraAppInitialProps> & {
+    Component: NextPageWithLayout;
+  }
+> = React.memo(({ Component, pageProps }) => {
+  const {
+    networkName,
+    language: initialLanguage,
+    nowTimestamp,
+    tzOffset,
+    deployInfo,
+    getServerProps,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    _nextI18Next,
+    ...restPageProps
+  } = pageProps;
+  extraAppInitialPropsCache = {
+    language: initialLanguage,
+    nowTimestamp,
+    tzOffset,
+    deployInfo,
+    networkName,
+    _nextI18Next,
+  };
+
+  const router = useRouter();
+  React.useEffect(() => {
+    router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
+    router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
+  }, [router]);
+
+  const [language, , isQuery] = useLanguage();
+  const [, setLanguageCookie] = useCookie<Language>(LANGUAGE_COOKIE, {
+    defaultValue: language,
+  });
+  React.useEffect(() => {
+    if (!isQuery) {
+      setLanguageCookie(language);
+    }
+  }, [setLanguageCookie, language, isQuery]);
+  React.useEffect(() => {
+    Gleap.setLanguage(language);
+  }, [language]);
+
+  useAnalyticsInit();
+  globalStyles();
+
+  const networkState = React.useMemo(
+    () => ({
       networkName,
-      language: initialLanguage,
-      nowTimestamp,
-      tzOffset,
-      deployInfo,
-      getServerProps,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      _nextI18Next,
-      ...restPageProps
-    } = pageProps;
-    extraAppInitialPropsCache = {
-      language: initialLanguage,
-      nowTimestamp,
-      tzOffset,
-      deployInfo,
-      networkName,
-      _nextI18Next,
-    };
+      networks: nearNetworks,
+    }),
+    [networkName]
+  );
+  const currentNetwork = nearNetworks[networkName];
+  const offline = Boolean(currentNetwork?.offline);
 
-    const router = useRouter();
-    React.useEffect(() => {
-      router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
-      router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
-    }, [router]);
+  useWatchBeta();
 
-    const [language, , isQuery] = useLanguage();
-    const [, setLanguageCookie] = useCookie<Language>(LANGUAGE_COOKIE, {
-      defaultValue: language,
-    });
-    React.useEffect(() => {
-      if (!isQuery) {
-        setLanguageCookie(language);
-      }
-    }, [setLanguageCookie, language, isQuery]);
-    React.useEffect(() => {
-      Gleap.setLanguage(language);
-    }, [language]);
+  const getLayout = router.query.embedded
+    ? id
+    : Component.getLayout || defaultGetLayout;
 
-    useAnalyticsInit();
-    globalStyles();
-
-    const networkState = React.useMemo(
-      () => ({
-        networkName,
-        networks: nearNetworks,
-      }),
-      [networkName]
-    );
-    const currentNetwork = nearNetworks[networkName];
-    const offline = Boolean(currentNetwork?.offline);
-
-    useWatchBeta();
-
-    const getLayout = router.query.embedded
-      ? id
-      : Component.getLayout || defaultGetLayout;
-
-    return (
-      <>
-        <Head>
-          <link
-            rel="shortcut icon"
-            type="image/png"
-            href="/static/favicon.ico"
+  return (
+    <>
+      <Head>
+        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <SSRContextWrapper nowTimestamp={nowTimestamp} tzOffset={tzOffset}>
+        <NetworkWrapper networkState={networkState}>
+          {getLayout(
+            offline ? <OfflineSplash /> : <Component {...restPageProps} />
+          )}
+          <DeployInfo client={deployInfo} />
+          <ReactQueryDevtools />
+        </NetworkWrapper>
+      </SSRContextWrapper>
+      {googleAnalytics ? (
+        /* eslint-disable react/no-danger */ <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
           />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <SSRContextWrapper nowTimestamp={nowTimestamp} tzOffset={tzOffset}>
-          <NetworkWrapper networkState={networkState}>
-            {getLayout(
-              offline ? <OfflineSplash /> : <Component {...restPageProps} />
-            )}
-            <DeployInfo client={deployInfo} />
-            <ReactQueryDevtools />
-          </NetworkWrapper>
-        </SSRContextWrapper>
-        {googleAnalytics ? (
-          /* eslint-disable react/no-danger */ <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
                 gtag('config', '${googleAnalytics}');
               `,
-              }}
-            />
-          </>
-        ) : null}
-      </>
-    );
-  });
+            }}
+          />
+        </>
+      ) : null}
+    </>
+  );
+});
 
-const App: AppType = ({ pageProps, ...props }) => {
+const App: AppType<{ pageProps: ExtraAppInitialProps }> = ({
+  pageProps: rawPageProps,
+  ...props
+}) => {
+  // Remove when https://github.com/vercel/next.js/pull/44434 resolved
+  const pageProps = rawPageProps as unknown as ExtraAppInitialProps;
   const [cookies] = React.useState(() =>
     getCookiesFromString(
       pageProps.getServerProps?.().cookies ?? getClientCookiesSafe()

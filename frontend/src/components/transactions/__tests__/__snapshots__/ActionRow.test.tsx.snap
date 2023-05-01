@@ -9,9 +9,7 @@ exports[`<ActionRow /> renders compact for receipt 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
@@ -30,10 +28,11 @@ exports[`<ActionRow /> renders compact for receipt 1`] = `
           >
             component.transactions.ActionMessage.FunctionCall.called_method
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               5ce78…ockup.near
             </a>
@@ -54,9 +53,7 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
@@ -75,10 +72,11 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
           >
             component.transactions.ActionMessage.AddKey.new_key_added
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               receiver.test
             </a>
@@ -97,10 +95,11 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               signer.test
             </a>
@@ -117,10 +116,11 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               BvJeW6g...
             </a>
@@ -159,9 +159,7 @@ exports[`<ActionRow /> renders delegateAction with details 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -187,10 +185,11 @@ exports[`<ActionRow /> renders delegateAction with details 1`] = `
               >
                 component.transactions.ActionMessage.FunctionCall.called_method
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/bob.testnet"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   bob.testnet
                 </a>
@@ -238,10 +237,11 @@ exports[`<ActionRow /> renders delegateAction with details 1`] = `
                 </span>
                 component.transactions.ActionMessage.Transfer.to
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/bob.testnet"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   bob.testnet
                 </a>
@@ -258,10 +258,11 @@ exports[`<ActionRow /> renders delegateAction with details 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/relayer.testnet"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               relayer.testnet
             </a>
@@ -311,9 +312,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -332,10 +331,11 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
           >
             component.transactions.ActionMessage.FunctionCall.called_method
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               receiver.test
             </a>
@@ -377,10 +377,11 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               signer.test
             </a>
@@ -430,9 +431,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -451,10 +450,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
           >
             component.transactions.ActionMessage.FunctionCall.called_method
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/app.nearcrowd.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               app.nearcrowd.near
             </a>
@@ -469,10 +469,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/elonmusk_tesla.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               elonmusk_tesla.near
             </a>
@@ -489,10 +490,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/2WDYbcuRyyRXJvrXkfFej9Vrv3s3GNTxVQAqKFTiEtGh#7uADRkZL3b8HRbCRe3ML6yRyVZ46HHp1pEJKbxewq5Hg"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               7uADRkZ...
             </a>
@@ -531,9 +533,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -552,10 +552,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
           >
             component.transactions.ActionMessage.CreateAccount.new_account_created
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               receiver.test
             </a>
@@ -570,10 +571,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               signer.test
             </a>
@@ -590,10 +592,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               BvJeW6g...
             </a>
@@ -632,9 +635,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -653,10 +654,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
           >
             component.transactions.ActionMessage.CreateAccount.new_account_created
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               receiver.test
             </a>
@@ -671,10 +673,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               signer.test
             </a>
@@ -691,10 +694,11 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               BvJeW6g...
             </a>

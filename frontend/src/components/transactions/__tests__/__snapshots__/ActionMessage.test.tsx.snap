@@ -4,10 +4,11 @@ exports[`<ActionMessage /> renders AddKey with permission FullAccess 1`] = `
 Array [
   "component.transactions.ActionMessage.AddKey.new_key_added",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver.test
   </a>,
@@ -22,10 +23,11 @@ exports[`<ActionMessage /> renders AddKey with permission function call to call 
 Array [
   "component.transactions.ActionMessage.AddKey.access_key_added_for_contract",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/stake"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     stake
   </a>,
@@ -40,10 +42,11 @@ exports[`<ActionMessage /> renders AddKey with permission function call to call 
 Array [
   "component.transactions.ActionMessage.AddKey.access_key_added_for_contract",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/stake"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     stake
   </a>,
@@ -58,10 +61,11 @@ exports[`<ActionMessage /> renders CreateAccount 1`] = `
 Array [
   "component.transactions.ActionMessage.CreateAccount.new_account_created",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver.test
   </a>,
@@ -72,19 +76,21 @@ exports[`<ActionMessage /> renders DeleteAccount 1`] = `
 Array [
   "component.transactions.ActionMessage.DeleteAccount.delete_account",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver.test
   </a>,
   "component.transactions.ActionMessage.DeleteAccount.and_transfer_fund_to",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/near"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     near
   </a>,
@@ -97,10 +103,11 @@ exports[`<ActionMessage /> renders DeployContract 1`] = `
 Array [
   "component.transactions.ActionMessage.DeployContract.contract_deployed",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver.test
   </a>,
@@ -111,10 +118,11 @@ exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
   "component.transactions.ActionMessage.FunctionCall.called_method",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver.test
   </a>,
@@ -125,10 +133,11 @@ exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
 Array [
   "component.transactions.ActionMessage.FunctionCall.called_method",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver2.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver2.test
   </a>,
@@ -195,10 +204,11 @@ Array [
   </span>,
   "component.transactions.ActionMessage.Transfer.to",
   <a
-    className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+    className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
     receiver.test
   </a>,

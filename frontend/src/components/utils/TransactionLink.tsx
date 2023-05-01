@@ -9,7 +9,7 @@ export interface Props {
 
 const TransactionLink: React.FC<Props> = React.memo(
   ({ transactionHash, children }) => (
-    <Link href="/transactions/[hash]" as={`/transactions/${transactionHash}`}>
+    <Link href={`/transactions/${transactionHash}`}>
       {children || `${transactionHash.substring(0, 7)}...`}
     </Link>
   )

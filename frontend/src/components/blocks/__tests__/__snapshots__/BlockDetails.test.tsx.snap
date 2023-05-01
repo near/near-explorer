@@ -141,10 +141,11 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
                 <a
-                  className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                  className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/near.near"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   near.near
                 </a>
@@ -371,10 +372,11 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
                 <a
-                  className="c-Anchor-hIXuvg"
+                  className="c-StyledLink-hIXuvg"
                   href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
                 >
                   EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
                 </a>

@@ -34,9 +34,7 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
@@ -55,10 +53,11 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
           >
             component.transactions.ActionMessage.FunctionCall.called_method
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/app.nearcrowd.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               app.nearcrowd.near
             </a>
@@ -73,10 +72,11 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/elonmusk_tesla.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               elonmusk_tesla.near
             </a>
@@ -93,10 +93,11 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/2WDYbcuRyyRXJvrXkfFej9Vrv3s3GNTxVQAqKFTiEtGh#7uADRkZL3b8HRbCRe3ML6yRyVZ46HHp1pEJKbxewq5Hg"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               7uADRkZ...
             </a>
@@ -136,9 +137,7 @@ Array [
     >
       <div
         className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
-      >
-        <test-file-stub />
-      </div>
+      />
     </div>
     <div
       className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
@@ -157,10 +156,11 @@ Array [
             >
               component.transactions.ActionMessage.CreateAccount.new_account_created
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver.test
               </a>
@@ -175,10 +175,11 @@ Array [
               component.transactions.ActionRowBlock.by
                
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer.test
               </a>
@@ -195,10 +196,11 @@ Array [
               className="c-ActionRowTransaction-lbSlCc col"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 BvJeW6g...
               </a>
@@ -234,9 +236,7 @@ Array [
     >
       <div
         className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
-      >
-        <test-file-stub />
-      </div>
+      />
     </div>
     <div
       className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
@@ -255,10 +255,11 @@ Array [
             >
               component.transactions.ActionMessage.AddKey.new_key_added
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver.test
               </a>
@@ -277,10 +278,11 @@ Array [
               component.transactions.ActionRowBlock.by
                
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer.test
               </a>
@@ -297,10 +299,11 @@ Array [
               className="c-ActionRowTransaction-lbSlCc col"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 BvJeW6g...
               </a>
@@ -340,9 +343,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -361,10 +362,11 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
           >
             component.transactions.ActionMessage.FunctionCall.called_method
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/receiver2.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               receiver2.test
             </a>
@@ -406,10 +408,11 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/signer2.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               signer2.test
             </a>
@@ -426,10 +429,11 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               222eW6g...
             </a>
@@ -468,9 +472,7 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
   >
     <div
       className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-    >
-      <test-file-stub />
-    </div>
+    />
   </div>
   <div
     className="c-ActionRowDetails-jUwbjv col"
@@ -489,10 +491,11 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
           >
             component.transactions.ActionMessage.FunctionCall.called_method
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               5ce78…ockup.near
             </a>
@@ -507,10 +510,11 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
             component.transactions.ActionRowBlock.by
              
             <a
-              className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+              className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
               href="/accounts/5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               5ce78…ockup.near
             </a>
@@ -527,10 +531,11 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <a
-              className="c-Anchor-hIXuvg"
+              className="c-StyledLink-hIXuvg"
               href="/transactions/hash#BvG4qfnrxVfpqXrSgxxnfdrHYTKFjTcf2LtgEeX5Mzyz"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               BvG4qfn...
             </a>
@@ -570,9 +575,7 @@ Array [
     >
       <div
         className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-      >
-        <test-file-stub />
-      </div>
+      />
     </div>
     <div
       className="c-ActionRowDetails-jUwbjv col"
@@ -591,10 +594,11 @@ Array [
             >
               component.transactions.ActionMessage.CreateAccount.new_account_created
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver.test
               </a>
@@ -609,10 +613,11 @@ Array [
               component.transactions.ActionRowBlock.by
                
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer.test
               </a>
@@ -629,10 +634,11 @@ Array [
               className="c-ActionRowTransaction-lbSlCc col"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 BvJeW6g...
               </a>
@@ -668,9 +674,7 @@ Array [
     >
       <div
         className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
-      >
-        <test-file-stub />
-      </div>
+      />
     </div>
     <div
       className="c-ActionRowDetails-jUwbjv col"
@@ -689,10 +693,11 @@ Array [
             >
               component.transactions.ActionMessage.AddKey.new_key_added
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver.test
               </a>
@@ -711,10 +716,11 @@ Array [
               component.transactions.ActionRowBlock.by
                
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer.test
               </a>
@@ -731,10 +737,11 @@ Array [
               className="c-ActionRowTransaction-lbSlCc col"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 BvJeW6g...
               </a>

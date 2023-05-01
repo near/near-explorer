@@ -141,10 +141,11 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 gjtur…ockup.near
               </a>
@@ -476,10 +477,11 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 gjtur…ockup.near
               </a>
@@ -811,10 +813,11 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 gjtur…ockup.near
               </a>
@@ -1220,10 +1223,11 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 gjtur…ockup.near
               </a>

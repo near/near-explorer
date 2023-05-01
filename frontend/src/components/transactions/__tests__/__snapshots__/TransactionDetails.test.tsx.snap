@@ -42,10 +42,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer.test
               </a>
@@ -89,10 +90,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver.test
               </a>
@@ -458,10 +460,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/blocks/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
               </a>
@@ -516,10 +519,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer2.test
               </a>
@@ -563,10 +567,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver2.test
               </a>
@@ -932,10 +937,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/blocks/222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
               </a>
@@ -990,10 +996,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/signer2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 signer2.test
               </a>
@@ -1037,10 +1044,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg c-AccountLinkWrapper-dbzzBd"
+                className="c-StyledLink-hIXuvg c-AccountLinkWrapper-dbzzBd"
                 href="/accounts/receiver2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 receiver2.test
               </a>
@@ -1406,10 +1414,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <a
-                className="c-Anchor-hIXuvg"
+                className="c-StyledLink-hIXuvg"
                 href="/blocks/222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
+                onTouchStart={[Function]}
               >
                 222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
               </a>
