@@ -118,12 +118,6 @@ module.exports = {
             ),
         },
         {
-            files: ["frontend/cypress/**/*"],
-            parserOptions: {
-                project: "frontend/cypress/tsconfig.json",
-            },
-        },
-        {
             files: ["backend/src/database/models*/**/*"],
             rules: {
                 "import/no-named-default": "off",
@@ -139,6 +133,7 @@ module.exports = {
                     "src/libraries/wdyr.ts",
                     "jest.config.ts",
                     "utils/stitches-plugin/**/*",
+                    "playwright.config.ts",
                 ],
             ],
             ["backend", ["kanel.ts"]],

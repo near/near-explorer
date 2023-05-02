@@ -18,7 +18,7 @@ const DashboardNode: React.FC = React.memo(() => {
 
   return (
     <DashboardCard
-      dataId="nodes"
+      dataTestId="dashboard-nodes"
       iconPath="/static/images/icon-nodes.svg"
       title={t("common.nodes.title")}
     >

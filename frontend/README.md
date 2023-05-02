@@ -58,45 +58,18 @@ $ npm run start
 
 ## Run Tests
 
-To run the type check and unit tests, use the following command:
+To run unit tests, use the following command:
 
 ```
 $ npm run test
 ```
 
-TIP: Some tests are snapshot-based, so some changes may require to update the
-snapshots; to do that you review the reported diffs and once you are sure that
-those changes are legit, run the following command:
-
-```
-$ npm run test -- --updateSnapshot
-```
-
-, and commit those changes in the snapshots together with your PR.
-
 To run end-to-end testing against the local backend server:
 
 ```
 $ npm run build
-$ npm run e2e:test
+$ npm run test:e2e
 ```
-
-To run cypress testing against testnet:
-
-```
-$ npm run build
-$ npm run test:ci
-```
-
-To run cypress tests:
-
-```
-$ npm run -w frontend cy:open
-```
-
-Then you can choose which tests exactly you want to run.
-
-TIP: Some tests is running with mock data. You can view/add/replace them in `frontend/cypress/fixtures`
 
 ### Analyzing bundle
 

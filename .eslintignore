@@ -4,3 +4,4 @@ tsconfig.json
 backend/build
 frontend/next.config.js
 frontend/utils/stitches-plugin/snapshots
+playwright-report

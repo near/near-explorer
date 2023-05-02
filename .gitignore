@@ -62,9 +62,10 @@ backend/config/*-local
 backend/db
 backend/build
 
-# frontend ignores
-frontend/cypress/videos
-frontend/cypress/screenshots
+# E2E tests
+/test-results/
+playwright-report
+/playwright/.cache/
 
 # Desktop Services Store
 .DS_Store

@@ -6,6 +6,5 @@
     "composite": false,
     "declaration": false
   },
-  "include": ["next.config.ts"],
-  "exclude": ["node_modules", "cypress"]
+  "include": ["next.config.ts"]
 }

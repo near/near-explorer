@@ -29,7 +29,7 @@ const DashboardTransaction: React.FC = React.memo(() => {
 
   return (
     <DashboardCard
-      dataId="transactions"
+      dataTestId="dashboard-transactions"
       iconPath="/static/images/icon-transactions.svg"
       title={t("common.transactions.transactions")}
       headerRight={
