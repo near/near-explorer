@@ -516,7 +516,7 @@ export const activeAccountsListCheck: RegularCheckFn = {
   ),
 };
 
-export const updateStakingPoolStakeProposalsFromContractMap = async (
+const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
 ): Promise<void> =>
@@ -536,7 +536,7 @@ export const updateStakingPoolStakeProposalsFromContractMap = async (
     config.timeouts.timeoutStakingPoolStakeProposal
   );
 
-export const updatePoolInfoMap = async (
+const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
 ): Promise<void> =>
