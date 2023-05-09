@@ -121,5 +121,8 @@ export type SubscriptionTopicTypes = {
 export type SubscriptionTopicType = keyof SubscriptionTopicTypes;
 
 export type SubscriptionEventMap = {
-  [S in SubscriptionTopicType]: (output: SubscriptionTopicTypes[S]) => void;
+  [S in SubscriptionTopicType]: (
+    nextOutput: SubscriptionTopicTypes[S],
+    prevOutput?: SubscriptionTopicTypes[S]
+  ) => void;
 };

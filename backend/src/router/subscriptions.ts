@@ -1,8 +1,13 @@
 import * as trpc from "@trpc/server";
+import { isEqual } from "lodash";
 import { z } from "zod";
 
 import { Context } from "@explorer/backend/context";
-import { SubscriptionEventMap } from "@explorer/backend/router/types";
+import {
+  SubscriptionEventMap,
+  SubscriptionTopicType,
+  SubscriptionTopicTypes,
+} from "@explorer/backend/router/types";
 import {
   AnyRouter,
   CreateProcedureSubscription,
@@ -24,89 +29,111 @@ const subscriptionInputs = {
 
 type SubscriptionInputMap = typeof subscriptionInputs;
 
+type SubscriptionInputModel<T extends SubscriptionTopicType> =
+  T extends keyof SubscriptionInputMap
+    ? SubscriptionInputMap[T]
+    : z.ZodUndefined;
+type SubscriptionInput<T extends SubscriptionTopicType> = z.infer<
+  SubscriptionInputModel<T>
+>;
+
+const id = <T>(a: T) => a;
+
+const withTopic = <
+  InitialRouter extends AnyRouter<Context>,
+  T extends SubscriptionTopicType
+>(
+  prevRouter: InitialRouter,
+  topic: T,
+  inputModel: SubscriptionInputModel<T>,
+  mapFn: (
+    data: SubscriptionTopicTypes[T],
+    input: SubscriptionInput<T>
+  ) => SubscriptionTopicTypes[T]
+) =>
+  prevRouter
+    .subscription(topic, {
+      input: inputModel,
+      resolve: ({ ctx, input }) =>
+        new trpc.Subscription<SubscriptionTopicTypes[T]>((emit) => {
+          const typedInput = input as SubscriptionInput<T>;
+          const onData: SubscriptionEventMap[T] = ((nextData, prevData) => {
+            if (!prevData) {
+              return emit.data(nextData as SubscriptionTopicTypes[T]);
+            }
+            const prevMappedData = mapFn(prevData, typedInput);
+            const nextMappedData = mapFn(nextData, typedInput);
+            if (!isEqual(nextMappedData, prevMappedData)) {
+              emit.data(nextMappedData);
+            }
+          }) as SubscriptionEventMap[T];
+          if (ctx.subscriptionsCache[topic]) {
+            const cachedData = ctx.subscriptionsCache[
+              topic
+            ] as SubscriptionTopicTypes[T];
+            onData(cachedData, cachedData);
+          }
+          ctx.subscriptionsEventEmitter.on<T>(topic, onData);
+          return () => {
+            ctx.subscriptionsEventEmitter.off<T>(topic, onData);
+          };
+        }),
+    })
+    .query(topic, {
+      input: inputModel,
+      resolve: async ({ ctx, input }) => {
+        const typedInput = input as SubscriptionInput<T>;
+        if (!ctx.subscriptionsCache[topic]) {
+          return new Promise((resolve) => {
+            const onData: SubscriptionEventMap[T] = ((data) => {
+              ctx.subscriptionsEventEmitter.off(topic, onData);
+              resolve(mapFn(data, typedInput));
+            }) as SubscriptionEventMap[T];
+            ctx.subscriptionsEventEmitter.on(topic, onData);
+            wait(SSR_TIMEOUT).then(() =>
+              ctx.subscriptionsEventEmitter.off(topic, onData)
+            );
+          });
+        }
+        const cachedData = ctx.subscriptionsCache[
+          topic
+        ] as SubscriptionTopicTypes[T];
+        return cachedData ? mapFn(cachedData, typedInput) : undefined;
+      },
+    });
+
 const withTopics = <InitialRouter extends AnyRouter<Context>>(
   initialRouter: InitialRouter,
-  topicsWithFilterFns: {
-    [T in keyof SubscriptionEventMap]: T extends keyof SubscriptionInputMap
+  topicsWithMapFns: {
+    [Topic in SubscriptionTopicType]: Topic extends keyof SubscriptionInputMap
       ? (
-          value: Parameters<SubscriptionEventMap[T]>[0],
-          input: z.infer<SubscriptionInputMap[T]>
-        ) => Parameters<SubscriptionEventMap[T]>[0]
+          value: SubscriptionTopicTypes[Topic],
+          input: SubscriptionInput<Topic>
+        ) => SubscriptionTopicTypes[Topic]
       : undefined;
   }
 ): RouterWithSubscriptionsAndQueries<
   InitialRouter,
   {
-    [SpecificTopic in keyof SubscriptionEventMap]: CreateProcedureSubscription<
+    [Topic in SubscriptionTopicType]: CreateProcedureSubscription<
       InitialRouter,
-      Parameters<SubscriptionEventMap[SpecificTopic]>[0],
-      SpecificTopic extends keyof SubscriptionInputMap
-        ? z.infer<SubscriptionInputMap[SpecificTopic]>
-        : undefined
+      SubscriptionTopicTypes[Topic],
+      SubscriptionInput<Topic>
     >;
   }
-> => {
-  type TopicsFns = typeof topicsWithFilterFns;
-  return (
-    Object.entries(topicsWithFilterFns) as [
-      keyof TopicsFns,
-      TopicsFns[keyof TopicsFns]
-    ][]
-  ).reduce((router, [topic, filterFn]) => {
-    const inputModel =
-      topic in subscriptionInputs
-        ? subscriptionInputs[topic as keyof typeof subscriptionInputs]
-        : z.undefined();
-    type TopicDataType = Parameters<SubscriptionEventMap[typeof topic]>[0];
-    const getProcessedData = (
-      data: TopicDataType,
-      input: z.infer<SubscriptionInputMap[keyof typeof subscriptionInputs]>
-    ) => {
-      if (filterFn) {
-        return filterFn(data as any, input);
-      }
-      return data;
-    };
-    return router
-      .subscription(topic, {
-        input: inputModel,
-        resolve: ({ ctx, input }) =>
-          new trpc.Subscription<
-            Parameters<SubscriptionEventMap[typeof topic]>[0]
-          >((emit) => {
-            const onData = (data: TopicDataType) => {
-              emit.data(getProcessedData(data, input));
-            };
-            if (ctx.subscriptionsCache[topic]) {
-              onData(ctx.subscriptionsCache[topic] as TopicDataType);
-            }
-            ctx.subscriptionsEventEmitter.on(topic, onData);
-            return () => {
-              ctx.subscriptionsEventEmitter.off(topic, onData);
-            };
-          }),
-      })
-      .query(topic, {
-        input: inputModel,
-        resolve: async ({ ctx, input }) => {
-          if (!ctx.subscriptionsCache[topic]) {
-            return new Promise((resolve) => {
-              const onData = (data: TopicDataType) => {
-                ctx.subscriptionsEventEmitter.off(topic, onData);
-                resolve(getProcessedData(data, input));
-              };
-              ctx.subscriptionsEventEmitter.on(topic, onData);
-              wait(SSR_TIMEOUT).then(() =>
-                ctx.subscriptionsEventEmitter.off(topic, onData)
-              );
-            });
-          }
-          const cachedData = ctx.subscriptionsCache[topic] as TopicDataType;
-          return cachedData ? getProcessedData(cachedData, input) : cachedData;
-        },
-      }) as any;
-  }, initialRouter) as any;
-};
+> =>
+  Object.entries(topicsWithMapFns).reduce(
+    (router, [topic, mapFn = id]) =>
+      withTopic(
+        router,
+        topic as keyof typeof topicsWithMapFns,
+        topic in subscriptionInputs
+          ? subscriptionInputs[topic as keyof typeof subscriptionInputs]
+          : z.undefined(),
+        mapFn as any
+      ) as any,
+    initialRouter
+  ) as any;
 
 export const router = withTopics(trpc.router<Context>(), {
   blockProductionSpeed: undefined,
