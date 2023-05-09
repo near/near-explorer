@@ -14,8 +14,10 @@ import {
   InfoCardCell as Cell,
   InfoCardText,
 } from "@explorer/frontend/components/utils/InfoCard";
+import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import * as BI from "@explorer/frontend/libraries/bigint";
 import { styled } from "@explorer/frontend/libraries/styles";
+import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",
@@ -98,62 +100,62 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
   );
 });
 
-interface Props {
-  currentValidatorsCount?: number;
-  totalSupply?: string;
-  totalStake?: string;
-  seatPrice?: string;
-}
+const NodesCard = React.memo(() => {
+  const { t } = useTranslation();
+  const { data: networkStats } = useSubscription(["network-stats"]);
+  const blockHeight = networkStats?.epochStartHeight;
+  const epochStartBlock = trpc.useQuery(
+    ["block.byId", { height: blockHeight ?? 0 }],
+    { enabled: blockHeight !== undefined }
+  ).data;
+  return (
+    <NodesCardWrapper>
+      <Cell
+        title={t("component.nodes.NodesCard.nodes_validating")}
+        cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+      >
+        {networkStats?.currentValidatorsCount !== undefined && (
+          <Validating>{networkStats.currentValidatorsCount}</Validating>
+        )}
+      </Cell>
 
-const NodesCard: React.FC<Props> = React.memo(
-  ({ currentValidatorsCount, totalSupply, totalStake, seatPrice }) => {
-    const { t } = useTranslation();
-    return (
-      <NodesCardWrapper>
-        <Cell
-          title={t("component.nodes.NodesCard.nodes_validating")}
-          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
-        >
-          {currentValidatorsCount !== undefined && (
-            <Validating>{currentValidatorsCount}</Validating>
-          )}
-        </Cell>
+      <Cell
+        title={t("component.nodes.NodesCard.total_supply")}
+        cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+      >
+        {epochStartBlock?.totalSupply && (
+          <NodeBalance
+            amount={JSBI.BigInt(epochStartBlock.totalSupply)}
+            type="totalSupply"
+          />
+        )}
+      </Cell>
 
-        <Cell
-          title={t("component.nodes.NodesCard.total_supply")}
-          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-        >
-          {totalSupply && (
-            <NodeBalance amount={JSBI.BigInt(totalSupply)} type="totalSupply" />
-          )}
-        </Cell>
+      <Cell
+        title={t("component.nodes.NodesCard.total_stake")}
+        cellOptions={{ xs: "12", md: "6", xl: "3" }}
+      >
+        {networkStats && (
+          <NodeBalance
+            amount={JSBI.BigInt(networkStats.totalStake)}
+            type="totalStakeAmount"
+          />
+        )}
+      </Cell>
 
-        <Cell
-          title={t("component.nodes.NodesCard.total_stake")}
-          cellOptions={{ xs: "12", md: "6", xl: "3" }}
-        >
-          {totalStake && (
-            <NodeBalance
-              amount={JSBI.BigInt(totalStake)}
-              type="totalStakeAmount"
-            />
-          )}
-        </Cell>
-
-        <Cell
-          title={t("component.nodes.NodesCard.seat_price")}
-          cellOptions={{ xs: "12", md: "6", xl: "4" }}
-        >
-          {seatPrice && (
-            <NodeBalance
-              amount={JSBI.BigInt(seatPrice)}
-              type="seatPriceAmount"
-            />
-          )}
-        </Cell>
-      </NodesCardWrapper>
-    );
-  }
-);
+      <Cell
+        title={t("component.nodes.NodesCard.seat_price")}
+        cellOptions={{ xs: "12", md: "6", xl: "4" }}
+      >
+        {networkStats?.seatPrice && (
+          <NodeBalance
+            amount={JSBI.BigInt(networkStats.seatPrice)}
+            type="seatPriceAmount"
+          />
+        )}
+      </Cell>
+    </NodesCardWrapper>
+  );
+});
 
 export default NodesCard;
