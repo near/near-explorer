@@ -161,4 +161,5 @@ export const router = withTopics(trpc.router<Context>(), {
   activeContractsList: undefined,
   rpcStatus: undefined,
   indexerStatus: undefined,
+  currentValidatorsCount: undefined,
 });
