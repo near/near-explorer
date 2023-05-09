@@ -2,6 +2,7 @@ import { formatDuration, intervalToDuration } from "date-fns";
 import { sql } from "kysely";
 
 import { config } from "@explorer/backend/config";
+import { Context } from "@explorer/backend/context";
 import { RegularCheckFn } from "@explorer/backend/cron/types";
 import {
   getPublishIfChanged,
@@ -15,7 +16,6 @@ import {
 } from "@explorer/backend/database/databases";
 import { count, div, sum } from "@explorer/backend/database/utils";
 import { GlobalState } from "@explorer/backend/global-state";
-import { queryEpochData } from "@explorer/backend/providers/network";
 import {
   ValidatorEpochData,
   ValidatorPoolInfo,
@@ -26,6 +26,7 @@ import {
 } from "@explorer/backend/utils/bigint";
 import * as nearApi from "@explorer/backend/utils/near";
 import { SECOND, MINUTE } from "@explorer/backend/utils/time";
+import * as RPC from "@explorer/common/types/rpc";
 import { wait } from "@explorer/common/utils/promise";
 
 export const latestBlockCheck: RegularCheckFn = {
@@ -581,10 +582,127 @@ const updatePoolInfoMap = async (
     config.timeouts.timeoutStakingPoolsInfo
   );
 
+const mapValidators = (
+  epochStatus: RPC.EpochValidatorInfo,
+  poolIds: string[]
+): ValidatorEpochData[] => {
+  const validatorsMap: Map<string, ValidatorEpochData> = new Map();
+
+  for (const currentValidator of epochStatus.current_validators) {
+    validatorsMap.set(currentValidator.account_id, {
+      accountId: currentValidator.account_id,
+      publicKey: currentValidator.public_key,
+      currentEpoch: {
+        stake: currentValidator.stake,
+        progress: {
+          blocks: {
+            produced: currentValidator.num_produced_blocks,
+            total: currentValidator.num_expected_blocks,
+          },
+          chunks: {
+            produced: currentValidator.num_produced_chunks,
+            total: currentValidator.num_expected_chunks,
+          },
+        },
+      },
+    });
+  }
+
+  for (const nextValidator of epochStatus.next_validators) {
+    const validator = validatorsMap.get(nextValidator.account_id) || {
+      accountId: nextValidator.account_id,
+      publicKey: nextValidator.public_key,
+    };
+    validator.nextEpoch = {
+      stake: nextValidator.stake,
+    };
+    validatorsMap.set(nextValidator.account_id, validator);
+  }
+
+  for (const nextProposal of epochStatus.current_proposals) {
+    const validator = validatorsMap.get(nextProposal.account_id) || {
+      accountId: nextProposal.account_id,
+      publicKey: nextProposal.public_key,
+    };
+    validator.afterNextEpoch = {
+      stake: nextProposal.stake,
+    };
+    validatorsMap.set(nextProposal.account_id, validator);
+  }
+
+  for (const accountId of poolIds) {
+    const validator = validatorsMap.get(accountId) || {
+      accountId,
+    };
+    validatorsMap.set(accountId, validator);
+  }
+
+  return [...validatorsMap.values()];
+};
+
+const getEpochState = async (
+  context: Context,
+  epochStatus: RPC.EpochValidatorInfo,
+  networkProtocolConfig: RPC.ProtocolConfigView
+) => {
+  if (
+    context.state.currentEpochState?.height ===
+      epochStatus.epoch_start_height &&
+    (context.state.currentEpochState.seatPrice !== undefined ||
+      !context.state.genesis)
+  ) {
+    return context.state.currentEpochState;
+  }
+
+  const maxNumberOfSeats =
+    networkProtocolConfig.num_block_producer_seats +
+    networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
+      (seats, seat) => seats + seat,
+      0
+    );
+  context.state.currentEpochState = {
+    height: epochStatus.epoch_start_height,
+    seatPrice: context.state.genesis
+      ? nearApi.validators
+          .findSeatPrice(
+            epochStatus.current_validators,
+            maxNumberOfSeats,
+            context.state.genesis.minStakeRatio,
+            networkProtocolConfig.protocol_version
+          )
+          .toString()
+      : undefined,
+    totalStake: epochStatus.current_validators
+      .reduce((acc, node) => acc + BigInt(node.stake), 0n)
+      .toString(),
+  };
+  return context.state.currentEpochState;
+};
+
 export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
   fn: async (publish, context) => {
-    const epochData = await queryEpochData(context);
+    const [protocolConfig, epochStatus] = await Promise.all([
+      nearApi.sendJsonRpc("EXPERIMENTAL_protocol_config", {
+        finality: "final",
+      }),
+      nearApi.sendJsonRpc("validators", [null]),
+    ]);
+    const epochState = await getEpochState(
+      context,
+      epochStatus,
+      protocolConfig
+    );
+    publish("network-stats", {
+      epochLength: protocolConfig.epoch_length,
+      epochStartHeight: epochStatus.epoch_start_height,
+      epochProtocolVersion: protocolConfig.protocol_version,
+      currentValidatorsCount: epochStatus.current_validators.length,
+      totalStake: epochState.totalStake,
+      seatPrice: epochState.seatPrice,
+    });
+
+    const validators = mapValidators(epochStatus, context.state.poolIds);
     const nodesInfo = await telemetryDatabase
       .selectFrom("nodes")
       .select([
@@ -604,7 +722,7 @@ export const networkInfoCheck: RegularCheckFn = {
       .where(
         "account_id",
         "in",
-        epochData.validators.map((validator) => validator.accountId)
+        validators.map((validator) => validator.accountId)
       )
       .orderBy("last_seen")
       .execute();
@@ -643,19 +761,19 @@ export const networkInfoCheck: RegularCheckFn = {
     await Promise.all([
       Promise.race([
         updateStakingPoolStakeProposalsFromContractMap(
-          epochData.validators,
+          validators,
           context.state
         ),
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
       Promise.race([
-        updatePoolInfoMap(epochData.validators, context.state),
+        updatePoolInfoMap(validators, context.state),
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
     ]);
     publish(
       "validators",
-      epochData.validators.map((validator) => ({
+      validators.map((validator) => ({
         ...validator,
         description: context.state.stakingPoolsDescriptions.get(
           validator.accountId
@@ -670,7 +788,6 @@ export const networkInfoCheck: RegularCheckFn = {
         telemetry: telemetryInfo.get(validator.accountId),
       }))
     );
-    publish("network-stats", epochData.stats);
     return config.intervals.checkNetworkInfo;
   },
 };
