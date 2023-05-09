@@ -390,10 +390,15 @@ const getLinks = (
 
 export default withTRPC<AppRouter, ExtraAppInitialProps>({
   config: (info) => {
-    const networkName =
+    let networkName =
       "props" in info
         ? info.props.pageProps.networkName
         : getNearNetworkName(info.ctx.query ?? {}, info.ctx.req?.headers.host);
+    if (!networkName) {
+      // eslint-disable-next-line no-console
+      console.warn("No network name found, using default (mainnet)");
+      networkName = getNearNetworkName({});
+    }
     const isSsr = typeof window === "undefined";
     const httpUrl = getBackendUrl(networkName, "http", isSsr);
     const wsUrl = getBackendUrl(networkName, "websocket", isSsr);
