@@ -64,7 +64,6 @@ export type ValidatorFullData = ValidatorEpochData & {
 };
 
 export type NetworkStats = {
-  currentValidatorsCount: number;
   epochLength: number;
   epochStartHeight: number;
   epochProtocolVersion: number;
@@ -116,6 +115,7 @@ export type SubscriptionTopicTypes = {
   "network-stats": NetworkStats;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;
+  currentValidatorsCount: number;
 };
 
 export type SubscriptionTopicType = keyof SubscriptionTopicTypes;

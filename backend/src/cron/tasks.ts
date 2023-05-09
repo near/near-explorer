@@ -693,11 +693,11 @@ export const networkInfoCheck: RegularCheckFn = {
       epochStatus,
       protocolConfig
     );
+    publish("currentValidatorsCount", epochStatus.current_validators.length);
     publish("network-stats", {
       epochLength: protocolConfig.epoch_length,
       epochStartHeight: epochStatus.epoch_start_height,
       epochProtocolVersion: protocolConfig.protocol_version,
-      currentValidatorsCount: epochStatus.current_validators.length,
       totalStake: epochState.totalStake,
       seatPrice: epochState.seatPrice,
     });

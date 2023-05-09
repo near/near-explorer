@@ -12,7 +12,7 @@ import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const networkStatsSub = useSubscription(["network-stats"]);
+  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
   const onlineNodesCountSub = useSubscription(["onlineNodesCount"]);
   const formatNumber = useFormatNumber();
 
@@ -60,12 +60,12 @@ const DashboardNode: React.FC = React.memo(() => {
                 href="https://near.org/about/network/validators/"
               />
             }
-            subscription={networkStatsSub}
+            subscription={currentValidatorsCountSub}
             textCss={{ color: "#00c08b" }}
           >
-            {(networkStats) => (
+            {(currentValidatorsCount) => (
               <LinkWrapper href="/nodes/validators">
-                {formatNumber(networkStats.currentValidatorsCount)}
+                {formatNumber(currentValidatorsCount)}
               </LinkWrapper>
             )}
           </LongCardCell>

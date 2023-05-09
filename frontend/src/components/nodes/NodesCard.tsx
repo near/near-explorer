@@ -108,14 +108,15 @@ const NodesCard = React.memo(() => {
     ["block.byId", { height: blockHeight ?? 0 }],
     { enabled: blockHeight !== undefined }
   ).data;
+  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
   return (
     <NodesCardWrapper>
       <Cell
         title={t("component.nodes.NodesCard.nodes_validating")}
         cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
       >
-        {networkStats?.currentValidatorsCount !== undefined && (
-          <Validating>{networkStats.currentValidatorsCount}</Validating>
+        {currentValidatorsCountSub.data !== undefined && (
+          <Validating>{currentValidatorsCountSub.data}</Validating>
         )}
       </Cell>
 

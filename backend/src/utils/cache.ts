@@ -21,6 +21,7 @@ const topics: Record<SubscriptionTopicType, true> = {
   "network-stats": true,
   rpcStatus: true,
   indexerStatus: true,
+  currentValidatorsCount: true,
 };
 
 export const isSubscriptionCacheReady = (context: Context) =>

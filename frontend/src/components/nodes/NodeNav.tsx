@@ -41,7 +41,7 @@ const NodeLink = styled(Link, {
 
 const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useSubscription(["network-stats"]);
+  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
 
   return (
     <Row>
@@ -49,7 +49,7 @@ const NodeNav: React.FC = React.memo(() => {
         <NodeLink href="/nodes/validators">
           {t("component.nodes.NodeNav.validating")}{" "}
           <NodeAmountLabel pill>
-            {networkStats ? networkStats.currentValidatorsCount : "--"}
+            {currentValidatorsCountSub.data ?? "--"}
           </NodeAmountLabel>
         </NodeLink>
       </NodeSelector>
