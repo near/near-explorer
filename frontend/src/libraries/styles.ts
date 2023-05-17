@@ -33,6 +33,6 @@ const stitches = createStitches({
   },
 });
 
-export type CSS = GenericCSS<typeof stitches["config"]>;
+export type CSS = GenericCSS<(typeof stitches)["config"]>;
 
 export const { styled, globalCss, getCssText, css, keyframes } = stitches;

@@ -47,7 +47,7 @@ export type Language = keyof typeof LANGUAGES_MAP;
 export const DEFAULT_LANGUAGE: Language = "en";
 
 const NAMESPACES = ["common"] as const;
-export type I18nNamespace = typeof NAMESPACES[number];
+export type I18nNamespace = (typeof NAMESPACES)[number];
 
 declare module "i18next" {
   interface CustomTypeOptions {
