@@ -17,6 +17,7 @@ import {
 import { count, div, sum } from "@explorer/backend/database/utils";
 import { GlobalState } from "@explorer/backend/global-state";
 import {
+  SubscriptionTopicTypes,
   ValidatorEpochData,
   ValidatorPoolInfo,
 } from "@explorer/backend/router/types";
@@ -582,6 +583,30 @@ const updatePoolInfoMap = async (
     config.timeouts.timeoutStakingPoolsInfo
   );
 
+export const protocolConfigCheck: RegularCheckFn = {
+  description: "protocol config check",
+  fn: publishOnChange(
+    "protocolConfig",
+    async () => {
+      const protocolConfig = await nearApi.sendJsonRpc(
+        "EXPERIMENTAL_protocol_config",
+        { finality: "final" }
+      );
+      return {
+        version: protocolConfig.protocol_version,
+        epochLength: protocolConfig.epoch_length,
+        maxNumberOfSeats:
+          protocolConfig.num_block_producer_seats +
+          protocolConfig.avg_hidden_validator_seats_per_shard.reduce(
+            (seats, seat) => seats + seat,
+            0
+          ),
+      };
+    },
+    config.intervals.checkProtocolInfo
+  ),
+};
+
 const mapValidators = (
   epochStatus: RPC.EpochValidatorInfo,
   poolIds: string[]
@@ -643,7 +668,7 @@ const mapValidators = (
 const getEpochState = async (
   context: Context,
   epochStatus: RPC.EpochValidatorInfo,
-  networkProtocolConfig: RPC.ProtocolConfigView
+  protocolConfig: SubscriptionTopicTypes["protocolConfig"]
 ) => {
   if (
     context.state.currentEpochState?.height ===
@@ -654,21 +679,15 @@ const getEpochState = async (
     return context.state.currentEpochState;
   }
 
-  const maxNumberOfSeats =
-    networkProtocolConfig.num_block_producer_seats +
-    networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
-      (seats, seat) => seats + seat,
-      0
-    );
   context.state.currentEpochState = {
     height: epochStatus.epoch_start_height,
     seatPrice: context.state.genesis
       ? nearApi.validators
           .findSeatPrice(
             epochStatus.current_validators,
-            maxNumberOfSeats,
+            protocolConfig.maxNumberOfSeats,
             context.state.genesis.minStakeRatio,
-            networkProtocolConfig.protocol_version
+            protocolConfig.version
           )
           .toString()
       : undefined,
@@ -679,12 +698,12 @@ const getEpochState = async (
 export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
   fn: async (publish, context) => {
-    const [protocolConfig, epochStatus] = await Promise.all([
-      nearApi.sendJsonRpc("EXPERIMENTAL_protocol_config", {
-        finality: "final",
-      }),
-      nearApi.sendJsonRpc("validators", [null]),
-    ]);
+    const { protocolConfig } = context.subscriptionsCache;
+    if (!protocolConfig) {
+      // Protocol config is not fetched yet, probably will be available in a few seconds
+      return 3 * SECOND;
+    }
+    const epochStatus = await nearApi.sendJsonRpc("validators", [null]);
     const epochState = await getEpochState(
       context,
       epochStatus,
@@ -692,9 +711,7 @@ export const networkInfoCheck: RegularCheckFn = {
     );
     publish("currentValidatorsCount", epochStatus.current_validators.length);
     publish("network-stats", {
-      epochLength: protocolConfig.epoch_length,
       epochStartHeight: epochStatus.epoch_start_height,
-      epochProtocolVersion: protocolConfig.protocol_version,
       seatPrice: epochState.seatPrice,
     });
 

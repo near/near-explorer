@@ -40,6 +40,7 @@ const BalanceSuffix = styled("span", {
 const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const { data: networkStats } = useSubscription(["network-stats"]);
+  const protocolConfigSub = useSubscription(["protocolConfig"]);
   const blockHeight = networkStats?.epochStartHeight;
   const epochStartBlock = trpc.useQuery(
     ["block.byId", { height: blockHeight ?? 0 }],
@@ -87,14 +88,15 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           )}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
         >
-          {genesisConfigSub.status === "success" && networkStats && (
-            <>
-              <GenesisText>
-                v{genesisConfigSub.data.protocolVersion}
-              </GenesisText>{" "}
-              / <span>v{networkStats.epochProtocolVersion}</span>
-            </>
-          )}
+          {genesisConfigSub.status === "success" &&
+            protocolConfigSub.status === "success" && (
+              <>
+                <GenesisText>
+                  v{genesisConfigSub.data.protocolVersion}
+                </GenesisText>{" "}
+                / <span>v{protocolConfigSub.data.version}</span>
+              </>
+            )}
         </Cell>
 
         <Cell
@@ -109,7 +111,9 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.epoch_length")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
-          {networkStats?.epochLength && <span>{networkStats.epochLength}</span>}
+          {protocolConfigSub.status === "success" && (
+            <span>{protocolConfigSub.data.epochLength}</span>
+          )}
         </Cell>
       </ProtocolConfig>
 

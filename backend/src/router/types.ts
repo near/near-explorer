@@ -64,9 +64,7 @@ export type ValidatorFullData = ValidatorEpochData & {
 };
 
 export type NetworkStats = {
-  epochLength: number;
   epochStartHeight: number;
-  epochProtocolVersion: number;
   seatPrice?: string;
 };
 
@@ -90,6 +88,11 @@ export type SubscriptionTopicTypes = {
     protocolVersion: number;
     totalSupply: string;
     accountCount: number;
+  };
+  protocolConfig: {
+    version: number;
+    epochLength: number;
+    maxNumberOfSeats: number;
   };
   tokensSupply: TimestampDataSeries<
     [totalSupply: number, circulatingSupply: number]

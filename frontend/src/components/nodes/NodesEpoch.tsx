@@ -46,6 +46,7 @@ const NodesEpoch = React.memo(() => {
   const latestBlockSub = useSubscription(["latestBlock"]);
   const format = useDateFormat();
 
+  const protocolConfigSub = useSubscription(["protocolConfig"]);
   const { data: networkStats } = useSubscription(["network-stats"]);
   const epochStartHeight = networkStats?.epochStartHeight;
   const epochStartBlock = trpc.useQuery(
@@ -54,14 +55,14 @@ const NodesEpoch = React.memo(() => {
   ).data;
   if (
     latestBlockSub.status !== "success" ||
-    networkStats === undefined ||
-    !epochStartBlock
+    !epochStartBlock ||
+    protocolConfigSub.status !== "success"
   ) {
     return null;
   }
   const epochProgress =
     ((latestBlockSub.data.height - epochStartBlock.height) /
-      networkStats.epochLength) *
+      protocolConfigSub.data.epochLength) *
     100;
   const timeRemaining =
     ((latestBlockSub.data.timestamp - epochStartBlock.timestamp) /

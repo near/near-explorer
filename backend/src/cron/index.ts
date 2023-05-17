@@ -24,6 +24,7 @@ const regularTasks = [
   tasks.tokensSupplyCheck,
   tasks.rpcStatusCheck,
   tasks.indexerStatusCheck,
+  tasks.protocolConfigCheck,
 ];
 
 export const runTasks = (context: Context) => {
