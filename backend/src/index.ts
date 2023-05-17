@@ -40,7 +40,7 @@ async function main(appRouter: AppRouter): Promise<void> {
     console.log(`Server is running on port ${config.port}`);
   });
 
-  const shutdownHandlers: (() => void)[] = [];
+  const shutdownHandlers: (() => Promise<void> | void)[] = [];
 
   shutdownHandlers.push(connectWebsocketServer(server, trpcOptions));
   if (!config.offline) {
@@ -48,19 +48,29 @@ async function main(appRouter: AppRouter): Promise<void> {
     shutdownHandlers.push(runTasks(context));
   }
 
-  const gracefulShutdown = (signal: NodeJS.Signals) => {
+  const closeServer = () =>
+    new Promise<void>((resolve, reject) => {
+      server.close((err) => (err ? reject(err) : resolve()));
+    });
+
+  const gracefulShutdown = async (signal: NodeJS.Signals) => {
     // eslint-disable-next-line no-console
     console.log(`Got ${signal} signal, shutting down`);
-    shutdownHandlers.forEach((handler) => handler());
-    server.close((err) => {
-      if (err) {
-        // eslint-disable-next-line no-console
-        console.error("Error on server close", err);
-      }
+    try {
+      await Promise.all([
+        closeServer(),
+        shutdownHandlers.map((handler) => handler()),
+      ]);
       // eslint-disable-next-line no-console
-      console.log(`Shut down ${err ? "with error" : "gracefully"}`);
-      process.exit(err ? 1 : 0);
-    });
+      console.log("Shut down gracefully");
+      process.exit(0);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("Error on server close", e);
+      // eslint-disable-next-line no-console
+      console.log("Shut down with error");
+      process.exit(1);
+    }
   };
   process.on("SIGTERM", gracefulShutdown);
   process.on("SIGINT", gracefulShutdown);

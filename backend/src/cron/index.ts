@@ -27,6 +27,7 @@ const regularTasks = [
 ];
 
 export const runTasks = (context: Context) => {
+  let cancelled = false;
   const publish: PublishTopic = (topic, output) => {
     // TODO: Find a proper version of TypedEmitter
     // @ts-ignore
@@ -51,7 +52,7 @@ export const runTasks = (context: Context) => {
           String(error)
         );
       } finally {
-        if (timeout !== Infinity) {
+        if (timeout !== Infinity && !cancelled) {
           timeouts[task.description] = setTimeout(runTask, timeout);
         }
       }
@@ -59,6 +60,7 @@ export const runTasks = (context: Context) => {
     void runTask();
   });
   return () => {
+    cancelled = true;
     const timeoutIds = Object.values(timeouts);
     timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));
   };
