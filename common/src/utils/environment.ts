@@ -57,15 +57,13 @@ type EnvironmentVariables = {
   instanceId: string;
 };
 
-export const getEnvironmentVariables = async (
+export const getEnvironmentStaticVariables = (
   localServiceName: string
-): Promise<EnvironmentVariables> => {
+): Omit<EnvironmentVariables, "branch" | "commit"> => {
   if (process.env.RENDER || process.env.GCP) {
     const environment = getEnvironment();
     if (process.env.RENDER) {
       return {
-        branch: process.env.RENDER_GIT_BRANCH || "unknown",
-        commit: process.env.RENDER_GIT_COMMIT || "unknown",
         serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
         revisionId: process.env.RENDER_SERVICE_ID || "unknown",
         instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
@@ -74,12 +72,38 @@ export const getEnvironmentVariables = async (
     }
     if (process.env.GCP) {
       return {
-        branch: process.env.BRANCH || "unknown",
-        commit: process.env.COMMIT_SHA || "unknown",
         serviceName: process.env.K_SERVICE || "unknown",
         revisionId: process.env.K_REVISION || "unknown",
         instanceId: "unavailable",
         environment,
+      };
+    }
+  }
+  return {
+    serviceName: localServiceName,
+    revisionId: "local",
+    instanceId: "local",
+    environment: "dev",
+  };
+};
+
+export const getEnvironmentVariables = async (
+  localServiceName: string
+): Promise<EnvironmentVariables> => {
+  const staticVaiables = getEnvironmentStaticVariables(localServiceName);
+  if (process.env.RENDER || process.env.GCP) {
+    if (process.env.RENDER) {
+      return {
+        ...staticVaiables,
+        branch: process.env.RENDER_GIT_BRANCH || "unknown",
+        commit: process.env.RENDER_GIT_COMMIT || "unknown",
+      };
+    }
+    if (process.env.GCP) {
+      return {
+        ...staticVaiables,
+        branch: process.env.BRANCH || "unknown",
+        commit: process.env.COMMIT_SHA || "unknown",
       };
     }
   }
@@ -88,11 +112,8 @@ export const getEnvironmentVariables = async (
     getShortCommitSha(),
   ]);
   return {
+    ...staticVaiables,
     branch,
     commit,
-    serviceName: localServiceName,
-    revisionId: "local",
-    instanceId: "local",
-    environment: "dev",
   };
 };
