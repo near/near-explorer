@@ -39,8 +39,8 @@ export const getEnvironment = (): Environment => {
   if (process.env.RENDER && process.env.RENDER_SERVICE_ID) {
     return process.env.RENDER_SERVICE_ID.includes("pr") ? "staging" : "prod";
   }
-  if (process.env.GCP && process.env.K_REVISION) {
-    return process.env.K_REVISION.includes("pr") ? "staging" : "prod";
+  if (process.env.GCP && process.env.BRANCH) {
+    return process.env.BRANCH.includes("merge") ? "staging" : "prod";
   }
   return "dev";
 };
