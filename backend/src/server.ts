@@ -80,8 +80,11 @@ export const connectWebsocketServer = (
   };
   server.on("upgrade", onUpgrade);
 
-  return () => {
+  return async () => {
     server.off("upgrade", onUpgrade);
     handler.broadcastReconnectNotification();
+    return new Promise<void>((resolve, reject) => {
+      websocketServer.close((error) => (error ? reject(error) : resolve()));
+    });
   };
 };
