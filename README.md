@@ -1,5 +1,7 @@
 # NEAR Blockchain Explorer
 
+[![CI](https://github.com/near/near-explorer/actions/workflows/continuous-integration-workflow.yml/badge.svg?event=push)](https://github.com/near/near-explorer/actions/workflows/continuous-integration-workflow.yml)
+
 In development.
 
 ## Setup
