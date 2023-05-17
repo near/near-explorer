@@ -6,11 +6,20 @@ import * as Analytics from "@explorer/backend/database/models/readOnlyAnalytics"
 import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
 import * as IndexerActivity from "@explorer/backend/database/models/readOnlyIndexerActivity";
 import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
+import { getEnvironmentStaticVariables } from "@explorer/common/utils/environment";
 
 import type { DatabaseColumnType } from "./types";
 
 const getPgPool = (postgresConfig: PostgresDialectConfig): Pool => {
-  const pool = new Pool(postgresConfig);
+  const { environment, revisionId } = getEnvironmentStaticVariables(
+    `backend/${config.networkName}`
+  );
+  const pool = new Pool({
+    ...postgresConfig,
+    application_name: [process.env.DB_NAME_PREFIX, environment, revisionId]
+      .filter(Boolean)
+      .join("/"),
+  });
   pool.on("error", (error) => {
     // eslint-disable-next-line no-console
     console.error(`Pool ${postgresConfig.database} failed: ${String(error)}`);
