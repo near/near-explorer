@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   indexerActivityDatabase,
   indexerDatabase,
@@ -172,7 +172,7 @@ const parseOutcome = (
 };
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .query("byHashOld", {
     input: z.strictObject({
       hash: validators.transactionHash,

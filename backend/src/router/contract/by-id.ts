@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   analyticsDatabase,
   Indexer,
@@ -110,7 +110,7 @@ const queryContractInfo = async (accountId: string) => {
   }
 };
 
-export const router = trpc.router<Context>().query("byId", {
+export const router = trpc.router<RequestContext>().query("byId", {
   input: z.strictObject({ id: validators.accountId }),
   resolve: async ({ input: { id } }) => {
     const account = await nearApi

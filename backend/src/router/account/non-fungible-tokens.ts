@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
 import { validateBase64Image } from "@explorer/backend/router/account/fungible-tokens";
@@ -59,7 +59,7 @@ const buildMediaUrl = (
 };
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .query("nonFungibleTokenContracts", {
     input: z.strictObject({ accountId: validators.accountId }),
     resolve: async ({ input: { accountId } }) => {

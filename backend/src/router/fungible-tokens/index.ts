@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { validators } from "@explorer/backend/router/validators";
 import * as nearApi from "@explorer/backend/utils/near";
 
@@ -17,7 +17,7 @@ export type FungibleTokenMetadata = {
 };
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .query("amount", {
     resolve: async () => {
       // TODO: add data from Enhanced API

@@ -6,7 +6,7 @@ import {
 } from "kysely/dist/cjs/parser/table-parser";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   IndexerDatabase,
   indexerDatabase,
@@ -127,7 +127,7 @@ const groupReceiptActionsIntoReceipts = (
     return acc;
   }, []);
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   // As a temporary solution we split receipts list into two lists:
   // included in block and executed in block
   // more info here https://github.com/near/near-explorer/pull/868

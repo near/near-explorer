@@ -2,7 +2,7 @@ import * as trpc from "@trpc/server";
 import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   IndexerDatabase,
   indexerDatabase,
@@ -122,7 +122,7 @@ const getTransactionList = async (
 };
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .query("listByTimestamp", {
     input: z.strictObject({
       limit: validators.limit,

@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { FungibleTokenMetadata } from "@explorer/backend/router/fungible-tokens";
 import { validators } from "@explorer/backend/router/validators";
 import * as nearApi from "@explorer/backend/utils/near";
@@ -18,7 +18,7 @@ export const validateBase64Image = (
 };
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .query("fungibleTokens", {
     input: z.strictObject({
       accountId: validators.accountId,

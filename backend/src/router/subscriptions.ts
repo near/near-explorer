@@ -2,7 +2,7 @@ import * as trpc from "@trpc/server";
 import { isEqual } from "lodash";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   SubscriptionEventMap,
   SubscriptionTopicType,
@@ -40,7 +40,7 @@ type SubscriptionInput<T extends SubscriptionTopicType> = z.infer<
 const id = <T>(a: T) => a;
 
 const withTopic = <
-  InitialRouter extends AnyRouter<Context>,
+  InitialRouter extends AnyRouter<RequestContext>,
   T extends SubscriptionTopicType
 >(
   prevRouter: InitialRouter,
@@ -102,7 +102,7 @@ const withTopic = <
       },
     });
 
-const withTopics = <InitialRouter extends AnyRouter<Context>>(
+const withTopics = <InitialRouter extends AnyRouter<RequestContext>>(
   initialRouter: InitialRouter,
   topicsWithMapFns: {
     [Topic in SubscriptionTopicType]: Topic extends keyof SubscriptionInputMap
@@ -135,7 +135,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
     initialRouter
   ) as any;
 
-export const router = withTopics(trpc.router<Context>(), {
+export const router = withTopics(trpc.router<RequestContext>(), {
   blockProductionSpeed: undefined,
   latestBlock: undefined,
   latestGasPrice: undefined,

@@ -1,6 +1,6 @@
 import * as trpc from "@trpc/server";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { getEnvironment } from "@explorer/common/utils/environment";
 
 import { router as accountRouter } from "./account";
@@ -15,7 +15,7 @@ import { router as transactionRouter } from "./transaction";
 import { router as utilsRouter } from "./utils";
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   // Stripping out the stack on production environment
   .formatError(({ shape }) =>
     getEnvironment() === "prod"

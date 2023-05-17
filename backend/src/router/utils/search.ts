@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z, ZodType } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { validators } from "@explorer/backend/router/validators";
 
@@ -89,7 +89,7 @@ const validateAndFetch = async <T, V extends ZodType<any, any, any>>(
   return fetchedResult;
 };
 
-export const router = trpc.router<Context>().mutation("search", {
+export const router = trpc.router<RequestContext>().mutation("search", {
   input: z.strictObject({
     value: z.string(),
   }),

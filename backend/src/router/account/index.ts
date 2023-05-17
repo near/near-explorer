@@ -1,6 +1,6 @@
 import * as trpc from "@trpc/server";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 
 import { router as activityRouter } from "./activity";
 import { router as balanceRouter } from "./balance";
@@ -11,7 +11,7 @@ import { router as nonFungibleTokensRouter } from "./non-fungible-tokens";
 import { router as transactionsCountRouter } from "./transactions-count";
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .merge(byIdRouter)
   .merge(listRouter)
   .merge(transactionsCountRouter)

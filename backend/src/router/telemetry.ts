@@ -1,14 +1,14 @@
 import * as trpc from "@trpc/server";
 import geoip from "geoip-lite";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   extraPool,
   telemetryWriteDatabase,
 } from "@explorer/backend/database/databases";
 import { validators } from "@explorer/backend/router/validators";
 
-export const router = trpc.router<Context>().mutation("upsert", {
+export const router = trpc.router<RequestContext>().mutation("upsert", {
   input: validators.telemetryRequest,
   resolve: async ({ input: nodeInfo }) => {
     if (!("agent" in nodeInfo)) {

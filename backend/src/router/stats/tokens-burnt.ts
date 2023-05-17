@@ -2,11 +2,11 @@ import * as trpc from "@trpc/server";
 import { sql } from "kysely";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { sum } from "@explorer/backend/database/utils";
 
-export const router = trpc.router<Context>().query("tokensBurnt", {
+export const router = trpc.router<RequestContext>().query("tokensBurnt", {
   input: z.strictObject({
     daysFromNow: z.number().min(1).max(7),
   }),

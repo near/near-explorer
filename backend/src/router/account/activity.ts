@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import {
   indexerActivityDatabase,
   indexerDatabase,
@@ -483,7 +483,7 @@ const getTransactionsByHashes = async (
   }, new Map<string, TransactionPreview>());
 };
 
-export const router = trpc.router<Context>().query("activity", {
+export const router = trpc.router<RequestContext>().query("activity", {
   input: z.strictObject({
     accountId: validators.accountId,
     limit: validators.limit,

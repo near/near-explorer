@@ -3,7 +3,7 @@ import { sha256 } from "js-sha256";
 import { z } from "zod";
 
 import { config } from "@explorer/backend/config";
-import { Context } from "@explorer/backend/context";
+import { RequestContext } from "@explorer/backend/context";
 import { indexerDatabase } from "@explorer/backend/database/databases";
 import { div } from "@explorer/backend/database/utils";
 import { getAccountTransactionsCount } from "@explorer/backend/router/account/utils";
@@ -121,7 +121,7 @@ const getAccountInfo = async (accountId: string) => {
 };
 
 export const router = trpc
-  .router<Context>()
+  .router<RequestContext>()
   .query("byIdOld", {
     input: z.strictObject({ id: validators.accountId }),
     resolve: async ({ input: { id } }) => {
