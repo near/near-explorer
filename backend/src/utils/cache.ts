@@ -24,8 +24,8 @@ const topics: Record<SubscriptionTopicType, true> = {
   currentValidatorsCount: true,
 };
 
-export const isSubscriptionCacheReady = (context: Context) =>
-  Object.keys(topics).every(
+export const getMissingSubscriptionCacheKeys = (context: Context) =>
+  (Object.keys(topics) as SubscriptionTopicType[]).filter(
     (key) =>
-      context.subscriptionsCache[key as SubscriptionTopicType] !== undefined
+      context.subscriptionsCache[key as SubscriptionTopicType] === undefined
   );

@@ -7,7 +7,7 @@ import stream from "stream";
 import ws from "ws";
 
 import { AppRouter } from "@explorer/backend/router";
-import { isSubscriptionCacheReady } from "@explorer/backend/utils/cache";
+import { getMissingSubscriptionCacheKeys } from "@explorer/backend/utils/cache";
 import { escapeHtml } from "@explorer/backend/utils/html";
 
 export type RouterOptions = Parameters<
@@ -39,10 +39,15 @@ export const createApp = (options: RouterOptions) => {
     .use("/ping", (_req, res) => res.send("OK"))
     .use("/global-state", async (req, res) => {
       const context = await options.createContext({ req, res });
-      if (isSubscriptionCacheReady(context)) {
+      const missingGlobalStateKeys = getMissingSubscriptionCacheKeys(context);
+      if (missingGlobalStateKeys.length === 0) {
         res.send("Ready!");
       } else {
-        res.status(500).send("Not ready yet!");
+        res
+          .status(500)
+          .send(
+            `Missing global state keys: ${missingGlobalStateKeys.join(", ")}`
+          );
       }
     })
     .use(errorHandler);
