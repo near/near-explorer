@@ -15,7 +15,7 @@ import {
 import path from "path";
 
 import { config } from "@explorer/backend/config";
-import { notNullGuard } from "@explorer/common/utils/utils";
+import { notNullishGuard } from "@explorer/common/utils/utils";
 
 type DatabaseName = string;
 type TableName = string;
@@ -149,7 +149,7 @@ const generateTypeMappings: PreRenderHook = async (
         ),
       };
     })
-    .filter(notNullGuard);
+    .filter(notNullishGuard);
 
   const typedImports = tables.reduce<TypeImport[]>(
     (acc, table) => [

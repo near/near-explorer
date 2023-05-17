@@ -31,10 +31,8 @@ const Validators: React.FC = React.memo(() => {
   );
 
   const validatorsSub = useSubscription(["validators"]);
-  const { data: networkStats } = useSubscription(["network-stats"]);
-  const totalStake = networkStats?.totalStake;
 
-  if (validatorsSub.status !== "success" || !totalStake) {
+  if (validatorsSub.status !== "success") {
     return <PaginationSpinner />;
   }
 
@@ -69,7 +67,6 @@ const Validators: React.FC = React.memo(() => {
       <tbody>
         <ValidatorsList
           validators={validatorsSub.data}
-          totalStake={totalStake}
           selectedPageIndex={selectedPageIndex}
         />
       </tbody>

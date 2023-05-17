@@ -1,7 +1,4 @@
-import JSBI from "jsbi";
-
 import { ValidatorFullData } from "@explorer/common/types/procedures";
-import * as BI from "@explorer/frontend/libraries/bigint";
 
 export const VALIDATORS_LIST: ValidatorFullData[] = [
   {
@@ -301,17 +298,3 @@ export const VALIDATORS_LIST: ValidatorFullData[] = [
     },
   },
 ];
-
-export const getCumulativeStake = (node: ValidatorFullData): JSBI => {
-  let cumulativeStake = BI.zero;
-  for (const validator of VALIDATORS_LIST) {
-    cumulativeStake = JSBI.add(
-      cumulativeStake,
-      JSBI.BigInt(validator.currentEpoch?.stake || "0")
-    );
-    if (validator === node) {
-      return cumulativeStake;
-    }
-  }
-  return cumulativeStake;
-};

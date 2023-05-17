@@ -2,11 +2,26 @@ import * as React from "react";
 
 import JSBI from "jsbi";
 
+import { ValidatorFullData } from "@explorer/common/types/procedures";
 import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
 import * as BI from "@explorer/frontend/libraries/bigint";
 import { renderElement } from "@explorer/frontend/testing/utils";
 
-import { getCumulativeStake, VALIDATORS_LIST } from "./validators";
+import { VALIDATORS_LIST } from "./validators";
+
+const getCumulativeStake = (node: ValidatorFullData): JSBI => {
+  let cumulativeStake = BI.zero;
+  for (const validator of VALIDATORS_LIST) {
+    cumulativeStake = JSBI.add(
+      cumulativeStake,
+      JSBI.BigInt(validator.currentEpoch?.stake || "0")
+    );
+    if (validator === node) {
+      return cumulativeStake;
+    }
+  }
+  return cumulativeStake;
+};
 
 const totalStake = getCumulativeStake(
   VALIDATORS_LIST[VALIDATORS_LIST.length - 1]

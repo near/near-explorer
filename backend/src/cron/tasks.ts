@@ -672,9 +672,6 @@ const getEpochState = async (
           )
           .toString()
       : undefined,
-    totalStake: epochStatus.current_validators
-      .reduce((acc, node) => acc + BigInt(node.stake), 0n)
-      .toString(),
   };
   return context.state.currentEpochState;
 };
@@ -698,7 +695,6 @@ export const networkInfoCheck: RegularCheckFn = {
       epochLength: protocolConfig.epoch_length,
       epochStartHeight: epochStatus.epoch_start_height,
       epochProtocolVersion: protocolConfig.protocol_version,
-      totalStake: epochState.totalStake,
       seatPrice: epochState.seatPrice,
     });
 

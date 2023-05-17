@@ -1,7 +1,7 @@
 import { Indexer } from "@explorer/backend/database/databases";
 import { ActionKind } from "@explorer/backend/database/models/readOnlyIndexer";
 import * as RPC from "@explorer/common/types/rpc";
-import { notNullGuard } from "@explorer/common/utils/utils";
+import { notNullishGuard } from "@explorer/common/utils/utils";
 
 type NonDelegateAction =
   | {
@@ -166,7 +166,7 @@ export const mapActionResultsWithDelegateActions = <
       }
       return action;
     })
-    .filter(notNullGuard);
+    .filter(notNullishGuard);
 
 type ArgsTuple<Mapping = DatabaseActionMapping> = {
   [Kind in keyof Mapping]: [Kind, Mapping[Kind]];
