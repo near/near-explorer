@@ -39,8 +39,12 @@ export const getEnvironment = (): Environment => {
   if (process.env.RENDER && process.env.RENDER_SERVICE_ID) {
     return process.env.RENDER_SERVICE_ID.includes("pr") ? "staging" : "prod";
   }
-  if (process.env.GCP && process.env.BRANCH) {
-    return process.env.BRANCH.includes("merge") ? "staging" : "prod";
+  if (process.env.GCP) {
+    if (process.env.BRANCH) {
+      return process.env.BRANCH.includes("merge") ? "staging" : "prod";
+    }
+    // Temporary solution as production doesn't have BRANCH env variable yet
+    return "prod";
   }
   return "dev";
 };
