@@ -1,7 +1,5 @@
 import * as trpcExpress from "@trpc/server/adapters/express";
 import * as trpcWsAdapter from "@trpc/server/adapters/ws";
-import { NodeHTTPCreateContextOption } from "@trpc/server/dist/declarations/src/adapters/node-http";
-import { HTTPBaseHandlerOptions } from "@trpc/server/dist/declarations/src/http/internals/types";
 import cors from "cors";
 import express, { ErrorRequestHandler } from "express";
 import http from "http";
@@ -12,11 +10,14 @@ import { AppRouter } from "@explorer/backend/router";
 import { isSubscriptionCacheReady } from "@explorer/backend/utils/cache";
 import { escapeHtml } from "@explorer/backend/utils/html";
 
-export type RouterOptions = HTTPBaseHandlerOptions<
-  AppRouter,
-  http.IncomingMessage
-> &
-  NodeHTTPCreateContextOption<AppRouter, http.IncomingMessage, unknown>;
+export type RouterOptions = Parameters<
+  typeof trpcExpress.createExpressMiddleware<AppRouter>
+>[0];
+
+export type WebsocketRouterOptions = Omit<
+  trpcWsAdapter.WSSHandlerOptions<AppRouter>,
+  "wss"
+>;
 
 // Function has to has 4 arguments for express to consider it an error handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,7 +52,7 @@ export const createApp = (options: RouterOptions) => {
 
 export const connectWebsocketServer = (
   server: http.Server,
-  options: RouterOptions
+  options: WebsocketRouterOptions
 ) => {
   const websocketServer = new ws.Server({
     noServer: true,
