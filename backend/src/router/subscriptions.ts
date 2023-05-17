@@ -71,7 +71,7 @@ const withTopic = <
             const cachedData = ctx.subscriptionsCache[
               topic
             ] as SubscriptionTopicTypes[T];
-            onData(cachedData, cachedData);
+            onData(cachedData);
           }
           ctx.subscriptionsEventEmitter.on<T>(topic, onData);
           return () => {
