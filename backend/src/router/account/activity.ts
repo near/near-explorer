@@ -18,7 +18,7 @@ import {
   mapDatabaseTransactionStatus,
   TransactionStatus,
 } from "@explorer/backend/utils/transaction-status";
-import { notNullGuard } from "@explorer/common/utils/utils";
+import { notNullishGuard } from "@explorer/common/utils/utils";
 
 type ActivityConnectionActions = {
   parentAction?: AccountActivityAction & ActivityConnection;
@@ -528,7 +528,7 @@ export const router = trpc.router<Context>().query("activity", {
             action,
           };
         })
-        .filter(notNullGuard),
+        .filter(notNullishGuard),
       cursor: lastChange
         ? {
             blockTimestamp: lastChange.blockTimestamp,

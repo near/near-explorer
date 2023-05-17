@@ -5,7 +5,7 @@ import { Context } from "@explorer/backend/context";
 import { FungibleTokenMetadata } from "@explorer/backend/router/fungible-tokens";
 import { validators } from "@explorer/backend/router/validators";
 import * as nearApi from "@explorer/backend/utils/near";
-import { notNullGuard } from "@explorer/common/utils/utils";
+import { notNullishGuard } from "@explorer/common/utils/utils";
 
 const base64ImageRegex = /^data:image/;
 export const validateBase64Image = (
@@ -54,7 +54,7 @@ export const router = trpc
           };
         })
       );
-      return tokens.filter(notNullGuard);
+      return tokens.filter(notNullishGuard);
     },
   })
   .query("fungibleTokenHistory", {

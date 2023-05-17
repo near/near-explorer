@@ -3,6 +3,7 @@ import * as React from "react";
 import JSBI from "jsbi";
 
 import { ValidatorFullData } from "@explorer/common/types/procedures";
+import { notNullishGuard } from "@explorer/common/utils/utils";
 import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import * as BI from "@explorer/frontend/libraries/bigint";
@@ -13,7 +14,6 @@ const NETWORK_HOLDER_SHARE_PERCENT = 33;
 
 interface Props {
   validators: ValidatorFullData[];
-  totalStake: string;
   selectedPageIndex: number;
 }
 
@@ -42,8 +42,18 @@ const validatorsSortFns: ValidatorSortFn[] = [
   (a, b) => sortByBNComparison(a.contractStake, b.contractStake),
 ];
 
+export const getTotalStake = (validators: ValidatorFullData[]) =>
+  validators
+    .map((validator) => validator.currentEpoch?.stake)
+    .filter(notNullishGuard)
+    .reduce((acc, stake) => JSBI.add(acc, JSBI.BigInt(stake)), JSBI.BigInt(0));
+
 const ValidatorsList: React.FC<Props> = React.memo(
-  ({ validators, totalStake, selectedPageIndex }) => {
+  ({ validators, selectedPageIndex }) => {
+    const totalStake = React.useMemo(
+      () => getTotalStake(validators),
+      [validators]
+    );
     const sortedValidators = React.useMemo(
       () =>
         validatorsSortFns.reduceRight(
@@ -69,10 +79,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const networkHolderIndex = React.useMemo(() => {
       const holderLimit = JSBI.divide(
-        JSBI.multiply(
-          JSBI.BigInt(totalStake),
-          JSBI.BigInt(NETWORK_HOLDER_SHARE_PERCENT)
-        ),
+        JSBI.multiply(totalStake, JSBI.BigInt(NETWORK_HOLDER_SHARE_PERCENT)),
         JSBI.BigInt(100)
       );
       return cumulativeAmounts.findIndex((cumulativeAmount) =>
@@ -96,7 +103,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
                 key={validator.accountId}
                 validator={validator}
                 index={pagedIndex}
-                totalStake={JSBI.BigInt(totalStake)}
+                totalStake={totalStake}
                 cumulativeStake={cumulativeAmounts[pagedIndex]}
                 isNetworkHolder={networkHolderIndex === pagedIndex}
                 seatPrice={seatPrice}

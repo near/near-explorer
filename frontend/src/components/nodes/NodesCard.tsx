@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
+import { getTotalStake } from "@explorer/frontend/components/nodes/ValidatorsList";
 import {
   showInYocto,
   formatWithCommas,
@@ -109,6 +110,11 @@ const NodesCard = React.memo(() => {
     { enabled: blockHeight !== undefined }
   ).data;
   const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
+  const validatorsSub = useSubscription(["validators"]);
+  const totalStake = React.useMemo(
+    () => (validatorsSub.data ? getTotalStake(validatorsSub.data) : undefined),
+    [validatorsSub.data]
+  );
   return (
     <NodesCardWrapper>
       <Cell
@@ -136,11 +142,8 @@ const NodesCard = React.memo(() => {
         title={t("component.nodes.NodesCard.total_stake")}
         cellOptions={{ xs: "12", md: "6", xl: "3" }}
       >
-        {networkStats && (
-          <NodeBalance
-            amount={JSBI.BigInt(networkStats.totalStake)}
-            type="totalStakeAmount"
-          />
+        {totalStake && (
+          <NodeBalance amount={totalStake} type="totalStakeAmount" />
         )}
       </Cell>
 

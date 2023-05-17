@@ -67,7 +67,6 @@ export type NetworkStats = {
   epochLength: number;
   epochStartHeight: number;
   epochProtocolVersion: number;
-  totalStake: string;
   seatPrice?: string;
 };
 

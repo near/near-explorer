@@ -1,6 +1,5 @@
 export type CurrentEpochState = {
   seatPrice?: string;
-  totalStake: string;
   height: number;
 };
 
