@@ -22,6 +22,7 @@ const topics: Record<SubscriptionTopicType, true> = {
   rpcStatus: true,
   indexerStatus: true,
   currentValidatorsCount: true,
+  protocolConfig: true,
 };
 
 export const getMissingSubscriptionCacheKeys = (context: Context) =>

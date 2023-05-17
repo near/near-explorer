@@ -143,6 +143,7 @@ export const router = withTopics(trpc.router<Context>(), {
   recentTransactionsCount: undefined,
   onlineNodesCount: undefined,
   genesisConfig: undefined,
+  protocolConfig: undefined,
   tokensSupply: undefined,
   gasUsedHistory: undefined,
   accountsHistory: ({ newAccounts, liveAccounts }, input) => ({

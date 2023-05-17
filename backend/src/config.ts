@@ -37,6 +37,7 @@ export const config = merge(
       checkBlockProductionSpeed: 5 * SECOND,
       checkRecentTransactions: SECOND,
       checkNetworkInfo: SECOND,
+      checkProtocolInfo: HOUR,
       checkOnlineNodesCount: SECOND,
       checkStakingPoolInfo: 15 * SECOND,
       checkStakingPoolStakeProposal: MINUTE,
