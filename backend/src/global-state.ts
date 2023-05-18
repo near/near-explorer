@@ -3,15 +3,14 @@ import {
   ValidatorDescription,
   ValidatorPoolInfo,
 } from "@explorer/backend/router/types";
-import { CurrentEpochState, HealthStatus } from "@explorer/backend/types";
+import { HealthStatus } from "@explorer/backend/types";
 
 export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
   poolIds: string[];
-  currentEpochState: CurrentEpochState | null;
-  genesis: {
+  genesisConfig: {
     minStakeRatio: [number, number];
     accountCount: number;
   } | null;
@@ -32,8 +31,7 @@ export const initGlobalState = (): GlobalState => ({
     promisesMap: new Map(),
   },
   poolIds: [],
-  currentEpochState: null,
-  genesis: null,
+  genesisConfig: null,
   rpcStatus: { timestamp: Date.now(), ok: true },
   indexerStatus: { timestamp: Date.now(), ok: true },
 });

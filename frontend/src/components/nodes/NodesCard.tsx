@@ -18,7 +18,6 @@ import {
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import * as BI from "@explorer/frontend/libraries/bigint";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",
@@ -103,12 +102,8 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
 
 const NodesCard = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useSubscription(["network-stats"]);
-  const blockHeight = networkStats?.epochStartHeight;
-  const epochStartBlock = trpc.useQuery(
-    ["block.byId", { height: blockHeight ?? 0 }],
-    { enabled: blockHeight !== undefined }
-  ).data;
+  const epochStatsSub = useSubscription(["epochStats"]);
+  const epochStartBlockSub = useSubscription(["epochStartBlock"]);
   const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
   const validatorsSub = useSubscription(["validators"]);
   const totalStake = React.useMemo(
@@ -130,9 +125,9 @@ const NodesCard = React.memo(() => {
         title={t("component.nodes.NodesCard.total_supply")}
         cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
       >
-        {epochStartBlock?.totalSupply && (
+        {epochStartBlockSub.status === "success" && (
           <NodeBalance
-            amount={JSBI.BigInt(epochStartBlock.totalSupply)}
+            amount={JSBI.BigInt(epochStartBlockSub.data.totalSupply)}
             type="totalSupply"
           />
         )}
@@ -151,9 +146,9 @@ const NodesCard = React.memo(() => {
         title={t("component.nodes.NodesCard.seat_price")}
         cellOptions={{ xs: "12", md: "6", xl: "4" }}
       >
-        {networkStats?.seatPrice && (
+        {epochStatsSub.status === "success" && (
           <NodeBalance
-            amount={JSBI.BigInt(networkStats.seatPrice)}
+            amount={JSBI.BigInt(epochStatsSub.data.seatPrice)}
             type="seatPriceAmount"
           />
         )}

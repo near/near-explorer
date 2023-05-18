@@ -17,11 +17,11 @@ import {
 import { count, div, sum } from "@explorer/backend/database/utils";
 import { GlobalState } from "@explorer/backend/global-state";
 import {
-  SubscriptionTopicTypes,
   ValidatorEpochData,
   ValidatorPoolInfo,
 } from "@explorer/backend/router/types";
 import {
+  nanosecondsToMilliseconds,
   nearNomination,
   teraGasNomination,
 } from "@explorer/backend/utils/bigint";
@@ -165,7 +165,7 @@ export const genesisProtocolInfoFetch: RegularCheckFn = {
         .where("created_by_receipt_id", "is", null)
         .executeTakeFirstOrThrow(),
     ]);
-    context.state.genesis = {
+    context.state.genesisConfig = {
       minStakeRatio: genesisProtocolConfig.minimum_stake_ratio,
       accountCount: Number(genesisAccountCount.count),
     };
@@ -367,7 +367,7 @@ export const accountsHistoryCheck: RegularCheckFn = {
       return Infinity;
     }
     const publishIfChanged = getPublishIfChanged(publish, context);
-    if (!context.state.genesis) {
+    if (!context.state.genesisConfig) {
       return 10 * SECOND;
     }
     const [newAccounts, deletedAccounts] = await Promise.all([
@@ -431,7 +431,7 @@ export const accountsHistoryCheck: RegularCheckFn = {
             ],
           ];
         },
-        [[0, context.state.genesis.accountCount]]
+        [[0, context.state.genesisConfig.accountCount]]
       )
       .slice(1);
     publishIfChanged("accountsHistory", { newAccounts, liveAccounts });
@@ -607,6 +607,19 @@ export const protocolConfigCheck: RegularCheckFn = {
   ),
 };
 
+const getValidatorsTimeout = (context: Context) => {
+  const { latestBlock, epochStartBlock, protocolConfig } =
+    context.subscriptionsCache;
+  if (!latestBlock || !epochStartBlock || !protocolConfig) {
+    return 3 * SECOND;
+  }
+  const epochProgress =
+    (latestBlock.height - epochStartBlock.height) / protocolConfig.epochLength;
+  const timeRemaining =
+    (latestBlock.timestamp - epochStartBlock.timestamp) * (1 - epochProgress);
+  return Math.max(SECOND, timeRemaining / 2);
+};
+
 const mapValidators = (
   epochStatus: RPC.EpochValidatorInfo,
   poolIds: string[]
@@ -665,57 +678,55 @@ const mapValidators = (
   return [...validatorsMap.values()];
 };
 
-const getEpochState = async (
-  context: Context,
-  epochStatus: RPC.EpochValidatorInfo,
-  protocolConfig: SubscriptionTopicTypes["protocolConfig"]
-) => {
-  if (
-    context.state.currentEpochState?.height ===
-      epochStatus.epoch_start_height &&
-    (context.state.currentEpochState.seatPrice !== undefined ||
-      !context.state.genesis)
-  ) {
-    return context.state.currentEpochState;
-  }
-
-  context.state.currentEpochState = {
-    height: epochStatus.epoch_start_height,
-    seatPrice: context.state.genesis
-      ? nearApi.validators
-          .findSeatPrice(
-            epochStatus.current_validators,
-            protocolConfig.maxNumberOfSeats,
-            context.state.genesis.minStakeRatio,
-            protocolConfig.version
-          )
-          .toString()
-      : undefined,
-  };
-  return context.state.currentEpochState;
+export const epochStartBlockCheck: RegularCheckFn = {
+  description: "current epoch start block info",
+  fn: async (publish, context) => {
+    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    const epochStartBlock = await nearApi.sendJsonRpc("block", {
+      block_id: validators.epoch_start_height,
+    });
+    const publishIfChanged = getPublishIfChanged(publish, context);
+    publishIfChanged("epochStartBlock", {
+      height: epochStartBlock.header.height,
+      timestamp: nanosecondsToMilliseconds(
+        BigInt(epochStartBlock.header.timestamp)
+      ),
+      totalSupply: epochStartBlock.header.total_supply,
+    });
+    return getValidatorsTimeout(context);
+  },
 };
 
-export const networkInfoCheck: RegularCheckFn = {
-  description: "publish network info",
+export const epochStatsCheck: RegularCheckFn = {
+  description: "epoch stats info",
   fn: async (publish, context) => {
+    const { genesisConfig } = context.state;
     const { protocolConfig } = context.subscriptionsCache;
-    if (!protocolConfig) {
-      // Protocol config is not fetched yet, probably will be available in a few seconds
+    if (!protocolConfig || !genesisConfig) {
+      // Protocol config or genesis config are not fetched yet, probably will be available in a few seconds
       return 3 * SECOND;
     }
-    const epochStatus = await nearApi.sendJsonRpc("validators", [null]);
-    const epochState = await getEpochState(
-      context,
-      epochStatus,
-      protocolConfig
-    );
-    publish("currentValidatorsCount", epochStatus.current_validators.length);
-    publish("network-stats", {
-      epochStartHeight: epochStatus.epoch_start_height,
-      seatPrice: epochState.seatPrice,
+    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    publish("epochStats", {
+      seatPrice: nearApi.validators
+        .findSeatPrice(
+          validators.current_validators,
+          protocolConfig.maxNumberOfSeats,
+          genesisConfig.minStakeRatio,
+          protocolConfig.version
+        )
+        .toString(),
     });
+    return getValidatorsTimeout(context);
+  },
+};
 
-    const validators = mapValidators(epochStatus, context.state.poolIds);
+export const validatorsCheck: RegularCheckFn = {
+  description: "validators info",
+  fn: async (publish, context) => {
+    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    publish("currentValidatorsCount", validators.current_validators.length);
+    const mappedValidators = mapValidators(validators, context.state.poolIds);
     const nodesInfo = await telemetryDatabase
       .selectFrom("nodes")
       .select([
@@ -735,7 +746,7 @@ export const networkInfoCheck: RegularCheckFn = {
       .where(
         "account_id",
         "in",
-        validators.map((validator) => validator.accountId)
+        mappedValidators.map((validator) => validator.accountId)
       )
       .orderBy("last_seen")
       .execute();
@@ -774,19 +785,19 @@ export const networkInfoCheck: RegularCheckFn = {
     await Promise.all([
       Promise.race([
         updateStakingPoolStakeProposalsFromContractMap(
-          validators,
+          mappedValidators,
           context.state
         ),
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
       Promise.race([
-        updatePoolInfoMap(validators, context.state),
+        updatePoolInfoMap(mappedValidators, context.state),
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
     ]);
     publish(
       "validators",
-      validators.map((validator) => ({
+      mappedValidators.map((validator) => ({
         ...validator,
         description: context.state.stakingPoolsDescriptions.get(
           validator.accountId

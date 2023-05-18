@@ -7,7 +7,6 @@ import ProgressBar from "@explorer/frontend/components/utils/ProgressBar";
 import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const NodesEpochContent = styled(Col, {
   margin: "15px 0",
@@ -47,19 +46,15 @@ const NodesEpoch = React.memo(() => {
   const format = useDateFormat();
 
   const protocolConfigSub = useSubscription(["protocolConfig"]);
-  const { data: networkStats } = useSubscription(["network-stats"]);
-  const epochStartHeight = networkStats?.epochStartHeight;
-  const epochStartBlock = trpc.useQuery(
-    ["block.byId", { height: epochStartHeight ?? 0 }],
-    { enabled: epochStartHeight !== undefined }
-  ).data;
+  const epochStartBlockSub = useSubscription(["epochStartBlock"]);
   if (
     latestBlockSub.status !== "success" ||
-    !epochStartBlock ||
+    epochStartBlockSub.status !== "success" ||
     protocolConfigSub.status !== "success"
   ) {
     return null;
   }
+  const epochStartBlock = epochStartBlockSub.data;
   const epochProgress =
     ((latestBlockSub.data.height - epochStartBlock.height) /
       protocolConfigSub.data.epochLength) *
@@ -79,7 +74,7 @@ const NodesEpoch = React.memo(() => {
                 {`${t("component.nodes.NodesEpoch.current_epoch_start")}: `}
                 <TextValue>
                   {`${t("component.nodes.NodesEpoch.block")} #`}
-                  {epochStartHeight}
+                  {epochStartBlock.height}
                 </TextValue>
               </Col>
             </Row>
@@ -91,7 +86,7 @@ const NodesEpoch = React.memo(() => {
               <Col xs="12">
                 <TextValue>
                   {`${t("component.nodes.NodesEpoch.block")} #`}
-                  {epochStartHeight}
+                  {epochStartBlock.height}
                 </TextValue>
               </Col>
             </Row>
