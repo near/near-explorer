@@ -3,6 +3,7 @@ import { expect } from "@playwright/test";
 import { openFixture as test } from "@explorer/frontend/tests/fixtures";
 
 const blockHash = "AtSUk7AP4aij3J8ro3n4PKFFB9MmRc6RJ4kHeTqhznCc";
+const blockId = 82744848;
 const transactionsAmount = 7;
 const includedInBlockAmount = 9;
 const executedInBlockAmount = 10;
@@ -59,6 +60,21 @@ test.describe("Block page", () => {
     await expect(transactions.locator("class=ActionRow")).toHaveCount(
       executedInBlockAmount
     );
+  });
+});
+
+test.describe("Permanent block height redirect", () => {
+  test(`Redirect from /blocks/${blockId} to /blocks/${blockHash}`, async ({
+    page,
+    openPath,
+  }) => {
+    const response = await openPath(`/blocks/${blockId}`);
+    const redirectedFrom = response?.request().redirectedFrom();
+    const redirectedFromUrl = redirectedFrom?.url();
+    const redirectedFromStatus = (await redirectedFrom?.response())?.status();
+    expect(redirectedFromStatus).toEqual(308);
+    expect(redirectedFromUrl).toContain(`/blocks/${blockId}?locale=en`);
+    await page.waitForURL(`/blocks/${blockHash}?locale=en`);
   });
 });
 
