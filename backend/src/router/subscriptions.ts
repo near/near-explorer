@@ -58,11 +58,11 @@ const withTopic = <
         new trpc.Subscription<SubscriptionTopicTypes[T]>((emit) => {
           const typedInput = input as SubscriptionInput<T>;
           const onData: SubscriptionEventMap[T] = ((nextData, prevData) => {
+            const nextMappedData = mapFn(nextData, typedInput);
             if (!prevData) {
-              return emit.data(nextData as SubscriptionTopicTypes[T]);
+              return emit.data(nextMappedData);
             }
             const prevMappedData = mapFn(prevData, typedInput);
-            const nextMappedData = mapFn(nextData, typedInput);
             if (!isEqual(nextMappedData, prevMappedData)) {
               emit.data(nextMappedData);
             }
