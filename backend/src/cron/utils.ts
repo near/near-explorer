@@ -1,3 +1,5 @@
+import { isEqual } from "lodash";
+
 import {
   CachedTimestampMap,
   RegularCheckFn,
@@ -39,7 +41,6 @@ export const updateRegularlyFetchedMap = async <T>(
 
 type MaybePromise<T> = T | Promise<T>;
 
-const strictEqual = <T>(a: T, b: T) => a === b;
 export const getPublishIfChanged =
   (...[publish, context]: Parameters<RegularCheckFn["fn"]>) =>
   <S extends keyof SubscriptionEventMap>(
@@ -48,7 +49,7 @@ export const getPublishIfChanged =
     equalFn: (
       a: Parameters<SubscriptionEventMap[S]>[0],
       b: Parameters<SubscriptionEventMap[S]>[0]
-    ) => boolean = strictEqual
+    ) => boolean = isEqual
   ) => {
     const prevData = context.subscriptionsCache[topic];
     if (!prevData || !equalFn(prevData as typeof nextData, nextData)) {
@@ -66,7 +67,7 @@ export const publishOnChange =
     equalFn: (
       a: Parameters<SubscriptionEventMap[S]>[0],
       b: Parameters<SubscriptionEventMap[S]>[0]
-    ) => boolean = strictEqual
+    ) => boolean = isEqual
   ): RegularCheckFn["fn"] =>
   async (publish, context) => {
     const nextData = await fetcher();
