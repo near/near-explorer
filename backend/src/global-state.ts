@@ -4,6 +4,7 @@ import {
   ValidatorPoolInfo,
 } from "@explorer/backend/router/types";
 import { HealthStatus } from "@explorer/backend/types";
+import * as RPC from "@explorer/common/types/rpc";
 
 export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;
@@ -14,6 +15,7 @@ export type GlobalState = {
     minStakeRatio: [number, number];
     accountCount: number;
   } | null;
+  validatorsPromise?: Promise<RPC.EpochValidatorInfo>;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;
 };
