@@ -258,6 +258,7 @@
         }
       },
       "ValidatorTelemetryRow": {
+        "noTelemetryFound": "No telemetry found for a pool",
         "uptime": {
           "text": "Час безперервної роботи оцінюється відношенням кількості створених блоків до кількості очікуваних блоків.",
           "title": "Час безперервної роботи"

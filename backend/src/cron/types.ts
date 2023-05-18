@@ -1,5 +1,8 @@
 import { Context } from "@explorer/backend/context";
-import { SubscriptionEventMap } from "@explorer/backend/router/types";
+import {
+  SubscriptionEventMap,
+  SubscriptionTopicTypes,
+} from "@explorer/backend/router/types";
 
 export type CachedTimestampMap<T> = {
   timestampMap: Map<string, number>;
@@ -9,7 +12,7 @@ export type CachedTimestampMap<T> = {
 
 export type PublishTopic = <S extends keyof SubscriptionEventMap>(
   event: S,
-  arg: Parameters<SubscriptionEventMap[S]>[0]
+  arg: SubscriptionTopicTypes[S]
 ) => void;
 
 export type RegularCheckFn = {

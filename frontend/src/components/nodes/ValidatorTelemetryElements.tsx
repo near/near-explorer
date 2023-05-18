@@ -1,13 +1,13 @@
 import * as React from "react";
 
 import { Trans, useTranslation } from "next-i18next";
-import { Col, Row, Badge } from "react-bootstrap";
+import { Col, Row, Badge, Spinner } from "react-bootstrap";
 
-import { ValidatorTelemetry } from "@explorer/common/types/procedures";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
 } from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
+import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import Term from "@explorer/frontend/components/utils/Term";
 import Timer from "@explorer/frontend/components/utils/Timer";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
@@ -28,13 +28,33 @@ const AgentNameBadge = styled(Badge, {
 });
 
 interface Props {
-  telemetry: ValidatorTelemetry;
+  accountId: string;
 }
 
-const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
+const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
 
   const latestBlockSub = useSubscription(["latestBlock"]);
+  const telemetrySub = useSubscription(["validatorTelemetry", accountId]);
+
+  if (telemetrySub.status === "loading" || telemetrySub.status === "idle") {
+    return <Spinner animation="border" />;
+  }
+  if (telemetrySub.status === "error") {
+    return (
+      <ErrorMessage onRetry={telemetrySub.refetch}>
+        {telemetrySub.error.message}
+      </ErrorMessage>
+    );
+  }
+  const telemetry = telemetrySub.data;
+  if (!telemetry) {
+    return (
+      <ErrorMessage onRetry={telemetrySub.refetch}>
+        {t("component.nodes.ValidatorTelemetryRow.noTelemetryFound")}
+      </ErrorMessage>
+    );
+  }
 
   return (
     <>

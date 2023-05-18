@@ -1,10 +1,14 @@
 import { isEqual } from "lodash";
 
+import { Context } from "@explorer/backend/context";
 import {
   CachedTimestampMap,
   RegularCheckFn,
 } from "@explorer/backend/cron/types";
-import { SubscriptionEventMap } from "@explorer/backend/router/types";
+import {
+  SubscriptionEventMap,
+  SubscriptionTopicTypes,
+} from "@explorer/backend/router/types";
 
 export const updateRegularlyFetchedMap = async <T>(
   ids: string[],
@@ -45,14 +49,14 @@ export const getPublishIfChanged =
   (...[publish, context]: Parameters<RegularCheckFn["fn"]>) =>
   <S extends keyof SubscriptionEventMap>(
     topic: S,
-    nextData: Parameters<SubscriptionEventMap[S]>[0],
+    nextData: SubscriptionTopicTypes[S],
     equalFn: (
-      a: Parameters<SubscriptionEventMap[S]>[0],
-      b: Parameters<SubscriptionEventMap[S]>[0]
+      a: SubscriptionTopicTypes[S],
+      b: SubscriptionTopicTypes[S]
     ) => boolean = isEqual
   ) => {
     const prevData = context.subscriptionsCache[topic];
-    if (!prevData || !equalFn(prevData as typeof nextData, nextData)) {
+    if (!prevData || !equalFn(prevData, nextData)) {
       publish(topic, nextData);
     }
   };
@@ -60,17 +64,17 @@ export const getPublishIfChanged =
 export const publishOnChange =
   <S extends keyof SubscriptionEventMap>(
     topic: S,
-    fetcher: () => MaybePromise<Parameters<SubscriptionEventMap[S]>[0]>,
+    fetcher: (context: Context) => MaybePromise<SubscriptionTopicTypes[S]>,
     intervalOrIntervalFn:
       | number
-      | ((input: Parameters<SubscriptionEventMap[S]>[0]) => number),
+      | ((input: SubscriptionTopicTypes[S]) => number),
     equalFn: (
-      a: Parameters<SubscriptionEventMap[S]>[0],
-      b: Parameters<SubscriptionEventMap[S]>[0]
+      a: SubscriptionTopicTypes[S],
+      b: SubscriptionTopicTypes[S]
     ) => boolean = isEqual
   ): RegularCheckFn["fn"] =>
   async (publish, context) => {
-    const nextData = await fetcher();
+    const nextData = await fetcher(context);
     getPublishIfChanged(publish, context)(topic, nextData, equalFn);
     return typeof intervalOrIntervalFn === "function"
       ? intervalOrIntervalFn(nextData)

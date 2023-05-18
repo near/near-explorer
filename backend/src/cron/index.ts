@@ -19,6 +19,7 @@ const regularTasks = [
   tasks.activeAccountsHistoryCheck,
   tasks.activeAccountsListCheck,
   tasks.validatorsCheck,
+  tasks.validatorsTelemetryCheck,
   tasks.epochStatsCheck,
   tasks.epochStartBlockCheck,
   tasks.stakingPoolMetadataInfoCheck,
@@ -34,7 +35,6 @@ export const runTasks = (context: Context) => {
   const publish: PublishTopic = (topic, output) => {
     const prevOutput = context.subscriptionsCache[topic];
     // TODO: Find a proper version of TypedEmitter
-    // @ts-expect-error
     context.subscriptionsCache[topic] = output;
     // @ts-expect-error
     void context.subscriptionsEventEmitter.emit(topic, output, prevOutput);

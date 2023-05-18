@@ -3,6 +3,7 @@ import { SubscriptionTopicType } from "@explorer/backend/router/types";
 
 const topics: Record<SubscriptionTopicType, true> = {
   validators: true,
+  validatorTelemetry: true,
   latestBlock: true,
   latestGasPrice: true,
   blockProductionSpeed: true,

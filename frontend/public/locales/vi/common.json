@@ -258,6 +258,7 @@
         }
       },
       "ValidatorTelemetryRow": {
+        "noTelemetryFound": "No telemetry found for a pool",
         "uptime": {
           "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks.",
           "title": "Uptime"
