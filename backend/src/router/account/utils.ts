@@ -3,10 +3,10 @@ import { sql } from "kysely";
 import {
   analyticsDatabase,
   indexerDatabase,
-} from "@explorer/backend/database/databases";
-import { count, max, sum } from "@explorer/backend/database/utils";
-import { millisecondsToNanoseconds } from "@explorer/backend/utils/bigint";
-import { DAY } from "@explorer/backend/utils/time";
+} from "@/backend/database/databases";
+import { count, max, sum } from "@/backend/database/utils";
+import { millisecondsToNanoseconds } from "@/backend/utils/bigint";
+import { DAY } from "@/backend/utils/time";
 
 const queryAccountIncomeTransactionsCount = async (accountId: string) => {
   if (!analyticsDatabase) {

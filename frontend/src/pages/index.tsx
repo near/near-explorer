@@ -5,17 +5,15 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import DashboardBlock from "@explorer/frontend/components/dashboard/DashboardBlock";
-import DashboardNode from "@explorer/frontend/components/dashboard/DashboardNode";
-import DashboardTransaction from "@explorer/frontend/components/dashboard/DashboardTransaction";
-import { DashboardCardWrapper } from "@explorer/frontend/components/utils/DashboardCard";
-import Search, {
-  getRedirectPage,
-} from "@explorer/frontend/components/utils/Search";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { getTrpcClient } from "@explorer/frontend/libraries/trpc";
+import DashboardBlock from "@/frontend/components/dashboard/DashboardBlock";
+import DashboardNode from "@/frontend/components/dashboard/DashboardNode";
+import DashboardTransaction from "@/frontend/components/dashboard/DashboardTransaction";
+import { DashboardCardWrapper } from "@/frontend/components/utils/DashboardCard";
+import Search, { getRedirectPage } from "@/frontend/components/utils/Search";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { getNearNetworkName } from "@/frontend/libraries/config";
+import { styled } from "@/frontend/libraries/styles";
+import { getTrpcClient } from "@/frontend/libraries/trpc";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",

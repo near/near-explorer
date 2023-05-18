@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import ReceiptsList from "@explorer/frontend/components/receipts/ReceiptsList";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import ReceiptsList from "@/frontend/components/receipts/ReceiptsList";
+import { trpc } from "@/frontend/libraries/trpc";
 
 interface Props {
   blockHash: string;

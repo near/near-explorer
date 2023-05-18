@@ -2,23 +2,20 @@ import * as trpc from "@trpc/server";
 import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
-import {
-  IndexerDatabase,
-  indexerDatabase,
-} from "@explorer/backend/database/databases";
-import { validators } from "@explorer/backend/router/validators";
+import { RequestContext } from "@/backend/context";
+import { IndexerDatabase, indexerDatabase } from "@/backend/database/databases";
+import { validators } from "@/backend/router/validators";
 import {
   Action,
   mapActionResultsWithDelegateActions,
   mapForceDatabaseActionToAction,
-} from "@explorer/backend/utils/actions";
-import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
+} from "@/backend/utils/actions";
+import { nanosecondsToMilliseconds } from "@/backend/utils/bigint";
 import {
   mapDatabaseTransactionStatus,
   TransactionStatus,
-} from "@explorer/backend/utils/transaction-status";
-import { id } from "@explorer/common/utils/utils";
+} from "@/backend/utils/transaction-status";
+import { id } from "@/common/utils/utils";
 
 type TransactionPreview = {
   hash: string;

@@ -3,8 +3,8 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Modal } from "react-bootstrap";
 
-import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { useAnalyticsTrack } from "@/frontend/hooks/analytics/use-analytics-track";
+import { styled } from "@/frontend/libraries/styles";
 
 const TermHelper = styled("div", {
   display: "inline-block",

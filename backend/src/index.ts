@@ -1,18 +1,18 @@
 import { EventEmitter } from "events";
 
-import { config } from "@explorer/backend/config";
-import { Context } from "@explorer/backend/context";
-import { runTasks } from "@explorer/backend/cron";
-import { initGlobalState } from "@explorer/backend/global-state";
-import { AppRouter, router } from "@explorer/backend/router";
+import { config } from "@/backend/config";
+import { Context } from "@/backend/context";
+import { runTasks } from "@/backend/cron";
+import { initGlobalState } from "@/backend/global-state";
+import { AppRouter, router } from "@/backend/router";
 import {
   connectWebsocketServer,
   createApp,
   RouterOptions,
   WebsocketRouterOptions,
-} from "@explorer/backend/server";
-import { onError } from "@explorer/backend/utils/error";
-import { setupTelemetryDb } from "@explorer/backend/utils/telemetry";
+} from "@/backend/server";
+import { onError } from "@/backend/utils/error";
+import { setupTelemetryDb } from "@/backend/utils/telemetry";
 
 async function main(appRouter: AppRouter): Promise<void> {
   // eslint-disable-next-line no-console

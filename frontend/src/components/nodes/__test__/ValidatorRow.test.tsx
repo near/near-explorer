@@ -2,10 +2,10 @@ import * as React from "react";
 
 import JSBI from "jsbi";
 
-import { ValidatorFullData } from "@explorer/common/types/procedures";
-import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { renderElement } from "@explorer/frontend/testing/utils";
+import { ValidatorFullData } from "@/common/types/procedures";
+import ValidatorRow from "@/frontend/components/nodes/ValidatorRow";
+import * as BI from "@/frontend/libraries/bigint";
+import { renderElement } from "@/frontend/testing/utils";
 
 import { VALIDATORS_LIST } from "./validators";
 

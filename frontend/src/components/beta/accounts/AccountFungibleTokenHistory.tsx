@@ -8,16 +8,16 @@ import { Spinner } from "react-bootstrap";
 import {
   AccountFungibleToken,
   AccountFungibleTokenHistoryElement,
-} from "@explorer/common/types/procedures";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import LinkWrapper from "@explorer/frontend/components/utils/Link";
-import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
-import { buildAccountUrl } from "@explorer/frontend/hooks/use-account-page-options";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { shortenString } from "@explorer/frontend/libraries/formatting";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/common/types/procedures";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import LinkWrapper from "@/frontend/components/utils/Link";
+import { TokenAmount } from "@/frontend/components/utils/TokenAmount";
+import { buildAccountUrl } from "@/frontend/hooks/use-account-page-options";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { shortenString } from "@/frontend/libraries/formatting";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const TableWrapper = styled("div", {
   display: "flex",

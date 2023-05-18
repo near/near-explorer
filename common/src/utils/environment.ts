@@ -1,6 +1,6 @@
 import { set, camelCase } from "lodash";
 
-import { getBranch, getShortCommitSha } from "@explorer/common/utils/git";
+import { getBranch, getShortCommitSha } from "@/common/utils/git";
 
 const GROUP_DELIMITER = "__";
 

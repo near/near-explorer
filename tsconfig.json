@@ -23,10 +23,11 @@
     "isolatedModules": true,
     "incremental": true,
     "paths": {
-      "@explorer/common/*": ["./common/src/*"],
-      "@explorer/backend/*": ["./backend/src/*"],
-      "@explorer/frontend/public/*": ["./frontend/public/*"],
-      "@explorer/frontend/*": ["./frontend/src/*"]
+      "@/common/*": ["./common/src/*"],
+      "@/backend/*": ["./backend/src/*"],
+      "@/frontend/public/*": ["./frontend/public/*"],
+      "@/frontend/tests/*": ["./frontend/tests/*"],
+      "@/frontend/*": ["./frontend/src/*"]
     }
   },
   "include": ["**/*"],

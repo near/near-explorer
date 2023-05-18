@@ -6,12 +6,12 @@ import { Col, Row, Badge, Spinner } from "react-bootstrap";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
-} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import Term from "@explorer/frontend/components/utils/Term";
-import Timer from "@explorer/frontend/components/utils/Timer";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/nodes/ValidatorMetadataRow";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import Term from "@/frontend/components/utils/Term";
+import Timer from "@/frontend/components/utils/Timer";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,

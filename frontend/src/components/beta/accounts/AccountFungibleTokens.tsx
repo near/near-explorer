@@ -3,18 +3,18 @@ import * as React from "react";
 import Image from "next/legacy/image";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
-import { AccountFungibleToken } from "@explorer/common/types/procedures";
-import AccountFungibleTokenHistory from "@explorer/frontend/components/beta/accounts/AccountFungibleTokenHistory";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import LinkWrapper from "@explorer/frontend/components/utils/Link";
-import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
+import { AccountFungibleToken } from "@/common/types/procedures";
+import AccountFungibleTokenHistory from "@/frontend/components/beta/accounts/AccountFungibleTokenHistory";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import LinkWrapper from "@/frontend/components/utils/Link";
+import { TokenAmount } from "@/frontend/components/utils/TokenAmount";
 import {
   FungibleTokensAccountPageOptions,
   buildAccountUrl,
-} from "@explorer/frontend/hooks/use-account-page-options";
-import { shortenString } from "@explorer/frontend/libraries/formatting";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/frontend/hooks/use-account-page-options";
+import { shortenString } from "@/frontend/libraries/formatting";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const Wrapper = styled("div", {
   display: "flex",

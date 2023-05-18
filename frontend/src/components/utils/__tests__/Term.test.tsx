@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import Term from "@explorer/frontend/components/utils/Term";
-import { renderElement } from "@explorer/frontend/testing/utils";
+import Term from "@/frontend/components/utils/Term";
+import { renderElement } from "@/frontend/testing/utils";
 
 describe("<CardCell />", () => {
   it("renders", () => {

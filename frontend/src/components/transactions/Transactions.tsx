@@ -6,12 +6,12 @@ import * as ReactQuery from "react-query";
 import {
   TransactionPreview,
   TransactionListResponse,
-} from "@explorer/common/types/procedures";
-import { TRPCError } from "@explorer/common/types/trpc";
-import TransactionAction from "@explorer/frontend/components/transactions/TransactionAction";
-import FlipMove from "@explorer/frontend/components/utils/FlipMove";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import Placeholder from "@explorer/frontend/components/utils/Placeholder";
+} from "@/common/types/procedures";
+import { TRPCError } from "@/common/types/trpc";
+import TransactionAction from "@/frontend/components/transactions/TransactionAction";
+import FlipMove from "@/frontend/components/utils/FlipMove";
+import ListHandler from "@/frontend/components/utils/ListHandler";
+import Placeholder from "@/frontend/components/utils/Placeholder";
 
 export const getNextPageParam: ReactQuery.GetNextPageParamFunction<
   TransactionListResponse

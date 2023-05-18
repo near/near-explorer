@@ -1,6 +1,6 @@
 import dateFnsLocale from "date-fns/locale/zh-CN";
 
-import { DurationFormatter } from "@explorer/frontend/libraries/locales/index";
+import { DurationFormatter } from "@/frontend/libraries/locales/index";
 
 const durationFormatter: DurationFormatter = {
   years: (input) => `${input}年`,

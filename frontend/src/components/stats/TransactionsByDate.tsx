@@ -5,9 +5,9 @@ import ReactEcharts from "echarts-for-react";
 import { useTranslation } from "next-i18next";
 import { Tabs, Tab } from "react-bootstrap";
 
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { getCumulativeArray } from "@/frontend/libraries/stats";
 
 const getOption = (
   title: string,

@@ -1,9 +1,9 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
-import { validators } from "@explorer/backend/router/validators";
-import * as nearApi from "@explorer/backend/utils/near";
+import { RequestContext } from "@/backend/context";
+import { validators } from "@/backend/router/validators";
+import * as nearApi from "@/backend/utils/near";
 
 // https://nomicon.io/Standards/Tokens/FungibleToken/Metadata
 export type FungibleTokenMetadata = {

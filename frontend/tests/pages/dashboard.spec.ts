@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { openFixture as test } from "@explorer/frontend/tests/fixtures";
+import { openFixture as test } from "@/frontend/tests/fixtures";
 
 test.describe("Dashboard page", () => {
   test.beforeEach(async ({ openPath }) => {

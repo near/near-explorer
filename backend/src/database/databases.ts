@@ -1,12 +1,12 @@
 import { Kysely, PostgresDialect, PostgresDialectConfig } from "kysely";
 import { Pool } from "pg";
 
-import { config } from "@explorer/backend/config";
-import * as Analytics from "@explorer/backend/database/models/readOnlyAnalytics";
-import * as Indexer from "@explorer/backend/database/models/readOnlyIndexer";
-import * as IndexerActivity from "@explorer/backend/database/models/readOnlyIndexerActivity";
-import * as Telemetry from "@explorer/backend/database/models/readOnlyTelemetry";
-import { getEnvironmentStaticVariables } from "@explorer/common/utils/environment";
+import { config } from "@/backend/config";
+import * as Analytics from "@/backend/database/models/readOnlyAnalytics";
+import * as Indexer from "@/backend/database/models/readOnlyIndexer";
+import * as IndexerActivity from "@/backend/database/models/readOnlyIndexerActivity";
+import * as Telemetry from "@/backend/database/models/readOnlyTelemetry";
+import { getEnvironmentStaticVariables } from "@/common/utils/environment";
 
 import type { DatabaseColumnType } from "./types";
 

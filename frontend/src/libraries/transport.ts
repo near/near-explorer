@@ -1,5 +1,5 @@
-import { NetworkName } from "@explorer/common/types/common";
-import { getConfig } from "@explorer/frontend/libraries/config";
+import { NetworkName } from "@/common/types/common";
+import { getConfig } from "@/frontend/libraries/config";
 
 type Protocol = "http" | "websocket";
 const secureProtocols: Record<Protocol, string> = {

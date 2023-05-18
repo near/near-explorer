@@ -3,8 +3,8 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import NodeNav from "@explorer/frontend/components/nodes/NodeNav";
-import { styled } from "@explorer/frontend/libraries/styles";
+import NodeNav from "@/frontend/components/nodes/NodeNav";
+import { styled } from "@/frontend/libraries/styles";
 
 const NodesContentHeaderWrapper = styled("h1", {
   fontSize: 31,

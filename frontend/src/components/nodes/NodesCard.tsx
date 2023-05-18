@@ -4,20 +4,20 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
-import { getTotalStake } from "@explorer/frontend/components/nodes/ValidatorsList";
+import NearBadge from "@/frontend/components/nodes/NearBadge";
+import { getTotalStake } from "@/frontend/components/nodes/ValidatorsList";
 import {
   showInYocto,
   formatWithCommas,
-} from "@explorer/frontend/components/utils/Balance";
+} from "@/frontend/components/utils/Balance";
 import {
   InfoCard,
   InfoCardCell as Cell,
   InfoCardText,
-} from "@explorer/frontend/components/utils/InfoCard";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/utils/InfoCard";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import * as BI from "@/frontend/libraries/bigint";
+import { styled } from "@/frontend/libraries/styles";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",

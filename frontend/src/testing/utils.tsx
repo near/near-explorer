@@ -13,9 +13,9 @@ import renderer, {
 import {
   NetworkContext,
   NetworkContextType,
-} from "@explorer/frontend/context/NetworkContext";
-import { setCachedDateLocale } from "@explorer/frontend/libraries/date-locale";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/frontend/context/NetworkContext";
+import { setCachedDateLocale } from "@/frontend/libraries/date-locale";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const networkContext: NetworkContextType = {
   networkName: "localnet",

@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { openFixture as test } from "@explorer/frontend/tests/fixtures";
+import { openFixture as test } from "@/frontend/tests/fixtures";
 
 const transactionHash = "9DBhhwpe83X3Dhaw5i6G4ggNTHzawnCJxxKJ3esawKKm";
 const actionsAmount = 1;

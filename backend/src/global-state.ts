@@ -1,10 +1,10 @@
-import { CachedTimestampMap } from "@explorer/backend/cron/types";
+import { CachedTimestampMap } from "@/backend/cron/types";
 import {
   ValidatorDescription,
   ValidatorPoolInfo,
-} from "@explorer/backend/router/types";
-import { HealthStatus } from "@explorer/backend/types";
-import * as RPC from "@explorer/common/types/rpc";
+} from "@/backend/router/types";
+import { HealthStatus } from "@/backend/types";
+import * as RPC from "@/common/types/rpc";
 
 export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;

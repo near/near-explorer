@@ -3,7 +3,7 @@ import JSBI from "jsbi";
 import {
   nearNominationExponent,
   teraGasNominationExponent,
-} from "@explorer/common/utils/near";
+} from "@/common/utils/near";
 
 export const zero = JSBI.BigInt(0);
 export const minusOne = JSBI.BigInt(-1);

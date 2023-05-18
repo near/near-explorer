@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { useNetworkContext } from "@/frontend/hooks/use-network-context";
+import { styled } from "@/frontend/libraries/styles";
 
 const Wrapper = styled("div", {
   display: "flex",

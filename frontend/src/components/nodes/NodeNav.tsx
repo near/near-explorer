@@ -3,9 +3,9 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Badge, Col, Row } from "react-bootstrap";
 
-import Link from "@explorer/frontend/components/utils/Link";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+import Link from "@/frontend/components/utils/Link";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const NodeSelector = styled(Col, {
   height: "100%",

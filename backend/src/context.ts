@@ -3,12 +3,12 @@ import type http from "http";
 import type TypedEmitter from "typed-emitter";
 import type ws from "ws";
 
-import type { GlobalState } from "@explorer/backend/global-state";
+import type { GlobalState } from "@/backend/global-state";
 import {
   SubscriptionEventMap,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
-} from "@explorer/backend/router/types";
+} from "@/backend/router/types";
 
 export type Context = {
   state: GlobalState;

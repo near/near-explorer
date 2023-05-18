@@ -1,9 +1,9 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
-import { indexerDatabase } from "@explorer/backend/database/databases";
-import * as nearApi from "@explorer/backend/utils/near";
+import { RequestContext } from "@/backend/context";
+import { indexerDatabase } from "@/backend/database/databases";
+import * as nearApi from "@/backend/utils/near";
 
 export const router = trpc.router<RequestContext>().query("final", {
   input: z.discriminatedUnion("source", [

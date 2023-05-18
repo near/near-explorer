@@ -2,11 +2,11 @@ import * as React from "react";
 
 import JSBI from "jsbi";
 
-import { ValidatorFullData } from "@explorer/common/types/procedures";
-import { notNullishGuard } from "@explorer/common/utils/utils";
-import ValidatorRow from "@explorer/frontend/components/nodes/ValidatorRow";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import * as BI from "@explorer/frontend/libraries/bigint";
+import { ValidatorFullData } from "@/common/types/procedures";
+import { notNullishGuard } from "@/common/utils/utils";
+import ValidatorRow from "@/frontend/components/nodes/ValidatorRow";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import * as BI from "@/frontend/libraries/bigint";
 
 // The share of "network holders", cumulative amount of validators
 // that considered "in control" of the network by holding significant amount of staked tokens

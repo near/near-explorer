@@ -3,9 +3,9 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import Timer from "@explorer/frontend/components/utils/Timer";
-import { styled } from "@explorer/frontend/libraries/styles";
+import AccountLink from "@/frontend/components/utils/AccountLink";
+import Timer from "@/frontend/components/utils/Timer";
+import { styled } from "@/frontend/libraries/styles";
 
 const ActionRowImage = styled("div", {
   variants: {

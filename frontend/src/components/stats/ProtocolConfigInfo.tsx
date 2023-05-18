@@ -4,18 +4,16 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
-import NearBadge from "@explorer/frontend/components/nodes/NearBadge";
-import Balance, {
-  formatWithCommas,
-} from "@explorer/frontend/components/utils/Balance";
+import NearBadge from "@/frontend/components/nodes/NearBadge";
+import Balance, { formatWithCommas } from "@/frontend/components/utils/Balance";
 import {
   InfoCard,
   InfoCardCell as Cell,
-} from "@explorer/frontend/components/utils/InfoCard";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/utils/InfoCard";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import * as BI from "@/frontend/libraries/bigint";
+import { styled } from "@/frontend/libraries/styles";
 
 const ProtocolConfig = styled(InfoCard, {
   margin: "24px 0",

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import analytics from "@explorer/frontend/hooks/analytics/analytics";
+import analytics from "@/frontend/hooks/analytics/analytics";
 
 if (typeof window !== "undefined") {
   analytics.init();

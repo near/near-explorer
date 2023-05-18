@@ -7,7 +7,7 @@ import {
   resolveValue,
 } from "react-hot-toast/headless";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 const Wrapper = styled("div");
 const Toast = styled("div", {

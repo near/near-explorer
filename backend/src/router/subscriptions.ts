@@ -2,19 +2,19 @@ import * as trpc from "@trpc/server";
 import { isEqual } from "lodash";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
+import { RequestContext } from "@/backend/context";
 import {
   SubscriptionEventMap,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
-} from "@explorer/backend/router/types";
+} from "@/backend/router/types";
 import {
   AnyRouter,
   CreateProcedureSubscription,
   RouterWithSubscriptionsAndQueries,
-} from "@explorer/common/types/trpc";
-import { wait } from "@explorer/common/utils/promise";
-import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
+} from "@/common/types/trpc";
+import { wait } from "@/common/utils/promise";
+import { SSR_TIMEOUT } from "@/common/utils/queries";
 
 const subscriptionInputs = {
   transactionsHistory: z.union([

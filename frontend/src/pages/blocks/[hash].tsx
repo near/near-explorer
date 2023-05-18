@@ -6,19 +6,19 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { stringify } from "querystring";
 
-import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
-import ReceiptsExecutedInBlock from "@explorer/frontend/components/receipts/ReceiptsExecutedInBlock";
-import ReceiptsIncludedInBlock from "@explorer/frontend/components/receipts/ReceiptsIncludedInBlock";
+import BlockDetails from "@/frontend/components/blocks/BlockDetails";
+import ReceiptsExecutedInBlock from "@/frontend/components/receipts/ReceiptsExecutedInBlock";
+import ReceiptsIncludedInBlock from "@/frontend/components/receipts/ReceiptsIncludedInBlock";
 import Transactions, {
   getNextPageParam,
-} from "@explorer/frontend/components/transactions/Transactions";
-import Content from "@explorer/frontend/components/utils/Content";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { getNearNetworkName } from "@explorer/frontend/libraries/config";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { getTrpcClient, trpc } from "@explorer/frontend/libraries/trpc";
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
+} from "@/frontend/components/transactions/Transactions";
+import Content from "@/frontend/components/utils/Content";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { getNearNetworkName } from "@/frontend/libraries/config";
+import { styled } from "@/frontend/libraries/styles";
+import { getTrpcClient, trpc } from "@/frontend/libraries/trpc";
+import TransactionIconSvg from "@/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,

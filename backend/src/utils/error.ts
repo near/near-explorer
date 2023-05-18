@@ -4,7 +4,7 @@ import type http from "http";
 import { ZodError } from "zod";
 import { generateErrorMessage, ErrorMessageOptions } from "zod-error";
 
-import type { AppRouter } from "@explorer/backend/router";
+import type { AppRouter } from "@/backend/router";
 
 const errorOptions: ErrorMessageOptions = {
   delimiter: {

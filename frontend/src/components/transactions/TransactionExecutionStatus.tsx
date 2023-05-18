@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { TransactionStatus } from "@explorer/common/types/procedures";
+import { TransactionStatus } from "@/common/types/procedures";
 
 export interface Props {
   status: TransactionStatus;

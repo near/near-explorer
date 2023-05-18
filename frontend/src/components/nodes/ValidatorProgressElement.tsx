@@ -3,13 +3,13 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import { ValidationProgress } from "@explorer/common/types/procedures";
+import { ValidationProgress } from "@/common/types/procedures";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
-} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
-import Term from "@explorer/frontend/components/utils/Term";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/nodes/ValidatorMetadataRow";
+import Term from "@/frontend/components/utils/Term";
+import { styled } from "@/frontend/libraries/styles";
 
 const Uptime = styled(Col, {
   fontWeight: 500,

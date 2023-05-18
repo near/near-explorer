@@ -1,11 +1,11 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
-import { indexerDatabase } from "@explorer/backend/database/databases";
-import { count, div } from "@explorer/backend/database/utils";
-import { validators } from "@explorer/backend/router/validators";
-import { millisecondsToNanoseconds } from "@explorer/backend/utils/bigint";
+import { RequestContext } from "@/backend/context";
+import { indexerDatabase } from "@/backend/database/databases";
+import { count, div } from "@/backend/database/utils";
+import { validators } from "@/backend/router/validators";
+import { millisecondsToNanoseconds } from "@/backend/utils/bigint";
 
 export const router = trpc.router<RequestContext>().query("list", {
   input: z.strictObject({

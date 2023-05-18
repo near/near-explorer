@@ -2,12 +2,9 @@ import * as React from "react";
 
 import { intervalToDuration } from "date-fns";
 
-import { SSRContext } from "@explorer/frontend/context/SSRContext";
-import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
-import {
-  SECOND,
-  formatDurationString,
-} from "@explorer/frontend/libraries/time";
+import { SSRContext } from "@/frontend/context/SSRContext";
+import { useDateLocale } from "@/frontend/hooks/use-date-locale";
+import { SECOND, formatDurationString } from "@/frontend/libraries/time";
 
 interface Props {
   time: number;

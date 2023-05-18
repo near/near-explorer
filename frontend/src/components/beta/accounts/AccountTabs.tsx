@@ -3,23 +3,23 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import { Account } from "@explorer/common/types/procedures";
-import AccountFungibleTokens from "@explorer/frontend/components/beta/accounts/AccountFungibleTokens";
-import AccountNonFungibleTokensView from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokens";
-import AccountTransactionsView from "@explorer/frontend/components/beta/accounts/AccountTransactionsView";
-import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
+import { Account } from "@/common/types/procedures";
+import AccountFungibleTokens from "@/frontend/components/beta/accounts/AccountFungibleTokens";
+import AccountNonFungibleTokensView from "@/frontend/components/beta/accounts/AccountNonFungibleTokens";
+import AccountTransactionsView from "@/frontend/components/beta/accounts/AccountTransactionsView";
+import { Tabs } from "@/frontend/components/beta/common/Tabs";
 import {
   AccountPageOptions,
   AccountTab,
   buildAccountUrl,
-} from "@explorer/frontend/hooks/use-account-page-options";
+} from "@/frontend/hooks/use-account-page-options";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
   formatToPowerOfTen,
-} from "@explorer/frontend/libraries/formatting";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/frontend/libraries/formatting";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const TabLabel = styled("div", {
   display: "flex",

@@ -3,8 +3,8 @@ import * as React from "react";
 import { Trans, useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import { ValidatorDescription } from "@explorer/common/types/procedures";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { ValidatorDescription } from "@/common/types/procedures";
+import { styled } from "@/frontend/libraries/styles";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",

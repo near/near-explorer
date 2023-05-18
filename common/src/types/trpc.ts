@@ -19,7 +19,7 @@ import type {
 } from "react-query";
 import type { Equals } from "tsafe";
 
-import type { AppRouter } from "@explorer/backend/router";
+import type { AppRouter } from "@/backend/router";
 
 export type AnyRouter<TContext = any> = Router<
   any,

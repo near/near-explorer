@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { Action } from "@explorer/common/types/procedures";
-import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
+import { Action } from "@/common/types/procedures";
+import ActionRow from "@/frontend/components/transactions/ActionRow";
 import {
   ViewMode,
   DetalizationMode,
-} from "@explorer/frontend/components/transactions/ActionRowBlock";
+} from "@/frontend/components/transactions/ActionRowBlock";
 
 export interface Props {
   actions: Action[];

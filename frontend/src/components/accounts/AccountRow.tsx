@@ -3,14 +3,14 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import { TRPCQueryOutput } from "@explorer/common/types/trpc";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import Link from "@explorer/frontend/components/utils/Link";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { TRPCQueryOutput } from "@/common/types/trpc";
+import Balance from "@/frontend/components/utils/Balance";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import Link from "@/frontend/components/utils/Link";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const TransactionRow = styled(Row, {
   paddingVertical: 10,

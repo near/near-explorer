@@ -3,8 +3,8 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
-import { CSS, styled } from "@explorer/frontend/libraries/styles";
+import { useAnalyticsTrack } from "@/frontend/hooks/analytics/use-analytics-track";
+import { CSS, styled } from "@/frontend/libraries/styles";
 
 const StyledLink = styled(Link, {
   textDecoration: "none",

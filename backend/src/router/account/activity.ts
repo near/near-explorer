@@ -1,24 +1,24 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
+import { RequestContext } from "@/backend/context";
 import {
   indexerActivityDatabase,
   indexerDatabase,
-} from "@explorer/backend/database/databases";
-import { div } from "@explorer/backend/database/utils";
-import { validators } from "@explorer/backend/router/validators";
+} from "@/backend/database/databases";
+import { div } from "@/backend/database/utils";
+import { validators } from "@/backend/router/validators";
 import {
   Action,
   mapForceDatabaseActionToAction,
   mapActionResultsWithDelegateActions,
-} from "@explorer/backend/utils/actions";
-import { nanosecondsToMilliseconds } from "@explorer/backend/utils/bigint";
+} from "@/backend/utils/actions";
+import { nanosecondsToMilliseconds } from "@/backend/utils/bigint";
 import {
   mapDatabaseTransactionStatus,
   TransactionStatus,
-} from "@explorer/backend/utils/transaction-status";
-import { notNullishGuard } from "@explorer/common/utils/utils";
+} from "@/backend/utils/transaction-status";
+import { notNullishGuard } from "@/common/utils/utils";
 
 type ActivityConnectionActions = {
   parentAction?: AccountActivityAction & ActivityConnection;

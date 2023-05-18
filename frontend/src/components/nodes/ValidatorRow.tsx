@@ -3,15 +3,15 @@ import * as React from "react";
 import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 
-import { ValidatorFullData } from "@explorer/common/types/procedures";
-import { FRACTION_DIGITS } from "@explorer/frontend/components/nodes/CumulativeStakeChart";
+import { ValidatorFullData } from "@/common/types/procedures";
+import { FRACTION_DIGITS } from "@/frontend/components/nodes/CumulativeStakeChart";
 import ValidatingLabel, {
   StakingStatus,
-} from "@explorer/frontend/components/nodes/ValidatingLabel";
-import ValidatorCollapsedRow from "@explorer/frontend/components/nodes/ValidatorCollapsedRow";
-import ValidatorMainRow from "@explorer/frontend/components/nodes/ValidatorMainRow";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/nodes/ValidatingLabel";
+import ValidatorCollapsedRow from "@/frontend/components/nodes/ValidatorCollapsedRow";
+import ValidatorMainRow from "@/frontend/components/nodes/ValidatorMainRow";
+import * as BI from "@/frontend/libraries/bigint";
+import { styled } from "@/frontend/libraries/styles";
 
 const CumulativeStakeholdersRow = styled("tr", {
   backgroundColor: "#fff6ed",

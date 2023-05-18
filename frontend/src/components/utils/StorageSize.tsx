@@ -3,7 +3,7 @@ import * as React from "react";
 import { TFunction, useTranslation } from "next-i18next";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import { formatWithCommas } from "@explorer/frontend/components/utils/Balance";
+import { formatWithCommas } from "@/frontend/components/utils/Balance";
 
 const formatStoreSize = (value: number, t: TFunction): string => {
   let showStorage = value.toString();

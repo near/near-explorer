@@ -3,9 +3,9 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
-import { styled } from "@explorer/frontend/libraries/styles";
-import NearSvg from "@explorer/frontend/public/static/images/near_logo.svg";
+import { useAnalyticsTrack } from "@/frontend/hooks/analytics/use-analytics-track";
+import { styled } from "@/frontend/libraries/styles";
+import NearSvg from "@/frontend/public/static/images/near_logo.svg";
 
 const FooterContainer = styled(Container, {
   backgroundColor: "#f8f8f8",

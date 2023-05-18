@@ -1,7 +1,7 @@
-import { Indexer } from "@explorer/backend/database/databases";
-import { ActionKind } from "@explorer/backend/database/models/readOnlyIndexer";
-import * as RPC from "@explorer/common/types/rpc";
-import { notNullishGuard } from "@explorer/common/utils/utils";
+import { Indexer } from "@/backend/database/databases";
+import { ActionKind } from "@/backend/database/models/readOnlyIndexer";
+import * as RPC from "@/common/types/rpc";
+import { notNullishGuard } from "@/common/utils/utils";
 
 type NonDelegateAction =
   | {

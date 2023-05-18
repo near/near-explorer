@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { NetworkName } from "@explorer/common/types/common";
-import { NearNetwork } from "@explorer/frontend/libraries/config";
+import { NetworkName } from "@/common/types/common";
+import { NearNetwork } from "@/frontend/libraries/config";
 
 export interface NetworkContextType {
   networkName: NetworkName;

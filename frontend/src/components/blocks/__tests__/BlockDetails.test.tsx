@@ -2,8 +2,8 @@ import * as React from "react";
 
 import JSBI from "jsbi";
 
-import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
-import { renderElement } from "@explorer/frontend/testing/utils";
+import BlockDetails from "@/frontend/components/blocks/BlockDetails";
+import { renderElement } from "@/frontend/testing/utils";
 
 describe("<BlockDetails />", () => {
   it("renders", () => {

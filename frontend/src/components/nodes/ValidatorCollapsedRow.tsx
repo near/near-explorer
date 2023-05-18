@@ -3,13 +3,13 @@ import * as React from "react";
 import {
   ValidatorDescription,
   ValidationProgress,
-} from "@explorer/common/types/procedures";
+} from "@/common/types/procedures";
 import ValidatorMetadataRow, {
   ValidatorNodesContentRow,
-} from "@explorer/frontend/components/nodes/ValidatorMetadataRow";
-import ValidatorProgressElement from "@explorer/frontend/components/nodes/ValidatorProgressElement";
-import ValidatorTelemetryElements from "@explorer/frontend/components/nodes/ValidatorTelemetryElements";
-import { TableCollapseRow } from "@explorer/frontend/components/utils/Table";
+} from "@/frontend/components/nodes/ValidatorMetadataRow";
+import ValidatorProgressElement from "@/frontend/components/nodes/ValidatorProgressElement";
+import ValidatorTelemetryElements from "@/frontend/components/nodes/ValidatorTelemetryElements";
+import { TableCollapseRow } from "@/frontend/components/utils/Table";
 
 interface Props {
   accountId: string;

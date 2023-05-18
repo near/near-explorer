@@ -2,7 +2,7 @@ import React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
   header?: string;

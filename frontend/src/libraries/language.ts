@@ -8,8 +8,8 @@
 import { IncomingMessage } from "http";
 import { ParsedUrlQuery } from "querystring";
 
-import { getCookiesFromReq } from "@explorer/frontend/libraries/cookie";
-import { isLanguage, Language } from "@explorer/frontend/libraries/i18n";
+import { getCookiesFromReq } from "@/frontend/libraries/cookie";
+import { isLanguage, Language } from "@/frontend/libraries/i18n";
 
 export const LANGUAGE_COOKIE = "NEXT_LOCALE";
 

@@ -3,11 +3,11 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import { BlockBase } from "@explorer/common/types/procedures";
-import Link from "@explorer/frontend/components/utils/Link";
-import Timer from "@explorer/frontend/components/utils/Timer";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { BlockBase } from "@/common/types/procedures";
+import Link from "@/frontend/components/utils/Link";
+import Timer from "@/frontend/components/utils/Timer";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const TransactionRow = styled(Row, {
   paddingVertical: 10,

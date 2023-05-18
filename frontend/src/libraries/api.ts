@@ -1,7 +1,7 @@
 import { NextApiResponse } from "next";
 
-import { NetworkName } from "@explorer/common/types/common";
-import { getConfig } from "@explorer/frontend/libraries/config";
+import { NetworkName } from "@/common/types/common";
+import { getConfig } from "@/frontend/libraries/config";
 
 const {
   publicRuntimeConfig: { nearNetworks },

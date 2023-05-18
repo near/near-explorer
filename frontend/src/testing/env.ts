@@ -7,7 +7,7 @@ import {
   fetchDateLocale,
   Locale,
   setCachedDateLocale,
-} from "@explorer/frontend/libraries/date-locale";
+} from "@/frontend/libraries/date-locale";
 
 /* eslint-disable vars-on-top, no-var */
 declare global {

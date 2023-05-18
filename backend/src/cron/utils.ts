@@ -1,14 +1,11 @@
 import { isEqual } from "lodash";
 
-import { Context } from "@explorer/backend/context";
-import {
-  CachedTimestampMap,
-  RegularCheckFn,
-} from "@explorer/backend/cron/types";
+import { Context } from "@/backend/context";
+import { CachedTimestampMap, RegularCheckFn } from "@/backend/cron/types";
 import {
   SubscriptionEventMap,
   SubscriptionTopicTypes,
-} from "@explorer/backend/router/types";
+} from "@/backend/router/types";
 
 export const updateRegularlyFetchedMap = async <T>(
   ids: string[],

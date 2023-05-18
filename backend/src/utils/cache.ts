@@ -1,5 +1,5 @@
-import { Context } from "@explorer/backend/context";
-import { SubscriptionTopicType } from "@explorer/backend/router/types";
+import { Context } from "@/backend/context";
+import { SubscriptionTopicType } from "@/backend/router/types";
 
 const topics: Record<SubscriptionTopicType, true> = {
   validators: true,

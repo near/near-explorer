@@ -3,11 +3,8 @@ import * as React from "react";
 import JSBI from "jsbi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import {
-  formatNEAR,
-  showInYocto,
-} from "@explorer/frontend/components/utils/Balance";
-import { TGAS } from "@explorer/frontend/components/utils/Gas";
+import { formatNEAR, showInYocto } from "@/frontend/components/utils/Balance";
+import { TGAS } from "@/frontend/components/utils/Gas";
 
 interface Props {
   gasPrice: string;

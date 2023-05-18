@@ -2,7 +2,7 @@ import * as React from "react";
 
 import ReactPaginate, { ReactPaginateProps } from "react-paginate";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 export const PaginateWrapper = styled(ReactPaginate, {
   display: "flex",

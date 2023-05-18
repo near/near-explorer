@@ -1,4 +1,4 @@
-import { ValidatorFullData } from "@explorer/common/types/procedures";
+import { ValidatorFullData } from "@/common/types/procedures";
 
 export const VALIDATORS_LIST: ValidatorFullData[] = [
   {

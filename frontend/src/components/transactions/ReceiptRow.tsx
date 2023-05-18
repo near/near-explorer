@@ -4,16 +4,16 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import { NestedReceiptWithOutcomeOld } from "@explorer/common/types/procedures";
-import { Args } from "@explorer/frontend/components/transactions/ActionMessage";
-import ActionRow from "@explorer/frontend/components/transactions/ActionRow";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import BlockLink from "@explorer/frontend/components/utils/BlockLink";
-import Gas from "@explorer/frontend/components/utils/Gas";
-import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { NestedReceiptWithOutcomeOld } from "@/common/types/procedures";
+import { Args } from "@/frontend/components/transactions/ActionMessage";
+import ActionRow from "@/frontend/components/transactions/ActionRow";
+import AccountLink from "@/frontend/components/utils/AccountLink";
+import Balance from "@/frontend/components/utils/Balance";
+import BlockLink from "@/frontend/components/utils/BlockLink";
+import Gas from "@/frontend/components/utils/Gas";
+import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
+import * as BI from "@/frontend/libraries/bigint";
+import { styled } from "@/frontend/libraries/styles";
 
 const ReceiptRowWrapper = styled(Row, {
   paddingTop: 10,

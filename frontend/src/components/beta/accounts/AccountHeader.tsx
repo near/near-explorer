@@ -3,24 +3,24 @@ import * as React from "react";
 import JSBI from "jsbi";
 import { Trans, useTranslation } from "next-i18next";
 
-import { Account } from "@explorer/common/types/procedures";
+import { Account } from "@/common/types/procedures";
 import AccountContract, {
   SmallHeader,
-} from "@explorer/frontend/components/beta/accounts/AccountContract";
-import StringConditionalOverlay from "@explorer/frontend/components/beta/common/StringConditionalOverlay";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import LinkWrapper from "@explorer/frontend/components/utils/Link";
-import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
-import Timer from "@explorer/frontend/components/utils/Timer";
-import * as BI from "@explorer/frontend/libraries/bigint";
+} from "@/frontend/components/beta/accounts/AccountContract";
+import StringConditionalOverlay from "@/frontend/components/beta/common/StringConditionalOverlay";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import LinkWrapper from "@/frontend/components/utils/Link";
+import { NearAmount } from "@/frontend/components/utils/NearAmount";
+import Timer from "@/frontend/components/utils/Timer";
+import * as BI from "@/frontend/libraries/bigint";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
   formatBytes,
   formatToPowerOfTen,
   shortenString,
-} from "@explorer/frontend/libraries/formatting";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/libraries/formatting";
+import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
   account: Account;

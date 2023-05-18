@@ -3,7 +3,7 @@ import * as React from "react";
 import cx from "classnames";
 import { Container, Row, Col } from "react-bootstrap";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 const ContentContainer = styled(Container, {
   width: "100%",

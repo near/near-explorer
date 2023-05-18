@@ -4,16 +4,13 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import { ValidatorPoolInfo } from "@explorer/common/types/procedures";
-import CumulativeStakeChart from "@explorer/frontend/components/nodes/CumulativeStakeChart";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import CountryFlag from "@explorer/frontend/components/utils/CountryFlag";
-import {
-  OrderTableCell,
-  TableRow,
-} from "@explorer/frontend/components/utils/Table";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { ValidatorPoolInfo } from "@/common/types/procedures";
+import CumulativeStakeChart from "@/frontend/components/nodes/CumulativeStakeChart";
+import Balance from "@/frontend/components/utils/Balance";
+import CountryFlag from "@/frontend/components/utils/CountryFlag";
+import { OrderTableCell, TableRow } from "@/frontend/components/utils/Table";
+import * as BI from "@/frontend/libraries/bigint";
+import { styled } from "@/frontend/libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,

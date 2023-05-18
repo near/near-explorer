@@ -1,35 +1,35 @@
 import { formatDuration, intervalToDuration } from "date-fns";
 import { sql } from "kysely";
 
-import { config } from "@explorer/backend/config";
-import { Context } from "@explorer/backend/context";
-import { RegularCheckFn } from "@explorer/backend/cron/types";
+import { config } from "@/backend/config";
+import { Context } from "@/backend/context";
+import { RegularCheckFn } from "@/backend/cron/types";
 import {
   getPublishIfChanged,
   publishOnChange,
   updateRegularlyFetchedMap,
-} from "@explorer/backend/cron/utils";
+} from "@/backend/cron/utils";
 import {
   analyticsDatabase,
   indexerDatabase,
   telemetryDatabase,
-} from "@explorer/backend/database/databases";
-import { count, div, sum } from "@explorer/backend/database/utils";
-import { GlobalState } from "@explorer/backend/global-state";
+} from "@/backend/database/databases";
+import { count, div, sum } from "@/backend/database/utils";
+import { GlobalState } from "@/backend/global-state";
 import {
   ValidatorEpochData,
   ValidatorPoolInfo,
   ValidatorTelemetry,
-} from "@explorer/backend/router/types";
+} from "@/backend/router/types";
 import {
   nanosecondsToMilliseconds,
   nearNomination,
   teraGasNomination,
-} from "@explorer/backend/utils/bigint";
-import * as nearApi from "@explorer/backend/utils/near";
-import { SECOND, MINUTE } from "@explorer/backend/utils/time";
-import * as RPC from "@explorer/common/types/rpc";
-import { wait } from "@explorer/common/utils/promise";
+} from "@/backend/utils/bigint";
+import * as nearApi from "@/backend/utils/near";
+import { SECOND, MINUTE } from "@/backend/utils/time";
+import * as RPC from "@/common/types/rpc";
+import { wait } from "@/common/utils/promise";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",

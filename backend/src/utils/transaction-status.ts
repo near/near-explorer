@@ -1,5 +1,5 @@
-import { ExecutionOutcomeStatus } from "@explorer/backend/database/models/readOnlyIndexer";
-import * as RPC from "@explorer/common/types/rpc";
+import { ExecutionOutcomeStatus } from "@/backend/database/models/readOnlyIndexer";
+import * as RPC from "@/common/types/rpc";
 
 export type TransactionStatus = "unknown" | "failure" | "success";
 

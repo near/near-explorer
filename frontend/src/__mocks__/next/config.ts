@@ -1,6 +1,6 @@
 import { NextConfig } from "next";
 
-import type { ExplorerConfig } from "@explorer/frontend/libraries/config";
+import type { ExplorerConfig } from "@/frontend/libraries/config";
 
 const backendConfig = {
   hosts: { localnet: "this-could-be-anything" },

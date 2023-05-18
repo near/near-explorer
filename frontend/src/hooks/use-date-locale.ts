@@ -1,12 +1,12 @@
 import React from "react";
 
-import { useLanguage } from "@explorer/frontend/hooks/use-language";
+import { useLanguage } from "@/frontend/hooks/use-language";
 import {
   fetchDateLocale,
   getCachedDateLocale,
   getLocaleSync,
   setCachedDateLocale,
-} from "@explorer/frontend/libraries/date-locale";
+} from "@/frontend/libraries/date-locale";
 
 export const useDateLocale = () => {
   const [language] = useLanguage();

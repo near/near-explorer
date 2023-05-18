@@ -1,4 +1,4 @@
-import "@explorer/frontend/libraries/wdyr";
+import "@/frontend/libraries/wdyr";
 import * as React from "react";
 
 import { TRPCLink } from "@trpc/client";
@@ -15,57 +15,51 @@ import { NextRouter, useRouter } from "next/router";
 import { appWithTranslation, SSRConfig } from "next-i18next";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import type { AppRouter } from "@explorer/backend/router";
-import { NetworkName } from "@explorer/common/types/common";
-import { DeployInfo as DeployInfoProps } from "@explorer/common/types/procedures";
-import { getEnvironmentVariables } from "@explorer/common/utils/environment";
-import { SSR_TIMEOUT } from "@explorer/common/utils/queries";
-import { id } from "@explorer/common/utils/utils";
-import { DeployInfo } from "@explorer/frontend/components/utils/DeployInfo";
-import Footer from "@explorer/frontend/components/utils/Footer";
-import Header from "@explorer/frontend/components/utils/Header";
-import OfflineSplash from "@explorer/frontend/components/utils/OfflineSplash";
-import { ToastController } from "@explorer/frontend/components/utils/ToastController";
+import type { AppRouter } from "@/backend/router";
+import { NetworkName } from "@/common/types/common";
+import { DeployInfo as DeployInfoProps } from "@/common/types/procedures";
+import { getEnvironmentVariables } from "@/common/utils/environment";
+import { SSR_TIMEOUT } from "@/common/utils/queries";
+import { id } from "@/common/utils/utils";
+import { DeployInfo } from "@/frontend/components/utils/DeployInfo";
+import Footer from "@/frontend/components/utils/Footer";
+import Header from "@/frontend/components/utils/Header";
+import OfflineSplash from "@/frontend/components/utils/OfflineSplash";
+import { ToastController } from "@/frontend/components/utils/ToastController";
 import {
   NetworkContext,
   NetworkContextType,
-} from "@explorer/frontend/context/NetworkContext";
-import {
-  SSRContext,
-  SSRContextType,
-} from "@explorer/frontend/context/SSRContext";
-import { useAnalyticsInit } from "@explorer/frontend/hooks/analytics/use-analytics-init";
-import { useCookie } from "@explorer/frontend/hooks/use-cookie";
-import { useLanguage } from "@explorer/frontend/hooks/use-language";
-import { useWatchBeta } from "@explorer/frontend/hooks/use-watch-beta";
-import {
-  getConfig,
-  getNearNetworkName,
-} from "@explorer/frontend/libraries/config";
+} from "@/frontend/context/NetworkContext";
+import { SSRContext, SSRContextType } from "@/frontend/context/SSRContext";
+import { useAnalyticsInit } from "@/frontend/hooks/analytics/use-analytics-init";
+import { useCookie } from "@/frontend/hooks/use-cookie";
+import { useLanguage } from "@/frontend/hooks/use-language";
+import { useWatchBeta } from "@/frontend/hooks/use-watch-beta";
+import { getConfig, getNearNetworkName } from "@/frontend/libraries/config";
 import {
   CookieContext,
   getClientCookiesSafe,
   getCookiesFromString,
-} from "@explorer/frontend/libraries/cookie";
+} from "@/frontend/libraries/cookie";
 import {
   fetchDateLocale,
   getCachedDateLocale,
   setCachedDateLocale,
-} from "@explorer/frontend/libraries/date-locale";
+} from "@/frontend/libraries/date-locale";
 import {
   DEFAULT_LANGUAGE,
   getSsrProps,
   i18nUserConfig,
   Language,
   LANGUAGES,
-} from "@explorer/frontend/libraries/i18n";
+} from "@/frontend/libraries/i18n";
 import {
   getServerLanguage,
   LANGUAGE_COOKIE,
-} from "@explorer/frontend/libraries/language";
-import { globalCss, styled } from "@explorer/frontend/libraries/styles";
-import { MINUTE, YEAR } from "@explorer/frontend/libraries/time";
-import { getBackendUrl } from "@explorer/frontend/libraries/transport";
+} from "@/frontend/libraries/language";
+import { globalCss, styled } from "@/frontend/libraries/styles";
+import { MINUTE, YEAR } from "@/frontend/libraries/time";
+import { getBackendUrl } from "@/frontend/libraries/transport";
 
 const globalStyles = globalCss({
   body: {

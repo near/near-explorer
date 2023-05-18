@@ -1,9 +1,9 @@
 import * as trpc from "@trpc/server";
 import { z, ZodType } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
-import { indexerDatabase } from "@explorer/backend/database/databases";
-import { validators } from "@explorer/backend/router/validators";
+import { RequestContext } from "@/backend/context";
+import { indexerDatabase } from "@/backend/database/databases";
+import { validators } from "@/backend/router/validators";
 
 const blockInput = z.union([
   z.preprocess((x) => Number(x), validators.blockHeight),

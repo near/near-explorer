@@ -3,7 +3,7 @@ import * as React from "react";
 import cx from "classnames";
 import { Line, Circle } from "rc-progress";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 const ProgressBarWrapper = styled("div", {
   background: "transparent",
