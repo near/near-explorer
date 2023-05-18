@@ -16,7 +16,6 @@ import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
 import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
 import * as BI from "@explorer/frontend/libraries/bigint";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
 
 const ProtocolConfig = styled(InfoCard, {
   margin: "24px 0",
@@ -39,13 +38,8 @@ const BalanceSuffix = styled("span", {
 
 const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useSubscription(["network-stats"]);
+  const epochStartBlockSub = useSubscription(["epochStartBlock"]);
   const protocolConfigSub = useSubscription(["protocolConfig"]);
-  const blockHeight = networkStats?.epochStartHeight;
-  const epochStartBlock = trpc.useQuery(
-    ["block.byId", { height: blockHeight ?? 0 }],
-    { enabled: blockHeight !== undefined }
-  ).data;
 
   const genesisConfigSub = useSubscription(["genesisConfig"]);
 
@@ -56,12 +50,25 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   const lastDateLiveAccountsCount =
     lastAccountsHistorySub.data?.liveAccounts[0]?.[1];
 
-  const epochTotalSupply = epochStartBlock
-    ? JSBI.toNumber(
-        JSBI.divide(JSBI.BigInt(epochStartBlock.totalSupply), BI.nearNomination)
-      ) /
-      10 ** 6
-    : null;
+  const epochTotalSupply = React.useMemo(() => {
+    if (!epochStartBlockSub.data) {
+      return null;
+    }
+    return {
+      amount: epochStartBlockSub.data.totalSupply,
+      formulatedAmount: formatWithCommas(
+        (
+          JSBI.toNumber(
+            JSBI.divide(
+              JSBI.BigInt(epochStartBlockSub.data.totalSupply),
+              BI.nearNomination
+            )
+          ) /
+          10 ** 6
+        ).toFixed(1)
+      ),
+    };
+  }, [epochStartBlockSub.data]);
 
   const format = useDateFormat();
 
@@ -159,8 +166,8 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
         >
           {epochTotalSupply && (
             <ProtocolMetricValue
-              amount={epochStartBlock!.totalSupply}
-              formulatedAmount={formatWithCommas(epochTotalSupply.toFixed(1))}
+              amount={epochTotalSupply.amount}
+              formulatedAmount={epochTotalSupply.formulatedAmount}
               suffix={<BalanceSuffix>M</BalanceSuffix>}
               label={<NearBadge />}
             />

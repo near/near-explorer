@@ -63,11 +63,6 @@ export type ValidatorFullData = ValidatorEpochData & {
   contractStake?: string;
 };
 
-export type NetworkStats = {
-  epochStartHeight: number;
-  seatPrice?: string;
-};
-
 type TimestampDataSeries<T> = (T extends unknown[]
   ? [number, ...T]
   : [number, T])[];
@@ -114,7 +109,14 @@ export type SubscriptionTopicTypes = {
     byDay: TimestampDataSeries<[accountsCount: number]>;
     byWeek: TimestampDataSeries<[accountsCount: number]>;
   };
-  "network-stats": NetworkStats;
+  epochStats: {
+    seatPrice: string;
+  };
+  epochStartBlock: {
+    height: number;
+    timestamp: number;
+    totalSupply: string;
+  };
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;
   currentValidatorsCount: number;

@@ -89,8 +89,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
 
-    const { data: networkStats } = useSubscription(["network-stats"]);
-    const seatPrice = networkStats?.seatPrice;
+    const epochStatsSub = useSubscription(["epochStats"]);
 
     return (
       <>
@@ -106,7 +105,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
                 totalStake={totalStake}
                 cumulativeStake={cumulativeAmounts[pagedIndex]}
                 isNetworkHolder={networkHolderIndex === pagedIndex}
-                seatPrice={seatPrice}
+                seatPrice={epochStatsSub.data?.seatPrice}
               />
             );
           })}
