@@ -519,6 +519,31 @@ export const activeAccountsListCheck: RegularCheckFn = {
   ),
 };
 
+const getValidatorsTimeout = (context: Context) => {
+  const { latestBlock, epochStartBlock, protocolConfig } =
+    context.subscriptionsCache;
+  if (!latestBlock || !epochStartBlock || !protocolConfig) {
+    return 3 * SECOND;
+  }
+  const epochProgress =
+    (latestBlock.height - epochStartBlock.height) / protocolConfig.epochLength;
+  const timeRemaining =
+    (latestBlock.timestamp - epochStartBlock.timestamp) * (1 - epochProgress);
+  return Math.max(SECOND, timeRemaining / 2);
+};
+
+const getValidators = async (context: Context) => {
+  if (context.state.validatorsPromise) {
+    return context.state.validatorsPromise;
+  }
+  const validatorsPromise = nearApi.sendJsonRpc("validators", [null]);
+  context.state.validatorsPromise = validatorsPromise;
+  setTimeout(() => {
+    context.state.validatorsPromise = undefined;
+  }, getValidatorsTimeout(context));
+  return validatorsPromise;
+};
+
 const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
@@ -608,19 +633,6 @@ export const protocolConfigCheck: RegularCheckFn = {
   ),
 };
 
-const getValidatorsTimeout = (context: Context) => {
-  const { latestBlock, epochStartBlock, protocolConfig } =
-    context.subscriptionsCache;
-  if (!latestBlock || !epochStartBlock || !protocolConfig) {
-    return 3 * SECOND;
-  }
-  const epochProgress =
-    (latestBlock.height - epochStartBlock.height) / protocolConfig.epochLength;
-  const timeRemaining =
-    (latestBlock.timestamp - epochStartBlock.timestamp) * (1 - epochProgress);
-  return Math.max(SECOND, timeRemaining / 2);
-};
-
 const mapValidators = (
   epochStatus: RPC.EpochValidatorInfo,
   poolIds: string[]
@@ -682,7 +694,7 @@ const mapValidators = (
 export const epochStartBlockCheck: RegularCheckFn = {
   description: "current epoch start block info",
   fn: async (publish, context) => {
-    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    const validators = await getValidators(context);
     const epochStartBlock = await nearApi.sendJsonRpc("block", {
       block_id: validators.epoch_start_height,
     });
@@ -707,7 +719,7 @@ export const epochStatsCheck: RegularCheckFn = {
       // Protocol config or genesis config are not fetched yet, probably will be available in a few seconds
       return 3 * SECOND;
     }
-    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    const validators = await getValidators(context);
     publish("epochStats", {
       seatPrice: nearApi.validators
         .findSeatPrice(
@@ -725,12 +737,14 @@ export const epochStatsCheck: RegularCheckFn = {
 export const validatorsTelemetryCheck: RegularCheckFn = {
   description: "publish validators telemetry",
   fn: async (publish, context) => {
-    const { validators } = context.subscriptionsCache;
-    if (!validators) {
-      // Validators are not fetched yet, probably will be available in a few seconds
-      return 3 * SECOND;
-    }
     const publishIfChanged = getPublishIfChanged(publish, context);
+    const validators = await getValidators(context);
+    const accountIds = [
+      ...validators.current_validators.map(({ account_id }) => account_id),
+      ...validators.next_validators.map(({ account_id }) => account_id),
+      ...validators.current_proposals.map(({ account_id }) => account_id),
+      ...context.state.poolIds,
+    ];
     const nodesInfo = await telemetryDatabase
       .selectFrom("nodes")
       .select([
@@ -747,11 +761,7 @@ export const validatorsTelemetryCheck: RegularCheckFn = {
         "longitude",
         "city",
       ])
-      .where(
-        "account_id",
-        "in",
-        validators.map((validator) => validator.accountId)
-      )
+      .where("account_id", "in", accountIds)
       .orderBy("last_seen")
       .execute();
     publishIfChanged(
@@ -783,7 +793,7 @@ export const validatorsTelemetryCheck: RegularCheckFn = {
 export const validatorsCheck: RegularCheckFn = {
   description: "validators info",
   fn: async (publish, context) => {
-    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    const validators = await getValidators(context);
     publish("currentValidatorsCount", validators.current_validators.length);
     const mappedValidators = mapValidators(validators, context.state.poolIds);
     await Promise.all([
