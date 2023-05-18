@@ -1,9 +1,10 @@
 import * as React from "react";
 
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { stringify } from "querystring";
 
 import BlockDetails from "@explorer/frontend/components/blocks/BlockDetails";
 import ReceiptsExecutedInBlock from "@explorer/frontend/components/receipts/ReceiptsExecutedInBlock";
@@ -14,8 +15,9 @@ import Transactions, {
 import Content from "@explorer/frontend/components/utils/Content";
 import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { getNearNetworkName } from "@explorer/frontend/libraries/config";
 import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { getTrpcClient, trpc } from "@explorer/frontend/libraries/trpc";
 import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionIcon = styled(TransactionIconSvg, {
@@ -24,8 +26,9 @@ const TransactionIcon = styled(TransactionIconSvg, {
 
 const TRANSACTIONS_PER_PAGE = 20;
 
-const BlockDetail: NextPage = React.memo(() => {
-  const hash = useRouter().query.hash as string;
+const isHeight = (hashOrHeight: string) => /^\d+$/.test(hashOrHeight);
+
+const BlockDetail = React.memo<{ hash: string }>(({ hash }) => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: hash,
@@ -94,4 +97,44 @@ const BlockDetail: NextPage = React.memo(() => {
   );
 });
 
-export default BlockDetail;
+type Props = {
+  // tRPC and Next.js prerender page before getServerSideProps kicks in
+  heightVerified: boolean;
+};
+
+const BlockPage: NextPage<Props> = React.memo(({ heightVerified }) => {
+  const hash = useRouter().query.hash as string;
+  if (isHeight(hash) && !heightVerified) {
+    return null;
+  }
+  return <BlockDetail hash={hash} />;
+});
+
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { hash: string }
+> = async (context) => {
+  const hashOrHeight = context.params?.hash ?? "";
+  if (isHeight(hashOrHeight)) {
+    const networkName = getNearNetworkName(
+      context.query,
+      context.req.headers.host
+    );
+    const block = await getTrpcClient(networkName).query("block.byId", {
+      height: Number(hashOrHeight),
+    });
+    if (!block) {
+      // 404 is managed by the page itself
+      return { props: { heightVerified: true } };
+    }
+    return {
+      redirect: {
+        permanent: true,
+        destination: `/blocks/${block.hash}${`?${stringify(context.query)}`}`,
+      },
+    };
+  }
+  return { props: { heightVerified: true } };
+};
+
+export default BlockPage;
