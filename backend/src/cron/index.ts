@@ -30,11 +30,12 @@ const regularTasks = [
 export const runTasks = (context: Context) => {
   let cancelled = false;
   const publish: PublishTopic = (topic, output) => {
+    const prevOutput = context.subscriptionsCache[topic];
     // TODO: Find a proper version of TypedEmitter
-    // @ts-ignore
+    // @ts-expect-error
     context.subscriptionsCache[topic] = output;
-    // @ts-ignore
-    void context.subscriptionsEventEmitter.emit(topic, output);
+    // @ts-expect-error
+    void context.subscriptionsEventEmitter.emit(topic, output, prevOutput);
   };
   const timeouts: Record<string, NodeJS.Timeout> = {};
   Object.values(regularTasks).forEach((task) => {
