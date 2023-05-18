@@ -3,11 +3,11 @@ import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 import { useTranslation } from "next-i18next";
 
-import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
-import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { truncateAccountId } from "@explorer/frontend/libraries/formatting";
+import { TRPCSubscriptionOutput } from "@/common/types/trpc";
+import { Props } from "@/frontend/components/stats/TransactionsByDate";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { truncateAccountId } from "@/frontend/libraries/formatting";
 
 const getOption = (
   title: string,

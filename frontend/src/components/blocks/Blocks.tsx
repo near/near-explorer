@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { BlockBase } from "@explorer/common/types/procedures";
-import { id } from "@explorer/common/utils/utils";
-import BlocksRow from "@explorer/frontend/components/blocks/BlocksRow";
-import FlipMove from "@explorer/frontend/components/utils/FlipMove";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import Placeholder from "@explorer/frontend/components/utils/Placeholder";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { BlockBase } from "@/common/types/procedures";
+import { id } from "@/common/utils/utils";
+import BlocksRow from "@/frontend/components/blocks/BlocksRow";
+import FlipMove from "@/frontend/components/utils/FlipMove";
+import ListHandler from "@/frontend/components/utils/ListHandler";
+import Placeholder from "@/frontend/components/utils/Placeholder";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const BLOCKS_PER_PAGE = 15;
 

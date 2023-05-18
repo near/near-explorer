@@ -3,8 +3,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import { isLanguage, Language } from "@explorer/frontend/libraries/i18n";
-import { getQueryLanguage } from "@explorer/frontend/libraries/language";
+import { isLanguage, Language } from "@/frontend/libraries/i18n";
+import { getQueryLanguage } from "@/frontend/libraries/language";
 
 export const useLanguage = () => {
   const { i18n } = useTranslation();

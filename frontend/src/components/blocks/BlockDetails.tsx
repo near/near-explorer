@@ -4,21 +4,21 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import { Block } from "@explorer/common/types/procedures";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import BlockLink from "@explorer/frontend/components/utils/BlockLink";
+import { Block } from "@/common/types/procedures";
+import AccountLink from "@/frontend/components/utils/AccountLink";
+import BlockLink from "@/frontend/components/utils/BlockLink";
 import CardCell, {
   CardCellText,
   CardCellWrapper,
-} from "@explorer/frontend/components/utils/CardCell";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import Gas from "@explorer/frontend/components/utils/Gas";
-import GasPrice from "@explorer/frontend/components/utils/GasPrice";
-import Term from "@explorer/frontend/components/utils/Term";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/utils/CardCell";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import Gas from "@/frontend/components/utils/Gas";
+import GasPrice from "@/frontend/components/utils/GasPrice";
+import Term from "@/frontend/components/utils/Term";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { useFormatNumber } from "@/frontend/hooks/use-format-number";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const BlockInfoContainer = styled(Col, {
   border: "solid 4px #e6e6e6",

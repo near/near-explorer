@@ -1,7 +1,4 @@
-import {
-  TRPCQueryOutput,
-  TRPCSubscriptionOutput,
-} from "@explorer/common/types/trpc";
+import { TRPCQueryOutput, TRPCSubscriptionOutput } from "@/common/types/trpc";
 
 export type AccountOld = NonNullable<TRPCQueryOutput<"account.byIdOld">>;
 export type Account = NonNullable<TRPCQueryOutput<"account.byId">>;

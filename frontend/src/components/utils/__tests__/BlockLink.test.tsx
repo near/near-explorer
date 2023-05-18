@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import BlockLink from "@explorer/frontend/components/utils/BlockLink";
-import { renderElement } from "@explorer/frontend/testing/utils";
+import BlockLink from "@/frontend/components/utils/BlockLink";
+import { renderElement } from "@/frontend/testing/utils";
 
 describe("<BlockLink />", () => {
   it("renders", () => {

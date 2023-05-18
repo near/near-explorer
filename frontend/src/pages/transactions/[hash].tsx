@@ -5,18 +5,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
-import ReceiptRow from "@explorer/frontend/components/transactions/ReceiptRow";
-import TransactionDetails from "@explorer/frontend/components/transactions/TransactionDetails";
-import TransactionOutcome from "@explorer/frontend/components/transactions/TransactionOutcome";
-import Content from "@explorer/frontend/components/utils/Content";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { useBeta } from "@explorer/frontend/hooks/use-beta";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
-import BetaTransactionPage from "@explorer/frontend/pages/beta/transactions/[hash]";
-import TransactionIconSvg from "@explorer/frontend/public/static/images/icon-t-transactions.svg";
+import ActionsList from "@/frontend/components/transactions/ActionsList";
+import ReceiptRow from "@/frontend/components/transactions/ReceiptRow";
+import TransactionDetails from "@/frontend/components/transactions/TransactionDetails";
+import TransactionOutcome from "@/frontend/components/transactions/TransactionOutcome";
+import Content from "@/frontend/components/utils/Content";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { useBeta } from "@/frontend/hooks/use-beta";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
+import BetaTransactionPage from "@/frontend/pages/beta/transactions/[hash]";
+import TransactionIconSvg from "@/frontend/public/static/images/icon-t-transactions.svg";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,

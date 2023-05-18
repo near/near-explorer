@@ -3,15 +3,15 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import DashboardTransactionsHistoryChart from "@explorer/frontend/components/dashboard/DashboardTransactionsHistoryChart";
-import DashboardCard from "@explorer/frontend/components/utils/DashboardCard";
-import GasPrice from "@explorer/frontend/components/utils/GasPrice";
-import Link from "@explorer/frontend/components/utils/Link";
-import LongCardCell from "@explorer/frontend/components/utils/LongCardCell";
-import Term from "@explorer/frontend/components/utils/Term";
-import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+import DashboardTransactionsHistoryChart from "@/frontend/components/dashboard/DashboardTransactionsHistoryChart";
+import DashboardCard from "@/frontend/components/utils/DashboardCard";
+import GasPrice from "@/frontend/components/utils/GasPrice";
+import Link from "@/frontend/components/utils/Link";
+import LongCardCell from "@/frontend/components/utils/LongCardCell";
+import Term from "@/frontend/components/utils/Term";
+import { useFormatNumber } from "@/frontend/hooks/use-format-number";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const TransactionCardNumber = styled(Row, {
   "& > .col-12": {

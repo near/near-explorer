@@ -1,6 +1,6 @@
 import JSBI from "jsbi";
 
-import * as BI from "@explorer/frontend/libraries/bigint";
+import * as BI from "@/frontend/libraries/bigint";
 
 export function truncateAccountId(
   accountId: string,

@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Action } from "@explorer/common/types/procedures";
-import actionIcons from "@explorer/frontend/components/transactions/ActionIcons";
-import ActionMessage from "@explorer/frontend/components/transactions/ActionMessage";
+import { Action } from "@/common/types/procedures";
+import actionIcons from "@/frontend/components/transactions/ActionIcons";
+import ActionMessage from "@/frontend/components/transactions/ActionMessage";
 import ActionRowBlock, {
   ViewMode,
   DetalizationMode,
-} from "@explorer/frontend/components/transactions/ActionRowBlock";
+} from "@/frontend/components/transactions/ActionRowBlock";
 
 export interface Props {
   action: Action;

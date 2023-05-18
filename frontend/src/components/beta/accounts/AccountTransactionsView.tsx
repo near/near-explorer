@@ -8,16 +8,16 @@ import {
   TransactionListResponse,
   TransactionPreview,
   Action,
-} from "@explorer/common/types/procedures";
-import AccountActivityBadge from "@explorer/frontend/components/beta/accounts/AccountActivityBadge";
-import AccountLink from "@explorer/frontend/components/beta/common/AccountLink";
-import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
-import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
-import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import { NearAmount } from "@explorer/frontend/components/utils/NearAmount";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/common/types/procedures";
+import AccountActivityBadge from "@/frontend/components/beta/accounts/AccountActivityBadge";
+import AccountLink from "@/frontend/components/beta/common/AccountLink";
+import ShortenValue from "@/frontend/components/beta/common/ShortenValue";
+import Timestamp from "@/frontend/components/beta/common/Timestamp";
+import TransactionLink from "@/frontend/components/beta/common/TransactionLink";
+import ListHandler from "@/frontend/components/utils/ListHandler";
+import { NearAmount } from "@/frontend/components/utils/NearAmount";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const TRANSACTIONS_PER_PAGE = 10;
 

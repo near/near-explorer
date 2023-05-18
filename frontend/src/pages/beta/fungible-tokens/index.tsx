@@ -4,14 +4,14 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { Spinner } from "react-bootstrap";
 
-import { FungibleTokenItem } from "@explorer/common/types/procedures";
-import { id } from "@explorer/common/utils/utils";
-import Content from "@explorer/frontend/components/utils/Content";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import { TokenAmount } from "@explorer/frontend/components/utils/TokenAmount";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { FungibleTokenItem } from "@/common/types/procedures";
+import { id } from "@/common/utils/utils";
+import Content from "@/frontend/components/utils/Content";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import ListHandler from "@/frontend/components/utils/ListHandler";
+import { TokenAmount } from "@/frontend/components/utils/TokenAmount";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const Tokens = styled("div", {
   borderLeft: "1px solid black",

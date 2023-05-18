@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 
-import { RequestContext } from "@explorer/backend/context";
-import { getEnvironment } from "@explorer/common/utils/environment";
+import { RequestContext } from "@/backend/context";
+import { getEnvironment } from "@/common/utils/environment";
 
 import { router as accountRouter } from "./account";
 import { router as blockRouter } from "./block";

@@ -5,10 +5,10 @@ import { Row, Col, Spinner } from "react-bootstrap";
 import {
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
-} from "@explorer/common/types/trpc";
-import { UseSubscriptionResultByTopic } from "@explorer/frontend/hooks/use-subscription";
-import { typedMemo } from "@explorer/frontend/libraries/react";
-import { CSS, styled } from "@explorer/frontend/libraries/styles";
+} from "@/common/types/trpc";
+import { UseSubscriptionResultByTopic } from "@/frontend/hooks/use-subscription";
+import { typedMemo } from "@/frontend/libraries/react";
+import { CSS, styled } from "@/frontend/libraries/styles";
 
 const CardCellText = styled(Col, {
   fontWeight: 900,

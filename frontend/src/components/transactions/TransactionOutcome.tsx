@@ -4,10 +4,10 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import { TransactionOutcomeOld } from "@explorer/common/types/procedures";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import Gas from "@explorer/frontend/components/utils/Gas";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { TransactionOutcomeOld } from "@/common/types/procedures";
+import Balance from "@/frontend/components/utils/Balance";
+import Gas from "@/frontend/components/utils/Gas";
+import { styled } from "@/frontend/libraries/styles";
 
 const TransactionOutcomeRow = styled(Row, {
   paddingTop: 10,

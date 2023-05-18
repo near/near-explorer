@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Link from "@explorer/frontend/components/utils/Link";
+import Link from "@/frontend/components/utils/Link";
 
 export interface Props {
   transactionHash: string;

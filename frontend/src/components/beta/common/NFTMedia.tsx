@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { Img } from "react-image";
 
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { styled } from "@explorer/frontend/libraries/styles";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { styled } from "@/frontend/libraries/styles";
 
 const Image = styled(Img, {
   width: "100%",

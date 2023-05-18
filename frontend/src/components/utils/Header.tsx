@@ -4,20 +4,20 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
-import HeaderNavDropdown from "@explorer/frontend/components/utils/HeaderNavDropdown";
-import HeaderNetworkDropdown from "@explorer/frontend/components/utils/HeaderNetworkDropdown";
-import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
-import Link from "@explorer/frontend/components/utils/Link";
-import MobileHeaderNavDropdown from "@explorer/frontend/components/utils/MobileHeaderNavDropdown";
-import Search from "@explorer/frontend/components/utils/Search";
-import { ServiceStatusView } from "@explorer/frontend/components/utils/ServiceStatus";
-import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
-import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
-import { styled } from "@explorer/frontend/libraries/styles";
-import NearLogoSvg from "@explorer/frontend/public/static/images/near_logo.svg";
-import NearMiniLogoSvg from "@explorer/frontend/public/static/images/near_logo_icon.svg";
+import { BetaSwitch } from "@/frontend/components/utils/BetaSwitch";
+import HeaderNavDropdown from "@/frontend/components/utils/HeaderNavDropdown";
+import HeaderNetworkDropdown from "@/frontend/components/utils/HeaderNetworkDropdown";
+import LanguageToggle from "@/frontend/components/utils/LanguageToggle";
+import Link from "@/frontend/components/utils/Link";
+import MobileHeaderNavDropdown from "@/frontend/components/utils/MobileHeaderNavDropdown";
+import Search from "@/frontend/components/utils/Search";
+import { ServiceStatusView } from "@/frontend/components/utils/ServiceStatus";
+import { useBetaOptions } from "@/frontend/hooks/use-beta-options";
+import { useIsBetaPage } from "@/frontend/hooks/use-is-beta-page";
+import { useNetworkContext } from "@/frontend/hooks/use-network-context";
+import { styled } from "@/frontend/libraries/styles";
+import NearLogoSvg from "@/frontend/public/static/images/near_logo.svg";
+import NearMiniLogoSvg from "@/frontend/public/static/images/near_logo_icon.svg";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",

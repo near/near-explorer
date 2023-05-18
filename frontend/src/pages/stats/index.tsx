@@ -4,19 +4,19 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 
-import ActiveAccountsByDate from "@explorer/frontend/components/stats/ActiveAccountsByDate";
-import ActiveAccountsList from "@explorer/frontend/components/stats/ActiveAccountsList";
-import ActiveContractsByDate from "@explorer/frontend/components/stats/ActiveContractsByDate";
-import ActiveContractsList from "@explorer/frontend/components/stats/ActiveContractsList";
-import CirculatingSupplyStats from "@explorer/frontend/components/stats/CirculatingSupplyStats";
-import GasUsedByDate from "@explorer/frontend/components/stats/GasUsedByDate";
-import NewAccountsByDate from "@explorer/frontend/components/stats/NewAccountsByDate";
-import NewContractsByDate from "@explorer/frontend/components/stats/NewContractsByDate";
-import ProtocolConfigInfo from "@explorer/frontend/components/stats/ProtocolConfigInfo";
-import TransactionsByDate from "@explorer/frontend/components/stats/TransactionsByDate";
-import Content from "@explorer/frontend/components/utils/Content";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
+import ActiveAccountsByDate from "@/frontend/components/stats/ActiveAccountsByDate";
+import ActiveAccountsList from "@/frontend/components/stats/ActiveAccountsList";
+import ActiveContractsByDate from "@/frontend/components/stats/ActiveContractsByDate";
+import ActiveContractsList from "@/frontend/components/stats/ActiveContractsList";
+import CirculatingSupplyStats from "@/frontend/components/stats/CirculatingSupplyStats";
+import GasUsedByDate from "@/frontend/components/stats/GasUsedByDate";
+import NewAccountsByDate from "@/frontend/components/stats/NewAccountsByDate";
+import NewContractsByDate from "@/frontend/components/stats/NewContractsByDate";
+import ProtocolConfigInfo from "@/frontend/components/stats/ProtocolConfigInfo";
+import TransactionsByDate from "@/frontend/components/stats/TransactionsByDate";
+import Content from "@/frontend/components/utils/Content";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { useNetworkContext } from "@/frontend/hooks/use-network-context";
 
 const chartStyle = {
   height: 480,

@@ -6,12 +6,12 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
-import { TRPCQueryResult } from "@explorer/common/types/trpc";
-import TransactionActionsList from "@explorer/frontend/components/beta/transactions/TransactionActionsList";
-import TransactionHeader from "@explorer/frontend/components/beta/transactions/TransactionHeader";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { TRPCQueryResult } from "@/common/types/trpc";
+import TransactionActionsList from "@/frontend/components/beta/transactions/TransactionActionsList";
+import TransactionHeader from "@/frontend/components/beta/transactions/TransactionHeader";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 type QueryProps = {
   query: TRPCQueryResult<"transaction.byHash">;

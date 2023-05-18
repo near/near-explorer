@@ -3,8 +3,8 @@ import React from "react";
 import { addMinutes, format, formatISO } from "date-fns";
 import { useTranslation } from "next-i18next";
 
-import { SSRContext } from "@explorer/frontend/context/SSRContext";
-import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
+import { SSRContext } from "@/frontend/context/SSRContext";
+import { useDateLocale } from "@/frontend/hooks/use-date-locale";
 
 type Options = Omit<NonNullable<Parameters<typeof format>[2]>, "locale"> & {
   utc?: boolean;

@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { openFixture as test } from "@explorer/frontend/tests/fixtures";
+import { openFixture as test } from "@/frontend/tests/fixtures";
 
 test.describe("Permanent irregular case redirects", () => {
   ["something.near", "sOmEtHiNg.near", "something.NEAR"].forEach(

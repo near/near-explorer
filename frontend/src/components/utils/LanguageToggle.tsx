@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { useLanguage } from "@explorer/frontend/hooks/use-language";
-import { Language, LANGUAGES } from "@explorer/frontend/libraries/i18n";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { useLanguage } from "@/frontend/hooks/use-language";
+import { Language, LANGUAGES } from "@/frontend/libraries/i18n";
+import { styled } from "@/frontend/libraries/styles";
 
 const languagesIcon = "/static/images/icon-languages.svg";
 const downArrowIcon = "/static/images/down-arrow.svg";

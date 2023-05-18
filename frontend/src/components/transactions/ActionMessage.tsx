@@ -3,11 +3,11 @@ import * as React from "react";
 import { hexy } from "hexy";
 import { useTranslation } from "next-i18next";
 
-import { Action } from "@explorer/common/types/procedures";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import CodePreview from "@explorer/frontend/components/utils/CodePreview";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { Action } from "@/common/types/procedures";
+import AccountLink from "@/frontend/components/utils/AccountLink";
+import Balance from "@/frontend/components/utils/Balance";
+import CodePreview from "@/frontend/components/utils/CodePreview";
+import { styled } from "@/frontend/libraries/styles";
 
 export interface Props<A extends Action> {
   action: A;

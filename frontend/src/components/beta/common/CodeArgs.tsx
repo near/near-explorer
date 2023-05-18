@@ -2,9 +2,9 @@ import * as React from "react";
 
 import { hexy } from "hexy";
 
-import JsonView from "@explorer/frontend/components/beta/common/JsonView";
-import CodePreview from "@explorer/frontend/components/utils/CodePreview";
-import { styled } from "@explorer/frontend/libraries/styles";
+import JsonView from "@/frontend/components/beta/common/JsonView";
+import CodePreview from "@/frontend/components/utils/CodePreview";
+import { styled } from "@/frontend/libraries/styles";
 
 const HexArgs = styled("div", {
   padding: "10px 0",

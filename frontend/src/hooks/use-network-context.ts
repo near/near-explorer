@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { NetworkName } from "@explorer/common/types/common";
-import { NetworkContext } from "@explorer/frontend/context/NetworkContext";
-import { NearNetwork } from "@explorer/frontend/libraries/config";
+import { NetworkName } from "@/common/types/common";
+import { NetworkContext } from "@/frontend/context/NetworkContext";
+import { NearNetwork } from "@/frontend/libraries/config";
 
 export const useNetworkContext = (): {
   networkName: NetworkName;

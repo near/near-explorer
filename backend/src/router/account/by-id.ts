@@ -2,14 +2,14 @@ import * as trpc from "@trpc/server";
 import { sha256 } from "js-sha256";
 import { z } from "zod";
 
-import { config } from "@explorer/backend/config";
-import { RequestContext } from "@explorer/backend/context";
-import { indexerDatabase } from "@explorer/backend/database/databases";
-import { div } from "@explorer/backend/database/utils";
-import { getAccountTransactionsCount } from "@explorer/backend/router/account/utils";
-import { validators } from "@explorer/backend/router/validators";
-import * as nearApi from "@explorer/backend/utils/near";
-import { ignoreIfDoesNotExist } from "@explorer/backend/utils/near";
+import { config } from "@/backend/config";
+import { RequestContext } from "@/backend/context";
+import { indexerDatabase } from "@/backend/database/databases";
+import { div } from "@/backend/database/utils";
+import { getAccountTransactionsCount } from "@/backend/router/account/utils";
+import { validators } from "@/backend/router/validators";
+import * as nearApi from "@/backend/utils/near";
+import { ignoreIfDoesNotExist } from "@/backend/utils/near";
 
 const getLockupAccountId = async (
   accountId: string

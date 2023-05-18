@@ -1,7 +1,7 @@
 import React from "react";
 
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import { shortenString } from "@explorer/frontend/libraries/formatting";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import { shortenString } from "@/frontend/libraries/formatting";
 
 type Props = {
   children?: string;

@@ -14,8 +14,8 @@ import {
 } from "kanel";
 import path from "path";
 
-import { config } from "@explorer/backend/config";
-import { notNullishGuard } from "@explorer/common/utils/utils";
+import { config } from "@/backend/config";
+import { notNullishGuard } from "@/common/utils/utils";
 
 type DatabaseName = string;
 type TableName = string;

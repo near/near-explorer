@@ -1,6 +1,6 @@
 import * as trpc from "@trpc/server";
 
-import { RequestContext } from "@explorer/backend/context";
+import { RequestContext } from "@/backend/context";
 
 import { router as deployRouter } from "./deploy";
 import { router as protocolRouter } from "./protocol";

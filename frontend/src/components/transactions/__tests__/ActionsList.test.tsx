@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import ActionsList from "@explorer/frontend/components/transactions/ActionsList";
-import ReceiptLink from "@explorer/frontend/components/utils/ReceiptLink";
-import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
-import { renderElement } from "@explorer/frontend/testing/utils";
+import ActionsList from "@/frontend/components/transactions/ActionsList";
+import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
+import TransactionLink from "@/frontend/components/utils/TransactionLink";
+import { renderElement } from "@/frontend/testing/utils";
 
 import { TRANSACTIONS, RECEIPTS } from "./common";
 

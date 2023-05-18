@@ -6,9 +6,9 @@ import http from "http";
 import stream from "stream";
 import ws from "ws";
 
-import { AppRouter } from "@explorer/backend/router";
-import { getMissingSubscriptionCacheKeys } from "@explorer/backend/utils/cache";
-import { escapeHtml } from "@explorer/backend/utils/html";
+import { AppRouter } from "@/backend/router";
+import { getMissingSubscriptionCacheKeys } from "@/backend/utils/cache";
+import { escapeHtml } from "@/backend/utils/html";
 
 export type RouterOptions = Parameters<
   typeof trpcExpress.createExpressMiddleware<AppRouter>

@@ -3,22 +3,20 @@ import * as React from "react";
 import { Trans, useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import { AccountOld } from "@explorer/common/types/procedures";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import CardCell, {
-  CardCellText,
-} from "@explorer/frontend/components/utils/CardCell";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import StorageSize from "@explorer/frontend/components/utils/StorageSize";
-import Term from "@explorer/frontend/components/utils/Term";
-import WalletLink from "@explorer/frontend/components/utils/WalletLink";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { useFormatNumber } from "@explorer/frontend/hooks/use-format-number";
-import { useNetworkContext } from "@explorer/frontend/hooks/use-network-context";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { AccountOld } from "@/common/types/procedures";
+import AccountLink from "@/frontend/components/utils/AccountLink";
+import Balance from "@/frontend/components/utils/Balance";
+import CardCell, { CardCellText } from "@/frontend/components/utils/CardCell";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import StorageSize from "@/frontend/components/utils/StorageSize";
+import Term from "@/frontend/components/utils/Term";
+import WalletLink from "@/frontend/components/utils/WalletLink";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { useFormatNumber } from "@/frontend/hooks/use-format-number";
+import { useNetworkContext } from "@/frontend/hooks/use-network-context";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const AccountInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",

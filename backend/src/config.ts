@@ -1,8 +1,8 @@
 import { merge } from "lodash";
 
-import { HOUR, MINUTE, SECOND } from "@explorer/backend/utils/time";
-import { NetworkName } from "@explorer/common/types/common";
-import { getOverrides } from "@explorer/common/utils/environment";
+import { HOUR, MINUTE, SECOND } from "@/backend/utils/time";
+import { NetworkName } from "@/common/types/common";
+import { getOverrides } from "@/common/utils/environment";
 
 /*
 To override a config parameter you should use a specific environment variable, following rules:

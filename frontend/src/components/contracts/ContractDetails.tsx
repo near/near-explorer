@@ -5,14 +5,14 @@ import { Row, Col } from "react-bootstrap";
 
 import CardCell, {
   CardCellTitleImage,
-} from "@explorer/frontend/components/utils/CardCell";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import Term from "@explorer/frontend/components/utils/Term";
-import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/frontend/components/utils/CardCell";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import Term from "@/frontend/components/utils/Term";
+import TransactionLink from "@/frontend/components/utils/TransactionLink";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const ContractInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",

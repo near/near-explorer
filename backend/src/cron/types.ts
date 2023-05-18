@@ -1,8 +1,8 @@
-import { Context } from "@explorer/backend/context";
+import { Context } from "@/backend/context";
 import {
   SubscriptionEventMap,
   SubscriptionTopicTypes,
-} from "@explorer/backend/router/types";
+} from "@/backend/router/types";
 
 export type CachedTimestampMap<T> = {
   timestampMap: Map<string, number>;

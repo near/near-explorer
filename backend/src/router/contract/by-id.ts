@@ -1,15 +1,15 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@explorer/backend/context";
+import { RequestContext } from "@/backend/context";
 import {
   analyticsDatabase,
   Indexer,
   indexerDatabase,
-} from "@explorer/backend/database/databases";
-import { div } from "@explorer/backend/database/utils";
-import { validators } from "@explorer/backend/router/validators";
-import * as nearApi from "@explorer/backend/utils/near";
+} from "@/backend/database/databases";
+import { div } from "@/backend/database/utils";
+import { validators } from "@/backend/router/validators";
+import * as nearApi from "@/backend/utils/near";
 
 const queryContractFromIndexer = async (accountId: string) => {
   // find the latest update in analytics db

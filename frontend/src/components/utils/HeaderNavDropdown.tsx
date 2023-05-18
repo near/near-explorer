@@ -4,13 +4,13 @@ import { StyledComponent } from "@stitches/react/types/styled-component";
 import { useTranslation } from "next-i18next";
 import { Dropdown } from "react-bootstrap";
 
-import Link from "@explorer/frontend/components/utils/Link";
-import { globalCss, styled } from "@explorer/frontend/libraries/styles";
-import IconAccounts from "@explorer/frontend/public/static/images/icon-accounts.svg";
-import IconBlocks from "@explorer/frontend/public/static/images/icon-blocks.svg";
-import IconNodes from "@explorer/frontend/public/static/images/icon-nodes.svg";
-import IconStats from "@explorer/frontend/public/static/images/icon-stats.svg";
-import IconTransactions from "@explorer/frontend/public/static/images/icon-transactions.svg";
+import Link from "@/frontend/components/utils/Link";
+import { globalCss, styled } from "@/frontend/libraries/styles";
+import IconAccounts from "@/frontend/public/static/images/icon-accounts.svg";
+import IconBlocks from "@/frontend/public/static/images/icon-blocks.svg";
+import IconNodes from "@/frontend/public/static/images/icon-nodes.svg";
+import IconStats from "@/frontend/public/static/images/icon-stats.svg";
+import IconTransactions from "@/frontend/public/static/images/icon-transactions.svg";
 
 const Icon = styled("svg", {
   width: 16,

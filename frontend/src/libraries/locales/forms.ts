@@ -2,7 +2,7 @@ import {
   AccusativeForms,
   DurationFormatter,
   PluralForms,
-} from "@explorer/frontend/libraries/locales/index";
+} from "@/frontend/libraries/locales/index";
 
 const getPluralForm = (input: number, forms: PluralForms): string =>
   input % 10 === 1 && input % 100 !== 11

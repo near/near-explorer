@@ -4,12 +4,12 @@ import { useTranslation } from "next-i18next";
 
 import ValidatorsList, {
   ITEMS_PER_PAGE,
-} from "@explorer/frontend/components/nodes/ValidatorsList";
-import { PaginateWrapper } from "@explorer/frontend/components/utils/Pagination";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { Table, OnPageChange } from "@explorer/frontend/components/utils/Table";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/frontend/components/nodes/ValidatorsList";
+import { PaginateWrapper } from "@/frontend/components/utils/Pagination";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { Table, OnPageChange } from "@/frontend/components/utils/Table";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const ValidatorNodePagination = styled(PaginateWrapper, {
   backgroundColor: "#ffffff",

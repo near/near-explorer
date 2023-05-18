@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 
-import { RequestContext } from "@explorer/backend/context";
-import { indexerDatabase } from "@explorer/backend/database/databases";
+import { RequestContext } from "@/backend/context";
+import { indexerDatabase } from "@/backend/database/databases";
 
 export const router = trpc
   .router<RequestContext>()

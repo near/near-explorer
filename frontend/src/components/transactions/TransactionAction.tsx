@@ -2,11 +2,11 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { TransactionPreview } from "@explorer/common/types/procedures";
-import ActionGroup from "@explorer/frontend/components/transactions/ActionGroup";
-import { ViewMode } from "@explorer/frontend/components/transactions/ActionRowBlock";
-import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";
-import TransactionLink from "@explorer/frontend/components/utils/TransactionLink";
+import { TransactionPreview } from "@/common/types/procedures";
+import ActionGroup from "@/frontend/components/transactions/ActionGroup";
+import { ViewMode } from "@/frontend/components/transactions/ActionRowBlock";
+import TransactionExecutionStatus from "@/frontend/components/transactions/TransactionExecutionStatus";
+import TransactionLink from "@/frontend/components/utils/TransactionLink";
 
 export interface Props {
   transaction: TransactionPreview;

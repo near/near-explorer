@@ -5,10 +5,10 @@ import ReactEcharts from "echarts-for-react";
 import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { TRPCSubscriptionOutput } from "@/common/types/trpc";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const getOption = (
   title: string,

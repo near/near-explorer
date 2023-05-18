@@ -10,7 +10,7 @@ import NextDocument, {
   DocumentInitialProps,
 } from "next/document";
 
-import { getCssText } from "@explorer/frontend/libraries/styles";
+import { getCssText } from "@/frontend/libraries/styles";
 
 interface DocumentType {
   (props: DocumentProps): React.ReactNode;

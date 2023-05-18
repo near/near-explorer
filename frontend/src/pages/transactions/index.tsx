@@ -6,10 +6,10 @@ import { useTranslation } from "next-i18next";
 
 import Transactions, {
   getNextPageParam,
-} from "@explorer/frontend/components/transactions/Transactions";
-import Content from "@explorer/frontend/components/utils/Content";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/frontend/components/transactions/Transactions";
+import Content from "@/frontend/components/utils/Content";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const TRANSACTIONS_PER_PAGE = 15;
 

@@ -3,10 +3,10 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import ProgressBar from "@explorer/frontend/components/utils/ProgressBar";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import { styled } from "@explorer/frontend/libraries/styles";
+import ProgressBar from "@/frontend/components/utils/ProgressBar";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { styled } from "@/frontend/libraries/styles";
 
 const NodesEpochContent = styled(Col, {
   margin: "15px 0",

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 const UTC = styled("div", {
   fontWeight: 600,

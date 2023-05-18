@@ -6,12 +6,12 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Tabs, Tab } from "react-bootstrap";
 
-import { TRPCSubscriptionOutput } from "@explorer/common/types/trpc";
-import { Props } from "@explorer/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { getCumulativeArray } from "@explorer/frontend/libraries/stats";
+import { TRPCSubscriptionOutput } from "@/common/types/trpc";
+import { Props } from "@/frontend/components/stats/TransactionsByDate";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import * as BI from "@/frontend/libraries/bigint";
+import { getCumulativeArray } from "@/frontend/libraries/stats";
 
 const getOption = (
   title: string,

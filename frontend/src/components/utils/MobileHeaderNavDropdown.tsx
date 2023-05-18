@@ -3,17 +3,17 @@ import * as React from "react";
 import { StyledComponent } from "@stitches/react/types/styled-component";
 import { useTranslation } from "next-i18next";
 
-import { BetaSwitch } from "@explorer/frontend/components/utils/BetaSwitch";
-import LanguageToggle from "@explorer/frontend/components/utils/LanguageToggle";
-import Link from "@explorer/frontend/components/utils/Link";
-import { useBetaOptions } from "@explorer/frontend/hooks/use-beta-options";
-import { useIsBetaPage } from "@explorer/frontend/hooks/use-is-beta-page";
-import { styled } from "@explorer/frontend/libraries/styles";
-import IconAccountsSvg from "@explorer/frontend/public/static/images/icon-accounts.svg";
-import IconBlocksSvg from "@explorer/frontend/public/static/images/icon-blocks.svg";
-import IconNodesSvg from "@explorer/frontend/public/static/images/icon-nodes.svg";
-import IconStatsSvg from "@explorer/frontend/public/static/images/icon-stats.svg";
-import IconTransactionsSvg from "@explorer/frontend/public/static/images/icon-transactions.svg";
+import { BetaSwitch } from "@/frontend/components/utils/BetaSwitch";
+import LanguageToggle from "@/frontend/components/utils/LanguageToggle";
+import Link from "@/frontend/components/utils/Link";
+import { useBetaOptions } from "@/frontend/hooks/use-beta-options";
+import { useIsBetaPage } from "@/frontend/hooks/use-is-beta-page";
+import { styled } from "@/frontend/libraries/styles";
+import IconAccountsSvg from "@/frontend/public/static/images/icon-accounts.svg";
+import IconBlocksSvg from "@/frontend/public/static/images/icon-blocks.svg";
+import IconNodesSvg from "@/frontend/public/static/images/icon-nodes.svg";
+import IconStatsSvg from "@/frontend/public/static/images/icon-stats.svg";
+import IconTransactionsSvg from "@/frontend/public/static/images/icon-transactions.svg";
 
 const Icon = styled("svg", {
   width: 16,

@@ -1,6 +1,7 @@
 import nextJest from "next/jest";
 import * as path from "path";
 import { pathsToModuleNameMapper } from "ts-jest";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import tsConfig from "tsconfig.json";
 
 const createJestConfig = nextJest({

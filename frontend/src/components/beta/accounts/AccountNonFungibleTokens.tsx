@@ -3,15 +3,15 @@ import * as React from "react";
 import Image from "next/legacy/image";
 import { Spinner } from "react-bootstrap";
 
-import { AccountNonFungibleTokenElement } from "@explorer/common/types/procedures";
-import { TRPCInfiniteQueryOutput } from "@explorer/common/types/trpc";
-import AccountNonFungibleTokensHistory from "@explorer/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
-import NFTMedia from "@explorer/frontend/components/beta/common/NFTMedia";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import ListHandler from "@explorer/frontend/components/utils/ListHandler";
-import { NonFungibleTokensAccountPageOptions } from "@explorer/frontend/hooks/use-account-page-options";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { AccountNonFungibleTokenElement } from "@/common/types/procedures";
+import { TRPCInfiniteQueryOutput } from "@/common/types/trpc";
+import AccountNonFungibleTokensHistory from "@/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
+import NFTMedia from "@/frontend/components/beta/common/NFTMedia";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import ListHandler from "@/frontend/components/utils/ListHandler";
+import { NonFungibleTokensAccountPageOptions } from "@/frontend/hooks/use-account-page-options";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const TOKENS_PER_PAGE = 4;
 

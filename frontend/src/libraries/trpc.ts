@@ -1,8 +1,8 @@
 import * as trpcReact from "@trpc/react";
 
-import { NetworkName } from "@explorer/common/types/common";
-import type { AppRouter } from "@explorer/common/types/trpc";
-import { getBackendUrl } from "@explorer/frontend/libraries/transport";
+import { NetworkName } from "@/common/types/common";
+import type { AppRouter } from "@/common/types/trpc";
+import { getBackendUrl } from "@/frontend/libraries/transport";
 
 export const trpc = trpcReact.createReactQueryHooks<AppRouter>();
 

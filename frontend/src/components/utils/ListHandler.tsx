@@ -7,11 +7,11 @@ import {
   TRPCInfiniteQueryKey,
   TRPCInfiniteQueryOutput,
   TRPCInfiniteQueryResult,
-} from "@explorer/common/types/trpc";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import PaginationSpinner from "@explorer/frontend/components/utils/PaginationSpinner";
-import { typedMemo } from "@explorer/frontend/libraries/react";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/common/types/trpc";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { typedMemo } from "@/frontend/libraries/react";
+import { styled } from "@/frontend/libraries/styles";
 
 const LoadButton = styled("button", {
   width: 100,

@@ -5,13 +5,13 @@ import type { Configuration, NormalModule } from "webpack";
 // @ts-ignore
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
-import type { NetworkName } from "@explorer/common/types/common";
-import { getOverrides } from "@explorer/common/utils/environment";
+import type { NetworkName } from "@/common/types/common";
+import { getOverrides } from "@/common/utils/environment";
 import type {
   BackendConfig,
   ExplorerConfig,
   NearNetwork,
-} from "@explorer/frontend/libraries/config";
+} from "@/frontend/libraries/config";
 
 const IGNORED_WARN_MODULES = ["next-i18next", "i18next-fs-backend"];
 

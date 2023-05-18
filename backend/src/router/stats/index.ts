@@ -1,6 +1,6 @@
 import * as trpc from "@trpc/server";
 
-import { RequestContext } from "@explorer/backend/context";
+import { RequestContext } from "@/backend/context";
 
 import { router as circulatingSupplyRouter } from "./circulating-supply";
 import { router as tokensBurntRouter } from "./tokens-burnt";

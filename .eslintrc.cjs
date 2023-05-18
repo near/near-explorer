@@ -78,7 +78,7 @@ module.exports = {
                         position: "before",
                     },
                     {
-                        pattern: "@explorer/**",
+                        pattern: "@/**",
                         group: "internal",
                         position: "before",
                     },
@@ -107,6 +107,17 @@ module.exports = {
         "jsx-a11y/anchor-has-content": "off",
         // Finally is only used in control flow
         "no-unsafe-finally": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                js: "never",
+                mjs: "never",
+                jsx: "never",
+                ts: "never",
+                tsx: "never",
+            },
+        ],
     },
     overrides: [
         {
@@ -147,4 +158,9 @@ module.exports = {
             },
         })),
     ],
+    settings: {
+        "import/resolver": {
+            typescript: {},
+        },
+    },
 };

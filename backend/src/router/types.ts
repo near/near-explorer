@@ -1,4 +1,4 @@
-import { HealthStatus } from "@explorer/backend/types";
+import { HealthStatus } from "@/backend/types";
 
 export type ValidatorTelemetry = {
   ipAddress: string;

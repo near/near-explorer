@@ -1,6 +1,6 @@
 import React from "react";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 export type ExpandComponent = React.ComponentType<{
   collapsed: boolean;

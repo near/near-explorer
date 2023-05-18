@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import LinkWrapper from "@explorer/frontend/components/utils/Link";
-import { styled } from "@explorer/frontend/libraries/styles";
+import LinkWrapper from "@/frontend/components/utils/Link";
+import { styled } from "@/frontend/libraries/styles";
 
 const PADDING = 36;
 

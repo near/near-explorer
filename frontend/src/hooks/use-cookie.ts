@@ -2,8 +2,8 @@ import React from "react";
 
 import { CookieChangeListener, CookieSetOptions } from "universal-cookie";
 
-import { CookieContext } from "@explorer/frontend/libraries/cookie";
-import { YEAR } from "@explorer/frontend/libraries/time";
+import { CookieContext } from "@/frontend/libraries/cookie";
+import { YEAR } from "@/frontend/libraries/time";
 
 export const useCookie = <T extends NonNullable<any>>(
   cookieName: string,

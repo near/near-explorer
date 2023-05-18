@@ -5,7 +5,7 @@ import LocalStorageBackend from "i18next-localstorage-backend";
 import { UserConfig } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { HOUR } from "@explorer/frontend/libraries/time";
+import { HOUR } from "@/frontend/libraries/time";
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
 import {

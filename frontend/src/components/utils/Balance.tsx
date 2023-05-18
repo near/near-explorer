@@ -3,7 +3,7 @@ import * as React from "react";
 import JSBI from "jsbi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import * as BI from "@explorer/frontend/libraries/bigint";
+import * as BI from "@/frontend/libraries/bigint";
 
 const ROUNDING_OFFSETS: JSBI[] = [];
 for (

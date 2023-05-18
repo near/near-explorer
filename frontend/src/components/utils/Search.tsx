@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { Button, FormControl, InputGroup, Row, Spinner } from "react-bootstrap";
 
-import { TRPCMutationOutput } from "@explorer/common/types/trpc";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import { useAnalyticsTrack } from "@explorer/frontend/hooks/analytics/use-analytics-track";
-import { useQueryParam } from "@explorer/frontend/hooks/use-query-param";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import { TRPCMutationOutput } from "@/common/types/trpc";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { useAnalyticsTrack } from "@/frontend/hooks/analytics/use-analytics-track";
+import { useQueryParam } from "@/frontend/hooks/use-query-param";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const LoadingIcon = styled("div", {
   background: "#ffffff",

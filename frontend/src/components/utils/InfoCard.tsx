@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Col, Row, Spinner } from "react-bootstrap";
 
-import { styled } from "@explorer/frontend/libraries/styles";
+import { styled } from "@/frontend/libraries/styles";
 
 const InfoCardWrapper = styled(Row, {
   background: "#ffffff",

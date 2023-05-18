@@ -5,19 +5,19 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
-import { TRPCQueryResult } from "@explorer/common/types/trpc";
-import AccountHeader from "@explorer/frontend/components/beta/accounts/AccountHeader";
-import AccountTabs from "@explorer/frontend/components/beta/accounts/AccountTabs";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import { useAnalyticsTrackOnMount } from "@explorer/frontend/hooks/analytics/use-analytics-track-on-mount";
+import { TRPCQueryResult } from "@/common/types/trpc";
+import AccountHeader from "@/frontend/components/beta/accounts/AccountHeader";
+import AccountTabs from "@/frontend/components/beta/accounts/AccountTabs";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import {
   useAccountPageOptions,
   parseAccountSlug,
   AccountPageOptions,
   buildAccountUrl,
-} from "@explorer/frontend/hooks/use-account-page-options";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+} from "@/frontend/hooks/use-account-page-options";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",

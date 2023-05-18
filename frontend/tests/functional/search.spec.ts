@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { openFixture as test } from "@explorer/frontend/tests/fixtures";
+import { openFixture as test } from "@/frontend/tests/fixtures";
 
 const accountId = "test.near";
 const blockId = "FU129W1kwzgKZxekDpsELqPWJaUM3uaxhrb3F7cEBkT8";

@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-import { openFixture as test } from "@explorer/frontend/tests/fixtures";
+import { openFixture as test } from "@/frontend/tests/fixtures";
 
 const blockHash = "AtSUk7AP4aij3J8ro3n4PKFFB9MmRc6RJ4kHeTqhznCc";
 const blockId = 82744848;

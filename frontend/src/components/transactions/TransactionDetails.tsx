@@ -7,22 +7,20 @@ import { Row, Col } from "react-bootstrap";
 import {
   NestedReceiptWithOutcomeOld,
   TransactionOld,
-} from "@explorer/common/types/procedures";
-import * as RPC from "@explorer/common/types/rpc";
-import TransactionExecutionStatus from "@explorer/frontend/components/transactions/TransactionExecutionStatus";
-import AccountLink from "@explorer/frontend/components/utils/AccountLink";
-import Balance from "@explorer/frontend/components/utils/Balance";
-import BlockLink from "@explorer/frontend/components/utils/BlockLink";
-import CardCell, {
-  CardCellText,
-} from "@explorer/frontend/components/utils/CardCell";
-import CopyToClipboard from "@explorer/frontend/components/utils/CopyToClipboard";
-import Gas from "@explorer/frontend/components/utils/Gas";
-import Term from "@explorer/frontend/components/utils/Term";
-import { useDateFormat } from "@explorer/frontend/hooks/use-date-format";
-import { useSubscription } from "@explorer/frontend/hooks/use-subscription";
-import * as BI from "@explorer/frontend/libraries/bigint";
-import { styled } from "@explorer/frontend/libraries/styles";
+} from "@/common/types/procedures";
+import * as RPC from "@/common/types/rpc";
+import TransactionExecutionStatus from "@/frontend/components/transactions/TransactionExecutionStatus";
+import AccountLink from "@/frontend/components/utils/AccountLink";
+import Balance from "@/frontend/components/utils/Balance";
+import BlockLink from "@/frontend/components/utils/BlockLink";
+import CardCell, { CardCellText } from "@/frontend/components/utils/CardCell";
+import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import Gas from "@/frontend/components/utils/Gas";
+import Term from "@/frontend/components/utils/Term";
+import { useDateFormat } from "@/frontend/hooks/use-date-format";
+import { useSubscription } from "@/frontend/hooks/use-subscription";
+import * as BI from "@/frontend/libraries/bigint";
+import { styled } from "@/frontend/libraries/styles";
 
 const HeaderRow = styled(Row);
 

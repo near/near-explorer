@@ -2,7 +2,7 @@ import { NextApiRequest } from "next";
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
 
-import { NetworkName } from "@explorer/common/types/common";
+import { NetworkName } from "@/common/types/common";
 
 export interface NearNetwork {
   explorerLink: string;

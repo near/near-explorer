@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { useTranslation } from "react-i18next";
 
-import ShortenValue from "@explorer/frontend/components/beta/common/ShortenValue";
-import Timestamp from "@explorer/frontend/components/beta/common/Timestamp";
-import TransactionLink from "@explorer/frontend/components/beta/common/TransactionLink";
-import ErrorMessage from "@explorer/frontend/components/utils/ErrorMessage";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { trpc } from "@explorer/frontend/libraries/trpc";
+import ShortenValue from "@/frontend/components/beta/common/ShortenValue";
+import Timestamp from "@/frontend/components/beta/common/Timestamp";
+import TransactionLink from "@/frontend/components/beta/common/TransactionLink";
+import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { styled } from "@/frontend/libraries/styles";
+import { trpc } from "@/frontend/libraries/trpc";
 
 type Props = {
   id: string;

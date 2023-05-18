@@ -2,11 +2,11 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { TransactionReceipt } from "@explorer/common/types/procedures";
-import { Tabs } from "@explorer/frontend/components/beta/common/Tabs";
-import InspectReceipt from "@explorer/frontend/components/beta/transactions/InspectReceipt";
-import ReceiptDetails from "@explorer/frontend/components/beta/transactions/ReceiptDetails";
-import { styled } from "@explorer/frontend/libraries/styles";
+import { TransactionReceipt } from "@/common/types/procedures";
+import { Tabs } from "@/frontend/components/beta/common/Tabs";
+import InspectReceipt from "@/frontend/components/beta/transactions/InspectReceipt";
+import ReceiptDetails from "@/frontend/components/beta/transactions/ReceiptDetails";
+import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
   receipt: TransactionReceipt;

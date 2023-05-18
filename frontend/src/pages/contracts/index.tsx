@@ -3,7 +3,7 @@ import * as React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import Content from "@explorer/frontend/components/utils/Content";
+import Content from "@/frontend/components/utils/Content";
 
 const Contracts: NextPage = React.memo(() => (
   <>

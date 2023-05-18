@@ -3,11 +3,11 @@ import * as React from "react";
 import { intervalToDuration } from "date-fns";
 import { useTranslation } from "next-i18next";
 
-import { Transaction } from "@explorer/common/types/procedures";
-import TransactionReceipt from "@explorer/frontend/components/beta/transactions/TransactionReceipt";
-import { useDateLocale } from "@explorer/frontend/hooks/use-date-locale";
-import { styled } from "@explorer/frontend/libraries/styles";
-import { formatDurationString } from "@explorer/frontend/libraries/time";
+import { Transaction } from "@/common/types/procedures";
+import TransactionReceipt from "@/frontend/components/beta/transactions/TransactionReceipt";
+import { useDateLocale } from "@/frontend/hooks/use-date-locale";
+import { styled } from "@/frontend/libraries/styles";
+import { formatDurationString } from "@/frontend/libraries/time";
 
 type Props = {
   transaction: Transaction;
