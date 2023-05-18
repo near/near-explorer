@@ -16,68 +16,119 @@ type ListenerTuple<Topic extends TRPCSubscriptionKey> = [
 type SubscriptionCache<Topic extends TRPCSubscriptionKey> = {
   listeners: ListenerTuple<Topic>[];
   lastValue?: TRPCSubscriptionOutput<Topic>;
-  unsubscribe: () => void;
+  unsubscribe?: () => void;
 };
 
-const subscriptionCache: {
-  [Topic in TRPCSubscriptionKey]?: Partial<
-    Record<string, SubscriptionCache<Topic>>
-  >;
-} = {};
+const subscriptionCache: Partial<
+  Record<string, SubscriptionCache<TRPCSubscriptionKey>>
+> = {};
 
+const createSubscription = <Topic extends TRPCSubscriptionKey>(
+  cache: SubscriptionCache<Topic>,
+  trpcClient: TRPCClient,
+  pathAndInput: [path: Topic, ...args: TRPCSubscriptionInputs<Topic>]
+): (() => void) => {
+  const [path, input] = pathAndInput;
+  return trpcClient.subscription(path, (input ?? undefined) as any, {
+    onError: (err) => {
+      cache.listeners.forEach(([, errorListener]) => errorListener(err));
+    },
+    onNext: (res) => {
+      if (res.type !== "data") {
+        return;
+      }
+      const typedValue = res.data as TRPCSubscriptionOutput<Topic>;
+      cache.lastValue = typedValue;
+      cache.listeners.forEach(([valueListener]) => valueListener(typedValue));
+    },
+  });
+};
+
+const removeSubscription = <Topic extends TRPCSubscriptionKey>(
+  cache: SubscriptionCache<Topic>
+) => {
+  if (!cache.unsubscribe) {
+    return;
+  }
+  cache.unsubscribe();
+  cache.unsubscribe = undefined;
+};
+
+const removeListeners = <Topic extends TRPCSubscriptionKey>(
+  cache: SubscriptionCache<Topic>,
+  subscribeFns: ListenerTuple<Topic>
+) => {
+  cache.listeners = cache.listeners.filter(
+    (listeners) => listeners !== subscribeFns
+  );
+};
+const addListeners = <Topic extends TRPCSubscriptionKey>(
+  cache: SubscriptionCache<Topic>,
+  subscribeFns: ListenerTuple<Topic>
+) => {
+  cache.listeners.push(subscribeFns);
+};
+
+const getWithCache = <Topic extends TRPCSubscriptionKey>(
+  pathAndInput: [path: Topic, ...args: TRPCSubscriptionInputs<Topic>]
+) => {
+  const queryKey = ReactQuery.hashQueryKey(pathAndInput);
+  return (
+    fn: (cache: SubscriptionCache<Topic>) => void,
+    fnName: string,
+    createCache = false
+  ) => {
+    let cache = subscriptionCache[queryKey] as
+      | SubscriptionCache<Topic>
+      | undefined;
+    if (!cache) {
+      if (!createCache) {
+        // eslint-disable-next-line no-console
+        console.warn(`called ${fnName} on non-existent subscription`);
+        return;
+      }
+      cache = { listeners: [] };
+      subscriptionCache[queryKey] = cache;
+    }
+    return fn(cache);
+  };
+};
 export const subscribe = <Topic extends TRPCSubscriptionKey>(
   trpcClient: TRPCClient,
   pathAndInput: [path: Topic, ...args: TRPCSubscriptionInputs<Topic>],
   subscribeFns: ListenerTuple<Topic>
 ) => {
-  const [path, input] = pathAndInput;
-  const queryKey = ReactQuery.hashQueryKey(pathAndInput);
-  if (!subscriptionCache[path]) {
-    subscriptionCache[path] = {};
-  }
-  const topicCaches = subscriptionCache[path]! as Partial<
-    Record<string, SubscriptionCache<Topic>>
-  >;
-  if (!topicCaches[queryKey]) {
-    topicCaches[queryKey] = {
-      unsubscribe: trpcClient.subscription(path, (input ?? undefined) as any, {
-        onError: (err) => {
-          const cache = topicCaches[queryKey];
-          if (!cache) {
-            return;
+  const withCache = getWithCache(pathAndInput);
+  return {
+    subscribe: () =>
+      withCache(
+        (cache) => {
+          if (cache.lastValue !== undefined) {
+            subscribeFns[0](cache.lastValue);
           }
-          cache.listeners.forEach(([, errorListener]) => errorListener(err));
-        },
-        onNext: (res) => {
-          const cache = topicCaches[queryKey];
-          if (!cache || res.type !== "data") {
-            return;
+          if (!cache.unsubscribe) {
+            cache.unsubscribe = createSubscription(
+              cache,
+              trpcClient,
+              pathAndInput
+            );
           }
-          const typedValue = res.data as TRPCSubscriptionOutput<Topic>;
-          cache.lastValue = typedValue;
-          cache.listeners.forEach(([valueListener]) =>
-            valueListener(typedValue)
-          );
+          addListeners(cache, subscribeFns);
         },
-      }),
-      listeners: [],
-    };
-  } else {
-    const { lastValue } = topicCaches[queryKey]!;
-    if (lastValue !== undefined) {
-      subscribeFns[0](lastValue);
-    }
-  }
-  const cache = topicCaches[queryKey]!;
-  cache.listeners.push(subscribeFns);
-
-  return () => {
-    cache.listeners = cache.listeners.filter(
-      (listeners) => listeners !== subscribeFns
-    );
-    if (cache.listeners.length === 0) {
-      cache.unsubscribe();
-      subscriptionCache[path] = undefined;
-    }
+        "subscribe",
+        true
+      ),
+    unsubscribe: () =>
+      withCache((cache) => {
+        removeListeners(cache, subscribeFns);
+        if (cache.listeners.length === 0) {
+          removeSubscription(cache);
+        }
+      }, "unsubscribe"),
+    resubscribe: () =>
+      withCache((cache) => {
+        removeSubscription(cache);
+        cache.unsubscribe = createSubscription(cache, trpcClient, pathAndInput);
+      }, "resubscribe"),
   };
 };

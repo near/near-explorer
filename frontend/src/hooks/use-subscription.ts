@@ -9,6 +9,7 @@ import {
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
 } from "@explorer/common/types/trpc";
+import { noop } from "@explorer/common/utils/utils";
 import { subscribe } from "@explorer/frontend/libraries/subscriptions";
 import { trpc } from "@explorer/frontend/libraries/trpc";
 
@@ -25,7 +26,9 @@ export type UseSubscriptionResult<R> = StableOmit<
   | "errorUpdateCount"
   | "refetch"
   | "remove"
->;
+> & {
+  refetch: () => void;
+};
 
 export type UseSubscriptionResultByTopic<
   TPath extends TRPCSubscriptionKey & string
@@ -52,11 +55,12 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
   const [errorUpdatedAt, setErrorUpdatedAt] = React.useState(0);
   const [loading, setLoading] = React.useState(() => !cachedData);
   const [error, setError] = React.useState<TRPCError | null>(null);
+  const [resubscribe, setResubscribe] = React.useState<() => void>();
   React.useEffect(() => {
     if (!enabled) {
       return;
     }
-    return subscribe(trpcContext.client, pathAndInput, [
+    const subscribeResult = subscribe(trpcContext.client, pathAndInput, [
       (nextValue) => {
         setLoading(false);
         setError(null);
@@ -69,12 +73,16 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         setErrorUpdatedAt(Date.now());
       },
     ]);
+    subscribeResult.subscribe();
+    setResubscribe(() => subscribeResult.resubscribe);
+    return subscribeResult.unsubscribe;
     // queryKey substitutes pathAndInput here
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryKey, enabled, trpcContext.client]);
+  }, [queryKey, enabled, trpcContext.client, setResubscribe]);
   const base = {
     dataUpdatedAt,
     errorUpdatedAt,
+    refetch: resubscribe || noop,
   };
   if (loading) {
     return {

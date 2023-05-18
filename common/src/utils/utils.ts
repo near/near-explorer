@@ -3,3 +3,4 @@ export const notNullishGuard = <T>(
 ): arg is Exclude<T, null | undefined> => arg !== null && arg !== undefined;
 
 export const id = <X>(input: X) => input;
+export const noop = () => {};
