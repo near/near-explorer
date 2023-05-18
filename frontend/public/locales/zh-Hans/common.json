@@ -258,6 +258,7 @@
         }
       },
       "ValidatorTelemetryRow": {
+        "noTelemetryFound": "No telemetry found for a pool",
         "uptime": {
           "text": "在线率是通过已产生出块数与预期出块数的比值估算的",
           "title": "在线率"

@@ -159,9 +159,9 @@ const ValidatorRow: React.FC<Props> = React.memo(
         </ValidatorMainRow>
 
         <ValidatorCollapsedRow
+          accountId={validator.accountId}
           isRowActive={isRowActive}
           progress={validator.currentEpoch?.progress}
-          telemetry={validator.telemetry}
           description={validator.description}
         />
 

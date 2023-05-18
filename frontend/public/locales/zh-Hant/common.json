@@ -258,6 +258,7 @@
         }
       },
       "ValidatorTelemetryRow": {
+        "noTelemetryFound": "No telemetry found for a pool",
         "uptime": {
           "text": "在線率是通過已產生出塊數與預期出塊數的比值估算的",
           "title": "在線率"

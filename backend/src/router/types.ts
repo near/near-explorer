@@ -69,6 +69,7 @@ type TimestampDataSeries<T> = (T extends unknown[]
 
 export type SubscriptionTopicTypes = {
   validators: ValidatorFullData[];
+  validatorTelemetry: Partial<Record<string, ValidatorTelemetry>>;
   latestBlock: {
     height: number;
     timestamp: number;

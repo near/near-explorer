@@ -19,6 +19,7 @@ import { GlobalState } from "@explorer/backend/global-state";
 import {
   ValidatorEpochData,
   ValidatorPoolInfo,
+  ValidatorTelemetry,
 } from "@explorer/backend/router/types";
 import {
   nanosecondsToMilliseconds,
@@ -721,12 +722,15 @@ export const epochStatsCheck: RegularCheckFn = {
   },
 };
 
-export const validatorsCheck: RegularCheckFn = {
-  description: "validators info",
+export const validatorsTelemetryCheck: RegularCheckFn = {
+  description: "publish validators telemetry",
   fn: async (publish, context) => {
-    const validators = await nearApi.sendJsonRpc("validators", [null]);
-    publish("currentValidatorsCount", validators.current_validators.length);
-    const mappedValidators = mapValidators(validators, context.state.poolIds);
+    const { validators } = context.subscriptionsCache;
+    if (!validators) {
+      // Validators are not fetched yet, probably will be available in a few seconds
+      return 3 * SECOND;
+    }
+    const publishIfChanged = getPublishIfChanged(publish, context);
     const nodesInfo = await telemetryDatabase
       .selectFrom("nodes")
       .select([
@@ -746,42 +750,42 @@ export const validatorsCheck: RegularCheckFn = {
       .where(
         "account_id",
         "in",
-        mappedValidators.map((validator) => validator.accountId)
+        validators.map((validator) => validator.accountId)
       )
       .orderBy("last_seen")
       .execute();
+    publishIfChanged(
+      "validatorTelemetry",
+      nodesInfo.reduce<Partial<Record<string, ValidatorTelemetry>>>(
+        (acc, nodeInfo) => {
+          acc[nodeInfo.account_id] = {
+            ipAddress: nodeInfo.ip_address,
+            nodeId: nodeInfo.node_id,
+            lastSeen: nodeInfo.last_seen.valueOf(),
+            lastHeight: parseInt(nodeInfo.last_height, 10),
+            status: nodeInfo.status,
+            agentName: nodeInfo.agent_name,
+            agentVersion: nodeInfo.agent_version,
+            agentBuild: nodeInfo.agent_build,
+            latitude: nodeInfo.latitude,
+            longitude: nodeInfo.longitude,
+            city: nodeInfo.city,
+          };
+          return acc;
+        },
+        {}
+      )
+    );
+    return config.intervals.checkValidatorsTelemetry;
+  },
+};
 
-    const telemetryInfo = new Map<
-      string,
-      {
-        ipAddress: string;
-        nodeId: string;
-        lastSeen: number;
-        lastHeight: number;
-        status: string;
-        agentName: string;
-        agentVersion: string;
-        agentBuild: string;
-        latitude: string | null;
-        longitude: string | null;
-        city: string | null;
-      }
-    >();
-    for (const nodeInfo of nodesInfo) {
-      telemetryInfo.set(nodeInfo.account_id, {
-        ipAddress: nodeInfo.ip_address,
-        nodeId: nodeInfo.node_id,
-        lastSeen: nodeInfo.last_seen.valueOf(),
-        lastHeight: parseInt(nodeInfo.last_height, 10),
-        status: nodeInfo.status,
-        agentName: nodeInfo.agent_name,
-        agentVersion: nodeInfo.agent_version,
-        agentBuild: nodeInfo.agent_build,
-        latitude: nodeInfo.latitude,
-        longitude: nodeInfo.longitude,
-        city: nodeInfo.city,
-      });
-    }
+export const validatorsCheck: RegularCheckFn = {
+  description: "validators info",
+  fn: async (publish, context) => {
+    const validators = await nearApi.sendJsonRpc("validators", [null]);
+    publish("currentValidatorsCount", validators.current_validators.length);
+    const mappedValidators = mapValidators(validators, context.state.poolIds);
     await Promise.all([
       Promise.race([
         updateStakingPoolStakeProposalsFromContractMap(
@@ -809,7 +813,6 @@ export const validatorsCheck: RegularCheckFn = {
           context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
             validator.accountId
           ),
-        telemetry: telemetryInfo.get(validator.accountId),
       }))
     );
     return config.intervals.checkNetworkInfo;

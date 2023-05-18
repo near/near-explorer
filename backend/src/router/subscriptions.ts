@@ -25,6 +25,7 @@ const subscriptionInputs = {
     z.undefined(),
     z.strictObject({ amountOfDays: z.number() }),
   ]),
+  validatorTelemetry: z.string(),
 } as const;
 
 type SubscriptionInputMap = typeof subscriptionInputs;
@@ -36,6 +37,15 @@ type SubscriptionInputModel<T extends SubscriptionTopicType> =
 type SubscriptionInput<T extends SubscriptionTopicType> = z.infer<
   SubscriptionInputModel<T>
 >;
+
+type ValueInRecord<M> = M extends Record<any, infer V> ? V : never;
+type OutputMapping = {
+  validatorTelemetry?: ValueInRecord<
+    SubscriptionTopicTypes["validatorTelemetry"]
+  >;
+};
+type MappedSubscriptionTopicType<T extends SubscriptionTopicType> =
+  T extends keyof OutputMapping ? OutputMapping[T] : SubscriptionTopicTypes[T];
 
 const id = <T>(a: T) => a;
 
@@ -49,13 +59,13 @@ const withTopic = <
   mapFn: (
     data: SubscriptionTopicTypes[T],
     input: SubscriptionInput<T>
-  ) => SubscriptionTopicTypes[T]
+  ) => MappedSubscriptionTopicType<T>
 ) =>
   prevRouter
     .subscription(topic, {
       input: inputModel,
       resolve: ({ ctx, input }) =>
-        new trpc.Subscription<SubscriptionTopicTypes[T]>((emit) => {
+        new trpc.Subscription<MappedSubscriptionTopicType<T>>((emit) => {
           const typedInput = input as SubscriptionInput<T>;
           const onData: SubscriptionEventMap[T] = ((nextData, prevData) => {
             const nextMappedData = mapFn(nextData, typedInput);
@@ -109,7 +119,7 @@ const withTopics = <InitialRouter extends AnyRouter<RequestContext>>(
       ? (
           value: SubscriptionTopicTypes[Topic],
           input: SubscriptionInput<Topic>
-        ) => SubscriptionTopicTypes[Topic]
+        ) => MappedSubscriptionTopicType<Topic>
       : undefined;
   }
 ): RouterWithSubscriptionsAndQueries<
@@ -117,7 +127,7 @@ const withTopics = <InitialRouter extends AnyRouter<RequestContext>>(
   {
     [Topic in SubscriptionTopicType]: CreateProcedureSubscription<
       InitialRouter,
-      SubscriptionTopicTypes[Topic],
+      MappedSubscriptionTopicType<Topic>,
       SubscriptionInput<Topic>
     >;
   }
@@ -140,6 +150,7 @@ export const router = withTopics(trpc.router<RequestContext>(), {
   latestBlock: undefined,
   latestGasPrice: undefined,
   validators: undefined,
+  validatorTelemetry: (elements, accountId) => elements[accountId],
   recentTransactionsCount: undefined,
   onlineNodesCount: undefined,
   genesisConfig: undefined,
