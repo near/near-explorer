@@ -2,10 +2,9 @@ import * as trpc from "@trpc/server";
 import { z } from "zod";
 
 import { RequestContext } from "@/backend/context";
-import { FungibleTokenMetadata } from "@/backend/router/fungible-tokens";
+import { enhancedApi } from "@/backend/providers/enhanced-api";
 import { validators } from "@/backend/router/validators";
-import * as nearApi from "@/backend/utils/near";
-import { notNullishGuard } from "@/common/utils/utils";
+import { nanosecondsToMilliseconds } from "@/backend/utils/bigint";
 
 const base64ImageRegex = /^data:image/;
 export const validateBase64Image = (
@@ -24,37 +23,15 @@ export const router = trpc
       accountId: validators.accountId,
     }),
     resolve: async ({ input: { accountId } }) => {
-      // TODO: add data from Enhanced API
-      const selection: any[] = [];
-      const contractIds = selection.map((row) => row.contractId);
-      const tokens = await Promise.all(
-        contractIds.map(async (contractId) => {
-          const balance = await nearApi.callViewMethod<string>(
-            contractId,
-            "ft_balance_of",
-            { account_id: accountId }
-          );
-          if (balance === "0") {
-            return null;
-          }
-          const fungibleTokenMetadata =
-            await nearApi.callViewMethod<FungibleTokenMetadata>(
-              contractId,
-              "ft_metadata",
-              {}
-            );
-
-          return {
-            symbol: fungibleTokenMetadata.symbol,
-            decimals: fungibleTokenMetadata.decimals,
-            name: fungibleTokenMetadata.name,
-            authorAccountId: contractId,
-            icon: validateBase64Image(fungibleTokenMetadata.icon),
-            balance,
-          };
-        })
-      );
-      return tokens.filter(notNullishGuard);
+      const { balances } = await enhancedApi.FT.balances(accountId);
+      return balances.map((ft) => ({
+        symbol: ft.metadata.symbol,
+        decimals: ft.metadata.decimals,
+        name: ft.metadata.name,
+        authorAccountId: ft.contract_account_id,
+        icon: validateBase64Image(ft.metadata.icon),
+        balance: ft.amount,
+      }));
     },
   })
   .query("fungibleTokenHistory", {
@@ -63,26 +40,25 @@ export const router = trpc
       tokenAuthorAccountId: validators.accountId,
     }),
     resolve: async ({ input: { accountId, tokenAuthorAccountId } }) => {
-      // TODO: add data from Enhanced API
-      const elements: any[] = [];
-      const baseAmount = await nearApi.callViewMethod<string>(
-        tokenAuthorAccountId,
-        "ft_balance_of",
-        { account_id: accountId },
-        { block_id: Number(elements[elements.length - 1].blockHeight) - 1 }
-      );
+      const [{ balance }, { history }] = await Promise.all([
+        enhancedApi.FT.balanceByContract(accountId, tokenAuthorAccountId),
+        enhancedApi.FT.historyByContract(accountId, tokenAuthorAccountId),
+      ]);
       return {
-        baseAmount,
-        elements: elements.map((element) => ({
+        baseAmount: balance.amount,
+        elements: history.map((element) => ({
           counterparty:
-            element.prevAccountId === accountId
-              ? element.nextAccountId
-              : element.prevAccountId,
-          direction: element.prevAccountId === accountId ? "out" : "in",
-          amount: element.amount,
-          transactionHash: element.transactionHash,
-          receiptId: element.receiptId,
-          timestamp: parseInt(element.timestamp, 10),
+            element.old_account_id === accountId
+              ? element.new_account_id
+              : element.old_account_id,
+          direction: element.old_account_id === accountId ? "out" : "in",
+          // TODO: get amount, hash and receipt id
+          amount: "1",
+          transactionHash: "unknown",
+          receiptId: "unknown",
+          timestamp: nanosecondsToMilliseconds(
+            BigInt(element.block_timestamp_nanos)
+          ),
         })),
       };
     },
