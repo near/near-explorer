@@ -1,0 +1,94 @@
+name: GCP Cloud Run Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment_name:
+        description: "The Environment to deploy to"
+        required: true
+        type: string
+      cloud_run_service_name:
+        description: "The JSON service account key to use to authenticate to GCP"
+        required: true
+        type: string
+      docker_image:
+        description: "The Docker image to deploy"
+        required: true
+        type: string
+      env_vars:
+        description: "Environment variables to be passed to the Cloud Run service"
+        required: true
+        type: string
+      gcp_project_id:
+        description: "The GCP project id"
+        required: true
+        type: string
+      region:
+        description: "The GCP region to use to deploy the service"
+        required: true
+        type: string
+      deploy_tag:
+        description: "The tag to set to the Cloud Run service revision. This is not a docker tag."
+        required: false
+        type: string
+    secrets:
+      service_account_key:
+        description: "The JSON service account key to use to authenticate to GCP"
+        required: true
+
+jobs:
+  deploy-cloudrun-service:
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ steps.gcp_url.outputs.deploy_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout near-explorer"
+
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{ secrets.service_account_key }}
+
+      - name: "Update deployment environment variables"
+        id: set-env-vars
+        run: |
+          ENV_VARS="${{ inputs.env_vars }}"
+          echo $ENV_VARS
+          ENV_STR=""
+          if [[ -n "$ENV_VARS" ]]; then
+            while IFS="=" read -r key value
+            do
+              ENV_STR+="--update-env-vars ${key}='${value}' "
+            done < <(echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"')
+          fi
+          echo $ENV_STR
+          echo "ENV_STR=$ENV_STR" >> $GITHUB_ENV
+
+      - name: "Deploy Cloud Run service"
+        run: |
+          TAG_PARAM=""
+          if [[ -n "${{ inputs.deploy_tag }}" ]]; then
+            TAG_PARAM="--tag=${{ inputs.deploy_tag }}"
+          fi
+
+          gcloud run deploy ${{ inputs.cloud_run_service_name }} --image="${{ inputs.docker_image }}" --region=${{ inputs.region }}\
+            $TAG_PARAM \
+            ${{ env.ENV_STR }}\
+
+          echo "TAG_PARAM=$TAG_PARAM" >> $GITHUB_ENV
+
+      - name: "Get deployment URL"
+        id: "gcp_url"
+        run: |
+          url=$(gcloud run services describe "${{ inputs.cloud_run_service_name }}" --platform managed --region "${{ inputs.region }}" --project "${{ inputs.gcp_project_id }}" \
+          --format="value(status.url)")
+          match="https://"
+          tagged_url="${url}"
+          if [[ -n "${{ inputs.deploy_tag }}" ]]; then
+            tag=${{ inputs.deploy_tag }}---
+            tagged_url="https://${url%%${match}*}${tag}${url##*${match}}"
+          fi
+          echo $tagged_url
+          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT

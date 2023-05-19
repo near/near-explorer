@@ -11,155 +11,130 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
+  env-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Generate outputs to be used as input in reusable workflows"
+        id: env-setup
+        run: |
+          echo "REGION=${{ env.REGION }}" >> $GITHUB_OUTPUT
+          echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> $GITHUB_OUTPUT
+          echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> $GITHUB_OUTPUT
+          echo "PR_NUMBER=${{ env.PR_NUMBER }}" >> $GITHUB_OUTPUT
+    outputs:
+      REGION: ${{ steps['env-setup'].outputs.REGION }}
+      BACKEND_IMAGE: ${{ steps['env-setup'].outputs.BACKEND_IMAGE }}
+      FRONTEND_IMAGE: ${{ steps['env-setup'].outputs.FRONTEND_IMAGE }}
+      PR_NUMBER: ${{ steps['env-setup'].outputs.PR_NUMBER }}
+
   build-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        name: "Checkout near-explorer"
+    uses: ./.github/workflows/gcp-build.yml
+    needs: env-setup
+    with:
+      dockerfile_path: "./frontend/Dockerfile"
+      image_path: "${{ needs.env-setup.outputs.FRONTEND_IMAGE }}"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      pr_number: "${{ github.event.number }}"
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
 
-      - name: Login to Artifact Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGION }}-docker.pkg.dev
-          username: _json_key
-          password: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
-
-      - name: Build Docker image and push to Google Artifact Registry
-        id: docker-push-tagged
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          file: ./frontend/Dockerfile
-          tags: "${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }},${{ env.FRONTEND_IMAGE }}:${{ github.run_attempt }}-${{ github.sha }}"
-
-  deploy-frontend:
-    runs-on: ubuntu-latest
+  get-backend-service-urls:
     needs: build-frontend
-    environment:
-      name: dev-frontend
-      url: ${{ steps.gcp_url.outputs.deploy_url }}
+    runs-on: ubuntu-latest
+    outputs:
+      backend_testnet_url: ${{ steps.get_urls.outputs.BACKEND_TESTNET_URL }}
+      backend_mainnet_url: ${{ steps.get_urls.outputs.BACKEND_MAINNET_URL }}
     steps:
-      - uses: actions/checkout@v3
-        name: "Checkout near-explorer"
-
       - name: "Authenticate to GCloud"
         uses: "google-github-actions/auth@v1"
         with:
           credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
 
       - name: "Get Backend services URLs"
-        id: "gcp_services_urls"
+        id: get_urls
         run: |
           backend_testnet_url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
+           --format='value(status.url)')
           backend_mainnet_url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
+           --format='value(status.url)')
           prefix="https://"
           backend_testnet_url="${backend_testnet_url#"$prefix"}"
           backend_mainnet_url="${backend_mainnet_url#"$prefix"}"
-          echo "BACKEND_TESTNET_URL=${backend_testnet_url}" >> $GITHUB_ENV
-          echo "BACKEND_MAINNET_URL=${backend_mainnet_url}" >> $GITHUB_ENV
+          echo "BACKEND_TESTNET_URL=${backend_testnet_url}" >> $GITHUB_OUTPUT
+          echo "BACKEND_MAINNET_URL=${backend_mainnet_url}" >> $GITHUB_OUTPUT
 
-      - name: "Deploy the Frontend"
-        run: |
-          gcloud run deploy explorer-frontend --image="${{ env.FRONTEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
-            --tag="pr-${{ env.PR_NUMBER }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ env.BACKEND_TESTNET_URL }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ env.BACKEND_MAINNET_URL }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=pr-${{ env.PR_NUMBER }}---${{ env.BACKEND_TESTNET_URL }}"\
-            --update-env-vars "NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=pr-${{ env.PR_NUMBER }}---${{ env.BACKEND_MAINNET_URL }}"\
-            --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
-            --update-env-vars "COMMIT_SHA=$GITHUB_SHA"\
-            --update-env-vars "GCP=true"\
-
-      - name: "Get deployment URL"
-        id: "gcp_url"
-        run: |
-          url=$(gcloud run services describe "explorer-frontend" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
-          match="https://"
-          tagged_url="https://${url%%${match}*}pr-${{ env.PR_NUMBER }}---${url##*${match}}"
-          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
+  deploy-frontend:
+    uses: ./.github/workflows/gcp-deploy.yml
+    needs:
+      - get-backend-service-urls
+      - env-setup
+    with:
+      environment_name: "dev-frontend"
+      cloud_run_service_name: "explorer-frontend"
+      deploy_tag: "pr-${{ github.event.number }}"
+      docker_image: "${{ needs.env-setup.outputs.FRONTEND_IMAGE }}"
+      gcp_project_id: "pagoda-data-stack-dev"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      env_vars: >-
+        {
+          \"GCP\": \"true\",
+          \"COMMIT_SHA\": \"$GITHUB_SHA\",
+          \"BRANCH\": \"$GITHUB_REF_NAME\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET\": \"pr-${{ github.event.number }}---${{ needs.get-backend-service-urls.outputs.backend_mainnet_url }}\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET\": \"pr-${{ github.event.number }}---${{ needs.get-backend-service-urls.outputs.backend_testnet_url }}\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET\": \"pr-${{ github.event.number }}---${{ needs.get-backend-service-urls.outputs.backend_mainnet_url }}\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET\": \"pr-${{ github.event.number }}---${{ needs.get-backend-service-urls.outputs.backend_testnet_url }}\"
+        }
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
 
   build-backend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        name: "Checkout backend-repo"
-
-      - name: Login to Artifact Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGION }}-docker.pkg.dev
-          username: _json_key
-          password: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
-
-      - name: Build Docker image and push to Google Artifact Registry
-        id: docker-push-tagged
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          file: ./backend/Dockerfile
-          tags: "${{ env.BACKEND_IMAGE }}:${{ env.PR_NUMBER }},${{ env.BACKEND_IMAGE }}:${{ github.run_attempt }}-${{ github.sha }}"
+    uses: ./.github/workflows/gcp-build.yml
+    needs: env-setup
+    with:
+      dockerfile_path: "./backend/Dockerfile"
+      image_path: "${{ needs.env-setup.outputs.BACKEND_IMAGE }}"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      pr_number: "${{ github.event.number }}"
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
 
   deploy-backend-testnet:
-    environment:
-      name: dev-backend-testnet
-      url: ${{ steps.gcp_url.outputs.deploy_url }}
-    runs-on: ubuntu-latest
-    needs: build-backend
-    steps:
-      - uses: actions/checkout@v3
-        name: "Checkout backend-repo"
-
-      - name: "Authenticate to GCloud"
-        uses: "google-github-actions/auth@v1"
-        with:
-          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
-
-      - name: "Deploy Backend Testnet"
-        run: |
-          gcloud run deploy explorer-backend-testnet --image="${{ env.BACKEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
-            --tag="pr-${{ env.PR_NUMBER }}"\
-            --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
-            --update-env-vars "COMMIT_SHA=$GITHUB_SHA"\
-
-      - name: "Get deployment URL"
-        id: "gcp_url"
-        run: |
-          url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
-          match="https://"
-          tagged_url="https://${url%%${match}*}pr-${{ env.PR_NUMBER }}---${url##*${match}}"
-          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
+    uses: ./.github/workflows/gcp-deploy.yml
+    needs:
+      - build-backend
+      - env-setup
+    with:
+      environment_name: "dev-backend-testnet"
+      cloud_run_service_name: "explorer-backend-testnet"
+      deploy_tag: "pr-${{ github.event.number }}"
+      docker_image: "${{ needs.env-setup.outputs.BACKEND_IMAGE }}"
+      gcp_project_id: "pagoda-data-stack-dev"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      env_vars: >-
+        {
+          \"COMMIT_SHA\": \"$GITHUB_SHA\",
+          \"BRANCH\": \"$GITHUB_REF_NAME\"
+        }
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}
 
   deploy-backend-mainnet:
-    environment:
-      name: dev-backend-mainnet
-      url: ${{ steps.gcp_url.outputs.deploy_url }}
-    runs-on: ubuntu-latest
-    needs: build-backend
-    steps:
-      - uses: actions/checkout@v3
-        name: "Checkout backend-repo"
-
-      - name: "Authenticate to GCloud"
-        uses: "google-github-actions/auth@v1"
-        with:
-          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}"
-
-      - name: "Deploy Backend Mainnet"
-        run: |
-          gcloud run deploy explorer-backend-mainnet --image="${{ env.BACKEND_IMAGE }}:${{ env.PR_NUMBER }}" --region=${{ env.REGION }}\
-            --tag="pr-${{ env.PR_NUMBER }}"\
-            --update-env-vars "BRANCH=$GITHUB_REF_NAME"\
-            --update-env-vars "COMMIT_SHA=$GITHUB_SHA"\
-
-      - name: "Get deployment URL"
-        id: "gcp_url"
-        run: |
-          url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-dev"\
-           --format 'value(status.url)')
-          match="https://"
-          tagged_url="https://${url%%${match}*}pr-${{ env.PR_NUMBER }}---${url##*${match}}"
-          echo deploy_url=$tagged_url >> $GITHUB_OUTPUT
+    uses: ./.github/workflows/gcp-deploy.yml
+    needs:
+      - build-backend
+      - env-setup
+    with:
+      environment_name: "dev-backend-mainnet"
+      cloud_run_service_name: "explorer-backend-mainnet"
+      deploy_tag: "pr-${{ github.event.number }}"
+      docker_image: "${{ needs.env-setup.outputs.BACKEND_IMAGE }}"
+      gcp_project_id: "pagoda-data-stack-dev"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      env_vars: >-
+        {
+          \"COMMIT_SHA\": \"$GITHUB_SHA\",
+          \"BRANCH\": \"$GITHUB_REF_NAME\"
+        }
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_DEV_KEY }}

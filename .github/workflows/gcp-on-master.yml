@@ -1,0 +1,129 @@
+name: Deploy to Production environment.
+on:
+  push:
+    branches:
+      - master
+
+env:
+  REGION: "us-central1"
+  BACKEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-prod/cloud-run-source-deploy/explorer-backend"
+  FRONTEND_IMAGE: "us-central1-docker.pkg.dev/pagoda-data-stack-prod/cloud-run-source-deploy/explorer-frontend"
+
+jobs:
+  env-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Generate outputs to be used as input in reusable workflows"
+        id: env-setup
+        run: |
+          echo "REGION=${{ env.REGION }}" >> $GITHUB_OUTPUT
+          echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> $GITHUB_OUTPUT
+          echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> $GITHUB_OUTPUT
+    outputs:
+      REGION: ${{ steps['env-setup'].outputs.REGION }}
+      BACKEND_IMAGE: ${{ steps['env-setup'].outputs.BACKEND_IMAGE }}
+      FRONTEND_IMAGE: ${{ steps['env-setup'].outputs.FRONTEND_IMAGE }}
+
+  build-frontend:
+    uses: ./.github/workflows/gcp-build.yml
+    with:
+      dockerfile_path: "./frontend/Dockerfile"
+      image_path: ${{ env.FRONTEND_IMAGE }}
+      region: ${{ env.REGION }}
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_PROD_KEY }}
+
+  get-backend-service-urls:
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    outputs:
+      backend_testnet_url: ${{ steps.get_urls.outputs.backend_testnet_url }}
+      backend_mainnet_url: ${{ steps.get_urls.outputs.backend_mainnet_url }}
+    steps:
+      - name: "Authenticate to GCloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.CI_EXPLORER_UI_SA_PROD_KEY }}"
+
+      - name: "Get Backend services URLs"
+        id: get_urls
+        run: |
+          backend_testnet_url=$(gcloud run services describe "explorer-backend-testnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-prod"\
+          --format 'value(status.url)')
+          backend_mainnet_url=$(gcloud run services describe "explorer-backend-mainnet" --platform managed --region "${{ env.REGION }}" --project "pagoda-data-stack-prod"\
+          --format 'value(status.url)')
+          prefix="https://"
+          backend_testnet_url="${backend_testnet_url#"$prefix"}"
+          backend_mainnet_url="${backend_mainnet_url#"$prefix"}"
+          echo "::set-output name=backend_testnet_url::$backend_testnet_url"
+          echo "::set-output name=backend_mainnet_url::$backend_mainnet_url"
+
+  deploy-frontend:
+    uses: ./.github/workflows/gcp-deploy.yml
+    needs:
+      - get-backend-service-urls
+      - env-setup
+    with:
+      environment_name: "prod-frontend"
+      cloud_run_service_name: "explorer-frontend"
+      docker_image: "${{ needs.env-setup.outputs.FRONTEND_IMAGE }}"
+      gcp_project_id: "pagoda-data-stack-prod"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      env_vars: |
+        {
+          \"GCP\": \"true\",
+          \"COMMIT_SHA\": \"GITHUB_SHA\",
+          \"BRANCH\": \"$GITHUB_REF_NAME\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET\": \"${{ needs.get-backend-service-urls.outputs.backend_mainnet_url }}\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET\": \"${{ needs.get-backend-service-urls.outputs.backend_testnet_url }}\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__MAINNET\": \"${{ needs.get-backend-service-urls.outputs.backend_mainnet_url }}\",
+          \"NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__TESTNET\": \"${{ needs.get-backend-service-urls.outputs.backend_testnet_url }}\"
+        }
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_PROD_KEY }}
+
+  build-backend:
+    uses: ./.github/workflows/gcp-build.yml
+    with:
+      dockerfile_path: "./backend/Dockerfile"
+      image_path: ${{ env.BACKEND_IMAGE }}
+      region: "${{ needs.env-setup.outputs.REGION }}"
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_PROD_KEY }}
+
+  deploy-backend-testnet:
+    uses: ./.github/workflows/gcp-deploy.yml
+    needs:
+      - build-backend
+      - env-setup
+    with:
+      environment_name: "prod-backend-testnet"
+      cloud_run_service_name: "explorer-backend-testnet"
+      docker_image: "${{ needs.env-setup.outputs.BACKEND_IMAGE }}"
+      gcp_project_id: "pagoda-data-stack-prod"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      env_vars: |
+        {
+          \"COMMIT_SHA\": \"GITHUB_SHA\",
+          \"BRANCH": \"$GITHUB_REF_NAME\"
+        }
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_PROD_KEY }}
+
+  deploy-backend-mainnet:
+    uses: ./.github/workflows/gcp-deploy.yml
+    needs:
+      - build-backend
+      - env-setup
+    with:
+      environment_name: "prod-backend-mainnet"
+      cloud_run_service_name: "explorer-backend-mainnet"
+      docker_image: "${{ needs.env-setup.outputs.BACKEND_IMAGE }}"
+      gcp_project_id: "pagoda-data-stack-prod"
+      region: "${{ needs.env-setup.outputs.REGION }}"
+      env_vars: |
+        {
+          \"COMMIT_SHA\": \"GITHUB_SHA\",
+          \"BRANCH\": \"$GITHUB_REF_NAME\"
+        }
+    secrets:
+      service_account_key: ${{ secrets.CI_EXPLORER_UI_SA_PROD_KEY }}

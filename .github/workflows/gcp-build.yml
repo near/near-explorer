@@ -1,0 +1,47 @@
+name: Docker build
+
+on:
+  workflow_call:
+    inputs:
+      dockerfile_path:
+        description: "The path of the Dockerfile to build"
+        required: true
+        type: string
+      image_path:
+        description: "The Docker image path to use"
+        required: true
+        type: string
+      region:
+        description: "The GCP region to use to store the image"
+        required: true
+        type: string
+      pr_number:
+        description: "The Pull Request if exists"
+        required: false
+        type: string
+    secrets:
+      service_account_key:
+        description: "The JSON service account key to use to authenticate to GCP"
+        required: true
+
+jobs:
+  build-push-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout near-explorer"
+
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ inputs.region }}-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.service_account_key }}
+
+      - name: Build Docker image and push to Google Artifact Registry
+        id: docker-push-tagged
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          file: ${{ inputs.dockerfile_path }}
+          tags: ${{ format('{0}:{1}-{2}{3}', inputs.image_path, github.run_attempt, github.sha, (inputs.pr_number == '' && '' || format(',{0}:{1}', inputs.image_path, inputs.pr_number))) }}
