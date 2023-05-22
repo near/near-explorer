@@ -1,10 +1,9 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
 import { validateBase64Image } from "@/backend/router/account/fungible-tokens";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 
@@ -58,11 +57,10 @@ const buildMediaUrl = (
   return `https://cloudflare-ipfs.com/ipfs/${media}`;
 };
 
-export const router = trpc
-  .router<RequestContext>()
-  .query("nonFungibleTokenContracts", {
-    input: z.strictObject({ accountId: validators.accountId }),
-    resolve: async ({ input: { accountId } }) => {
+export const procedures = {
+  nonFungibleTokenContracts: t.procedure
+    .input(z.strictObject({ accountId: validators.accountId }))
+    .query(async ({ input: { accountId } }) => {
       const selection = await indexerDatabase
         .selectFrom("assets__non_fungible_token_events")
         .select("emitted_by_contract_account_id as contractId")
@@ -70,18 +68,17 @@ export const router = trpc
         .where("token_new_owner_account_id", "=", accountId)
         .execute();
       return selection.map((row) => row.contractId);
-    },
-  })
-  .query("nonFungibleTokens", {
-    input: z.strictObject({
-      contractId: validators.accountId,
-      accountId: validators.accountId,
-      limit: validators.limit,
-      cursor: z.number().optional(),
     }),
-    resolve: async ({
-      input: { contractId, accountId, limit, cursor = 0 },
-    }) => {
+  nonFungibleTokens: t.procedure
+    .input(
+      z.strictObject({
+        contractId: validators.accountId,
+        accountId: validators.accountId,
+        limit: validators.limit,
+        cursor: z.number().optional(),
+      })
+    )
+    .query(async ({ input: { contractId, accountId, limit, cursor = 0 } }) => {
       const [nonFungibleTokenContractMetadata, nonFungibleTokenMetadata] =
         await Promise.all([
           nearApi.callViewMethod<NFTContractMetadata>(
@@ -122,11 +119,10 @@ export const router = trpc
         items,
         cursor: lastItem ? lastItem.index + 1 : undefined,
       };
-    },
-  })
-  .query("nonFungibleTokensCount", {
-    input: z.strictObject({ accountId: validators.accountId }),
-    resolve: async ({ input: { accountId } }) => {
+    }),
+  nonFungibleTokensCount: t.procedure
+    .input(z.strictObject({ accountId: validators.accountId }))
+    .query(async ({ input: { accountId } }) => {
       const selection = await indexerDatabase
         .selectFrom("assets__non_fungible_token_events")
         .select("emitted_by_contract_account_id as contractId")
@@ -145,14 +141,15 @@ export const router = trpc
         (acc, count) => acc + parseInt(count, 10),
         0
       );
-    },
-  })
-  .query("nonFungibleTokenHistory", {
-    input: z.strictObject({
-      tokenAuthorAccountId: validators.accountId,
-      tokenId: validators.nonFungibleTokenId,
     }),
-    resolve: async ({ input: { tokenAuthorAccountId, tokenId } }) => {
+  nonFungibleTokenHistory: t.procedure
+    .input(
+      z.strictObject({
+        tokenAuthorAccountId: validators.accountId,
+        tokenId: validators.nonFungibleTokenId,
+      })
+    )
+    .query(async ({ input: { tokenAuthorAccountId, tokenId } }) => {
       const selection = await indexerDatabase
         .selectFrom("assets__non_fungible_token_events")
         .innerJoin("receipts", (qb) =>
@@ -189,5 +186,5 @@ export const router = trpc
         receiptId: element.receiptId,
         timestamp: parseInt(element.timestamp, 10),
       }));
-    },
-  });
+    }),
+};

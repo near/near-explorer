@@ -8,7 +8,7 @@ import ValidatorsList, {
 import { PaginateWrapper } from "@/frontend/components/utils/Pagination";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
 import { Table, OnPageChange } from "@/frontend/components/utils/Table";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const ValidatorNodePagination = styled(PaginateWrapper, {
@@ -30,7 +30,7 @@ const Validators: React.FC = React.memo(() => {
     [setSelectedPageIndex]
   );
 
-  const validatorsSub = useSubscription(["validators"]);
+  const validatorsSub = subscriptions.validators.useSubscription();
 
   if (validatorsSub.status !== "success") {
     return <PaginationSpinner />;

@@ -16,8 +16,8 @@ const TRANSACTIONS_PER_PAGE = 15;
 const TransactionsPage: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Transactions Page");
-  const query = trpc.useInfiniteQuery(
-    ["transaction.listByTimestamp", { limit: TRANSACTIONS_PER_PAGE }],
+  const query = trpc.transaction.listByTimestamp.useInfiniteQuery(
+    { limit: TRANSACTIONS_PER_PAGE },
     { getNextPageParam }
   );
 

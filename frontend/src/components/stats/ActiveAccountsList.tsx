@@ -6,13 +6,13 @@ import { useTranslation } from "next-i18next";
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { truncateAccountId } from "@/frontend/libraries/formatting";
 
 const getOption = (
   title: string,
   xAxisTitle: string,
-  data: TRPCSubscriptionOutput<"activeAccountsList">
+  data: TRPCSubscriptionOutput<"subscriptions.activeAccountsList">
 ) => ({
   title: {
     text: title,
@@ -45,7 +45,8 @@ const getOption = (
 
 const ActiveAccountsList: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const activeAccountsListSub = useSubscription(["activeAccountsList"]);
+  const activeAccountsListSub =
+    subscriptions.activeAccountsList.useSubscription();
 
   const option = React.useMemo(() => {
     if (!activeAccountsListSub.data) {

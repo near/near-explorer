@@ -1,9 +1,8 @@
-import * as trpc from "@trpc/server";
 import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { IndexerDatabase, indexerDatabase } from "@/backend/database/databases";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import {
   Action,
@@ -118,23 +117,26 @@ const getTransactionList = async (
   };
 };
 
-export const router = trpc
-  .router<RequestContext>()
-  .query("listByTimestamp", {
-    input: z.strictObject({
-      limit: validators.limit,
-      cursor: validators.transactionPagination.nullish(),
-    }),
-    resolve: async ({ input: { limit, cursor } }) =>
-      getTransactionList(limit, cursor),
-  })
-  .query("listByAccountId", {
-    input: z.strictObject({
-      accountId: validators.accountId,
-      limit: validators.limit,
-      cursor: validators.transactionPagination.nullish(),
-    }),
-    resolve: async ({ input: { accountId, limit, cursor } }) =>
+export const procedures = {
+  byTimestamp: t.procedure
+    .input(
+      z.strictObject({
+        limit: validators.limit,
+        cursor: validators.transactionPagination.nullish(),
+      })
+    )
+    .query(async ({ input: { limit, cursor } }) =>
+      getTransactionList(limit, cursor)
+    ),
+  byAccountId: t.procedure
+    .input(
+      z.strictObject({
+        accountId: validators.accountId,
+        limit: validators.limit,
+        cursor: validators.transactionPagination.nullish(),
+      })
+    )
+    .query(async ({ input: { accountId, limit, cursor } }) =>
       getTransactionList(limit, cursor, (selection) =>
         selection.where("transaction_hash", "in", (eb) =>
           eb
@@ -143,16 +145,19 @@ export const router = trpc
             .where("predecessor_account_id", "=", accountId)
             .orWhere("receiver_account_id", "=", accountId)
         )
-      ),
-  })
-  .query("listByBlockHash", {
-    input: z.strictObject({
-      blockHash: validators.blockHash,
-      limit: validators.limit,
-      cursor: validators.transactionPagination.nullish(),
-    }),
-    resolve: async ({ input: { blockHash, limit, cursor } }) =>
+      )
+    ),
+  byBlockHash: t.procedure
+    .input(
+      z.strictObject({
+        blockHash: validators.blockHash,
+        limit: validators.limit,
+        cursor: validators.transactionPagination.nullish(),
+      })
+    )
+    .query(async ({ input: { blockHash, limit, cursor } }) =>
       getTransactionList(limit, cursor, (selection) =>
         selection.where("included_in_block_hash", "=", blockHash)
-      ),
-  });
+      )
+    ),
+};

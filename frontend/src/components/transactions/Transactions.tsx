@@ -1,13 +1,10 @@
 import * as React from "react";
 
+import type * as ReactQuery from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
-import * as ReactQuery from "react-query";
 
-import {
-  TransactionPreview,
-  TransactionListResponse,
-} from "@/common/types/procedures";
-import { TRPCError } from "@/common/types/trpc";
+import { TransactionListResponse } from "@/common/types/procedures";
+import { TRPCInfiniteQueryResult } from "@/common/types/trpc";
 import TransactionAction from "@/frontend/components/transactions/TransactionAction";
 import FlipMove from "@/frontend/components/utils/FlipMove";
 import ListHandler from "@/frontend/components/utils/ListHandler";
@@ -20,7 +17,11 @@ export const getNextPageParam: ReactQuery.GetNextPageParamFunction<
 const parser = (result: TransactionListResponse) => result.items;
 
 interface Props {
-  query: ReactQuery.UseInfiniteQueryResult<TransactionListResponse, TRPCError>;
+  query: TRPCInfiniteQueryResult<
+    | "transaction.listByAccountId"
+    | "transaction.listByTimestamp"
+    | "transaction.listByBlockHash"
+  >;
 }
 
 const Transactions: React.FC<Props> = React.memo(({ query }) => {
@@ -31,7 +32,7 @@ const Transactions: React.FC<Props> = React.memo(({ query }) => {
       | "transaction.listByAccountId"
       | "transaction.listByTimestamp"
       | "transaction.listByBlockHash",
-      TransactionPreview
+      TransactionListResponse["items"][number]
     >
       query={query}
       parser={parser}

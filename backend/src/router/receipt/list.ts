@@ -1,4 +1,3 @@
-import * as trpc from "@trpc/server";
 import { SelectQueryBuilder } from "kysely";
 import {
   TableExpressionDatabase,
@@ -6,8 +5,8 @@ import {
 } from "kysely/dist/cjs/parser/table-parser";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { IndexerDatabase, indexerDatabase } from "@/backend/database/databases";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import {
   Action,
@@ -123,30 +122,29 @@ const groupReceiptActionsIntoReceipts = (
     acc[acc.length - 1].actions.push(mapForceDatabaseActionToAction(action));
     return acc;
   }, []);
-export const router = trpc
-  .router<RequestContext>()
-  // As a temporary solution we split receipts list into two lists:
-  // included in block and executed in block
-  // more info here https://github.com/near/near-explorer/pull/868
-  .query("listIncludedByBlockHash", {
-    input: z.strictObject({ blockHash: validators.blockHash }),
-    resolve: async ({ input: { blockHash } }) => {
+
+// As a temporary solution we split receipts list into two lists:
+// included in block and executed in block
+// more info here https://github.com/near/near-explorer/pull/868
+export const procedures = {
+  listIncludedByBlockHash: t.procedure
+    .input(z.strictObject({ blockHash: validators.blockHash }))
+    .query(async ({ input: { blockHash } }) => {
       const receiptActions = await getReceiptActions((selection) =>
         selection
           .orderBy("included_in_block_hash")
           .where("included_in_block_hash", "=", blockHash)
       );
       return groupReceiptActionsIntoReceipts(receiptActions);
-    },
-  })
-  .query("listExecutedByBlockHash", {
-    input: z.strictObject({ blockHash: validators.blockHash }),
-    resolve: async ({ input: { blockHash } }) => {
+    }),
+  listExecutedByBlockHash: t.procedure
+    .input(z.strictObject({ blockHash: validators.blockHash }))
+    .query(async ({ input: { blockHash } }) => {
       const receiptActions = await getReceiptActions((selection) =>
         selection
           .orderBy("execution_outcomes.shard_id")
           .where("executed_in_block_hash", "=", blockHash)
       );
       return groupReceiptActionsIntoReceipts(receiptActions);
-    },
-  });
+    }),
+};

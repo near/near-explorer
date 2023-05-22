@@ -1,7 +1,5 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
+import { procedure as byId } from "./by-id";
 
-import { router as byIdRouter } from "./by-id";
-
-export const router = trpc.router<RequestContext>().merge(byIdRouter);
+export const router = t.router({ byId });

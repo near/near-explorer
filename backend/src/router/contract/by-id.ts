@@ -1,13 +1,12 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import {
   analyticsDatabase,
   Indexer,
   indexerDatabase,
 } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 
@@ -110,9 +109,9 @@ const queryContractInfo = async (accountId: string) => {
   }
 };
 
-export const router = trpc.router<RequestContext>().query("byId", {
-  input: z.strictObject({ id: validators.accountId }),
-  resolve: async ({ input: { id } }) => {
+export const procedure = t.procedure
+  .input(z.strictObject({ id: validators.accountId }))
+  .query(async ({ input: { id } }) => {
     const account = await nearApi
       .sendJsonRpcQuery("view_account", {
         finality: "final",
@@ -145,5 +144,4 @@ export const router = trpc.router<RequestContext>().query("byId", {
       timestamp: parseInt(contractInfo.timestamp, 10),
       locked,
     };
-  },
-});
+  });

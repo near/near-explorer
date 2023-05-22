@@ -33,12 +33,9 @@ const BlockDetail = React.memo<{ hash: string }>(({ hash }) => {
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: hash,
   });
-  const blockQuery = trpc.useQuery(["block.byId", { hash }]);
-  const query = trpc.useInfiniteQuery(
-    [
-      "transaction.listByBlockHash",
-      { blockHash: hash, limit: TRANSACTIONS_PER_PAGE },
-    ],
+  const blockQuery = trpc.block.byId.useQuery({ hash });
+  const query = trpc.transaction.listByBlockHash.useInfiniteQuery(
+    { blockHash: hash, limit: TRANSACTIONS_PER_PAGE },
     { getNextPageParam }
   );
 
@@ -57,7 +54,7 @@ const BlockDetail = React.memo<{ hash: string }>(({ hash }) => {
         }
         border={false}
       >
-        {blockQuery.status === "loading" || blockQuery.status === "idle" ? (
+        {blockQuery.status === "loading" ? (
           t("page.blocks.error.block_fetching")
         ) : blockQuery.status === "error" ? (
           <ErrorMessage onRetry={blockQuery.refetch}>
@@ -120,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<
       context.query,
       context.req.headers.host
     );
-    const block = await getTrpcClient(networkName).query("block.byId", {
+    const block = await getTrpcClient(networkName).block.byId.query({
       height: Number(hashOrHeight),
     });
     if (!block) {

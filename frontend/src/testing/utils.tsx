@@ -1,10 +1,11 @@
 import * as React from "react";
 
+import * as ReactQuery from "@tanstack/react-query";
+import { httpLink } from "@trpc/client";
 import fetch from "isomorphic-fetch";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 import { setI18n } from "react-i18next";
-import * as ReactQuery from "react-query";
 import renderer, {
   ReactTestRenderer,
   TestRendererOptions,
@@ -59,8 +60,7 @@ export const renderElement = (
   let root: ReactTestRenderer;
   const queryClient = new ReactQuery.QueryClient();
   const client = trpc.createClient({
-    url: "http://localhost/",
-    fetch,
+    links: [httpLink({ url: "http://localhost/", fetch })],
   });
   setCachedDateLocale("cimode", global.cachedLocale);
   renderer.act(() => {

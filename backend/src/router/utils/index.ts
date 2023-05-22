@@ -1,15 +1,13 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
+import { procedure as deployInfo } from "./deploy";
+import { procedure as protocolVersion } from "./protocol";
+import { procedure as search } from "./search";
+import { procedure as subscriptionsCache } from "./subscriptions";
 
-import { router as deployRouter } from "./deploy";
-import { router as protocolRouter } from "./protocol";
-import { router as searchRouter } from "./search";
-import { router as subscriptionsRouter } from "./subscriptions";
-
-export const router = trpc
-  .router<RequestContext>()
-  .merge(protocolRouter)
-  .merge(deployRouter)
-  .merge(searchRouter)
-  .merge(subscriptionsRouter);
+export const router = t.router({
+  protocolVersion,
+  deployInfo,
+  search,
+  subscriptionsCache,
+});

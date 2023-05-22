@@ -168,15 +168,12 @@ const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
       [setSelectedId]
     );
 
-    const query = trpc.useInfiniteQuery(
-      [
-        "account.nonFungibleTokens",
-        {
-          contractId: contract,
-          accountId,
-          limit: TOKENS_PER_PAGE,
-        },
-      ],
+    const query = trpc.account.nonFungibleTokens.useInfiniteQuery(
+      {
+        contractId: contract,
+        accountId,
+        limit: TOKENS_PER_PAGE,
+      },
       {
         getNextPageParam: (lastPage) => lastPage.cursor,
       }
@@ -189,7 +186,7 @@ const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
         ) : (
           <ListHandler<
             "account.nonFungibleTokens",
-            ReturnType<typeof parser>[number]
+            TRPCInfiniteQueryOutput<"account.nonFungibleTokens">["items"][number]
           >
             query={query}
             parser={parser}
@@ -224,11 +221,10 @@ const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
       (contract: string) => React.MouseEventHandler
     >((contract) => () => setContract(contract), [setContract]);
 
-    const contractQuery = trpc.useQuery([
-      "account.nonFungibleTokenContracts",
-      { accountId: options.accountId },
-    ]);
-    if (contractQuery.status === "loading" || contractQuery.status === "idle") {
+    const contractQuery = trpc.account.nonFungibleTokenContracts.useQuery({
+      accountId: options.accountId,
+    });
+    if (contractQuery.status === "loading") {
       return (
         <Wrapper>
           <Spinner animation="border" />

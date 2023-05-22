@@ -11,7 +11,7 @@ import {
   InfoCardCell as Cell,
 } from "@/frontend/components/utils/InfoCard";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -36,15 +36,14 @@ const BalanceSuffix = styled("span", {
 
 const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const epochStartBlockSub = useSubscription(["epochStartBlock"]);
-  const protocolConfigSub = useSubscription(["protocolConfig"]);
+  const epochStartBlockSub = subscriptions.epochStartBlock.useSubscription();
+  const protocolConfigSub = subscriptions.protocolConfig.useSubscription();
 
-  const genesisConfigSub = useSubscription(["genesisConfig"]);
+  const genesisConfigSub = subscriptions.genesisConfig.useSubscription();
 
-  const lastAccountsHistorySub = useSubscription([
-    "accountsHistory",
-    { amountOfDays: 1 },
-  ]);
+  const lastAccountsHistorySub = subscriptions.accountsHistory.useSubscription({
+    amountOfDays: 1,
+  });
   const lastDateLiveAccountsCount =
     lastAccountsHistorySub.data?.liveAccounts[0]?.[1];
 

@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 
 import ProgressBar from "@/frontend/components/utils/ProgressBar";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const NodesEpochContent = styled(Col, {
@@ -42,11 +42,11 @@ const NodesEpochCircleProgressLabel = styled("span", {
 
 const NodesEpoch = React.memo(() => {
   const { t } = useTranslation();
-  const latestBlockSub = useSubscription(["latestBlock"]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
   const format = useDateFormat();
 
-  const protocolConfigSub = useSubscription(["protocolConfig"]);
-  const epochStartBlockSub = useSubscription(["epochStartBlock"]);
+  const protocolConfigSub = subscriptions.protocolConfig.useSubscription();
+  const epochStartBlockSub = subscriptions.epochStartBlock.useSubscription();
   if (
     latestBlockSub.status !== "success" ||
     epochStartBlockSub.status !== "success" ||

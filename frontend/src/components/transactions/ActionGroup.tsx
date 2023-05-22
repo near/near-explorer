@@ -6,7 +6,7 @@ import ActionRowBlock, {
   ViewMode,
 } from "@/frontend/components/transactions/ActionRowBlock";
 import ActionsList from "@/frontend/components/transactions/ActionsList";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import BatchTransactionIcon from "@/frontend/public/static/images/icon-m-batch.svg";
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
 
 const ActionGroup: React.FC<Props> = React.memo(
   ({ actionGroup, detailsLink, status, viewMode, title, icon }) => {
-    const latestBlockSub = useSubscription(["latestBlock"]);
+    const latestBlockSub = subscriptions.latestBlock.useSubscription();
 
     if (!actionGroup?.actions) return null;
 

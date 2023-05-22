@@ -19,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
       return respondNetworkOffline(res, networkName);
     }
 
-    await getTrpcClient(networkName).mutation("telemetry.upsert", {
+    await getTrpcClient(networkName).telemetry.upsert.mutate({
       ...req.body,
       ipAddress,
     });

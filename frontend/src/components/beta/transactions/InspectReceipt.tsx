@@ -61,14 +61,16 @@ const getGasAttached = (actions: Action[]): JSBI => {
 
 const InspectReceipt: React.FC<Props> = React.memo(
   ({ receipt: { id, ...receipt } }) => {
-    const { data: predecessorBalance } = trpc.useQuery([
-      "transaction.accountBalanceChange",
-      { accountId: receipt.predecessorId, receiptId: id },
-    ]);
-    const { data: receiverBalance } = trpc.useQuery([
-      "transaction.accountBalanceChange",
-      { accountId: receipt.receiverId, receiptId: id },
-    ]);
+    const { data: predecessorBalance } =
+      trpc.transaction.accountBalanceChange.useQuery({
+        accountId: receipt.predecessorId,
+        receiptId: id,
+      });
+    const { data: receiverBalance } =
+      trpc.transaction.accountBalanceChange.useQuery({
+        accountId: receipt.receiverId,
+        receiptId: id,
+      });
 
     const gasAttached = getGasAttached(receipt.actions);
     const refund =

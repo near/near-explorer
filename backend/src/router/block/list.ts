@@ -1,18 +1,19 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
 import { count, div } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import { millisecondsToNanoseconds } from "@/backend/utils/bigint";
 
-export const router = trpc.router<RequestContext>().query("list", {
-  input: z.strictObject({
-    limit: validators.limit,
-    cursor: validators.blockPagination.nullish(),
-  }),
-  resolve: async ({ input: { limit, cursor } }) => {
+export const procedure = t.procedure
+  .input(
+    z.strictObject({
+      limit: validators.limit,
+      cursor: validators.blockPagination.nullish(),
+    })
+  )
+  .query(async ({ input: { limit, cursor } }) => {
     const selection = await indexerDatabase
       .selectFrom((eb) => {
         let innerSelection = eb.selectFrom("blocks").select("block_hash");
@@ -58,5 +59,4 @@ export const router = trpc.router<RequestContext>().query("list", {
       prevHash: selectionRow.prevHash!,
       transactionsCount: parseInt(selectionRow.transactionsCount, 10),
     }));
-  },
-});
+  });

@@ -15,10 +15,10 @@ const handler: NextApiHandler = async (req, res) => {
       return respondNetworkOffline(res, networkName);
     }
     const trpcClient = getTrpcClient(networkName);
-    const rpcFinalBlock = await trpcClient.query("block.final", {
+    const rpcFinalBlock = await trpcClient.block.final.query({
       source: "rpc",
     });
-    const indexerFinalBlock = await trpcClient.query("block.final", {
+    const indexerFinalBlock = await trpcClient.block.final.query({
       source: "indexer",
     });
 

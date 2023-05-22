@@ -8,14 +8,14 @@ import { Tabs, Tab } from "react-bootstrap";
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 
 const getOption = (
   title: string,
   seriesName: string,
   data:
-    | TRPCSubscriptionOutput<"activeAccountsHistory">["byDay"]
-    | TRPCSubscriptionOutput<"activeAccountsHistory">["byWeek"]
+    | TRPCSubscriptionOutput<"subscriptions.activeAccountsHistory">["byDay"]
+    | TRPCSubscriptionOutput<"subscriptions.activeAccountsHistory">["byWeek"]
 ) => ({
   title: {
     text: title,
@@ -91,7 +91,8 @@ const getOption = (
 
 const ActiveAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const activeAccountsHistorySub = useSubscription(["activeAccountsHistory"]);
+  const activeAccountsHistorySub =
+    subscriptions.activeAccountsHistory.useSubscription();
 
   const options = React.useMemo(() => {
     if (!activeAccountsHistorySub.data) {

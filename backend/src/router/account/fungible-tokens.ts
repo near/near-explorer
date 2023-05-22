@@ -1,8 +1,7 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { FungibleTokenMetadata } from "@/backend/router/fungible-tokens";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 import { notNullishGuard } from "@/common/utils/utils";
@@ -17,15 +16,16 @@ export const validateBase64Image = (
   return base64ImageRegex.test(base64Image) ? base64Image : null;
 };
 
-export const router = trpc
-  .router<RequestContext>()
-  .query("fungibleTokens", {
-    input: z.strictObject({
-      accountId: validators.accountId,
-    }),
-    resolve: async ({ input: { accountId } }) => {
+export const procedures = {
+  fungibleTokens: t.procedure
+    .input(
+      z.strictObject({
+        accountId: validators.accountId,
+      })
+    )
+    .query(async ({ input: { accountId } }) => {
       // TODO: add data from Enhanced API
-      const selection: any[] = [];
+      const selection: { contractId: string }[] = [];
       const contractIds = selection.map((row) => row.contractId);
       const tokens = await Promise.all(
         contractIds.map(async (contractId) => {
@@ -55,16 +55,25 @@ export const router = trpc
         })
       );
       return tokens.filter(notNullishGuard);
-    },
-  })
-  .query("fungibleTokenHistory", {
-    input: z.strictObject({
-      accountId: validators.accountId,
-      tokenAuthorAccountId: validators.accountId,
     }),
-    resolve: async ({ input: { accountId, tokenAuthorAccountId } }) => {
+  fungibleTokenHistory: t.procedure
+    .input(
+      z.strictObject({
+        accountId: validators.accountId,
+        tokenAuthorAccountId: validators.accountId,
+      })
+    )
+    .query(async ({ input: { accountId, tokenAuthorAccountId } }) => {
       // TODO: add data from Enhanced API
-      const elements: any[] = [];
+      const elements: {
+        amount: string;
+        prevAccountId: string;
+        nextAccountId: string;
+        receiptId: string;
+        timestamp: string;
+        transactionHash: string;
+        blockHeight: string;
+      }[] = [];
       const baseAmount = await nearApi.callViewMethod<string>(
         tokenAuthorAccountId,
         "ft_balance_of",
@@ -85,5 +94,5 @@ export const router = trpc
           timestamp: parseInt(element.timestamp, 10),
         })),
       };
-    },
-  });
+    }),
+};

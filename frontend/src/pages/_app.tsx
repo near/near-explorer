@@ -1,19 +1,19 @@
 import "@/frontend/libraries/wdyr";
 import * as React from "react";
 
-import { TRPCLink } from "@trpc/client";
-import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
-import { splitLink } from "@trpc/client/links/splitLink";
-import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { withTRPC } from "@trpc/next";
 import Gleap from "gleap";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
-import { AppPropsType, AppType } from "next/dist/shared/lib/utils";
+import {
+  AppPropsType,
+  AppType,
+  NextPageContext,
+} from "next/dist/shared/lib/utils";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import { appWithTranslation, SSRConfig } from "next-i18next";
-import { ReactQueryDevtools } from "react-query/devtools";
 
 import type { AppRouter } from "@/backend/router";
 import { NetworkName } from "@/common/types/common";
@@ -60,6 +60,7 @@ import {
 import { globalCss, styled } from "@/frontend/libraries/styles";
 import { MINUTE, YEAR } from "@/frontend/libraries/time";
 import { getBackendUrl } from "@/frontend/libraries/transport";
+import { getLinks } from "@/frontend/libraries/trpc";
 
 const globalStyles = globalCss({
   body: {
@@ -356,33 +357,7 @@ App.getInitialProps = async (appContext) => {
   };
 };
 
-const getLinks = (
-  endpointUrl: string,
-  wsUrl: string
-): TRPCLink<AppRouter>[] => {
-  if (typeof window === "undefined") {
-    return [
-      httpBatchLink({
-        url: endpointUrl,
-      }),
-    ];
-  }
-  return [
-    splitLink({
-      condition: (op) => op.type === "subscription",
-      true: wsLink<AppRouter>({
-        client: createWSClient({
-          url: wsUrl,
-        }),
-      }),
-      false: httpBatchLink({
-        url: endpointUrl,
-      }),
-    }),
-  ];
-};
-
-export default withTRPC<AppRouter, ExtraAppInitialProps>({
+export default withTRPC<AppRouter, NextPageContext, ExtraAppInitialProps>({
   config: (info) => {
     let networkName =
       "props" in info

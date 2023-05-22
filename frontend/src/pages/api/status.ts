@@ -13,7 +13,7 @@ const handler: NextApiHandler = async (req, res) => {
     if (isNetworkOffline(networkName)) {
       return respondNetworkOffline(res, networkName);
     }
-    await getTrpcClient(networkName).query("utils.protocolVersion");
+    await getTrpcClient(networkName).utils.protocolVersion.query();
   } catch (error) {
     res.status(502).send(error);
     return;

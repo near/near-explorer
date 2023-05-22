@@ -51,10 +51,9 @@ export interface Props {
 
 const AccountRow: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const balanceQuery = trpc.useQuery([
-    "account.nonStakedBalance",
-    { id: account.id },
-  ]);
+  const balanceQuery = trpc.account.nonStakedBalance.useQuery({
+    id: account.id,
+  });
   const format = useDateFormat();
 
   return (
@@ -90,8 +89,7 @@ const AccountRow: React.FC<Props> = React.memo(({ account }) => {
             <>
               {balanceQuery.status === "success" ? (
                 <Balance amount={balanceQuery.data} />
-              ) : balanceQuery.status === "loading" ||
-                balanceQuery.status === "idle" ? (
+              ) : balanceQuery.status === "loading" ? (
                 <Spinner animation="border" />
               ) : (
                 <ErrorMessage onRetry={balanceQuery.refetch}>

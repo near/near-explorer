@@ -1,10 +1,8 @@
 import * as trpc from "@trpc/server";
-import type { HTTPBaseHandlerOptions } from "@trpc/server/dist/declarations/src/http/internals/types";
-import type http from "http";
 import { ZodError } from "zod";
 import { generateErrorMessage, ErrorMessageOptions } from "zod-error";
 
-import type { AppRouter } from "@/backend/router";
+import { WebsocketRouterOptions } from "@/backend/server";
 
 const errorOptions: ErrorMessageOptions = {
   delimiter: {
@@ -47,10 +45,13 @@ const logError = (
 
 const ZOD_ERROR_CAUSE = "Zod validation error";
 
-export const onError: HTTPBaseHandlerOptions<
-  AppRouter,
-  http.IncomingMessage
->["onError"] = ({ error, ctx, type, path, input }) => {
+export const onError: WebsocketRouterOptions["onError"] = ({
+  error,
+  ctx,
+  type,
+  path,
+  input,
+}) => {
   if (!ctx) {
     return;
   }
@@ -62,6 +63,7 @@ export const onError: HTTPBaseHandlerOptions<
       message,
       cause: ZOD_ERROR_CAUSE,
     });
+    // @ts-ignore
   } else if (error.cause !== ZOD_ERROR_CAUSE) {
     logError(error.code, type, path, error.message, input, error.stack);
   }

@@ -36,11 +36,8 @@ type TransactionProps = {
 };
 
 const AccountTransactions = React.memo<TransactionProps>(({ accountId }) => {
-  const transactionsQuery = trpc.useInfiniteQuery(
-    [
-      "transaction.listByAccountId",
-      { accountId, limit: TRANSACTIONS_PER_PAGE },
-    ],
+  const transactionsQuery = trpc.transaction.listByAccountId.useInfiniteQuery(
+    { accountId, limit: TRANSACTIONS_PER_PAGE },
     { getNextPageParam }
   );
   return <Transactions query={transactionsQuery} />;
@@ -54,7 +51,6 @@ const InnerAccountDetail = React.memo<QueryProps>(({ query }) => {
   const { t } = useTranslation();
   switch (query.status) {
     case "loading":
-    case "idle":
       return <Spinner animation="border" />;
     case "success":
       if (!query.data) {
@@ -88,7 +84,7 @@ const AccountDetail = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Individual Account", {
     accountId,
   });
-  const accountQuery = trpc.useQuery(["account.byIdOld", { id: accountId }]);
+  const accountQuery = trpc.account.byIdOld.useQuery({ id: accountId });
 
   return (
     <>

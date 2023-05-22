@@ -10,7 +10,7 @@ import Link from "@/frontend/components/utils/Link";
 import LongCardCell from "@/frontend/components/utils/LongCardCell";
 import Term from "@/frontend/components/utils/Term";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const TransactionCardNumber = styled(Row, {
@@ -21,10 +21,9 @@ const TransactionCardNumber = styled(Row, {
 
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const recentTransactionsCountSub = useSubscription([
-    "recentTransactionsCount",
-  ]);
-  const latestGasPriceSub = useSubscription(["latestGasPrice"]);
+  const recentTransactionsCountSub =
+    subscriptions.recentTransactionsCount.useSubscription();
+  const latestGasPriceSub = subscriptions.latestGasPrice.useSubscription();
   const formatNumber = useFormatNumber();
 
   return (

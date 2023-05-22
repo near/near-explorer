@@ -7,13 +7,13 @@ import { useTranslation } from "next-i18next";
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const getOption = (
   totalTokenSupplyHeader: string,
   circulatingTokenSupplyHeader: string,
-  data: TRPCSubscriptionOutput<"tokensSupply">
+  data: TRPCSubscriptionOutput<"subscriptions.tokensSupply">
 ) => ({
   tooltip: {
     trigger: "axis",
@@ -148,7 +148,7 @@ const SupplySubHeader = styled("div", {
 
 const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const tokensSupplySub = useSubscription(["tokensSupply"]);
+  const tokensSupplySub = subscriptions.tokensSupply.useSubscription();
 
   const option = React.useMemo(() => {
     if (!tokensSupplySub.data) {

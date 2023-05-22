@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
-    "@trpc/server": "^9.27.4",
+    "@trpc/server": "^10.26.0",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
     "dotenv-cli": "^5.0.0",
@@ -43,7 +43,6 @@
     "near-api-js": "^0.44.1",
     "pg": "^8.7.3",
     "ts-node": "^10.4.0",
-    "tsafe": "^0.10.0",
     "tsconfig-paths": "^4.1.2",
     "ws": "^8.6.0",
     "zod": "^3.16.0",

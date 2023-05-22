@@ -9,7 +9,7 @@ import Link from "@/frontend/components/utils/Link";
 import LongCardCell from "@/frontend/components/utils/LongCardCell";
 import Term from "@/frontend/components/utils/Term";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const ElementWrapper = styled("div", {
@@ -23,8 +23,9 @@ const ElementWrapper = styled("div", {
 
 const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const latestBlockSub = useSubscription(["latestBlock"]);
-  const blockProductionSpeedSub = useSubscription(["blockProductionSpeed"]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
+  const blockProductionSpeedSub =
+    subscriptions.blockProductionSpeed.useSubscription();
   const formatNumber = useFormatNumber();
 
   return (

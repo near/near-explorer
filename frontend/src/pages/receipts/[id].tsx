@@ -41,10 +41,9 @@ export const getServerSideProps: GetServerSideProps<
     return { props: {} };
   }
   const networkName = getNearNetworkName(query, req.headers.host);
-  const transactionHash = await getTrpcClient(networkName).query(
-    "receipt.getTransactionHash",
-    { id: receiptId }
-  );
+  const transactionHash = await getTrpcClient(
+    networkName
+  ).receipt.getTransactionHash.query({ id: receiptId });
   if (!transactionHash) {
     return { props: {} };
   }

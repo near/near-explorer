@@ -1,16 +1,15 @@
-import * as trpc from "@trpc/server";
 import geoip from "geoip-lite";
 
-import { RequestContext } from "@/backend/context";
 import {
   extraPool,
   telemetryWriteDatabase,
 } from "@/backend/database/databases";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const router = trpc.router<RequestContext>().mutation("upsert", {
-  input: validators.telemetryRequest,
-  resolve: async ({ input: nodeInfo }) => {
+export const procedure = t.procedure
+  .input(validators.telemetryRequest)
+  .mutation(async ({ input: nodeInfo }) => {
     if (!("agent" in nodeInfo)) {
       // This seems to be an old format, and all our nodes should support the new
       // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
@@ -97,5 +96,4 @@ export const router = trpc.router<RequestContext>().mutation("upsert", {
     const compiled = query.compile();
     // TODO: figure out why raw query run faster than kysely query
     await extraPool.query(compiled.sql, compiled.parameters as any);
-  },
-});
+  });

@@ -8,11 +8,13 @@ export interface Props {
   children?: React.ReactNode;
 }
 
+const FixedFlipMove = FlipMove as unknown as React.FC<FlipMove.FlipMoveProps>;
+
 const FlipMoveEx: React.FC<Props> = React.memo(({ children, ...props }) => {
   if (typeof document === "undefined" || document.hidden) {
     return <div>{children}</div>;
   }
-  return <FlipMove {...props}>{children}</FlipMove>;
+  return <FixedFlipMove {...props}>{children}</FixedFlipMove>;
 });
 
 export default FlipMoveEx;

@@ -17,7 +17,7 @@ import GasPrice from "@/frontend/components/utils/GasPrice";
 import Term from "@/frontend/components/utils/Term";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const BlockInfoContainer = styled(Col, {
@@ -55,7 +55,7 @@ export interface Props {
 
 const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
-  const latestBlockSub = useSubscription(["latestBlock"]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
   const gasUsed = React.useMemo(
     () => JSBI.BigInt(block.gasUsed),
     [block.gasUsed]

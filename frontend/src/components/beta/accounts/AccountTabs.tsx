@@ -42,10 +42,9 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
           account.transactionsQuantity.toString(),
           6
         );
-  const collectiblesCount = trpc.useQuery([
-    "account.nonFungibleTokensCount",
-    { accountId: options.accountId },
-  ]);
+  const collectiblesCount = trpc.account.nonFungibleTokensCount.useQuery({
+    accountId: options.accountId,
+  });
 
   const collectiblesQuantity = collectiblesCount.data
     ? formatToPowerOfTen<BasicDecimalPower>(

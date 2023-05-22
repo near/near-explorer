@@ -1,12 +1,11 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import {
   indexerActivityDatabase,
   indexerDatabase,
 } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import {
   Action,
@@ -483,13 +482,15 @@ const getTransactionsByHashes = async (
   }, new Map<string, TransactionPreview>());
 };
 
-export const router = trpc.router<RequestContext>().query("activity", {
-  input: z.strictObject({
-    accountId: validators.accountId,
-    limit: validators.limit,
-    cursor: validators.accountActivityCursor.optional(),
-  }),
-  resolve: async ({ input }) => {
+export const procedure = t.procedure
+  .input(
+    z.strictObject({
+      accountId: validators.accountId,
+      limit: validators.limit,
+      cursor: validators.accountActivityCursor.optional(),
+    })
+  )
+  .query(async ({ input }) => {
     const changes = await queryBalanceChanges(
       input.accountId,
       input.limit,
@@ -537,5 +538,4 @@ export const router = trpc.router<RequestContext>().query("activity", {
           }
         : undefined,
     };
-  },
-});
+  });

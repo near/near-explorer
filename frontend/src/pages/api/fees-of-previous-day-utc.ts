@@ -14,10 +14,9 @@ const handler: NextApiHandler = async (req, res) => {
     if (isNetworkOffline(networkName)) {
       return respondNetworkOffline(res, networkName);
     }
-    const feeCountPerDay = await getTrpcClient(networkName).query(
-      "stats.tokensBurnt",
-      { daysFromNow: 1 }
-    );
+    const feeCountPerDay = await getTrpcClient(
+      networkName
+    ).stats.tokensBurnt.query({ daysFromNow: 1 });
     if (!feeCountPerDay) {
       res.status(500).end();
       return;

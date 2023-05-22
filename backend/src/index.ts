@@ -4,7 +4,7 @@ import { config } from "@/backend/config";
 import { Context } from "@/backend/context";
 import { runTasks } from "@/backend/cron";
 import { initGlobalState } from "@/backend/global-state";
-import { AppRouter, router } from "@/backend/router";
+import { AppRouter, appRouter } from "@/backend/router";
 import {
   connectWebsocketServer,
   createApp,
@@ -14,7 +14,7 @@ import {
 import { onError } from "@/backend/utils/error";
 import { setupTelemetryDb } from "@/backend/utils/telemetry";
 
-async function main(appRouter: AppRouter): Promise<void> {
+async function main(indexRouter: AppRouter): Promise<void> {
   // eslint-disable-next-line no-console
   console.log("Starting Explorer backend...");
   const context: Context = {
@@ -28,7 +28,7 @@ async function main(appRouter: AppRouter): Promise<void> {
   // Therefore we set max listeners to limit to infinity
   context.subscriptionsEventEmitter.setMaxListeners(0);
   const trpcOptions: RouterOptions & WebsocketRouterOptions = {
-    router: appRouter,
+    router: indexRouter,
     createContext: ({ req, res }) => ({ ...context, req, res }),
     onError,
   };
@@ -79,4 +79,4 @@ async function main(appRouter: AppRouter): Promise<void> {
   console.log("Explorer backend started");
 }
 
-void main(router);
+void main(appRouter);

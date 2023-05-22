@@ -1,16 +1,20 @@
 import * as React from "react";
 
-import * as ReactQuery from "react-query";
+import * as ReactQuery from "@tanstack/react-query";
+import { createRecursiveProxy } from "@trpc/server/shared";
 
 import { StableOmit } from "@/common/types/common";
 import {
   TRPCError,
-  TRPCSubscriptionInputs,
+  TRPCSubscriptionInput,
   TRPCSubscriptionKey,
   TRPCSubscriptionOutput,
 } from "@/common/types/trpc";
 import { noop } from "@/common/utils/utils";
-import { subscribe } from "@/frontend/libraries/subscriptions";
+import {
+  TRPCShortSubscriptionKey,
+  getSubscriber,
+} from "@/frontend/libraries/subscriptions";
 import { trpc } from "@/frontend/libraries/trpc";
 
 export type UseSubscriptionResult<R> = StableOmit<
@@ -30,37 +34,46 @@ export type UseSubscriptionResult<R> = StableOmit<
   refetch: () => void;
 };
 
+type SubscriptionOpts = {
+  enabled?: boolean;
+};
+
 export type UseSubscriptionResultByTopic<
   TPath extends TRPCSubscriptionKey & string
 > = UseSubscriptionResult<TRPCSubscriptionOutput<TPath>>;
 
-const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
-  pathAndInput: [path: TPath, ...args: TRPCSubscriptionInputs<TPath>],
-  opts?: {
-    enabled?: boolean;
-  }
-): UseSubscriptionResultByTopic<TPath> => {
+const useSubscriptionClient = <K extends TRPCShortSubscriptionKey>(
+  key: K,
+  input: TRPCSubscriptionInput<`subscriptions.${K}`>,
+  opts?: SubscriptionOpts
+): UseSubscriptionResultByTopic<`subscriptions.${K}`> => {
   const enabled = opts?.enabled ?? true;
-  const queryKey = ReactQuery.hashQueryKey(pathAndInput);
   const trpcContext = trpc.useContext();
 
+  const cachedInput = JSON.stringify(input);
   // We're getting prefetched and dehydrated data from query (see above)
-  const cachedData = trpcContext.getQueryData(
-    pathAndInput as any
-  ) as TRPCSubscriptionOutput<TPath>;
+  const getCachedData = React.useCallback(
+    () =>
+      trpcContext.queries[key].getData(input as undefined) as
+        | TRPCSubscriptionOutput<`subscriptions.${K}`>
+        | undefined,
+    // We don't want to pass raw input here, because it's not usually memoized outside
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [trpcContext, key, cachedInput]
+  );
   const [value, setValue] = React.useState<
-    TRPCSubscriptionOutput<TPath> | undefined
-  >(() => cachedData);
+    TRPCSubscriptionOutput<`subscriptions.${K}`> | undefined
+  >(getCachedData);
   const [dataUpdatedAt, setDataUpdatedAt] = React.useState(0);
   const [errorUpdatedAt, setErrorUpdatedAt] = React.useState(0);
-  const [loading, setLoading] = React.useState(() => !cachedData);
+  const [loading, setLoading] = React.useState(() => !getCachedData());
   const [error, setError] = React.useState<TRPCError | null>(null);
   const [resubscribe, setResubscribe] = React.useState<() => void>();
   React.useEffect(() => {
     if (!enabled) {
       return;
     }
-    const subscribeResult = subscribe(trpcContext.client, pathAndInput, [
+    const subscribeResult = getSubscriber(trpcContext, key, input, [
       (nextValue) => {
         setLoading(false);
         setError(null);
@@ -76,12 +89,17 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
     subscribeResult.subscribe();
     setResubscribe(() => subscribeResult.resubscribe);
     return subscribeResult.unsubscribe;
-    // queryKey substitutes pathAndInput here
+    // We don't want to pass raw input here, because it's not usually memoized outside
+    // Also, trpcContext is changed every render (TODO: create an issue in trpc repo)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryKey, enabled, trpcContext.client, setResubscribe]);
+  }, [key, cachedInput, enabled, setResubscribe]);
   const base = {
     dataUpdatedAt,
     errorUpdatedAt,
+    fetchStatus: "idle" as const,
+    failureReason: null,
+    isInitialLoading: false,
+    isPaused: false,
     refetch: resubscribe || noop,
   };
   if (loading) {
@@ -90,12 +108,13 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       data: undefined,
       error: null,
       isError: false,
-      isIdle: false,
       isLoading: true,
       isLoadingError: false,
       isRefetchError: false,
       isSuccess: false,
+      isInitialLoading: true,
       status: "loading",
+      fetchStatus: "fetching",
     };
   }
   if (error !== null) {
@@ -105,7 +124,6 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
         data: value,
         error,
         isError: true,
-        isIdle: false,
         isLoading: false,
         isLoadingError: false,
         isRefetchError: true,
@@ -118,7 +136,6 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       data: undefined,
       error,
       isError: true,
-      isIdle: false,
       isLoading: false,
       isLoadingError: true,
       isRefetchError: false,
@@ -126,13 +143,12 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       status: "error",
     };
   }
-  if (value !== undefined) {
+  if (value) {
     return {
       ...base,
       data: value,
       error: null,
       isError: false,
-      isIdle: false,
       isLoading: false,
       isLoadingError: false,
       isRefetchError: false,
@@ -140,31 +156,35 @@ const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
       status: "success",
     };
   }
-  return {
-    ...base,
-    data: undefined,
-    error: null,
-    isError: false,
-    isIdle: true,
-    isLoading: false,
-    isLoadingError: false,
-    isRefetchError: false,
-    isSuccess: false,
-    status: "idle",
-  };
+  throw new Error("Unexpected state!");
 };
 
-export const useSubscription = <TPath extends TRPCSubscriptionKey & string>(
-  pathAndInput: [path: TPath, ...args: TRPCSubscriptionInputs<TPath>],
-  opts: {
-    enabled?: boolean;
-  } = {}
-): UseSubscriptionResultByTopic<TPath> => {
+export const subscriptions = createRecursiveProxy(({ path, args }) => {
+  const key = path[0] as TRPCShortSubscriptionKey;
+  const input =
+    args[0] as TRPCSubscriptionInput<`subscriptions.${TRPCShortSubscriptionKey}`>;
+  const opts = args[1] as SubscriptionOpts;
   if (typeof window === "undefined") {
     // A hack to prefetch data from subscriptions for SSR
-    // @ts-ignore
-    return trpc.useQuery(pathAndInput, opts);
+    // @ts-expect-error
+    return trpc.queries[key].useQuery(input, opts);
   }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useSubscriptionClient(pathAndInput, opts);
+  return useSubscriptionClient(key, input, opts);
+}) as {
+  [K in TRPCShortSubscriptionKey]: {
+    useSubscription: (
+      ...[
+        input,
+        opts,
+      ]: undefined extends TRPCSubscriptionInput<`subscriptions.${K}`>
+        ? [
+            input?: TRPCSubscriptionInput<`subscriptions.${K}`>,
+            opts?: SubscriptionOpts
+          ]
+        : [
+            input: TRPCSubscriptionInput<`subscriptions.${K}`>,
+            opts?: SubscriptionOpts
+          ]
+    ) => UseSubscriptionResultByTopic<`subscriptions.${K}`>;
+  };
 };

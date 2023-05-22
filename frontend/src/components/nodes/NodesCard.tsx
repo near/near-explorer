@@ -15,7 +15,7 @@ import {
   InfoCardCell as Cell,
   InfoCardText,
 } from "@/frontend/components/utils/InfoCard";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -102,10 +102,11 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
 
 const NodesCard = React.memo(() => {
   const { t } = useTranslation();
-  const epochStatsSub = useSubscription(["epochStats"]);
-  const epochStartBlockSub = useSubscription(["epochStartBlock"]);
-  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
-  const validatorsSub = useSubscription(["validators"]);
+  const epochStatsSub = subscriptions.epochStats.useSubscription();
+  const epochStartBlockSub = subscriptions.epochStartBlock.useSubscription();
+  const currentValidatorsCountSub =
+    subscriptions.currentValidatorsCount.useSubscription();
+  const validatorsSub = subscriptions.validators.useSubscription();
   const totalStake = React.useMemo(
     () => (validatorsSub.data ? getTotalStake(validatorsSub.data) : undefined),
     [validatorsSub.data]

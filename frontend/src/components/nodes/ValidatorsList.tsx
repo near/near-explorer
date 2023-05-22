@@ -5,7 +5,7 @@ import JSBI from "jsbi";
 import { ValidatorFullData } from "@/common/types/procedures";
 import { notNullishGuard } from "@/common/utils/utils";
 import ValidatorRow from "@/frontend/components/nodes/ValidatorRow";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 
 // The share of "network holders", cumulative amount of validators
@@ -89,7 +89,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
 
-    const epochStatsSub = useSubscription(["epochStats"]);
+    const epochStatsSub = subscriptions.epochStats.useSubscription();
 
     return (
       <>

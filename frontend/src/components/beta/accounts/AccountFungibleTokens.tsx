@@ -137,11 +137,10 @@ type Props = {
 };
 
 const AccountFungibleTokensView: React.FC<Props> = React.memo(({ options }) => {
-  const tokensQuery = trpc.useQuery([
-    "account.fungibleTokens",
-    { accountId: options.accountId },
-  ]);
-  if (tokensQuery.status === "loading" || tokensQuery.status === "idle") {
+  const tokensQuery = trpc.account.fungibleTokens.useQuery({
+    accountId: options.accountId,
+  });
+  if (tokensQuery.status === "loading") {
     return (
       <Wrapper>
         <Spinner animation="border" />

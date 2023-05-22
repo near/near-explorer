@@ -1,4 +1,8 @@
-import { TRPCQueryOutput, TRPCSubscriptionOutput } from "@/common/types/trpc";
+import {
+  TRPCQueryOutput,
+  TRPCInfiniteQueryOutput,
+  TRPCSubscriptionOutput,
+} from "@/common/types/trpc";
 
 export type AccountOld = NonNullable<TRPCQueryOutput<"account.byIdOld">>;
 export type Account = NonNullable<TRPCQueryOutput<"account.byId">>;
@@ -11,13 +15,13 @@ export type AccountFungibleTokenHistory =
 export type AccountFungibleTokenHistoryElement =
   AccountFungibleTokenHistory["elements"][number];
 export type AccountNonFungibleToken =
-  TRPCQueryOutput<"account.nonFungibleTokens">;
+  TRPCInfiniteQueryOutput<"account.nonFungibleTokens">;
 export type AccountNonFungibleTokenElement =
   TRPCQueryOutput<"account.nonFungibleTokens">["items"][number];
 export type AccountNonFungibleTokenHistoryElement =
   TRPCQueryOutput<"account.nonFungibleTokenHistory">[number];
 
-export type AccountActivity = TRPCQueryOutput<"account.activity">;
+export type AccountActivity = TRPCInfiniteQueryOutput<"account.activity">;
 export type AccountActivityElement = AccountActivity["items"][number];
 export type AccountActivityElementAction = AccountActivityElement["action"];
 type InferAccountActivityAction<T extends AccountActivityElementAction> =
@@ -53,11 +57,10 @@ export type TransactionOld = NonNullable<
 export type NestedReceiptWithOutcomeOld = TransactionOld["receipt"];
 export type TransactionOutcomeOld = TransactionOld["outcome"];
 
-export type FungibleTokenItem = TRPCQueryOutput<"fungibleTokens.list">[number];
-
 export type DeployInfo = TRPCQueryOutput<"utils.deployInfo">;
 
-export type ValidatorFullData = TRPCSubscriptionOutput<"validators">[number];
+export type ValidatorFullData =
+  TRPCSubscriptionOutput<"subscriptions.validators">[number];
 export type ValidationProgress = NonNullable<
   ValidatorFullData["currentEpoch"]
 >["progress"];
@@ -67,4 +70,4 @@ export type ValidatorDescription = NonNullable<
 >;
 export type ValidatorPoolInfo = NonNullable<ValidatorFullData["poolInfo"]>;
 
-export type HealthStatus = TRPCSubscriptionOutput<"rpcStatus">;
+export type HealthStatus = TRPCSubscriptionOutput<"subscriptions.rpcStatus">;

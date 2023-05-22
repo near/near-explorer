@@ -4,7 +4,6 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { Spinner } from "react-bootstrap";
 
-import { FungibleTokenItem } from "@/common/types/procedures";
 import { id } from "@/common/utils/utils";
 import Content from "@/frontend/components/utils/Content";
 import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
@@ -47,9 +46,9 @@ const EMPTY_IMAGE =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=";
 
 const FungibleTokens: NextPage = React.memo(() => {
-  const tokensAmountQuery = trpc.useQuery(["fungibleTokens.amount"]);
-  const fungibleTokensQuery = trpc.useInfiniteQuery(
-    ["fungibleTokens.list", { limit: FUNGIBLE_TOKENS_PER_PAGE }],
+  const tokensAmountQuery = trpc.fungibleTokens.amount.useQuery();
+  const fungibleTokensQuery = trpc.fungibleTokens.list.useInfiniteQuery(
+    { limit: FUNGIBLE_TOKENS_PER_PAGE },
     {
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length !== FUNGIBLE_TOKENS_PER_PAGE) {
@@ -67,8 +66,7 @@ const FungibleTokens: NextPage = React.memo(() => {
       </Head>
       <Content title={<h1>Fungible tokens</h1>}>
         <Header>
-          {tokensAmountQuery.status === "loading" ||
-          tokensAmountQuery.status === "idle" ? (
+          {tokensAmountQuery.status === "loading" ? (
             <Spinner animation="border" />
           ) : tokensAmountQuery.status === "error" ? (
             <ErrorMessage onRetry={tokensAmountQuery.refetch}>
@@ -78,7 +76,7 @@ const FungibleTokens: NextPage = React.memo(() => {
             `Total of ${tokensAmountQuery.data} fungible tokens registered`
           )}
         </Header>
-        <ListHandler<"fungibleTokens.list", FungibleTokenItem>
+        <ListHandler<"fungibleTokens.list">
           query={fungibleTokensQuery}
           parser={id}
         >
