@@ -1,70 +1,32 @@
 # NEAR Explorer Frontend
 
-## Project Structure
-
-```
-Project Root
-├── "configuration-files"
-│ 
-├── public
-│   └── static
-│ 
-└── src
-    ├── components
-    │   ├── dash-case-component-group
-    │   │   └── PascalCaseComponent.tsx
-    │   └── utils
-    │       └── PascalCaseComponent.tsx
-    │
-    ├── libraries
-    │   └── kebab-case-module
-    │       ├── index.ts
-    │       └── kebab-case-module.ts
-    │
-    └── pages
-        └── kebab-case-page-name
-            ├── index.tsx
-            └── [id].tsx
-```
-
-## Naming Conventions
-
--   Use PascalCase to name React Components (put them into `src/components/` structure), and
-    `export default` an unnamed component
--   Use kebab-case to name general modules (put them into `src/libraries/` structure)
--   Use kebab-case and [Dynamic Routing rules](https://github.com/zeit/next.js/#dynamic-routing) to
-    name the pages (put them into `src/pages/` structure)
--   Use camelCase to name variables, constants, functions, and methods
--   Use PascalCase to name classes
--   Use a single underscore in front of a method name to indicate private (non-public) methods
-
-## Run Frontend for Development
+## Run in development
 
 Frontend required running backend to be run in the background to be usable.
 Follow the [backend instructions](../backend/README.md) and start frontend like this:
 
 ```
-$ npm run dev
+$ npm run -w frontend dev
 ```
 
-## Run Frontend for Production
+## Build & run in production
 
 If you want to build a release bundle and run it:
 
 ```
-$ npm run build
-$ npm run start
+$ npm run -w frontend build
+$ npm run -w frontend start
 ```
 
-## Run Tests
+## Unit & e2e tests
 
-To run unit tests, use the following command:
+To run unit tests (using Jest), use the following command:
 
 ```
-$ npm run test
+$ npm run -w frontend test
 ```
 
-To run end-to-end testing against the local backend server:
+To run end-to-end tests (using Playwright) against the local server:
 
 ```
 $ npm run build

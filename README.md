@@ -2,8 +2,6 @@
 
 [![CI](https://github.com/near/near-explorer/actions/workflows/continuous-integration-workflow.yml/badge.svg?event=push)](https://github.com/near/near-explorer/actions/workflows/continuous-integration-workflow.yml)
 
-In development.
-
 ## Setup
 
 ### Docker-based Setup
@@ -13,40 +11,53 @@ Prerequisite:
 -   Docker
 -   Docker-Compose
 
-Build Docker images:
+Build & run the containers (choose a network):
 
 ```
-$ docker-compose build
+$ npm run docker:up:mainnet
+or
+$ npm run docker:up:testnet
+or
+$ npm run docker:up:shardnet
+or
+$ npm run docker:up:guildnet
 ```
 
-Run them:
+NOTE: You may want to run them in background, so just add `-- --detach` flag.
+
+Now you can reach the service at http://localhost:3000/
+
+### Node.js Setup (hot reload)
+
+Prerequisite:
+
+-   Node.js (run `nvm use` to switch to the proper version)
+
+Install dependencies:
 
 ```
-$ docker-compose up
+$ npm install
 ```
 
-NOTE: You may want to run them in background, so just add `--detach` flag.
+Run backend (choose a network):
 
-Now you can reach the services:
+```
+$ npm run -w backend dev:mainnet
+or
+$ npm run -w backend dev:testnet
+or
+$ npm run -w backend dev:shardnet
+or
+$ npm run -w backend dev:guildnet
+```
 
--   http://localhost:3000/ -- frontend server
--   http://localhost:10000/trpc -- backend server (you don't need it unless you are a developer)
--   ws://localhost:10000/ws -- pubsub server (you don't need it unless you are a developer)
+Run frontend in a separate window:
 
-## Development Q&A
+```
+$ npm run -w frontend dev
+```
 
-Q: How to run the local development version of the frontend/backend?
-
-A: It is recommended to use `docker-compose` to run all the services and then stop the one that
-you want to develop locally (`docker-compose stop frontend`). (Follow the execution instructions
-written in the relevant README file of the subproject)
-
-Q: How to auto-format the source code on commit?
-
-A: Use `npm install` from the root of the project, so it sets up the git hooks which
-automatically run `prettier` on every commit. (We wish we don't need to have the root
-`package.json`, but [husky](https://github.com/typicode/husky/issues/36) does not support
-subpackages nicely)
+Now you can reach the service at http://localhost:3000/
 
 ## Contributing
 
