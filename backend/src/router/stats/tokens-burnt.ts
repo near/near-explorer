@@ -1,16 +1,17 @@
-import * as trpc from "@trpc/server";
 import { sql } from "kysely";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
 import { sum } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 
-export const router = trpc.router<RequestContext>().query("tokensBurnt", {
-  input: z.strictObject({
-    daysFromNow: z.number().min(1).max(7),
-  }),
-  resolve: async ({ input: { daysFromNow } }) => {
+export const procedure = t.procedure
+  .input(
+    z.strictObject({
+      daysFromNow: z.number().min(1).max(7),
+    })
+  )
+  .query(async ({ input: { daysFromNow } }) => {
     const feesByDay = await indexerDatabase
       .selectFrom("execution_outcomes")
       .select([
@@ -49,5 +50,4 @@ export const router = trpc.router<RequestContext>().query("tokensBurnt", {
       timestamp: feesByDay.date.valueOf(),
       tokensBurnt: feesByDay.tokensBurnt || "0",
     };
-  },
-});
+  });

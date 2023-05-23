@@ -28,7 +28,7 @@ const TransactionDetailsPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
     transaction_hash: hash,
   });
-  const transactionQuery = trpc.useQuery(["transaction.byHashOld", { hash }]);
+  const transactionQuery = trpc.transaction.byHashOld.useQuery({ hash });
 
   return (
     <>
@@ -44,8 +44,7 @@ const TransactionDetailsPage = React.memo(() => {
         }
         border={false}
       >
-        {transactionQuery.status === "loading" ||
-        transactionQuery.status === "idle" ? (
+        {transactionQuery.status === "loading" ? (
           t("page.transactions.error.transaction_fetching")
         ) : transactionQuery.status === "error" ? (
           <ErrorMessage onRetry={transactionQuery.refetch}>

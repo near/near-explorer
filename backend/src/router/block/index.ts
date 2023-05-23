@@ -1,13 +1,11 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
+import { procedure as byId } from "./by-id";
+import { procedure as final } from "./final";
+import { procedure as list } from "./list";
 
-import { router as byIdRouter } from "./by-id";
-import { router as finalRouter } from "./final";
-import { router as listRouter } from "./list";
-
-export const router = trpc
-  .router<RequestContext>()
-  .merge(finalRouter)
-  .merge(byIdRouter)
-  .merge(listRouter);
+export const router = t.router({
+  byId,
+  list,
+  final,
+});

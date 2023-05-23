@@ -7,13 +7,13 @@ import { Col, Row } from "react-bootstrap";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const getOption = (
   title: string,
   transactionsTitle: string,
-  data: TRPCSubscriptionOutput<"transactionsHistory">
+  data: TRPCSubscriptionOutput<"subscriptions.transactionsHistory">
 ) => ({
   title: {
     text: title,
@@ -119,10 +119,8 @@ const TransactionCharts = styled(Row, {
 });
 
 const DashboardTransactionsHistoryChart: React.FC = React.memo(() => {
-  const transactionHistorySub = useSubscription([
-    "transactionsHistory",
-    { amountOfDays: 14 },
-  ]);
+  const transactionHistorySub =
+    subscriptions.transactionsHistory.useSubscription({ amountOfDays: 14 });
   const { t } = useTranslation();
 
   const option = React.useMemo(() => {

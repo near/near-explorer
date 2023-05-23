@@ -1,12 +1,11 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import {
   indexerActivityDatabase,
   indexerDatabase,
 } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import { Action, mapRpcActionToAction } from "@/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@/backend/utils/bigint";
@@ -171,13 +170,14 @@ const parseOutcome = (
   };
 };
 
-export const router = trpc
-  .router<RequestContext>()
-  .query("byHashOld", {
-    input: z.strictObject({
-      hash: validators.transactionHash,
-    }),
-    resolve: async ({ input: { hash } }) => {
+export const procedures = {
+  byHashOld: t.procedure
+    .input(
+      z.strictObject({
+        hash: validators.transactionHash,
+      })
+    )
+    .query(async ({ input: { hash } }) => {
       const databaseTransaction = await indexerDatabase
         .selectFrom("transactions")
         .select([
@@ -233,13 +233,14 @@ export const router = trpc
           tokensBurnt: rpcTransaction.transaction_outcome.outcome.tokens_burnt,
         },
       };
-    },
-  })
-  .query("byHash", {
-    input: z.strictObject({
-      hash: validators.transactionHash,
     }),
-    resolve: async ({ input: { hash } }) => {
+  byHash: t.procedure
+    .input(
+      z.strictObject({
+        hash: validators.transactionHash,
+      })
+    )
+    .query(async ({ input: { hash } }) => {
       const databaseTransaction = await indexerDatabase
         .selectFrom("transactions")
         .select([
@@ -317,14 +318,15 @@ export const router = trpc
           receiptsMap
         ) as NestedReceiptWithOutcome,
       };
-    },
-  })
-  .query("accountBalanceChange", {
-    input: z.strictObject({
-      accountId: validators.accountId,
-      receiptId: validators.receiptId,
     }),
-    resolve: async ({ input: { accountId, receiptId } }) => {
+  accountBalanceChange: t.procedure
+    .input(
+      z.strictObject({
+        accountId: validators.accountId,
+        receiptId: validators.receiptId,
+      })
+    )
+    .query(async ({ input: { accountId, receiptId } }) => {
       const balanceChanges = await indexerActivityDatabase
         .selectFrom("balance_changes")
         .select(["absolute_nonstaked_amount as absoluteNonStakedAmount"])
@@ -337,5 +339,5 @@ export const router = trpc
         return null;
       }
       return balanceChanges.absoluteNonStakedAmount;
-    },
-  });
+    }),
+};

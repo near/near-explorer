@@ -1,17 +1,18 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const router = trpc.router<RequestContext>().query("listByTimestamp", {
-  input: z.strictObject({
-    limit: validators.limit,
-    cursor: validators.accountPagination.nullish(),
-  }),
-  resolve: async ({ input: { limit, cursor } }) => {
+export const procedure = t.procedure
+  .input(
+    z.strictObject({
+      limit: validators.limit,
+      cursor: validators.accountPagination.nullish(),
+    })
+  )
+  .query(async ({ input: { limit, cursor } }) => {
     let selection = indexerDatabase
       .selectFrom("accounts")
       .leftJoin("receipts as creationReceipt", (jb) =>
@@ -63,5 +64,4 @@ export const router = trpc.router<RequestContext>().query("listByTimestamp", {
         ? parseInt(account.deletedTimestamp, 10)
         : undefined,
     }));
-  },
-});
+  });

@@ -171,10 +171,9 @@ export interface Props {
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const transactionsQuery = trpc.useQuery([
-    "account.transactionsCount",
-    { id: account.accountId },
-  ]);
+  const transactionsQuery = trpc.account.transactionsCount.useQuery({
+    id: account.accountId,
+  });
   const format = useDateFormat();
   const formatNumber = useFormatNumber();
 
@@ -194,8 +193,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
             }
             imgLink="/static/images/icon-m-transaction.svg"
             text={
-              transactionsQuery.status === "loading" ||
-              transactionsQuery.status === "idle" ? (
+              transactionsQuery.status === "loading" ? (
                 <Spinner animation="border" variant="secondary" />
               ) : transactionsQuery.status === "error" ? (
                 <ErrorMessage onRetry={transactionsQuery.refetch}>

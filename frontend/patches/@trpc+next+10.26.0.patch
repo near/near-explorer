@@ -1,0 +1,271 @@
+diff --git a/node_modules/@trpc/next/dist/index.js b/node_modules/@trpc/next/dist/index.js
+index 644b5fc..5883512 100644
+--- a/node_modules/@trpc/next/dist/index.js
++++ b/node_modules/@trpc/next/dist/index.js
+@@ -41,7 +41,9 @@ function withTRPC(opts) {
+                 if (props.trpc) {
+                     return props.trpc;
+                 }
+-                const config = getClientConfig({});
++                const config = getClientConfig({
++                    props
++                });
+                 const queryClient = shared.getQueryClient(config);
+                 const trpcClient = trpc.createClient(config);
+                 return {
+@@ -117,7 +119,7 @@ function withTRPC(opts) {
+                         break;
+                     }
+                     // wait until the query cache has settled it's promises
+-                    await new Promise((resolve)=>{
++                    const prefetchPromise = new Promise((resolve)=>{
+                         const unsub = queryClient.getQueryCache().subscribe((event)=>{
+                             if (event?.query.getObserversCount() === 0) {
+                                 resolve();
+@@ -125,6 +127,19 @@ function withTRPC(opts) {
+                             }
+                         });
+                     });
++                    if (typeof config.ssrTimeout === 'number') {
++                        await Promise.race([
++                            prefetchPromise,
++                            new Promise((resolve)=>{
++                                setTimeout(()=>{
++                                    void queryClient.cancelQueries();
++                                    resolve(undefined);
++                                }, config.ssrTimeout);
++                            })
++                        ]);
++                    } else {
++                        await prefetchPromise;
++                    }
+                 }
+                 const dehydratedCache = reactQuery$1.dehydrate(queryClient, {
+                     shouldDehydrateQuery () {
+diff --git a/node_modules/@trpc/next/dist/index.mjs b/node_modules/@trpc/next/dist/index.mjs
+index e51a5c8..c4d7af5 100644
+--- a/node_modules/@trpc/next/dist/index.mjs
++++ b/node_modules/@trpc/next/dist/index.mjs
+@@ -32,7 +32,9 @@ function withTRPC(opts) {
+                 if (props.trpc) {
+                     return props.trpc;
+                 }
+-                const config = getClientConfig({});
++                const config = getClientConfig({
++                    props
++                });
+                 const queryClient = getQueryClient(config);
+                 const trpcClient = trpc.createClient(config);
+                 return {
+@@ -108,7 +110,7 @@ function withTRPC(opts) {
+                         break;
+                     }
+                     // wait until the query cache has settled it's promises
+-                    await new Promise((resolve)=>{
++                    const prefetchPromise = new Promise((resolve)=>{
+                         const unsub = queryClient.getQueryCache().subscribe((event)=>{
+                             if (event?.query.getObserversCount() === 0) {
+                                 resolve();
+@@ -116,6 +118,19 @@ function withTRPC(opts) {
+                             }
+                         });
+                     });
++                    if (typeof config.ssrTimeout === 'number') {
++                        await Promise.race([
++                            prefetchPromise,
++                            new Promise((resolve)=>{
++                                setTimeout(()=>{
++                                    void queryClient.cancelQueries();
++                                    resolve(undefined);
++                                }, config.ssrTimeout);
++                            })
++                        ]);
++                    } else {
++                        await prefetchPromise;
++                    }
+                 }
+                 const dehydratedCache = dehydrate(queryClient, {
+                     shouldDehydrateQuery () {
+diff --git a/node_modules/@trpc/next/dist/withTRPC.d.ts b/node_modules/@trpc/next/dist/withTRPC.d.ts
+index 8b88534..53bc330 100644
+--- a/node_modules/@trpc/next/dist/withTRPC.d.ts
++++ b/node_modules/@trpc/next/dist/withTRPC.d.ts
+@@ -1,27 +1,39 @@
++/**
++ * Heavily based on urql's ssr
++ * https://github.com/FormidableLabs/urql/blob/main/packages/next-urql/src/with-urql-client.ts
++ */
++import { DehydratedState } from '@tanstack/react-query';
+ import type { CreateTRPCClientOptions } from '@trpc/client';
+ import { TRPCClientError } from '@trpc/react-query';
+ import { CreateTRPCReactOptions, CreateTRPCReactQueryClientConfig } from '@trpc/react-query/shared';
+ import type { AnyRouter } from '@trpc/server';
+ import type { ResponseMeta } from '@trpc/server/http';
+-import { NextComponentType, NextPageContext } from 'next/dist/shared/lib/utils';
++import { AppPropsType, NextComponentType, NextPageContext } from 'next/dist/shared/lib/utils';
++import { NextRouter } from 'next/router';
+ export declare type WithTRPCConfig<TRouter extends AnyRouter> = CreateTRPCClientOptions<TRouter> & {
+     abortOnUnmount?: boolean;
++    ssrTimeout?: number;
+ } & CreateTRPCReactQueryClientConfig;
+-interface WithTRPCOptions<TRouter extends AnyRouter> extends CreateTRPCReactOptions<TRouter> {
++declare type BaseInitialProps = {
++    trpcState: DehydratedState;
++};
++interface WithTRPCOptions<TRouter extends AnyRouter, TProps = BaseInitialProps, TNextRouter extends NextRouter = NextRouter> extends CreateTRPCReactOptions<TRouter> {
+     config: (info: {
+-        ctx?: NextPageContext;
++        ctx: NextPageContext;
++    } | {
++        props: AppPropsType<TNextRouter, TProps>;
+     }) => WithTRPCConfig<TRouter>;
+ }
+-export interface WithTRPCSSROptions<TRouter extends AnyRouter> extends WithTRPCOptions<TRouter> {
++export interface WithTRPCSSROptions<TRouter extends AnyRouter, TProps = BaseInitialProps, TNextRouter extends NextRouter = NextRouter> extends WithTRPCOptions<TRouter, TProps, TNextRouter> {
+     ssr: true;
+     responseMeta?: (opts: {
+         ctx: NextPageContext;
+         clientErrors: TRPCClientError<TRouter>[];
+     }) => ResponseMeta;
+ }
+-export interface WithTRPCNoSSROptions<TRouter extends AnyRouter> extends WithTRPCOptions<TRouter> {
++export interface WithTRPCNoSSROptions<TRouter extends AnyRouter, TProps = BaseInitialProps, TNextRouter extends NextRouter = NextRouter> extends WithTRPCOptions<TRouter, TProps, TNextRouter> {
+     ssr?: false;
+ }
+-export declare function withTRPC<TRouter extends AnyRouter, TSSRContext extends NextPageContext = NextPageContext>(opts: WithTRPCNoSSROptions<TRouter> | WithTRPCSSROptions<TRouter>): (AppOrPage: NextComponentType<any, any, any>) => NextComponentType;
++export declare function withTRPC<TRouter extends AnyRouter, TSSRContext extends NextPageContext = NextPageContext, TProps = BaseInitialProps, TNextRouter extends NextRouter = NextRouter>(opts: WithTRPCNoSSROptions<TRouter, TProps, TNextRouter> | WithTRPCSSROptions<TRouter, TProps, TNextRouter>): (AppOrPage: NextComponentType<any, any, any>) => NextComponentType;
+ export {};
+ //# sourceMappingURL=withTRPC.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@trpc/next/dist/withTRPC.d.ts.map b/node_modules/@trpc/next/dist/withTRPC.d.ts.map
+index 5e11548..cf4d96b 100644
+--- a/node_modules/@trpc/next/dist/withTRPC.d.ts.map
++++ b/node_modules/@trpc/next/dist/withTRPC.d.ts.map
+@@ -1 +1 @@
+-{"version":3,"file":"withTRPC.d.ts","sourceRoot":"","sources":["../src/withTRPC.tsx"],"names":[],"mappings":"AAWA,OAAO,KAAK,EAAE,uBAAuB,EAAE,MAAM,cAAc,CAAC;AAC5D,OAAO,EAEL,eAAe,EAIhB,MAAM,mBAAmB,CAAC;AAC3B,OAAO,EACL,sBAAsB,EACtB,gCAAgC,EAEjC,MAAM,0BAA0B,CAAC;AAClC,OAAO,KAAK,EAAE,SAAS,EAAe,MAAM,cAAc,CAAC;AAC3D,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,mBAAmB,CAAC;AACtD,OAAO,EAGL,iBAAiB,EACjB,eAAe,EAChB,MAAM,4BAA4B,CAAC;AA2BpC,oBAAY,cAAc,CAAC,OAAO,SAAS,SAAS,IAClD,uBAAuB,CAAC,OAAO,CAAC,GAAG;IACjC,cAAc,CAAC,EAAE,OAAO,CAAC;CAC1B,GAAG,gCAAgC,CAAC;AAEvC,UAAU,eAAe,CAAC,OAAO,SAAS,SAAS,CACjD,SAAQ,sBAAsB,CAAC,OAAO,CAAC;IACvC,MAAM,EAAE,CAAC,IAAI,EAAE;QAAE,GAAG,CAAC,EAAE,eAAe,CAAA;KAAE,KAAK,cAAc,CAAC,OAAO,CAAC,CAAC;CACtE;AAED,MAAM,WAAW,kBAAkB,CAAC,OAAO,SAAS,SAAS,CAC3D,SAAQ,eAAe,CAAC,OAAO,CAAC;IAChC,GAAG,EAAE,IAAI,CAAC;IACV,YAAY,CAAC,EAAE,CAAC,IAAI,EAAE;QACpB,GAAG,EAAE,eAAe,CAAC;QACrB,YAAY,EAAE,eAAe,CAAC,OAAO,CAAC,EAAE,CAAC;KAC1C,KAAK,YAAY,CAAC;CACpB;AACD,MAAM,WAAW,oBAAoB,CAAC,OAAO,SAAS,SAAS,CAC7D,SAAQ,eAAe,CAAC,OAAO,CAAC;IAChC,GAAG,CAAC,EAAE,KAAK,CAAC;CACb;AAED,wBAAgB,QAAQ,CACtB,OAAO,SAAS,SAAS,EACzB,WAAW,SAAS,eAAe,GAAG,eAAe,EACrD,IAAI,EAAE,oBAAoB,CAAC,OAAO,CAAC,GAAG,kBAAkB,CAAC,OAAO,CAAC,eAU9C,kBAAkB,GAAG,EAAE,GAAG,EAAE,GAAG,CAAC,KAAG,iBAAiB,CAkLxE"}
+\ No newline at end of file
++{"version":3,"file":"withTRPC.d.ts","sourceRoot":"","sources":["../src/withTRPC.tsx"],"names":[],"mappings":"AAAA;;;GAGG;AACH,OAAO,EACL,eAAe,EAKhB,MAAM,uBAAuB,CAAC;AAC/B,OAAO,KAAK,EAAE,uBAAuB,EAAE,MAAM,cAAc,CAAC;AAC5D,OAAO,EAEL,eAAe,EAIhB,MAAM,mBAAmB,CAAC;AAC3B,OAAO,EACL,sBAAsB,EACtB,gCAAgC,EAEjC,MAAM,0BAA0B,CAAC;AAClC,OAAO,KAAK,EAAE,SAAS,EAAe,MAAM,cAAc,CAAC;AAC3D,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,mBAAmB,CAAC;AACtD,OAAO,EAEL,YAAY,EACZ,iBAAiB,EACjB,eAAe,EAChB,MAAM,4BAA4B,CAAC;AACpC,OAAO,EAAE,UAAU,EAAE,MAAM,aAAa,CAAC;AA0BzC,oBAAY,cAAc,CAAC,OAAO,SAAS,SAAS,IAClD,uBAAuB,CAAC,OAAO,CAAC,GAAG;IACjC,cAAc,CAAC,EAAE,OAAO,CAAC;IACzB,UAAU,CAAC,EAAE,MAAM,CAAC;CACrB,GAAG,gCAAgC,CAAC;AAEvC,aAAK,gBAAgB,GAAG;IAAC,SAAS,EAAE,eAAe,CAAA;CAAC,CAAC;AAErD,UAAU,eAAe,CACvB,OAAO,SAAS,SAAS,EACzB,MAAM,GAAG,gBAAgB,EACzB,WAAW,SAAS,UAAU,GAAG,UAAU,CAC3C,SAAQ,sBAAsB,CAAC,OAAO,CAAC;IACvC,MAAM,EAAE,CACN,IAAI,EACA;QACE,GAAG,EAAE,eAAe,CAAC;KACtB,GACD;QACE,KAAK,EAAE,YAAY,CAAC,WAAW,EAAE,MAAM,CAAC,CAAC;KAC1C,KACF,cAAc,CAAC,OAAO,CAAC,CAAC;CAC9B;AAED,MAAM,WAAW,kBAAkB,CACjC,OAAO,SAAS,SAAS,EACzB,MAAM,GAAG,gBAAgB,EACzB,WAAW,SAAS,UAAU,GAAG,UAAU,CAC3C,SAAQ,eAAe,CAAC,OAAO,EAAE,MAAM,EAAE,WAAW,CAAC;IACrD,GAAG,EAAE,IAAI,CAAC;IACV,YAAY,CAAC,EAAE,CAAC,IAAI,EAAE;QACpB,GAAG,EAAE,eAAe,CAAC;QACrB,YAAY,EAAE,eAAe,CAAC,OAAO,CAAC,EAAE,CAAC;KAC1C,KAAK,YAAY,CAAC;CACpB;AACD,MAAM,WAAW,oBAAoB,CACnC,OAAO,SAAS,SAAS,EACzB,MAAM,GAAG,gBAAgB,EACzB,WAAW,SAAS,UAAU,GAAG,UAAU,CAC3C,SAAQ,eAAe,CAAC,OAAO,EAAE,MAAM,EAAE,WAAW,CAAC;IACrD,GAAG,CAAC,EAAE,KAAK,CAAC;CACb;AAED,wBAAgB,QAAQ,CACtB,OAAO,SAAS,SAAS,EACzB,WAAW,SAAS,eAAe,GAAG,eAAe,EACrD,MAAM,GAAG,gBAAgB,EACzB,WAAW,SAAS,UAAU,GAAG,UAAU,EAE3C,IAAI,EAAE,oBAAoB,CAAC,OAAO,EAAE,MAAM,EAAE,WAAW,CAAC,GAAG,kBAAkB,CAAC,OAAO,EAAE,MAAM,EAAE,WAAW,CAAC,eAWxF,kBAAkB,GAAG,EAAE,GAAG,EAAE,GAAG,CAAC,KAAG,iBAAiB,CA+LxE"}
+\ No newline at end of file
+diff --git a/node_modules/@trpc/next/src/withTRPC.tsx b/node_modules/@trpc/next/src/withTRPC.tsx
+index 0a89da3..b64855b 100644
+--- a/node_modules/@trpc/next/src/withTRPC.tsx
++++ b/node_modules/@trpc/next/src/withTRPC.tsx
+@@ -59,30 +59,54 @@ function transformQueryOrMutationCacheErrors<
+ export type WithTRPCConfig<TRouter extends AnyRouter> =
+   CreateTRPCClientOptions<TRouter> & {
+     abortOnUnmount?: boolean;
++    ssrTimeout?: number;
+   } & CreateTRPCReactQueryClientConfig;
+ 
+-interface WithTRPCOptions<TRouter extends AnyRouter>
+-  extends CreateTRPCReactOptions<TRouter> {
+-  config: (info: { ctx?: NextPageContext }) => WithTRPCConfig<TRouter>;
++type BaseInitialProps = {trpcState: DehydratedState};
++
++interface WithTRPCOptions<
++  TRouter extends AnyRouter,
++  TProps = BaseInitialProps,
++  TNextRouter extends NextRouter = NextRouter,
++> extends CreateTRPCReactOptions<TRouter> {
++  config: (
++    info:
++      | {
++          ctx: NextPageContext;
++        }
++      | {
++          props: AppPropsType<TNextRouter, TProps>;
++        },
++  ) => WithTRPCConfig<TRouter>;
+ }
+ 
+-export interface WithTRPCSSROptions<TRouter extends AnyRouter>
+-  extends WithTRPCOptions<TRouter> {
++export interface WithTRPCSSROptions<
++  TRouter extends AnyRouter,
++  TProps = BaseInitialProps,
++  TNextRouter extends NextRouter = NextRouter,
++> extends WithTRPCOptions<TRouter, TProps, TNextRouter> {
+   ssr: true;
+   responseMeta?: (opts: {
+     ctx: NextPageContext;
+     clientErrors: TRPCClientError<TRouter>[];
+   }) => ResponseMeta;
+ }
+-export interface WithTRPCNoSSROptions<TRouter extends AnyRouter>
+-  extends WithTRPCOptions<TRouter> {
++export interface WithTRPCNoSSROptions<
++  TRouter extends AnyRouter,
++  TProps = BaseInitialProps,
++  TNextRouter extends NextRouter = NextRouter,
++> extends WithTRPCOptions<TRouter, TProps, TNextRouter> {
+   ssr?: false;
+ }
+ 
+ export function withTRPC<
+   TRouter extends AnyRouter,
+   TSSRContext extends NextPageContext = NextPageContext,
+->(opts: WithTRPCNoSSROptions<TRouter> | WithTRPCSSROptions<TRouter>) {
++  TProps = BaseInitialProps,
++  TNextRouter extends NextRouter = NextRouter,
++>(
++  opts: WithTRPCNoSSROptions<TRouter, TProps, TNextRouter> | WithTRPCSSROptions<TRouter, TProps, TNextRouter>,
++) {
+   const { config: getClientConfig } = opts;
+ 
+   type TRPCPrepassProps = {
+@@ -96,7 +120,7 @@ export function withTRPC<
+     const trpc = createReactQueryHooks<TRouter, TSSRContext>(opts);
+ 
+     const WithTRPC = (
+-      props: AppPropsType<NextRouter, any> & {
++      props: AppPropsType<TNextRouter, TProps> & {
+         trpc?: TRPCPrepassProps;
+       },
+     ) => {
+@@ -105,7 +129,7 @@ export function withTRPC<
+           return props.trpc;
+         }
+ 
+-        const config = getClientConfig({});
++        const config = getClientConfig({ props });
+         const queryClient = getQueryClient(config);
+         const trpcClient = trpc.createClient(config);
+         return {
+@@ -124,7 +148,7 @@ export function withTRPC<
+       if (props.pageProps) {
+         hydratedState = trpc.useDehydratedState(
+           trpcClient,
+-          props.pageProps.trpcState,
++          (props.pageProps as any).trpcState,
+         );
+       }
+ 
+@@ -204,7 +228,7 @@ export function withTRPC<
+           }
+ 
+           // wait until the query cache has settled it's promises
+-          await new Promise<void>((resolve) => {
++          const prefetchPromise = new Promise<void>((resolve) => {
+             const unsub = queryClient.getQueryCache().subscribe((event) => {
+               if (event?.query.getObserversCount() === 0) {
+                 resolve();
+@@ -212,6 +236,19 @@ export function withTRPC<
+               }
+             });
+           });
++          if (typeof config.ssrTimeout === 'number') {
++            await Promise.race([
++              prefetchPromise,
++              new Promise((resolve) => {
++                setTimeout(() => {
++                  void queryClient.cancelQueries();
++                  resolve(undefined);
++                }, config.ssrTimeout);
++              }),
++            ]);
++          } else {
++            await prefetchPromise;
++          }
+         }
+         const dehydratedCache = dehydrate(queryClient, {
+           shouldDehydrateQuery() {

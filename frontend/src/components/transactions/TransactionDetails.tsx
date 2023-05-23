@@ -18,7 +18,7 @@ import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
 import Gas from "@/frontend/components/utils/Gas";
 import Term from "@/frontend/components/utils/Term";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -134,7 +134,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
     );
   }, [gasUsed, transaction.actions]);
 
-  const latestBlockSub = useSubscription(["latestBlock"]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
   const format = useDateFormat();
   const isDelegateAction =
     transaction.actions.length === 1 &&

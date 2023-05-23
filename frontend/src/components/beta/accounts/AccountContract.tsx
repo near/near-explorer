@@ -32,12 +32,8 @@ export const SmallHeader = styled("div", {
 
 const AccountContract: React.FC<Props> = React.memo(({ id }) => {
   const { t } = useTranslation();
-  const contractQuery = trpc.useQuery(["contract.byId", { id }]);
-  if (
-    contractQuery.status === "loading" ||
-    contractQuery.status === "idle" ||
-    contractQuery.data === null
-  ) {
+  const contractQuery = trpc.contract.byId.useQuery({ id });
+  if (contractQuery.status === "loading" || contractQuery.data === null) {
     return null;
   }
   if (contractQuery.status === "error") {
@@ -63,7 +59,7 @@ const AccountContract: React.FC<Props> = React.memo(({ id }) => {
         <SmallHeader>{t("pages.account.header.contract.codeHash")}</SmallHeader>
         <ShortenValue>{contractQuery.data.codeHash}</ShortenValue>
       </div>
-      {contractQuery.data.timestamp ? (
+      {"timestamp" in contractQuery.data ? (
         <div>
           <SmallHeader>
             {t("pages.account.header.contract.updatedTimestamp")}
@@ -71,7 +67,7 @@ const AccountContract: React.FC<Props> = React.memo(({ id }) => {
           <Timestamp timestamp={contractQuery.data.timestamp} />
         </div>
       ) : null}
-      {contractQuery.data.transactionHash ? (
+      {"transactionHash" in contractQuery.data ? (
         <div>
           <SmallHeader>
             {t("pages.account.header.contract.updatedTransaction")}

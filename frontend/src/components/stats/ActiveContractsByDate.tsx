@@ -7,12 +7,12 @@ import { useTranslation } from "next-i18next";
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 
 const getOption = (
   title: string,
   seriesName: string,
-  data: TRPCSubscriptionOutput<"activeContractsHistory">
+  data: TRPCSubscriptionOutput<"subscriptions.activeContractsHistory">
 ) => ({
   title: {
     text: title,
@@ -88,7 +88,8 @@ const getOption = (
 
 const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const activeContractsHistorySub = useSubscription(["activeContractsHistory"]);
+  const activeContractsHistorySub =
+    subscriptions.activeContractsHistory.useSubscription();
 
   const option = React.useMemo(() => {
     if (!activeContractsHistorySub.data) {

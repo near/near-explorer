@@ -1,21 +1,25 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
+import { procedure as activity } from "./activity";
+import { procedure as nonStakedBalance } from "./balance";
+import { procedures as byIdProcedures } from "./by-id";
+import { procedures as fungibleTokensProcedures } from "./fungible-tokens";
+import { procedure as listByTimestamp } from "./list";
+import { procedures as nonFungibleTokensProcedures } from "./non-fungible-tokens";
+import { procedure as transactionsCount } from "./transactions-count";
 
-import { router as activityRouter } from "./activity";
-import { router as balanceRouter } from "./balance";
-import { router as byIdRouter } from "./by-id";
-import { router as fungibleTokensRouter } from "./fungible-tokens";
-import { router as listRouter } from "./list";
-import { router as nonFungibleTokensRouter } from "./non-fungible-tokens";
-import { router as transactionsCountRouter } from "./transactions-count";
-
-export const router = trpc
-  .router<RequestContext>()
-  .merge(byIdRouter)
-  .merge(listRouter)
-  .merge(transactionsCountRouter)
-  .merge(fungibleTokensRouter)
-  .merge(activityRouter)
-  .merge(nonFungibleTokensRouter)
-  .merge(balanceRouter);
+export const router = t.router({
+  byId: byIdProcedures.byId,
+  byIdOld: byIdProcedures.byIdOld,
+  listByTimestamp,
+  transactionsCount,
+  fungibleTokens: fungibleTokensProcedures.fungibleTokens,
+  fungibleTokenHistory: fungibleTokensProcedures.fungibleTokenHistory,
+  activity,
+  nonFungibleTokenContracts:
+    nonFungibleTokensProcedures.nonFungibleTokenContracts,
+  nonFungibleTokenHistory: nonFungibleTokensProcedures.nonFungibleTokenHistory,
+  nonFungibleTokens: nonFungibleTokensProcedures.nonFungibleTokens,
+  nonFungibleTokensCount: nonFungibleTokensProcedures.nonFungibleTokensCount,
+  nonStakedBalance,
+});

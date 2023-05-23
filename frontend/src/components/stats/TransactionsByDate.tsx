@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 import { Tabs, Tab } from "react-bootstrap";
 
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
 
 const getOption = (
@@ -93,7 +93,8 @@ export interface Props {
 const TransactionsByDateChart: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
     const { t } = useTranslation();
-    const transactionsHistorySub = useSubscription(["transactionsHistory"]);
+    const transactionsHistorySub =
+      subscriptions.transactionsHistory.useSubscription();
 
     const options = React.useMemo(() => {
       if (!transactionsHistorySub.data) {

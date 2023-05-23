@@ -59,7 +59,7 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
   React.useEffect(() => {
     Gleap.setEnvironment(client.environment);
   }, [client.environment]);
-  const { data: server } = trpc.useQuery(["utils.deployInfo"], {
+  const { data: server } = trpc.utils.deployInfo.useQuery(undefined, {
     enabled: expanded,
   });
   let content: React.ReactNode = "◍";

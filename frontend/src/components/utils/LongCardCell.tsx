@@ -82,8 +82,7 @@ const LongCardCell = typedMemo(
             className="ml-auto align-self-center"
             css={textCss}
           >
-            {subscription.status === "loading" ||
-            subscription.status === "idle" ? (
+            {subscription.status === "loading" ? (
               <Spinner animation="border" variant="secondary" />
             ) : subscription.status === "success" ? (
               children(subscription.data)

@@ -1,11 +1,9 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { getAccountTransactionsCount } from "@/backend/router/account/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const router = trpc.router<RequestContext>().query("transactionsCount", {
-  input: z.strictObject({ id: validators.accountId }),
-  resolve: ({ input: { id } }) => getAccountTransactionsCount(id),
-});
+export const procedure = t.procedure
+  .input(z.strictObject({ id: validators.accountId }))
+  .query(({ input: { id } }) => getAccountTransactionsCount(id));

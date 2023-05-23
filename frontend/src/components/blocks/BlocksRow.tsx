@@ -6,7 +6,7 @@ import { Row, Col } from "react-bootstrap";
 import { BlockBase } from "@/common/types/procedures";
 import Link from "@/frontend/components/utils/Link";
 import Timer from "@/frontend/components/utils/Timer";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const TransactionRow = styled(Row, {
@@ -63,7 +63,7 @@ export interface Props {
 
 const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
-  const latestBlockSub = useSubscription(["latestBlock"]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
   return (
     <Link href={`/blocks/${block.hash}`}>
       <TransactionRow className="mx-0">

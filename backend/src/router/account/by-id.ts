@@ -1,12 +1,11 @@
-import * as trpc from "@trpc/server";
 import { sha256 } from "js-sha256";
 import { z } from "zod";
 
 import { config } from "@/backend/config";
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
 import { getAccountTransactionsCount } from "@/backend/router/account/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 import { ignoreIfDoesNotExist } from "@/backend/utils/near";
@@ -120,11 +119,10 @@ const getAccountInfo = async (accountId: string) => {
   };
 };
 
-export const router = trpc
-  .router<RequestContext>()
-  .query("byIdOld", {
-    input: z.strictObject({ id: validators.accountId }),
-    resolve: async ({ input: { id } }) => {
+export const procedures = {
+  byIdOld: t.procedure
+    .input(z.strictObject({ id: validators.accountId }))
+    .query(async ({ input: { id } }) => {
       const [accountInfo, accountDetails] = await Promise.all([
         getAccountInfo(id),
         getAccountDetails(id),
@@ -136,13 +134,14 @@ export const router = trpc
         ...accountInfo,
         details: accountDetails,
       };
-    },
-  })
-  .query("byId", {
-    input: z.strictObject({
-      id: validators.accountId,
     }),
-    resolve: async ({ input: { id } }) => {
+  byId: t.procedure
+    .input(
+      z.strictObject({
+        id: validators.accountId,
+      })
+    )
+    .query(async ({ input: { id } }) => {
       if (/[A-Z]/.test(id)) {
         return null;
       }
@@ -178,5 +177,5 @@ export const router = trpc
             transactionsCount.outTransactionsCount
           : undefined,
       };
-    },
-  });
+    }),
+};

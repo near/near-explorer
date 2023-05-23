@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { AccountListInfo } from "@/common/types/procedures";
 import { id } from "@/common/utils/utils";
 import AccountRow from "@/frontend/components/accounts/AccountRow";
 import FlipMove from "@/frontend/components/utils/FlipMove";
@@ -10,8 +9,8 @@ import { trpc } from "@/frontend/libraries/trpc";
 const ACCOUNTS_PER_PAGE = 15;
 
 const Accounts: React.FC = React.memo(() => {
-  const query = trpc.useInfiniteQuery(
-    ["account.listByTimestamp", { limit: ACCOUNTS_PER_PAGE }],
+  const query = trpc.account.listByTimestamp.useInfiniteQuery(
+    { limit: ACCOUNTS_PER_PAGE },
     {
       getNextPageParam: (lastPage) => {
         const lastElement = lastPage[lastPage.length - 1];
@@ -23,10 +22,7 @@ const Accounts: React.FC = React.memo(() => {
     }
   );
   return (
-    <ListHandler<"account.listByTimestamp", AccountListInfo>
-      query={query}
-      parser={id}
-    >
+    <ListHandler<"account.listByTimestamp"> query={query} parser={id}>
       {(items) => (
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items.map((account) => (

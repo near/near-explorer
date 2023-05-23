@@ -250,7 +250,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
-  const searchMutation = trpc.useMutation("utils.search", {
+  const searchMutation = trpc.utils.search.useMutation({
     onSuccess: (result) => {
       const page = getRedirectPage(result);
       if (!page) {

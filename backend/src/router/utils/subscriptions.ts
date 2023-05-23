@@ -1,9 +1,3 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
-
-export const router = trpc
-  .router<RequestContext>()
-  .query("subscriptionsCache", {
-    resolve: ({ ctx }) => ctx.subscriptionsCache,
-  });
+export const procedure = t.procedure.query(({ ctx }) => ctx.subscriptionsCache);

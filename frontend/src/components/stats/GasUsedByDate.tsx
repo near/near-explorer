@@ -9,14 +9,14 @@ import { Tabs, Tab } from "react-bootstrap";
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
 
 const getOption = (
   title: string,
   yAxisTitle: string,
-  data: TRPCSubscriptionOutput<"gasUsedHistory">
+  data: TRPCSubscriptionOutput<"subscriptions.gasUsedHistory">
 ) => ({
   title: {
     text: title,
@@ -117,8 +117,8 @@ const getGasCostInNear = (
 
 const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const latestGasPriceSub = useSubscription(["latestGasPrice"]);
-  const gasUsedHistorySub = useSubscription(["gasUsedHistory"]);
+  const latestGasPriceSub = subscriptions.latestGasPrice.useSubscription();
+  const gasUsedHistorySub = subscriptions.gasUsedHistory.useSubscription();
 
   const options = React.useMemo(() => {
     if (!gasUsedHistorySub.data) {

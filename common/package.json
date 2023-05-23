@@ -5,9 +5,9 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@trpc/client": "^9.27.4",
-    "@trpc/react": "^9.27.4",
+    "@trpc/client": "^10.26.0",
+    "@trpc/react-query": "^10.26.0",
     "@types/lodash": "^4.14.177",
-    "react-query": "^3.39.0"
+    "@tanstack/react-query": "^4.29.7"
   }
 }

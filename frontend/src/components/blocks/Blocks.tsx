@@ -2,23 +2,22 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { BlockBase } from "@/common/types/procedures";
 import { id } from "@/common/utils/utils";
 import BlocksRow from "@/frontend/components/blocks/BlocksRow";
 import FlipMove from "@/frontend/components/utils/FlipMove";
 import ListHandler from "@/frontend/components/utils/ListHandler";
 import Placeholder from "@/frontend/components/utils/Placeholder";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { trpc } from "@/frontend/libraries/trpc";
 
 const BLOCKS_PER_PAGE = 15;
 
 const Blocks: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const latestBlockSub = useSubscription(["latestBlock"]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
 
-  const query = trpc.useInfiniteQuery(
-    ["block.list", { limit: BLOCKS_PER_PAGE }],
+  const query = trpc.block.list.useInfiniteQuery(
+    { limit: BLOCKS_PER_PAGE },
     {
       getNextPageParam: (lastPage) => {
         const lastElement = lastPage[lastPage.length - 1];
@@ -34,7 +33,7 @@ const Blocks: React.FC = React.memo(() => {
   const onRefetchClick = React.useCallback(() => refetch(), [refetch]);
 
   return (
-    <ListHandler<"block.list", BlockBase>
+    <ListHandler<"block.list">
       query={query}
       parser={id}
       prependChildren={

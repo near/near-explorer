@@ -134,14 +134,11 @@ type Props = {
 
 const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
   ({ accountId, token }) => {
-    const tokenHistoryQuery = trpc.useQuery([
-      "account.fungibleTokenHistory",
-      { accountId, tokenAuthorAccountId: token.authorAccountId },
-    ]);
-    if (
-      tokenHistoryQuery.status === "loading" ||
-      tokenHistoryQuery.status === "idle"
-    ) {
+    const tokenHistoryQuery = trpc.account.fungibleTokenHistory.useQuery({
+      accountId,
+      tokenAuthorAccountId: token.authorAccountId,
+    });
+    if (tokenHistoryQuery.status === "loading") {
       return <Spinner animation="border" />;
     }
     if (tokenHistoryQuery.status === "error") {

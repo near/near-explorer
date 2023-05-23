@@ -3,6 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import { Unpacked } from "@/common/types/common";
 import {
   TRPCInfiniteQueryKey,
   TRPCInfiniteQueryOutput,
@@ -38,7 +39,10 @@ const LoadButton = styled("button", {
   },
 });
 
-export type Props<K extends TRPCInfiniteQueryKey, T> = {
+export type Props<
+  K extends TRPCInfiniteQueryKey,
+  T = Unpacked<TRPCInfiniteQueryOutput<K>>
+> = {
   query: TRPCInfiniteQueryResult<K>;
   parser: (input: TRPCInfiniteQueryOutput<K>) => T[];
   children: (items: T[]) => React.ReactNode;
@@ -46,7 +50,7 @@ export type Props<K extends TRPCInfiniteQueryKey, T> = {
 };
 
 const ListHandler = typedMemo(
-  <K extends TRPCInfiniteQueryKey, T>({
+  <K extends TRPCInfiniteQueryKey, T = Unpacked<TRPCInfiniteQueryOutput<K>>>({
     query,
     parser,
     children,

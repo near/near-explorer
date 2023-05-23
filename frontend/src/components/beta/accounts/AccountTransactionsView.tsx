@@ -302,21 +302,15 @@ type Props = {
 const parser = (result: TransactionListResponse) => result.items;
 
 const AccountTransactionsView = React.memo<React.FC<Props>>(({ accountId }) => {
-  const query = trpc.useInfiniteQuery(
-    [
-      "transaction.listByAccountId",
-      { accountId, limit: TRANSACTIONS_PER_PAGE },
-    ],
-    React.useMemo(
-      () => ({ getNextPageParam: (lastPage) => lastPage.cursor }),
-      []
-    )
+  const query = trpc.transaction.listByAccountId.useInfiniteQuery(
+    { accountId, limit: TRANSACTIONS_PER_PAGE },
+    { getNextPageParam: (lastPage) => lastPage.cursor }
   );
 
   return (
     <ListHandler<
       "transaction.listByAccountId",
-      ReturnType<typeof parser>[number]
+      TransactionListResponse["items"][number]
     >
       query={query}
       parser={parser}

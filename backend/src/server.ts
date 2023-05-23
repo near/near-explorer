@@ -35,7 +35,7 @@ export const createApp = (options: RouterOptions) => {
 
   app
     .use(cors())
-    .use("/trpc", trpcExpress.createExpressMiddleware(options))
+    .use("/trpc", trpcExpress.createExpressMiddleware<AppRouter>(options))
     .use("/ping", (_req, res) => res.send("OK"))
     .use("/global-state", async (req, res) => {
       const context = await options.createContext({ req, res });
@@ -66,6 +66,7 @@ export const connectWebsocketServer = (
 
   const handler = trpcWsAdapter.applyWSSHandler({
     wss: websocketServer,
+    process,
     ...options,
   });
 

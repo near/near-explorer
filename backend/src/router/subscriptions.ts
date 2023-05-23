@@ -1,20 +1,31 @@
-import * as trpc from "@trpc/server";
+import type {
+  DefaultDataTransformer,
+  DefaultErrorShape,
+  Procedure,
+  ProcedureParams,
+  RootConfig,
+} from "@trpc/server";
+import { observable } from "@trpc/server/observable";
 import { isEqual } from "lodash";
 import { z } from "zod";
 
 import { RequestContext } from "@/backend/context";
+import { t } from "@/backend/router/trpc";
 import {
   SubscriptionEventMap,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
 } from "@/backend/router/types";
-import {
-  AnyRouter,
-  CreateProcedureSubscription,
-  RouterWithSubscriptionsAndQueries,
-} from "@/common/types/trpc";
 import { wait } from "@/common/utils/promise";
 import { SSR_TIMEOUT } from "@/common/utils/queries";
+import { id } from "@/common/utils/utils";
+
+type AppRouterConfig = RootConfig<{
+  ctx: RequestContext;
+  meta: {};
+  errorShape: DefaultErrorShape;
+  transformer: DefaultDataTransformer;
+}>;
 
 const subscriptionInputs = {
   transactionsHistory: z.union([
@@ -47,105 +58,78 @@ type OutputMapping = {
 type MappedSubscriptionTopicType<T extends SubscriptionTopicType> =
   T extends keyof OutputMapping ? OutputMapping[T] : SubscriptionTopicTypes[T];
 
-const id = <T>(a: T) => a;
+type MapFunction<T extends SubscriptionTopicType> = (
+  data: SubscriptionTopicTypes[T],
+  input: SubscriptionInput<T>
+) => MappedSubscriptionTopicType<T>;
+type MaybeMapFunction<T extends SubscriptionTopicType> =
+  T extends keyof SubscriptionInputMap ? MapFunction<T> : undefined;
+type MapFunctions = {
+  [T in SubscriptionTopicType]: MaybeMapFunction<T>;
+};
 
-const withTopic = <
-  InitialRouter extends AnyRouter<RequestContext>,
-  T extends SubscriptionTopicType
->(
-  prevRouter: InitialRouter,
+const getInput = <T extends SubscriptionTopicType>(topic: T) => {
+  if (topic in subscriptionInputs) {
+    return subscriptionInputs[topic as keyof SubscriptionInputMap];
+  }
+  return z.undefined();
+};
+
+const getSubscriptionProcedure = <T extends SubscriptionTopicType>(
   topic: T,
-  inputModel: SubscriptionInputModel<T>,
-  mapFn: (
-    data: SubscriptionTopicTypes[T],
-    input: SubscriptionInput<T>
-  ) => MappedSubscriptionTopicType<T>
+  mapFn: MapFunction<T>
 ) =>
-  prevRouter
-    .subscription(topic, {
-      input: inputModel,
-      resolve: ({ ctx, input }) =>
-        new trpc.Subscription<MappedSubscriptionTopicType<T>>((emit) => {
-          const typedInput = input as SubscriptionInput<T>;
-          const onData: SubscriptionEventMap[T] = ((nextData, prevData) => {
-            const nextMappedData = mapFn(nextData, typedInput);
-            if (!prevData) {
-              return emit.data(nextMappedData);
-            }
-            const prevMappedData = mapFn(prevData, typedInput);
-            if (!isEqual(nextMappedData, prevMappedData)) {
-              emit.data(nextMappedData);
-            }
-          }) as SubscriptionEventMap[T];
-          if (ctx.subscriptionsCache[topic]) {
-            const cachedData = ctx.subscriptionsCache[
-              topic
-            ] as SubscriptionTopicTypes[T];
-            onData(cachedData);
-          }
-          ctx.subscriptionsEventEmitter.on<T>(topic, onData);
-          return () => {
-            ctx.subscriptionsEventEmitter.off<T>(topic, onData);
-          };
-        }),
-    })
-    .query(topic, {
-      input: inputModel,
-      resolve: async ({ ctx, input }) => {
-        const typedInput = input as SubscriptionInput<T>;
-        if (!ctx.subscriptionsCache[topic]) {
-          return new Promise((resolve) => {
-            const onData: SubscriptionEventMap[T] = ((data) => {
-              ctx.subscriptionsEventEmitter.off(topic, onData);
-              resolve(mapFn(data, typedInput));
-            }) as SubscriptionEventMap[T];
-            ctx.subscriptionsEventEmitter.on(topic, onData);
-            wait(SSR_TIMEOUT).then(() =>
-              ctx.subscriptionsEventEmitter.off(topic, onData)
-            );
-          });
+  t.procedure.input(getInput(topic)).subscription(({ ctx, input }) =>
+    observable<MappedSubscriptionTopicType<T>>((emit) => {
+      const typedInput = input as SubscriptionInput<T>;
+      const onData: SubscriptionEventMap[T] = ((nextData, prevData) => {
+        const nextMappedData = mapFn(nextData, typedInput);
+        if (!prevData) {
+          return emit.next(nextMappedData);
         }
+        const prevMappedData = mapFn(prevData, typedInput);
+        if (!isEqual(nextMappedData, prevMappedData)) {
+          emit.next(nextMappedData);
+        }
+      }) as SubscriptionEventMap[T];
+      if (ctx.subscriptionsCache[topic]) {
         const cachedData = ctx.subscriptionsCache[
           topic
         ] as SubscriptionTopicTypes[T];
-        return cachedData ? mapFn(cachedData, typedInput) : undefined;
-      },
-    });
+        onData(cachedData);
+      }
+      ctx.subscriptionsEventEmitter.on(topic, onData);
+      return () => {
+        ctx.subscriptionsEventEmitter.off(topic, onData);
+      };
+    })
+  );
 
-const withTopics = <InitialRouter extends AnyRouter<RequestContext>>(
-  initialRouter: InitialRouter,
-  topicsWithMapFns: {
-    [Topic in SubscriptionTopicType]: Topic extends keyof SubscriptionInputMap
-      ? (
-          value: SubscriptionTopicTypes[Topic],
-          input: SubscriptionInput<Topic>
-        ) => MappedSubscriptionTopicType<Topic>
-      : undefined;
-  }
-): RouterWithSubscriptionsAndQueries<
-  InitialRouter,
-  {
-    [Topic in SubscriptionTopicType]: CreateProcedureSubscription<
-      InitialRouter,
-      MappedSubscriptionTopicType<Topic>,
-      SubscriptionInput<Topic>
-    >;
-  }
-> =>
-  Object.entries(topicsWithMapFns).reduce(
-    (router, [topic, mapFn = id]) =>
-      withTopic(
-        router,
-        topic as keyof typeof topicsWithMapFns,
-        topic in subscriptionInputs
-          ? subscriptionInputs[topic as keyof typeof subscriptionInputs]
-          : z.undefined(),
-        mapFn as any
-      ) as any,
-    initialRouter
-  ) as any;
+const getQueryProcedure = <T extends SubscriptionTopicType>(
+  topic: T,
+  mapFn: MapFunction<T>
+) =>
+  t.procedure.input(getInput(topic)).query(async ({ ctx, input }) => {
+    const typedInput = input as SubscriptionInput<T>;
+    if (!ctx.subscriptionsCache[topic]) {
+      return new Promise((resolve) => {
+        const onData: SubscriptionEventMap[T] = ((data) => {
+          ctx.subscriptionsEventEmitter.off(topic, onData);
+          resolve(mapFn(data, typedInput));
+        }) as SubscriptionEventMap[T];
+        ctx.subscriptionsEventEmitter.on(topic, onData);
+        wait(SSR_TIMEOUT).then(() =>
+          ctx.subscriptionsEventEmitter.off(topic, onData)
+        );
+      });
+    }
+    const cachedData = ctx.subscriptionsCache[
+      topic
+    ] as SubscriptionTopicTypes[T];
+    return cachedData ? mapFn(cachedData, typedInput) : undefined;
+  });
 
-export const router = withTopics(trpc.router<RequestContext>(), {
+const subscriptionFilters: MapFunctions = {
   blockProductionSpeed: undefined,
   latestBlock: undefined,
   latestGasPrice: undefined,
@@ -175,4 +159,46 @@ export const router = withTopics(trpc.router<RequestContext>(), {
   rpcStatus: undefined,
   indexerStatus: undefined,
   currentValidatorsCount: undefined,
-});
+};
+
+const topicsFilterFnEntries = Object.entries(subscriptionFilters) as [
+  keyof MapFunctions,
+  MapFunctions[keyof MapFunctions]
+][];
+
+type ProceduresMapping<Type extends "query" | "subscription"> = {
+  [SpecificTopic in SubscriptionTopicType]: Procedure<
+    Type,
+    ProcedureParams<
+      AppRouterConfig,
+      unknown,
+      SubscriptionInput<SpecificTopic>,
+      SubscriptionInput<SpecificTopic>,
+      MappedSubscriptionTopicType<SpecificTopic>,
+      MappedSubscriptionTopicType<SpecificTopic>
+    >
+  >;
+};
+
+export const queryRouter = t.router(
+  topicsFilterFnEntries.reduce(
+    (app, [topic, mapFn = id]) => ({
+      ...app,
+      [topic]: getQueryProcedure(topic, mapFn as MapFunction<typeof topic>),
+    }),
+    {} as ProceduresMapping<"query">
+  )
+);
+
+export const subscriptionRouter = t.router(
+  topicsFilterFnEntries.reduce(
+    (app, [topic, mapFn = id]) => ({
+      ...app,
+      [topic]: getSubscriptionProcedure(
+        topic,
+        mapFn as MapFunction<typeof topic>
+      ),
+    }),
+    {} as ProceduresMapping<"subscription">
+  )
+);

@@ -8,7 +8,7 @@ import Timer from "@/frontend/components/utils/Timer";
 import { usePrevious } from "@/frontend/hooks/use-previous";
 import {
   UseSubscriptionResult,
-  useSubscription,
+  subscriptions,
 } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 import { MINUTE, SECOND } from "@/frontend/libraries/time";
@@ -180,8 +180,8 @@ const getStatusWithMessage = (
 };
 
 export const ServiceStatusView: React.FC = () => {
-  const rpcStatusSub = useSubscription(["rpcStatus"]);
-  const indexerStatusSub = useSubscription(["indexerStatus"]);
+  const rpcStatusSub = subscriptions.rpcStatus.useSubscription();
+  const indexerStatusSub = subscriptions.indexerStatus.useSubscription();
 
   const status = getStatusWithMessage(rpcStatusSub, indexerStatusSub);
   const previousStatus = usePrevious(status);

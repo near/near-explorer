@@ -10,7 +10,7 @@ import {
 import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
 import Term from "@/frontend/components/utils/Term";
 import Timer from "@/frontend/components/utils/Timer";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
@@ -34,10 +34,11 @@ interface Props {
 const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
 
-  const latestBlockSub = useSubscription(["latestBlock"]);
-  const telemetrySub = useSubscription(["validatorTelemetry", accountId]);
+  const latestBlockSub = subscriptions.latestBlock.useSubscription();
+  const telemetrySub =
+    subscriptions.validatorTelemetry.useSubscription(accountId);
 
-  if (telemetrySub.status === "loading" || telemetrySub.status === "idle") {
+  if (telemetrySub.status === "loading") {
     return <Spinner animation="border" />;
   }
   if (telemetrySub.status === "error") {

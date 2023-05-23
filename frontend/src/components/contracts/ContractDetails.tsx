@@ -49,13 +49,9 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const contractQuery = trpc.useQuery(["contract.byId", { id: accountId }]);
+  const contractQuery = trpc.contract.byId.useQuery({ id: accountId });
   const format = useDateFormat();
-  if (
-    contractQuery.status === "loading" ||
-    contractQuery.status === "idle" ||
-    !contractQuery.data
-  ) {
+  if (contractQuery.status === "loading" || !contractQuery.data) {
     return null;
   }
   if (contractQuery.status === "error") {
@@ -87,7 +83,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                 />
               }
               text={
-                contractQuery.data.timestamp ? (
+                "timestamp" in contractQuery.data ? (
                   <>
                     {format(
                       contractQuery.data.timestamp,
@@ -118,7 +114,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                 />
               }
               text={
-                contractQuery.data.transactionHash ? (
+                "transactionHash" in contractQuery.data ? (
                   <TransactionLink
                     transactionHash={contractQuery.data.transactionHash}
                   >

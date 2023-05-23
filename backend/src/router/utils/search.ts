@@ -1,8 +1,7 @@
-import * as trpc from "@trpc/server";
 import { z, ZodType } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
 const blockInput = z.union([
@@ -89,15 +88,13 @@ const validateAndFetch = async <T, V extends ZodType<any, any, any>>(
   return fetchedResult;
 };
 
-export const router = trpc.router<RequestContext>().mutation("search", {
-  input: z.strictObject({
-    value: z.string(),
-  }),
-  resolve: async ({ input: { value } }) =>
+export const procedure = t.procedure
+  .input(z.strictObject({ value: z.string() }))
+  .mutation(({ input: { value } }) =>
     Promise.any([
       validateAndFetch(value, blockInput, getBlockHash),
       validateAndFetch(value, validators.transactionHash, getTransactionHash),
       validateAndFetch(value, validators.accountId, getAccountId),
       validateAndFetch(value, validators.receiptId, getReceiptId),
-    ]).catch(() => undefined),
-});
+    ]).catch(() => undefined)
+  );

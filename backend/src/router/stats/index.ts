@@ -1,11 +1,9 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
+import { procedure as latestCirculatingSupply } from "./circulating-supply";
+import { procedure as tokensBurnt } from "./tokens-burnt";
 
-import { router as circulatingSupplyRouter } from "./circulating-supply";
-import { router as tokensBurntRouter } from "./tokens-burnt";
-
-export const router = trpc
-  .router<RequestContext>()
-  .merge(circulatingSupplyRouter)
-  .merge(tokensBurntRouter);
+export const router = t.router({
+  latestCirculatingSupply,
+  tokensBurnt,
+});

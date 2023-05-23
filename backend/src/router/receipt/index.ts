@@ -1,11 +1,10 @@
-import * as trpc from "@trpc/server";
+import { t } from "@/backend/router/trpc";
 
-import { RequestContext } from "@/backend/context";
+import { procedure as getTransactionHash } from "./get-transaction-hash";
+import { procedures as listProcedures } from "./list";
 
-import { router as getTransactionHashRouter } from "./get-transaction-hash";
-import { router as listRouter } from "./list";
-
-export const router = trpc
-  .router<RequestContext>()
-  .merge(listRouter)
-  .merge(getTransactionHashRouter);
+export const router = t.router({
+  listExecutedByBlockHash: listProcedures.listExecutedByBlockHash,
+  listIncludedByBlockHash: listProcedures.listIncludedByBlockHash,
+  getTransactionHash,
+});

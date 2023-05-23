@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { Badge, Col, Row } from "react-bootstrap";
 
 import Link from "@/frontend/components/utils/Link";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
 const NodeSelector = styled(Col, {
@@ -41,7 +41,8 @@ const NodeLink = styled(Link, {
 
 const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
+  const currentValidatorsCountSub =
+    subscriptions.currentValidatorsCount.useSubscription();
 
   return (
     <Row>

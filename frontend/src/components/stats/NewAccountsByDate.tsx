@@ -8,15 +8,15 @@ import { Tabs, Tab } from "react-bootstrap";
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
 import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import { useSubscription } from "@/frontend/hooks/use-subscription";
+import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
 
 const getOption = (
   title: string,
   seriesName: string,
   data:
-    | TRPCSubscriptionOutput<"accountsHistory">["newAccounts"]
-    | TRPCSubscriptionOutput<"accountsHistory">["liveAccounts"]
+    | TRPCSubscriptionOutput<"subscriptions.accountsHistory">["newAccounts"]
+    | TRPCSubscriptionOutput<"subscriptions.accountsHistory">["liveAccounts"]
 ) => ({
   title: {
     text: title,
@@ -92,7 +92,7 @@ const getOption = (
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const accountsHistorySub = useSubscription(["accountsHistory"]);
+  const accountsHistorySub = subscriptions.accountsHistory.useSubscription();
 
   const options = React.useMemo(() => {
     if (!accountsHistorySub.data) {

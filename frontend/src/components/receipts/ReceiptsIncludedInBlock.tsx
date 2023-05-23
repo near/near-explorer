@@ -8,10 +8,9 @@ interface Props {
 }
 
 const ReceiptsIncludedInBlock: React.FC<Props> = React.memo(({ blockHash }) => {
-  const { data: receiptsList } = trpc.useQuery([
-    "receipt.listIncludedByBlockHash",
-    { blockHash },
-  ]);
+  const { data: receiptsList } = trpc.receipt.listIncludedByBlockHash.useQuery({
+    blockHash,
+  });
   return <ReceiptsList receiptsList={receiptsList} />;
 });
 

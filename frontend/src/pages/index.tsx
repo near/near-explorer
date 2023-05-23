@@ -103,7 +103,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const searchQueryValue = Array.isArray(searchQuery)
     ? searchQuery[0]
     : searchQuery;
-  const searchResult = await trpcClient.mutation("utils.search", {
+  const searchResult = await trpcClient.utils.search.mutate({
     value: searchQueryValue.replace(/\s/g, ""),
   });
   const redirectPage = getRedirectPage(searchResult);

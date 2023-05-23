@@ -1,208 +1,118 @@
-import type { TRPCClient as _TRPCClient } from "@trpc/client";
-import type { TRPCClientErrorLike } from "@trpc/react";
 import type {
-  Procedure,
-  inferProcedureFromOptions,
-  CreateProcedureOptions,
-  CreateProcedureWithoutInput,
-  CreateProcedureWithInput,
-} from "@trpc/server/dist/declarations/src/internals/procedure";
-import type {
-  Router,
-  ProcedureRecord,
-} from "@trpc/server/dist/declarations/src/router";
-import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
-import type {
-  UseInfiniteQueryResult,
   UseMutationResult,
   UseQueryResult,
-} from "react-query";
-import type { Equals } from "tsafe";
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
+import type { inferRouterProxyClient } from "@trpc/client";
+import type { TRPCClientErrorLike } from "@trpc/react-query";
+import type {
+  inferProcedureInput,
+  AnyRouter,
+  AnyQueryProcedure,
+  AnyMutationProcedure,
+  AnySubscriptionProcedure,
+  AnyProcedure,
+  ProcedureType,
+} from "@trpc/server";
+import type { inferTransformedProcedureOutput } from "@trpc/server/src/shared/jsonify";
 
 import type { AppRouter } from "@/backend/router";
+import type { Flatten } from "@/common/types/common";
 
-export type AnyRouter<TContext = any> = Router<
-  any,
-  TContext,
-  any,
-  any,
-  any,
-  any,
-  any
->;
-type AnyProcedure = Procedure<any, any, any, any, any, any, any>;
-type AnyProcedureRecord = ProcedureRecord<any, any, any, any, any, any>;
-type AnyCreateProcedureOptions = CreateProcedureOptions<
-  any,
-  any,
-  any,
-  any,
-  any,
-  any
+// Generic types
+type FlattenRouter<TRouter extends AnyRouter> = Flatten<
+  {
+    [TKey in keyof TRouter["_def"]["record"] &
+      string]: TRouter["_def"]["record"][TKey] extends infer TRouterOrProcedure
+      ? TRouterOrProcedure extends AnyRouter
+        ? FlattenRouter<TRouterOrProcedure>
+        : TRouterOrProcedure extends AnyProcedure
+        ? TRouterOrProcedure
+        : never
+      : never;
+  },
+  AnyProcedure,
+  "."
 >;
 
-export type CreateProcedureSubscription<
-  R extends AnyRouter,
-  Output,
-  Input = undefined
-> = R extends Router<any, infer Context, infer Meta, any, any, any, any>
-  ? Equals<Input, undefined> extends true
-    ? CreateProcedureWithoutInput<Context, Meta, Output, Output>
-    : CreateProcedureWithInput<Context, Meta, Input, Output>
+type ProcedureByType<Type extends ProcedureType> = Type extends "query"
+  ? AnyQueryProcedure
+  : Type extends "mutation"
+  ? AnyMutationProcedure
+  : Type extends "subscription"
+  ? AnySubscriptionProcedure
   : never;
 
-type ProcedureWithOutputSubscription<
-  TOptions extends CreateProcedureOptions<any, any, any, any, any, any>
-> = TOptions extends CreateProcedureWithInput<
-  infer Context,
-  infer Meta,
-  infer Input,
-  infer Output
->
-  ? CreateProcedureWithInput<Context, Meta, Input, Subscription<Output>>
-  : TOptions extends CreateProcedureWithoutInput<
-      infer Context,
-      infer Meta,
-      infer Output,
-      infer Output
-    >
-  ? CreateProcedureWithoutInput<
-      Context,
-      Meta,
-      Subscription<Output>,
-      Subscription<Output>
-    >
-  : never;
+type BaseFlatRouter = Record<string, AnyProcedure>;
 
-export type RouterWithSubscriptionsAndQueries<
-  R extends AnyRouter,
-  SubscriptionProcedures extends Record<string, AnyCreateProcedureOptions>
-> = R extends Router<
-  infer InputContext,
-  infer Context,
-  infer Meta,
-  infer Queries,
-  infer Mutations,
-  infer Subscriptions,
-  infer Error
->
-  ? Router<
-      InputContext,
-      Context,
-      Meta,
-      Queries & {
-        [Path in keyof SubscriptionProcedures]: inferProcedureFromOptions<
-          InputContext,
-          SubscriptionProcedures[Path]
-        >;
-      },
-      Mutations,
-      Subscriptions & {
-        [Path in keyof SubscriptionProcedures]: inferProcedureFromOptions<
-          InputContext,
-          ProcedureWithOutputSubscription<SubscriptionProcedures[Path]>
-        >;
-      },
-      Error
-    >
-  : never;
-
-type InferProcedureInput<P extends AnyProcedure> = P extends Procedure<
-  any,
-  any,
-  any,
-  infer Input,
-  any,
-  any,
-  any
->
-  ? undefined extends Input
-    ? Input | null | void
-    : Input
-  : undefined;
-
-type InferProcedureOutput<P extends AnyProcedure> = Awaited<
-  ReturnType<P["call"]>
->;
-
-type InferProcedures<Obj extends AnyProcedureRecord> = {
-  [Path in keyof Obj]: {
-    input: InferProcedureInput<Obj[Path]>;
-    output: InferProcedureOutput<Obj[Path]>;
-  };
+type FilterByType<
+  FRouter extends BaseFlatRouter,
+  PType extends ProcedureType
+> = {
+  [K in keyof FRouter as FRouter[K] extends ProcedureByType<PType>
+    ? K
+    : never]: FRouter[K];
 };
 
-type InferInfiniteQueryNames<Obj extends AnyProcedureRecord> = {
-  [Path in keyof Obj]: InferProcedureInput<Obj[Path]> extends {
-    cursor?: any;
-  }
-    ? Path
-    : never;
-}[keyof Obj];
+type FilterInputs<FRouter extends BaseFlatRouter, Target> = {
+  [K in keyof FRouter as inferProcedureInput<FRouter[K]> extends Target
+    ? K
+    : never]: FRouter[K];
+};
 
-type InferHandlerInput<TProcedure extends AnyProcedure> =
-  TProcedure extends Procedure<any, any, any, infer TInput, any, any, any>
-    ? undefined extends TInput // ? is input optional
-      ? unknown extends TInput // ? is input unset
-        ? [(null | undefined)?] // -> there is no input
-        : [(TInput | null | undefined)?] // -> there is optional input
-      : [TInput] // -> input is required
-    : [(undefined | null)?]; // -> there is no input
+// Specific types
+type FlatRouter = FlattenRouter<AppRouter>;
 
-type InferQueryNameByResult<Obj extends AnyProcedureRecord, R> = {
-  [Path in keyof Obj]: InferProcedureInput<Obj[Path]> extends R ? Path : never;
-}[keyof Obj];
-
-type TypeKey = "queries" | "mutations" | "subscriptions";
-
-type DefValues<R extends AnyRouter, Type extends TypeKey> = InferProcedures<
-  R["_def"][Type]
+type TRPCQueryValues = FilterByType<FlatRouter, "query">;
+type TRPCMutationValues = FilterByType<FlatRouter, "mutation">;
+type TRPCSubscriptionValues = FilterByType<FlatRouter, "subscription">;
+type TRPCInfiniteQueryValues = FilterInputs<
+  TRPCQueryValues,
+  { cursor?: unknown }
 >;
 
-type DefKey<R extends AnyRouter, Type extends TypeKey> = keyof R["_def"][Type];
+export type TRPCError = TRPCClientErrorLike<AppRouter>;
 
-type InferSubscription<S> = S extends Subscription<infer D> ? D : never;
+export type TRPCQueryKey = keyof TRPCQueryValues & string;
 
-export type TRPCQueryKey = DefKey<AppRouter, "queries">;
+export type TRPCQueryInput<Path extends TRPCQueryKey> = inferProcedureInput<
+  TRPCQueryValues[Path]
+>;
 
-type QueriesDefs = AppRouter["_def"]["queries"];
-
-export type TRPCInfiniteQueryKey = InferInfiniteQueryNames<QueriesDefs>;
-
-export type TRPCInferQueryKey<R> = InferQueryNameByResult<QueriesDefs, R>;
-
-export type TRPCQueryInput<Path extends TRPCQueryKey> = DefValues<
-  AppRouter,
-  "queries"
->[Path]["input"];
-
-export type TRPCQueryOutput<Path extends TRPCQueryKey> = DefValues<
-  AppRouter,
-  "queries"
->[Path]["output"];
-
-export type TRPCInfiniteQueryOutput<Path extends TRPCInfiniteQueryKey> =
-  TRPCQueryOutput<Path>;
+export type TRPCQueryOutput<Path extends TRPCQueryKey> =
+  inferTransformedProcedureOutput<TRPCQueryValues[Path]>;
 
 export type TRPCQueryResult<Path extends TRPCQueryKey> = UseQueryResult<
   TRPCQueryOutput<Path>,
   TRPCError
 >;
 
+export type TRPCInfiniteQueryKey = keyof TRPCInfiniteQueryValues;
+
+export type TRPCInfiniteQueryInput<Path extends TRPCInfiniteQueryKey> = Omit<
+  inferProcedureInput<TRPCInfiniteQueryValues[Path]>,
+  "cursor"
+>;
+export type TRPCInfiniteQueryOutput<Path extends TRPCInfiniteQueryKey> =
+  inferTransformedProcedureOutput<TRPCInfiniteQueryValues[Path]>;
+
+export type TRPCInfiniteQueryCursor<Path extends TRPCInfiniteQueryKey> =
+  inferProcedureInput<TRPCInfiniteQueryValues[Path]> extends {
+    cursor?: unknown;
+  }
+    ? inferProcedureInput<TRPCInfiniteQueryValues[Path]>["cursor"]
+    : never;
+
 export type TRPCInfiniteQueryResult<Path extends TRPCInfiniteQueryKey> =
   UseInfiniteQueryResult<TRPCInfiniteQueryOutput<Path>, TRPCError>;
 
-export type TRPCMutationKey = DefKey<AppRouter, "mutations">;
+export type TRPCMutationKey = keyof TRPCMutationValues;
 
-export type TRPCMutationInput<Path extends TRPCMutationKey> = DefValues<
-  AppRouter,
-  "mutations"
->[Path]["input"];
+export type TRPCMutationInput<Path extends TRPCMutationKey> =
+  inferProcedureInput<TRPCMutationValues[Path]>;
 
-export type TRPCMutationOutput<Path extends TRPCMutationKey> = DefValues<
-  AppRouter,
-  "mutations"
->[Path]["output"];
+export type TRPCMutationOutput<Path extends TRPCMutationKey> =
+  inferTransformedProcedureOutput<TRPCMutationValues[Path]>;
 
 export type TRPCMutationResult<Path extends TRPCMutationKey> =
   UseMutationResult<
@@ -211,16 +121,17 @@ export type TRPCMutationResult<Path extends TRPCMutationKey> =
     TRPCMutationInput<Path>
   >;
 
-export type TRPCSubscriptionKey = DefKey<AppRouter, "subscriptions">;
+export type TRPCSubscriptionKey = keyof TRPCSubscriptionValues;
+
+export type TRPCSubscriptionInput<Path extends TRPCSubscriptionKey> =
+  inferProcedureInput<TRPCSubscriptionValues[Path]>;
 
 export type TRPCSubscriptionOutput<Path extends TRPCSubscriptionKey> =
-  InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["output"]>;
+  inferTransformedProcedureOutput<TRPCSubscriptionValues[Path]>;
 
-export type TRPCSubscriptionInputs<Path extends TRPCSubscriptionKey> =
-  InferHandlerInput<AppRouter["_def"]["subscriptions"][Path]>;
+export type TRPCSubscriptionResult<Path extends TRPCSubscriptionKey> =
+  UseQueryResult<TRPCSubscriptionOutput<Path>, TRPCError>;
 
-export type TRPCError = TRPCClientErrorLike<AppRouter>;
-
-export type TRPCClient = _TRPCClient<AppRouter>;
+export type TRPCClient = inferRouterProxyClient<AppRouter>;
 
 export type { AppRouter };

@@ -62,10 +62,7 @@ const AccountPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer Beta | Account Page", {
     accountId: options.accountId,
   });
-  const accountQuery = trpc.useQuery([
-    "account.byId",
-    { id: options.accountId },
-  ]);
+  const accountQuery = trpc.account.byId.useQuery({ id: options.accountId });
 
   return (
     <>

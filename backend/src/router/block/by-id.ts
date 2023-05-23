@@ -1,17 +1,18 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
 import { indexerDatabase } from "@/backend/database/databases";
 import { count, div, sum } from "@/backend/database/utils";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const router = trpc.router<RequestContext>().query("byId", {
-  input: z.union([
-    z.strictObject({ hash: validators.blockHash }),
-    z.strictObject({ height: validators.blockHeight }),
-  ]),
-  resolve: async ({ input }) => {
+export const procedure = t.procedure
+  .input(
+    z.union([
+      z.strictObject({ hash: validators.blockHash }),
+      z.strictObject({ height: validators.blockHeight }),
+    ])
+  )
+  .query(async ({ input }) => {
     const selection = await indexerDatabase
       .selectFrom((eb) => {
         let innerSelection = eb.selectFrom("blocks").select("block_hash");
@@ -83,5 +84,4 @@ export const router = trpc.router<RequestContext>().query("byId", {
       gasUsed: gasUsedInChunksSelection?.gasUsed || "0",
       receiptsCount: receiptsCountSelection?.count || 0,
     };
-  },
-});
+  });

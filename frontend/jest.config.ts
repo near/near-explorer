@@ -13,7 +13,6 @@ export default createJestConfig({
   testRegex: "(\\.|/)test\\.[jt]sx?$",
   testPathIgnorePatterns: ["/node_modules/", "./utils/"],
   testEnvironment: "<rootDir>/src/testing/env.ts",
-  collectCoverage: false,
   timers: "modern",
   transform: {
     "^.+\\.(js|jsx|ts|tsx|mjs)$": path.join(__dirname, "./babel-jest-wrapper"),

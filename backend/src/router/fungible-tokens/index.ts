@@ -1,7 +1,6 @@
-import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { RequestContext } from "@/backend/context";
+import { t } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 
@@ -16,23 +15,22 @@ export type FungibleTokenMetadata = {
   decimals: number;
 };
 
-export const router = trpc
-  .router<RequestContext>()
-  .query("amount", {
-    resolve: async () => {
+export const router = t.router({
+  amount: t.procedure.query(async () => {
+    // TODO: add data from Enhanced API
+    const selection = { amount: "0" };
+    return parseInt(selection.amount, 10);
+  }),
+  list: t.procedure
+    .input(
+      z.strictObject({
+        limit: validators.limit,
+        cursor: z.number().optional(),
+      })
+    )
+    .query(async () => {
       // TODO: add data from Enhanced API
-      const selection = { amount: "0" };
-      return parseInt(selection.amount, 10);
-    },
-  })
-  .query("list", {
-    input: z.strictObject({
-      limit: validators.limit,
-      cursor: z.number().optional(),
-    }),
-    resolve: async () => {
-      // TODO: add data from Enhanced API
-      const tokens: any[] = [];
+      const tokens: { id: string }[] = [];
       const fungibleTokenContracts = tokens.map((token) => token.id);
       return Promise.all(
         fungibleTokenContracts.map(async (contract) => {
@@ -57,5 +55,5 @@ export const router = trpc
           };
         })
       );
-    },
-  });
+    }),
+});

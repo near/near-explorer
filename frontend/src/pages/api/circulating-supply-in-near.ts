@@ -19,9 +19,9 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const latestCirculatingSupply = await getTrpcClient(networkName).query(
-      "stats.latestCirculatingSupply"
-    );
+    const latestCirculatingSupply = await getTrpcClient(
+      networkName
+    ).stats.latestCirculatingSupply.query();
     const supplyInYoctoNEAR = latestCirculatingSupply.supply;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {

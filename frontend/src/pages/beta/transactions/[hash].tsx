@@ -34,7 +34,6 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo(({ query }) => {
     case "error":
       return <>{query.error.message}</>;
     case "loading":
-    case "idle":
       return <Spinner animation="border" />;
   }
 });
@@ -51,7 +50,7 @@ const TransactionPage: NextPage = React.memo(() => {
     transaction_hash: hash,
   });
 
-  const transactionQuery = trpc.useQuery(["transaction.byHash", { hash }]);
+  const transactionQuery = trpc.transaction.byHash.useQuery({ hash });
 
   return (
     <>

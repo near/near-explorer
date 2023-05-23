@@ -135,10 +135,10 @@ type Props = {
 
 const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
   ({ token, onClick }) => {
-    const tokenHistoryQuery = trpc.useQuery([
-      "account.nonFungibleTokenHistory",
-      { tokenAuthorAccountId: token.authorAccountId, tokenId: token.tokenId },
-    ]);
+    const tokenHistoryQuery = trpc.account.nonFungibleTokenHistory.useQuery({
+      tokenAuthorAccountId: token.authorAccountId,
+      tokenId: token.tokenId,
+    });
 
     return (
       <Wrapper>
@@ -171,8 +171,7 @@ const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
         <Description>{token.ownerId}</Description>
 
         <Heading>History</Heading>
-        {tokenHistoryQuery.status === "loading" ||
-        tokenHistoryQuery.status === "idle" ? (
+        {tokenHistoryQuery.status === "loading" ? (
           <Spinner animation="border" />
         ) : tokenHistoryQuery.status === "error" ? (
           <ErrorMessage onRetry={tokenHistoryQuery.refetch}>
