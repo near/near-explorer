@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import BlocksRow from "@/frontend/components/blocks/BlocksRow";
+import { BlocksRow } from "@/frontend/components/blocks/BlocksRow";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<BlocksRow />", () => {

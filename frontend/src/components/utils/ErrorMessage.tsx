@@ -37,7 +37,7 @@ const RetryButton = styled("button", {
   color: "#fff",
 });
 
-const ErrorMessage = React.memo<Props>(
+export const ErrorMessage = React.memo<Props>(
   ({ header, children, onRetry: onRetryRaw, retryText }) => {
     const { t } = useTranslation();
     const onRetry = React.useCallback<React.MouseEventHandler>(
@@ -61,5 +61,3 @@ const ErrorMessage = React.memo<Props>(
     );
   }
 );
-
-export default ErrorMessage;

@@ -4,8 +4,8 @@ import { useTranslation } from "next-i18next";
 
 import { TransactionReceipt } from "@/common/types/procedures";
 import { Tabs } from "@/frontend/components/beta/common/Tabs";
-import InspectReceipt from "@/frontend/components/beta/transactions/InspectReceipt";
-import ReceiptDetails from "@/frontend/components/beta/transactions/ReceiptDetails";
+import { InspectReceipt } from "@/frontend/components/beta/transactions/InspectReceipt";
+import { ReceiptDetails } from "@/frontend/components/beta/transactions/ReceiptDetails";
 import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
@@ -34,7 +34,7 @@ const TabLabel = styled("div", {
   display: "flex",
 });
 
-const ReceiptInfo: React.FC<Props> = React.memo(({ receipt }) => {
+export const ReceiptInfo: React.FC<Props> = React.memo(({ receipt }) => {
   const { t } = useTranslation();
   return (
     <TabsWrapper>
@@ -55,5 +55,3 @@ const ReceiptInfo: React.FC<Props> = React.memo(({ receipt }) => {
     </TabsWrapper>
   );
 });
-
-export default ReceiptInfo;

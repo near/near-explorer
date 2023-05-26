@@ -4,14 +4,15 @@ import JSBI from "jsbi";
 import { Trans, useTranslation } from "next-i18next";
 
 import { Account } from "@/common/types/procedures";
-import AccountContract, {
+import {
+  AccountContract,
   SmallHeader,
 } from "@/frontend/components/beta/accounts/AccountContract";
-import StringConditionalOverlay from "@/frontend/components/beta/common/StringConditionalOverlay";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import LinkWrapper from "@/frontend/components/utils/Link";
+import { StringConditionalOverlay } from "@/frontend/components/beta/common/StringConditionalOverlay";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { Link } from "@/frontend/components/utils/Link";
 import { NearAmount } from "@/frontend/components/utils/NearAmount";
-import Timer from "@/frontend/components/utils/Timer";
+import { Timer } from "@/frontend/components/utils/Timer";
 import * as BI from "@/frontend/libraries/bigint";
 import {
   BasicDecimalPower,
@@ -86,7 +87,7 @@ const InfoLine = styled("span", {
   fontSize: 12,
 });
 
-const CreatedBy = styled(LinkWrapper, {
+const CreatedBy = styled(Link, {
   color: "#c9c9c9",
   fontSize: 12,
   textDecoration: "underline",
@@ -135,7 +136,7 @@ const Quantity = styled("div", {
   whiteSpace: "nowrap",
 });
 
-const AccountHeader: React.FC<Props> = React.memo((props) => {
+export const AccountHeader: React.FC<Props> = React.memo((props) => {
   const { t } = useTranslation();
   const transactionsQuantity =
     props.account.transactionsQuantity === undefined
@@ -244,5 +245,3 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
     </Wrapper>
   );
 });
-
-export default AccountHeader;

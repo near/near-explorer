@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import AccountRow from "@/frontend/components/accounts/AccountRow";
+import { AccountRow } from "@/frontend/components/accounts/AccountRow";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<AccountRow />", () => {

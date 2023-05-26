@@ -9,8 +9,8 @@ import {
   TRPCInfiniteQueryOutput,
   TRPCInfiniteQueryResult,
 } from "@/common/types/trpc";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { typedMemo } from "@/frontend/libraries/react";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -49,7 +49,7 @@ export type Props<
   prependChildren?: React.ReactNode;
 };
 
-const ListHandler = typedMemo(
+export const ListHandler = typedMemo(
   <K extends TRPCInfiniteQueryKey, T = Unpacked<TRPCInfiniteQueryOutput<K>>>({
     query,
     parser,
@@ -101,5 +101,3 @@ const ListHandler = typedMemo(
     );
   }
 );
-
-export default ListHandler;

@@ -4,8 +4,8 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 
-import Blocks from "@/frontend/components/blocks/Blocks";
-import Content from "@/frontend/components/utils/Content";
+import { Blocks } from "@/frontend/components/blocks/Blocks";
+import { Content } from "@/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 
 const BlocksPage: NextPage = React.memo(() => {

@@ -21,7 +21,7 @@ type Props = {
   expandComponent: ExpandComponent;
 };
 
-const Expandable: React.FC<Props> = ({
+export const Expandable: React.FC<Props> = ({
   children,
   dependencies,
   collapseHeight,
@@ -55,5 +55,3 @@ const Expandable: React.FC<Props> = ({
     </>
   );
 };
-
-export default Expandable;

@@ -10,7 +10,7 @@ interface Props {
   gasPrice: string;
 }
 
-const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
+export const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
   const gasPricePerTeragas = React.useMemo(
     () => JSBI.multiply(JSBI.BigInt(gasPrice), TGAS),
     [gasPrice]
@@ -26,5 +26,3 @@ const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
     </OverlayTrigger>
   );
 });
-
-export default GasPrice;

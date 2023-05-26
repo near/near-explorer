@@ -57,7 +57,7 @@ type Props = {
   mobile?: boolean;
 };
 
-const LanguageToggle: React.FC<Props> = React.memo((props) => {
+export const LanguageToggle: React.FC<Props> = React.memo((props) => {
   const [language, setLanguage, isQuery] = useLanguage();
   if (isQuery) {
     return null;
@@ -78,5 +78,3 @@ const LanguageToggle: React.FC<Props> = React.memo((props) => {
     </LangSelector>
   );
 });
-
-export default LanguageToggle;

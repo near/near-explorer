@@ -10,7 +10,7 @@ interface Props {
   time: number;
 }
 
-const Timer: React.FC<Props> = React.memo(({ time }) => {
+export const Timer: React.FC<Props> = React.memo(({ time }) => {
   const [now, setNow] = React.useState<Date>(new Date());
   React.useEffect(() => {
     const timeToSecond = SECOND - now.getMilliseconds();
@@ -40,5 +40,3 @@ const Timer: React.FC<Props> = React.memo(({ time }) => {
   );
   return <span>{formatTimePassed(time, now)}</span>;
 });
-
-export default Timer;

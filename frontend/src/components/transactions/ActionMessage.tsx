@@ -4,9 +4,9 @@ import { hexy } from "hexy";
 import { useTranslation } from "next-i18next";
 
 import { Action } from "@/common/types/procedures";
-import AccountLink from "@/frontend/components/utils/AccountLink";
-import Balance from "@/frontend/components/utils/Balance";
-import CodePreview from "@/frontend/components/utils/CodePreview";
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
+import { Balance } from "@/frontend/components/utils/Balance";
+import { CodePreview } from "@/frontend/components/utils/CodePreview";
 import { styled } from "@/frontend/libraries/styles";
 
 export interface Props<A extends Action> {
@@ -258,7 +258,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   delegateAction,
 };
 
-const ActionMessage: React.FC<Props<Action>> = React.memo((props) => {
+export const ActionMessage: React.FC<Props<Action>> = React.memo((props) => {
   const MessageRenderer = transactionMessageRenderers[props.action.kind];
   if (MessageRenderer === undefined) {
     return (
@@ -270,5 +270,3 @@ const ActionMessage: React.FC<Props<Action>> = React.memo((props) => {
 
   return <MessageRenderer {...(props as any)} />;
 });
-
-export default ActionMessage;

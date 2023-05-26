@@ -3,8 +3,8 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { TransactionReceipt } from "@/common/types/procedures";
-import CodeArgs from "@/frontend/components/beta/common/CodeArgs";
-import JsonView from "@/frontend/components/beta/common/JsonView";
+import { CodeArgs } from "@/frontend/components/beta/common/CodeArgs";
+import { JsonView } from "@/frontend/components/beta/common/JsonView";
 import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
@@ -58,7 +58,7 @@ const Title = styled("h4", {
   color: "#000000",
 });
 
-const ReceiptDetails: React.FC<Props> = React.memo(({ receipt }) => {
+export const ReceiptDetails: React.FC<Props> = React.memo(({ receipt }) => {
   const { t } = useTranslation();
   let statusInfo;
 
@@ -104,5 +104,3 @@ const ReceiptDetails: React.FC<Props> = React.memo(({ receipt }) => {
     </DetailsWrapper>
   );
 });
-
-export default ReceiptDetails;

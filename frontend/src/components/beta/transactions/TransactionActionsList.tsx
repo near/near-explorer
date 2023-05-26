@@ -4,7 +4,7 @@ import { intervalToDuration } from "date-fns";
 import { useTranslation } from "next-i18next";
 
 import { Transaction } from "@/common/types/procedures";
-import TransactionReceipt from "@/frontend/components/beta/transactions/TransactionReceipt";
+import { TransactionReceipt } from "@/frontend/components/beta/transactions/TransactionReceipt";
 import { useDateLocale } from "@/frontend/hooks/use-date-locale";
 import { styled } from "@/frontend/libraries/styles";
 import { formatDurationString } from "@/frontend/libraries/time";
@@ -66,7 +66,7 @@ const Expand = styled("div", {
   },
 });
 
-const TransactionActionsList: React.FC<Props> = React.memo(
+export const TransactionActionsList: React.FC<Props> = React.memo(
   ({ transaction: { timestamp, receipt } }) => {
     const [expandAll, setExpandAll] = React.useState(false);
     const expandAllReceipts = React.useCallback(
@@ -119,5 +119,3 @@ const TransactionActionsList: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default TransactionActionsList;

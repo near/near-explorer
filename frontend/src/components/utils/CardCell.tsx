@@ -56,7 +56,7 @@ export interface Props {
   loading?: boolean;
 }
 
-const CardCell: React.FC<Props> = React.memo(
+export const CardCell: React.FC<Props> = React.memo(
   ({ title, imgLink, text, className, loading }) => (
     <CardCellWrapper className={className}>
       <Card.Body>
@@ -77,5 +77,3 @@ const CardCell: React.FC<Props> = React.memo(
     </CardCellWrapper>
   )
 );
-
-export default CardCell;

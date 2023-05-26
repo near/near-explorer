@@ -9,12 +9,12 @@ import {
   TransactionPreview,
   Action,
 } from "@/common/types/procedures";
-import AccountActivityBadge from "@/frontend/components/beta/accounts/AccountActivityBadge";
-import AccountLink from "@/frontend/components/beta/common/AccountLink";
-import ShortenValue from "@/frontend/components/beta/common/ShortenValue";
-import Timestamp from "@/frontend/components/beta/common/Timestamp";
-import TransactionLink from "@/frontend/components/beta/common/TransactionLink";
-import ListHandler from "@/frontend/components/utils/ListHandler";
+import { AccountActivityBadge } from "@/frontend/components/beta/accounts/AccountActivityBadge";
+import { AccountLink } from "@/frontend/components/beta/common/AccountLink";
+import { ShortenValue } from "@/frontend/components/beta/common/ShortenValue";
+import { Timestamp } from "@/frontend/components/beta/common/Timestamp";
+import { TransactionLink } from "@/frontend/components/beta/common/TransactionLink";
+import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { NearAmount } from "@/frontend/components/utils/NearAmount";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";
@@ -301,50 +301,50 @@ type Props = {
 
 const parser = (result: TransactionListResponse) => result.items;
 
-const AccountTransactionsView = React.memo<React.FC<Props>>(({ accountId }) => {
-  const query = trpc.transaction.listByAccountId.useInfiniteQuery(
-    { accountId, limit: TRANSACTIONS_PER_PAGE },
-    { getNextPageParam: (lastPage) => lastPage.cursor }
-  );
+export const AccountTransactionsView = React.memo<React.FC<Props>>(
+  ({ accountId }) => {
+    const query = trpc.transaction.listByAccountId.useInfiniteQuery(
+      { accountId, limit: TRANSACTIONS_PER_PAGE },
+      { getNextPageParam: (lastPage) => lastPage.cursor }
+    );
 
-  return (
-    <ListHandler<
-      "transaction.listByAccountId",
-      TransactionListResponse["items"][number]
-    >
-      query={query}
-      parser={parser}
-    >
-      {(items) => {
-        if (query.isLoading && items.length === 0) {
-          return <Spinner animation="border" />;
-        }
-        return (
-          <TableWrapper>
-            <table>
-              <TableHeader>
-                <tr>
-                  <TableHeaderCell>Action</TableHeaderCell>
-                  <TableHeaderCell>Transaction</TableHeaderCell>
-                  <TableHeaderCell>When</TableHeaderCell>
-                </tr>
-              </TableHeader>
-              <tbody>
-                {items.length === 0 ? "No transactions" : null}
-                {items.map((item) => (
-                  <ActivityItemRow
-                    key={item.hash}
-                    item={item}
-                    accountId={accountId}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </TableWrapper>
-        );
-      }}
-    </ListHandler>
-  );
-});
-
-export default AccountTransactionsView;
+    return (
+      <ListHandler<
+        "transaction.listByAccountId",
+        TransactionListResponse["items"][number]
+      >
+        query={query}
+        parser={parser}
+      >
+        {(items) => {
+          if (query.isLoading && items.length === 0) {
+            return <Spinner animation="border" />;
+          }
+          return (
+            <TableWrapper>
+              <table>
+                <TableHeader>
+                  <tr>
+                    <TableHeaderCell>Action</TableHeaderCell>
+                    <TableHeaderCell>Transaction</TableHeaderCell>
+                    <TableHeaderCell>When</TableHeaderCell>
+                  </tr>
+                </TableHeader>
+                <tbody>
+                  {items.length === 0 ? "No transactions" : null}
+                  {items.map((item) => (
+                    <ActivityItemRow
+                      key={item.hash}
+                      item={item}
+                      accountId={accountId}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </TableWrapper>
+          );
+        }}
+      </ListHandler>
+    );
+  }
+);

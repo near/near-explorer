@@ -7,13 +7,14 @@ import { stringify } from "querystring";
 import { Spinner } from "react-bootstrap";
 
 import { TRPCQueryResult } from "@/common/types/trpc";
-import AccountDetails from "@/frontend/components/accounts/AccountDetails";
-import ContractDetails from "@/frontend/components/contracts/ContractDetails";
-import Transactions, {
+import { AccountDetails } from "@/frontend/components/accounts/AccountDetails";
+import { ContractDetails } from "@/frontend/components/contracts/ContractDetails";
+import {
+  Transactions,
   getNextPageParam,
 } from "@/frontend/components/transactions/Transactions";
-import Content from "@/frontend/components/utils/Content";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { Content } from "@/frontend/components/utils/Content";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { useAccountPageOptions } from "@/frontend/hooks/use-account-page-options";
 import { useBeta } from "@/frontend/hooks/use-beta";

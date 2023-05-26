@@ -3,8 +3,8 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import AccountLink from "@/frontend/components/utils/AccountLink";
-import Timer from "@/frontend/components/utils/Timer";
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
+import { Timer } from "@/frontend/components/utils/Timer";
 import { styled } from "@/frontend/libraries/styles";
 
 const ActionRowImage = styled("div", {
@@ -140,7 +140,7 @@ export interface Props {
   isFinal?: boolean;
 }
 
-const ActionRowBlock: React.FC<Props> = React.memo(
+export const ActionRowBlock: React.FC<Props> = React.memo(
   ({
     viewMode = "sparse",
     detalizationMode = "detailed",
@@ -206,5 +206,3 @@ const ActionRowBlock: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ActionRowBlock;

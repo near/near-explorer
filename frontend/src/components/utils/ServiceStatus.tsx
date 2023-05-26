@@ -4,7 +4,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import toast from "react-hot-toast/headless";
 
 import { HealthStatus } from "@/common/types/procedures";
-import Timer from "@/frontend/components/utils/Timer";
+import { Timer } from "@/frontend/components/utils/Timer";
 import { usePrevious } from "@/frontend/hooks/use-previous";
 import {
   UseSubscriptionResult,

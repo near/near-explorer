@@ -10,7 +10,7 @@ export type AnalyticsEvent = {
 let segment: Analytics;
 let anonymousId: string;
 
-const init = () => {
+export const init = () => {
   if (segment) {
     return;
   }
@@ -23,7 +23,7 @@ const init = () => {
   segment = new Analytics(segmentWriteKey, options);
 };
 
-const track = (eventLabel: string, properties?: AnalyticsEvent) => {
+export const track = (eventLabel: string, properties?: AnalyticsEvent) => {
   segment.track({
     anonymousId,
     event: eventLabel,
@@ -31,14 +31,8 @@ const track = (eventLabel: string, properties?: AnalyticsEvent) => {
   });
 };
 
-const identify = () => {
+export const identify = () => {
   segment.identify({
     userId: anonymousId,
   });
-};
-
-export default {
-  identify,
-  init,
-  track,
 };

@@ -4,7 +4,7 @@ import { styled } from "@/frontend/libraries/styles";
 
 const Wrapper = styled("span", { display: "inline-flex" });
 
-const NearIcon: React.FC = React.memo(() => (
+export const NearIcon: React.FC = React.memo(() => (
   <Wrapper>
     <svg width=".8em" height=".8em" fill="none" viewBox="0 0 15 15">
       <path
@@ -14,5 +14,3 @@ const NearIcon: React.FC = React.memo(() => (
     </svg>
   </Wrapper>
 ));
-
-export default NearIcon;

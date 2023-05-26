@@ -4,10 +4,11 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 
-import Transactions, {
+import {
+  Transactions,
   getNextPageParam,
 } from "@/frontend/components/transactions/Transactions";
-import Content from "@/frontend/components/utils/Content";
+import { Content } from "@/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { trpc } from "@/frontend/libraries/trpc";
 

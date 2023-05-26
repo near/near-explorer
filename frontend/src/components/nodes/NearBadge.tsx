@@ -13,8 +13,6 @@ const NearBadgeWrapper = styled(Badge, {
   background: "transparent",
 });
 
-const NearBadge: React.FC = React.memo(() => (
+export const NearBadge: React.FC = React.memo(() => (
   <NearBadgeWrapper variant="light">NEAR</NearBadgeWrapper>
 ));
-
-export default NearBadge;

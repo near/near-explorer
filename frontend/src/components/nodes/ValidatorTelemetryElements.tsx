@@ -7,9 +7,9 @@ import {
   ValidatorNodesContentCell,
   ValidatorNodesDetailsTitle,
 } from "@/frontend/components/nodes/ValidatorMetadataRow";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import Term from "@/frontend/components/utils/Term";
-import Timer from "@/frontend/components/utils/Timer";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { Term } from "@/frontend/components/utils/Term";
+import { Timer } from "@/frontend/components/utils/Timer";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -31,132 +31,136 @@ interface Props {
   accountId: string;
 }
 
-const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ accountId }) => {
-  const { t } = useTranslation();
+export const ValidatorTelemetryElements: React.FC<Props> = React.memo(
+  ({ accountId }) => {
+    const { t } = useTranslation();
 
-  const latestBlockSub = subscriptions.latestBlock.useSubscription();
-  const telemetrySub =
-    subscriptions.validatorTelemetry.useSubscription(accountId);
+    const latestBlockSub = subscriptions.latestBlock.useSubscription();
+    const telemetrySub =
+      subscriptions.validatorTelemetry.useSubscription(accountId);
 
-  if (telemetrySub.status === "loading") {
-    return <Spinner animation="border" />;
-  }
-  if (telemetrySub.status === "error") {
+    if (telemetrySub.status === "loading") {
+      return <Spinner animation="border" />;
+    }
+    if (telemetrySub.status === "error") {
+      return (
+        <ErrorMessage onRetry={telemetrySub.refetch}>
+          {telemetrySub.error.message}
+        </ErrorMessage>
+      );
+    }
+    const telemetry = telemetrySub.data;
+    if (!telemetry) {
+      return (
+        <ErrorMessage onRetry={telemetrySub.refetch}>
+          {t("component.nodes.ValidatorTelemetryRow.noTelemetryFound")}
+        </ErrorMessage>
+      );
+    }
+
     return (
-      <ErrorMessage onRetry={telemetrySub.refetch}>
-        {telemetrySub.error.message}
-      </ErrorMessage>
-    );
-  }
-  const telemetry = telemetrySub.data;
-  if (!telemetry) {
-    return (
-      <ErrorMessage onRetry={telemetrySub.refetch}>
-        {t("component.nodes.ValidatorTelemetryRow.noTelemetryFound")}
-      </ErrorMessage>
-    );
-  }
-
-  return (
-    <>
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t(
-                "component.nodes.ValidatorTelemetryRow.latest_produced_block.title"
-              )}
-              text={t(
-                "component.nodes.ValidatorTelemetryRow.latest_produced_block.text"
-              )}
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText
-            className={
-              latestBlockSub.status !== "success"
-                ? undefined
-                : Math.abs(telemetry.lastHeight - latestBlockSub.data.height) >
-                  1000
-                ? "text-danger"
-                : Math.abs(telemetry.lastHeight - latestBlockSub.data.height) >
-                  50
-                ? "text-warning"
-                : undefined
-            }
-            md={3}
-          >
-            {telemetry.lastHeight}
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
-
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t(
-                "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.title"
-              )}
-              text={t(
-                "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.text"
-              )}
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText>
-            <Timer time={telemetry.lastSeen} />
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
-
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t(
-                "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
-              )}
-              text={
-                <Trans
-                  i18nKey="component.nodes.ValidatorTelemetryRow.node_agent_name.text"
-                  components={{
-                    nearCoreLink: <a href="https://github.com/near/nearcore" />,
-                  }}
-                />
+      <>
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_produced_block.title"
+                )}
+                text={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_produced_block.text"
+                )}
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText
+              className={
+                latestBlockSub.status !== "success"
+                  ? undefined
+                  : Math.abs(
+                      telemetry.lastHeight - latestBlockSub.data.height
+                    ) > 1000
+                  ? "text-danger"
+                  : Math.abs(
+                      telemetry.lastHeight - latestBlockSub.data.height
+                    ) > 50
+                  ? "text-warning"
+                  : undefined
               }
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText>
-            <AgentNameBadge variant="secondary">
-              {telemetry.agentName}
-            </AgentNameBadge>
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
+              md={3}
+            >
+              {telemetry.lastHeight}
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
 
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            {t(
-              "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
-            )}
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText>
-            <AgentNameBadge variant="secondary">
-              {`${telemetry.agentVersion}/${telemetry.agentBuild}`}
-            </AgentNameBadge>
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
-    </>
-  );
-});
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.title"
+                )}
+                text={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.text"
+                )}
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText>
+              <Timer time={telemetry.lastSeen} />
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
 
-export default ValidatorTelemetryRow;
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t(
+                  "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
+                )}
+                text={
+                  <Trans
+                    i18nKey="component.nodes.ValidatorTelemetryRow.node_agent_name.text"
+                    components={{
+                      nearCoreLink: (
+                        <a href="https://github.com/near/nearcore" />
+                      ),
+                    }}
+                  />
+                }
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText>
+              <AgentNameBadge variant="secondary">
+                {telemetry.agentName}
+              </AgentNameBadge>
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
+
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              {t(
+                "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
+              )}
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText>
+              <AgentNameBadge variant="secondary">
+                {`${telemetry.agentVersion}/${telemetry.agentBuild}`}
+              </AgentNameBadge>
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
+      </>
+    );
+  }
+);

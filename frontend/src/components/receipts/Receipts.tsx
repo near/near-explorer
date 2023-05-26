@@ -3,15 +3,15 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { Receipt } from "@/common/types/procedures";
-import ReceiptExecutionStatus from "@/frontend/components/receipts/ReceiptExecutionStatus";
-import ActionGroup from "@/frontend/components/transactions/ActionGroup";
-import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
+import { ReceiptExecutionStatus } from "@/frontend/components/receipts/ReceiptExecutionStatus";
+import { ActionGroup } from "@/frontend/components/transactions/ActionGroup";
+import { ReceiptLink } from "@/frontend/components/utils/ReceiptLink";
 
 interface Props {
   receipts: Receipt[];
 }
 
-const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
+export const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
   const { t } = useTranslation();
   return (
     <>
@@ -32,5 +32,3 @@ const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
     </>
   );
 });
-
-export default Receipts;

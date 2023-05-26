@@ -4,14 +4,14 @@ import { Trans, useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import { AccountOld } from "@/common/types/procedures";
-import AccountLink from "@/frontend/components/utils/AccountLink";
-import Balance from "@/frontend/components/utils/Balance";
-import CardCell, { CardCellText } from "@/frontend/components/utils/CardCell";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import StorageSize from "@/frontend/components/utils/StorageSize";
-import Term from "@/frontend/components/utils/Term";
-import WalletLink from "@/frontend/components/utils/WalletLink";
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
+import { Balance } from "@/frontend/components/utils/Balance";
+import { CardCell, CardCellText } from "@/frontend/components/utils/CardCell";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { StorageSize } from "@/frontend/components/utils/StorageSize";
+import { Term } from "@/frontend/components/utils/Term";
+import { WalletLink } from "@/frontend/components/utils/WalletLink";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
 import { useNetworkContext } from "@/frontend/hooks/use-network-context";
@@ -169,7 +169,7 @@ export interface Props {
   account: AccountOld;
 }
 
-const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
+export const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
   const transactionsQuery = trpc.account.transactionsCount.useQuery({
     id: account.accountId,
@@ -347,5 +347,3 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
     </AccountInfoContainer>
   );
 });
-
-export default AccountDetails;

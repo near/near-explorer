@@ -5,11 +5,12 @@ import { useTranslation } from "next-i18next";
 
 import { ValidatorFullData } from "@/common/types/procedures";
 import { FRACTION_DIGITS } from "@/frontend/components/nodes/CumulativeStakeChart";
-import ValidatingLabel, {
+import {
+  ValidatingLabel,
   StakingStatus,
 } from "@/frontend/components/nodes/ValidatingLabel";
-import ValidatorCollapsedRow from "@/frontend/components/nodes/ValidatorCollapsedRow";
-import ValidatorMainRow from "@/frontend/components/nodes/ValidatorMainRow";
+import { ValidatorCollapsedRow } from "@/frontend/components/nodes/ValidatorCollapsedRow";
+import { ValidatorMainRow } from "@/frontend/components/nodes/ValidatorMainRow";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -74,7 +75,7 @@ const getStakingStatus = (
   return "idle";
 };
 
-const ValidatorRow: React.FC<Props> = React.memo(
+export const ValidatorRow: React.FC<Props> = React.memo(
   ({
     validator,
     index,
@@ -178,5 +179,3 @@ const ValidatorRow: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ValidatorRow;

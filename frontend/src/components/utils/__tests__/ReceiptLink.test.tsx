@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
+import { ReceiptLink } from "@/frontend/components/utils/ReceiptLink";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<ReceiptLink />", () => {

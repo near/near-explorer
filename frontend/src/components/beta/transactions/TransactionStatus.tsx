@@ -2,11 +2,11 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { TransactionStatus } from "@/common/types/procedures";
+import { TransactionStatus as StatusType } from "@/common/types/procedures";
 import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
-  status: TransactionStatus;
+  status: StatusType;
 };
 
 const Label = styled("div", {
@@ -37,11 +37,9 @@ const Label = styled("div", {
   },
 });
 
-const TransactionStatusView: React.FC<Props> = React.memo(({ status }) => {
+export const TransactionStatus: React.FC<Props> = React.memo(({ status }) => {
   const { t } = useTranslation();
   return (
     <Label type={status}>{t(`common.transactions.status.${status}`)}</Label>
   );
 });
-
-export default TransactionStatusView;

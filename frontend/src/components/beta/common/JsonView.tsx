@@ -11,7 +11,7 @@ const css: React.CSSProperties = {
   padding: "10px 0",
 };
 
-const JsonView: React.FC<Props> = React.memo(({ args }) => (
+export const JsonView: React.FC<Props> = React.memo(({ args }) => (
   <JsonViewer
     value={args}
     style={css}
@@ -19,5 +19,3 @@ const JsonView: React.FC<Props> = React.memo(({ args }) => (
     displayDataTypes={false}
   />
 ));
-
-export default JsonView;

@@ -6,9 +6,9 @@ import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
 import { TRPCQueryResult } from "@/common/types/trpc";
-import AccountHeader from "@/frontend/components/beta/accounts/AccountHeader";
-import AccountTabs from "@/frontend/components/beta/accounts/AccountTabs";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { AccountHeader } from "@/frontend/components/beta/accounts/AccountHeader";
+import { AccountTabs } from "@/frontend/components/beta/accounts/AccountTabs";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import {
   useAccountPageOptions,

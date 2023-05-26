@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Term from "@/frontend/components/utils/Term";
+import { Term } from "@/frontend/components/utils/Term";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<CardCell />", () => {

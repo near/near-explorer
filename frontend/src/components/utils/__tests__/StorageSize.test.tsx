@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import StorageSize from "@/frontend/components/utils/StorageSize";
+import { StorageSize } from "@/frontend/components/utils/StorageSize";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<StorageSize />", () => {

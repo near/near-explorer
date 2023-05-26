@@ -4,7 +4,7 @@ import JSBI from "jsbi";
 
 import { ValidatorFullData } from "@/common/types/procedures";
 import { notNullishGuard } from "@/common/utils/utils";
-import ValidatorRow from "@/frontend/components/nodes/ValidatorRow";
+import { ValidatorRow } from "@/frontend/components/nodes/ValidatorRow";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 
@@ -48,7 +48,7 @@ export const getTotalStake = (validators: ValidatorFullData[]) =>
     .filter(notNullishGuard)
     .reduce((acc, stake) => JSBI.add(acc, JSBI.BigInt(stake)), JSBI.BigInt(0));
 
-const ValidatorsList: React.FC<Props> = React.memo(
+export const ValidatorsList: React.FC<Props> = React.memo(
   ({ validators, selectedPageIndex }) => {
     const totalStake = React.useMemo(
       () => getTotalStake(validators),
@@ -113,5 +113,3 @@ const ValidatorsList: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ValidatorsList;

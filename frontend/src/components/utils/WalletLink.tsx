@@ -15,7 +15,7 @@ export interface Props {
   nearWalletProfilePrefix: string;
 }
 
-const WalletLink: React.FC<Props> = React.memo(
+export const WalletLink: React.FC<Props> = React.memo(
   ({ accountId, nearWalletProfilePrefix }) => {
     const { t } = useTranslation();
     const track = useAnalyticsTrack();
@@ -39,5 +39,3 @@ const WalletLink: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default WalletLink;

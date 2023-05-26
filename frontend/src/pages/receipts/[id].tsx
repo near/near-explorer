@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import Content from "@/frontend/components/utils/Content";
+import { Content } from "@/frontend/components/utils/Content";
 import { getNearNetworkName } from "@/frontend/libraries/config";
 import { shortenString } from "@/frontend/libraries/formatting";
 import { getTrpcClient } from "@/frontend/libraries/trpc";

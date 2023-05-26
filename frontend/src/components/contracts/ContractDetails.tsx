@@ -3,13 +3,14 @@ import * as React from "react";
 import { Trans, useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import CardCell, {
+import {
+  CardCell,
   CardCellTitleImage,
 } from "@/frontend/components/utils/CardCell";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import Term from "@/frontend/components/utils/Term";
-import TransactionLink from "@/frontend/components/utils/TransactionLink";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { Term } from "@/frontend/components/utils/Term";
+import { TransactionLink } from "@/frontend/components/utils/TransactionLink";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";
@@ -47,7 +48,7 @@ interface Props {
   accountId: string;
 }
 
-const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
+export const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
   const contractQuery = trpc.contract.byId.useQuery({ id: accountId });
   const format = useDateFormat();
@@ -169,5 +170,3 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
     </>
   );
 });
-
-export default ContractDetails;

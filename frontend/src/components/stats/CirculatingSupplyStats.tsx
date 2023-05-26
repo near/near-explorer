@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -146,44 +146,44 @@ const SupplySubHeader = styled("div", {
   fontWeight: 500,
 });
 
-const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const tokensSupplySub = subscriptions.tokensSupply.useSubscription();
+export const CirculatingSupplyStats: React.FC<Props> = React.memo(
+  ({ chartStyle }) => {
+    const { t } = useTranslation();
+    const tokensSupplySub = subscriptions.tokensSupply.useSubscription();
 
-  const option = React.useMemo(() => {
-    if (!tokensSupplySub.data) {
-      return;
-    }
-    return getOption(
-      t("component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"),
-      t("component.stats.CirculatingSupplyStats.tooltip.circulating_supply"),
-      tokensSupplySub.data
-    );
-  }, [tokensSupplySub.data, t]);
+    const option = React.useMemo(() => {
+      if (!tokensSupplySub.data) {
+        return;
+      }
+      return getOption(
+        t("component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"),
+        t("component.stats.CirculatingSupplyStats.tooltip.circulating_supply"),
+        tokensSupplySub.data
+      );
+    }, [tokensSupplySub.data, t]);
 
-  return (
-    <>
-      <SupplyHeader>
-        {t("component.stats.CirculatingSupplyStats.circulating_supply")}
-      </SupplyHeader>
-      <SupplySubHeader>
-        {t(
-          "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply_explain"
+    return (
+      <>
+        <SupplyHeader>
+          {t("component.stats.CirculatingSupplyStats.circulating_supply")}
+        </SupplyHeader>
+        <SupplySubHeader>
+          {t(
+            "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply_explain"
+          )}
+        </SupplySubHeader>
+        {option ? (
+          <ReactEcharts
+            option={option}
+            style={{
+              ...chartStyle,
+              marginTop: "5px",
+            }}
+          />
+        ) : (
+          <PaginationSpinner />
         )}
-      </SupplySubHeader>
-      {option ? (
-        <ReactEcharts
-          option={option}
-          style={{
-            ...chartStyle,
-            marginTop: "5px",
-          }}
-        />
-      ) : (
-        <PaginationSpinner />
-      )}
-    </>
-  );
-});
-
-export default CirculatingSupplyStats;
+      </>
+    );
+  }
+);

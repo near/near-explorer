@@ -6,14 +6,15 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { stringify } from "querystring";
 
-import BlockDetails from "@/frontend/components/blocks/BlockDetails";
-import ReceiptsExecutedInBlock from "@/frontend/components/receipts/ReceiptsExecutedInBlock";
-import ReceiptsIncludedInBlock from "@/frontend/components/receipts/ReceiptsIncludedInBlock";
-import Transactions, {
+import { BlockDetails } from "@/frontend/components/blocks/BlockDetails";
+import { ReceiptsExecutedInBlock } from "@/frontend/components/receipts/ReceiptsExecutedInBlock";
+import { ReceiptsIncludedInBlock } from "@/frontend/components/receipts/ReceiptsIncludedInBlock";
+import {
+  Transactions,
   getNextPageParam,
 } from "@/frontend/components/transactions/Transactions";
-import Content from "@/frontend/components/utils/Content";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { Content } from "@/frontend/components/utils/Content";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { getNearNetworkName } from "@/frontend/libraries/config";
 import { styled } from "@/frontend/libraries/styles";

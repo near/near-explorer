@@ -3,16 +3,16 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { id } from "@/common/utils/utils";
-import BlocksRow from "@/frontend/components/blocks/BlocksRow";
-import FlipMove from "@/frontend/components/utils/FlipMove";
-import ListHandler from "@/frontend/components/utils/ListHandler";
-import Placeholder from "@/frontend/components/utils/Placeholder";
+import { BlocksRow } from "@/frontend/components/blocks/BlocksRow";
+import { FlipMove } from "@/frontend/components/utils/FlipMove";
+import { ListHandler } from "@/frontend/components/utils/ListHandler";
+import { Placeholder } from "@/frontend/components/utils/Placeholder";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { trpc } from "@/frontend/libraries/trpc";
 
 const BLOCKS_PER_PAGE = 15;
 
-const Blocks: React.FC = React.memo(() => {
+export const Blocks: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockSub = subscriptions.latestBlock.useSubscription();
 
@@ -59,5 +59,3 @@ const Blocks: React.FC = React.memo(() => {
     </ListHandler>
   );
 });
-
-export default Blocks;

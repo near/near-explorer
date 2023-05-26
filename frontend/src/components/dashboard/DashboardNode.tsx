@@ -3,14 +3,14 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import DashboardCard from "@/frontend/components/utils/DashboardCard";
-import LinkWrapper from "@/frontend/components/utils/Link";
-import LongCardCell from "@/frontend/components/utils/LongCardCell";
-import Term from "@/frontend/components/utils/Term";
+import { DashboardCard } from "@/frontend/components/utils/DashboardCard";
+import { Link } from "@/frontend/components/utils/Link";
+import { LongCardCell } from "@/frontend/components/utils/LongCardCell";
+import { Term } from "@/frontend/components/utils/Term";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 
-const DashboardNode: React.FC = React.memo(() => {
+export const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const currentValidatorsCountSub =
     subscriptions.currentValidatorsCount.useSubscription();
@@ -65,9 +65,9 @@ const DashboardNode: React.FC = React.memo(() => {
             textCss={{ color: "#00c08b" }}
           >
             {(currentValidatorsCount) => (
-              <LinkWrapper href="/nodes/validators">
+              <Link href="/nodes/validators">
                 {formatNumber(currentValidatorsCount)}
-              </LinkWrapper>
+              </Link>
             )}
           </LongCardCell>
         </Col>
@@ -75,5 +75,3 @@ const DashboardNode: React.FC = React.memo(() => {
     </DashboardCard>
   );
 });
-
-export default DashboardNode;

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ReceiptRow from "@/frontend/components/transactions/ReceiptRow";
+import { ReceiptRow } from "@/frontend/components/transactions/ReceiptRow";
 import { renderElement } from "@/frontend/testing/utils";
 
 import {

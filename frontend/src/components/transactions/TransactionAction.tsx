@@ -3,17 +3,17 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { TransactionPreview } from "@/common/types/procedures";
-import ActionGroup from "@/frontend/components/transactions/ActionGroup";
+import { ActionGroup } from "@/frontend/components/transactions/ActionGroup";
 import { ViewMode } from "@/frontend/components/transactions/ActionRowBlock";
-import TransactionExecutionStatus from "@/frontend/components/transactions/TransactionExecutionStatus";
-import TransactionLink from "@/frontend/components/utils/TransactionLink";
+import { TransactionExecutionStatus } from "@/frontend/components/transactions/TransactionExecutionStatus";
+import { TransactionLink } from "@/frontend/components/utils/TransactionLink";
 
 export interface Props {
   transaction: TransactionPreview;
   viewMode?: ViewMode;
 }
 
-const TransactionAction: React.FC<Props> = React.memo(
+export const TransactionAction: React.FC<Props> = React.memo(
   ({ transaction, viewMode = "sparse" }) => {
     const { t } = useTranslation();
 
@@ -31,5 +31,3 @@ const TransactionAction: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default TransactionAction;

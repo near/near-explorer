@@ -2,7 +2,7 @@ import React from "react";
 
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import NearIcon from "@/frontend/components/beta/common/NearIcon";
+import { NearIcon } from "@/frontend/components/beta/common/NearIcon";
 import {
   formatToPowerOfTen,
   NEAR_DENOMINATION,

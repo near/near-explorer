@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
-const PaginationSpinner: React.FC = React.memo(() => (
+export const PaginationSpinner: React.FC = React.memo(() => (
   <div>
     <Row>
       <Col xs="auto" className="mx-auto">
@@ -11,5 +11,3 @@ const PaginationSpinner: React.FC = React.memo(() => (
     </Row>
   </div>
 ));
-
-export default PaginationSpinner;

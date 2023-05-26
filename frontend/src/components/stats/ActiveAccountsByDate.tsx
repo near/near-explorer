@@ -7,7 +7,7 @@ import { Tabs, Tab } from "react-bootstrap";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 
 const getOption = (
@@ -89,51 +89,51 @@ const getOption = (
   ],
 });
 
-const ActiveAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const activeAccountsHistorySub =
-    subscriptions.activeAccountsHistory.useSubscription();
+export const ActiveAccountsByDate: React.FC<Props> = React.memo(
+  ({ chartStyle }) => {
+    const { t } = useTranslation();
+    const activeAccountsHistorySub =
+      subscriptions.activeAccountsHistory.useSubscription();
 
-  const options = React.useMemo(() => {
-    if (!activeAccountsHistorySub.data) {
-      return;
-    }
-    return {
-      byDay: getOption(
-        t(
-          "component.stats.ActiveAccountsByDate.daily_number_of_active_accounts"
+    const options = React.useMemo(() => {
+      if (!activeAccountsHistorySub.data) {
+        return;
+      }
+      return {
+        byDay: getOption(
+          t(
+            "component.stats.ActiveAccountsByDate.daily_number_of_active_accounts"
+          ),
+          t("component.stats.ActiveAccountsByDate.active_accounts"),
+          activeAccountsHistorySub.data.byDay
         ),
-        t("component.stats.ActiveAccountsByDate.active_accounts"),
-        activeAccountsHistorySub.data.byDay
-      ),
-      byWeek: getOption(
-        t(
-          "component.stats.ActiveAccountsByDate.weekly_number_of_active_accounts"
+        byWeek: getOption(
+          t(
+            "component.stats.ActiveAccountsByDate.weekly_number_of_active_accounts"
+          ),
+          t("component.stats.ActiveAccountsByDate.active_accounts"),
+          activeAccountsHistorySub.data.byWeek
         ),
-        t("component.stats.ActiveAccountsByDate.active_accounts"),
-        activeAccountsHistorySub.data.byWeek
-      ),
-    };
-  }, [activeAccountsHistorySub.data, t]);
+      };
+    }, [activeAccountsHistorySub.data, t]);
 
-  return (
-    <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
-      <Tab eventKey="daily" title={t("common.stats.daily")}>
-        {options ? (
-          <ReactEcharts option={options.byDay} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-      <Tab eventKey="weekly" title={t("common.stats.weekly")}>
-        {options ? (
-          <ReactEcharts option={options.byWeek} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-    </Tabs>
-  );
-});
-
-export default ActiveAccountsByDate;
+    return (
+      <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
+        <Tab eventKey="daily" title={t("common.stats.daily")}>
+          {options ? (
+            <ReactEcharts option={options.byDay} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+        <Tab eventKey="weekly" title={t("common.stats.weekly")}>
+          {options ? (
+            <ReactEcharts option={options.byWeek} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+      </Tabs>
+    );
+  }
+);

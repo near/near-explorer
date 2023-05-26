@@ -2,13 +2,13 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { ReceiptExecutionStatus } from "@/common/types/procedures";
+import { ReceiptExecutionStatus as StatusType } from "@/common/types/procedures";
 
 export interface Props {
-  status: ReceiptExecutionStatus;
+  status: StatusType;
 }
 
-const ReceiptExecutionStatusComponent: React.FC<Props> = React.memo(
+export const ReceiptExecutionStatus: React.FC<Props> = React.memo(
   ({ status }) => {
     const { t } = useTranslation();
     // The "SuccessReceiptId" transaction execution status will be recursively deferred to the status of the receipt id,
@@ -17,5 +17,3 @@ const ReceiptExecutionStatusComponent: React.FC<Props> = React.memo(
     return <>{t(`common.receipts.status.${status}`)}</>;
   }
 );
-
-export default ReceiptExecutionStatusComponent;

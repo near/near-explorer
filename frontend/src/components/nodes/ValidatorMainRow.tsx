@@ -5,9 +5,9 @@ import { useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import { ValidatorPoolInfo } from "@/common/types/procedures";
-import CumulativeStakeChart from "@/frontend/components/nodes/CumulativeStakeChart";
-import Balance from "@/frontend/components/utils/Balance";
-import CountryFlag from "@/frontend/components/utils/CountryFlag";
+import { CumulativeStakeChart } from "@/frontend/components/nodes/CumulativeStakeChart";
+import { Balance } from "@/frontend/components/utils/Balance";
+import { CountryFlag } from "@/frontend/components/utils/CountryFlag";
 import { OrderTableCell, TableRow } from "@/frontend/components/utils/Table";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
@@ -72,7 +72,7 @@ type Props = React.PropsWithChildren<{
 
 const yoctoNearToNear = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(24));
 
-const ValidatorMainRow: React.FC<Props> = React.memo(
+export const ValidatorMainRow: React.FC<Props> = React.memo(
   ({
     isRowActive,
     accountId,
@@ -187,5 +187,3 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ValidatorMainRow;
