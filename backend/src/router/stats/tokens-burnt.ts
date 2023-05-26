@@ -3,9 +3,9 @@ import { z } from "zod";
 
 import { indexerDatabase } from "@/backend/database/databases";
 import { sum } from "@/backend/database/utils";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(
     z.strictObject({
       daysFromNow: z.number().min(1).max(7),

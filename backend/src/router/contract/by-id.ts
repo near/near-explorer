@@ -6,7 +6,7 @@ import {
   indexerDatabase,
 } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 
@@ -109,7 +109,7 @@ const queryContractInfo = async (accountId: string) => {
   }
 };
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(z.strictObject({ id: validators.accountId }))
   .query(async ({ input: { id } }) => {
     const account = await nearApi

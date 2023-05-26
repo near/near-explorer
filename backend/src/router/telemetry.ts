@@ -4,10 +4,10 @@ import {
   extraPool,
   telemetryWriteDatabase,
 } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(validators.telemetryRequest)
   .mutation(async ({ input: nodeInfo }) => {
     if (!("agent" in nodeInfo)) {

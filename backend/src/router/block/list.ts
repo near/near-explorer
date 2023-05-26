@@ -2,11 +2,11 @@ import { z } from "zod";
 
 import { indexerDatabase } from "@/backend/database/databases";
 import { count, div } from "@/backend/database/utils";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import { millisecondsToNanoseconds } from "@/backend/utils/bigint";
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(
     z.strictObject({
       limit: validators.limit,

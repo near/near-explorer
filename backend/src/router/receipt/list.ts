@@ -6,7 +6,7 @@ import {
 import { z } from "zod";
 
 import { IndexerDatabase, indexerDatabase } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import {
   Action,
@@ -127,7 +127,7 @@ const groupReceiptActionsIntoReceipts = (
 // included in block and executed in block
 // more info here https://github.com/near/near-explorer/pull/868
 export const procedures = {
-  listIncludedByBlockHash: t.procedure
+  listIncludedByBlockHash: commonProcedure
     .input(z.strictObject({ blockHash: validators.blockHash }))
     .query(async ({ input: { blockHash } }) => {
       const receiptActions = await getReceiptActions((selection) =>
@@ -137,7 +137,7 @@ export const procedures = {
       );
       return groupReceiptActionsIntoReceipts(receiptActions);
     }),
-  listExecutedByBlockHash: t.procedure
+  listExecutedByBlockHash: commonProcedure
     .input(z.strictObject({ blockHash: validators.blockHash }))
     .query(async ({ input: { blockHash } }) => {
       const receiptActions = await getReceiptActions((selection) =>

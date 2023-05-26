@@ -2,10 +2,10 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { getAccountRpcData } from "@/backend/router/account/by-id";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(z.strictObject({ id: validators.accountId }))
   .query(async ({ input: { id } }) => {
     const rpcData = await getAccountRpcData(id);

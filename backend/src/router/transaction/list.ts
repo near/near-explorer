@@ -2,7 +2,7 @@ import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
 
 import { IndexerDatabase, indexerDatabase } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import {
   Action,
@@ -118,7 +118,7 @@ const getTransactionList = async (
 };
 
 export const procedures = {
-  byTimestamp: t.procedure
+  byTimestamp: commonProcedure
     .input(
       z.strictObject({
         limit: validators.limit,
@@ -128,7 +128,7 @@ export const procedures = {
     .query(async ({ input: { limit, cursor } }) =>
       getTransactionList(limit, cursor)
     ),
-  byAccountId: t.procedure
+  byAccountId: commonProcedure
     .input(
       z.strictObject({
         accountId: validators.accountId,
@@ -147,7 +147,7 @@ export const procedures = {
         )
       )
     ),
-  byBlockHash: t.procedure
+  byBlockHash: commonProcedure
     .input(
       z.strictObject({
         blockHash: validators.blockHash,

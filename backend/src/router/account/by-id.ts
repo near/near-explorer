@@ -5,7 +5,7 @@ import { config } from "@/backend/config";
 import { indexerDatabase } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
 import { getAccountTransactionsCount } from "@/backend/router/account/utils";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 import { ignoreIfDoesNotExist } from "@/backend/utils/near";
@@ -120,7 +120,7 @@ const getAccountInfo = async (accountId: string) => {
 };
 
 export const procedures = {
-  byIdOld: t.procedure
+  byIdOld: commonProcedure
     .input(z.strictObject({ id: validators.accountId }))
     .query(async ({ input: { id } }) => {
       const [accountInfo, accountDetails] = await Promise.all([
@@ -135,7 +135,7 @@ export const procedures = {
         details: accountDetails,
       };
     }),
-  byId: t.procedure
+  byId: commonProcedure
     .input(
       z.strictObject({
         id: validators.accountId,

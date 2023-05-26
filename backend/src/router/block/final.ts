@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 import { indexerDatabase } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import * as nearApi from "@/backend/utils/near";
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(
     z.discriminatedUnion("source", [
       z.strictObject({ source: z.literal("rpc") }),

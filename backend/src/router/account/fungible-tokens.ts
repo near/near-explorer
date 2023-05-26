@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { FungibleTokenMetadata } from "@/backend/router/fungible-tokens";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 import { notNullishGuard } from "@/common/utils/utils";
@@ -17,7 +17,7 @@ export const validateBase64Image = (
 };
 
 export const procedures = {
-  fungibleTokens: t.procedure
+  fungibleTokens: commonProcedure
     .input(
       z.strictObject({
         accountId: validators.accountId,
@@ -56,7 +56,7 @@ export const procedures = {
       );
       return tokens.filter(notNullishGuard);
     }),
-  fungibleTokenHistory: t.procedure
+  fungibleTokenHistory: commonProcedure
     .input(
       z.strictObject({
         accountId: validators.accountId,

@@ -5,7 +5,7 @@ import {
   indexerDatabase,
 } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import { Action, mapRpcActionToAction } from "@/backend/utils/actions";
 import { nanosecondsToMilliseconds } from "@/backend/utils/bigint";
@@ -171,7 +171,7 @@ const parseOutcome = (
 };
 
 export const procedures = {
-  byHashOld: t.procedure
+  byHashOld: commonProcedure
     .input(
       z.strictObject({
         hash: validators.transactionHash,
@@ -234,7 +234,7 @@ export const procedures = {
         },
       };
     }),
-  byHash: t.procedure
+  byHash: commonProcedure
     .input(
       z.strictObject({
         hash: validators.transactionHash,
@@ -319,7 +319,7 @@ export const procedures = {
         ) as NestedReceiptWithOutcome,
       };
     }),
-  accountBalanceChange: t.procedure
+  accountBalanceChange: commonProcedure
     .input(
       z.strictObject({
         accountId: validators.accountId,

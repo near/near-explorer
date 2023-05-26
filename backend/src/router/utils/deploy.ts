@@ -1,7 +1,7 @@
 import { config } from "@/backend/config";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { getEnvironmentVariables } from "@/common/utils/environment";
 
-export const procedure = t.procedure.query(async () =>
+export const procedure = commonProcedure.query(async () =>
   getEnvironmentVariables(`backend/${config.networkName}`)
 );
