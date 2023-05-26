@@ -32,7 +32,7 @@ interface Props {
   label?: React.ReactNode;
 }
 
-const ProgressBarEx: React.FC<Props> = React.memo(
+export const ProgressBar: React.FC<Props> = React.memo(
   ({ type = "line", className, label, ...props }) => {
     const wrapperClassName = cx(className, "progress-bar");
     if (type === "circle") {
@@ -50,5 +50,3 @@ const ProgressBarEx: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ProgressBarEx;

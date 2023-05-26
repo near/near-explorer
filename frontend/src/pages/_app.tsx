@@ -22,9 +22,9 @@ import { getEnvironmentVariables } from "@/common/utils/environment";
 import { SSR_TIMEOUT } from "@/common/utils/queries";
 import { id } from "@/common/utils/utils";
 import { DeployInfo } from "@/frontend/components/utils/DeployInfo";
-import Footer from "@/frontend/components/utils/Footer";
-import Header from "@/frontend/components/utils/Header";
-import OfflineSplash from "@/frontend/components/utils/OfflineSplash";
+import { Footer } from "@/frontend/components/utils/Footer";
+import { Header } from "@/frontend/components/utils/Header";
+import { OfflineSplash } from "@/frontend/components/utils/OfflineSplash";
 import { ToastController } from "@/frontend/components/utils/ToastController";
 import {
   NetworkContext,

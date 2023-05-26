@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import AccountDetails from "@/frontend/components/accounts/AccountDetails";
+import { AccountDetails } from "@/frontend/components/accounts/AccountDetails";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<AccountDetails />", () => {

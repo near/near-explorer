@@ -3,11 +3,11 @@ import * as React from "react";
 import { Trans, useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import DashboardCard from "@/frontend/components/utils/DashboardCard";
-import Link from "@/frontend/components/utils/Link";
-import LongCardCell from "@/frontend/components/utils/LongCardCell";
-import Term from "@/frontend/components/utils/Term";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { DashboardCard } from "@/frontend/components/utils/DashboardCard";
+import { Link } from "@/frontend/components/utils/Link";
+import { LongCardCell } from "@/frontend/components/utils/LongCardCell";
+import { Term } from "@/frontend/components/utils/Term";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
@@ -21,7 +21,7 @@ const ElementWrapper = styled("div", {
   },
 });
 
-const DashboardBlock: React.FC = React.memo(() => {
+export const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockSub = subscriptions.latestBlock.useSubscription();
   const blockProductionSpeedSub =
@@ -98,5 +98,3 @@ const DashboardBlock: React.FC = React.memo(() => {
     </DashboardCard>
   );
 });
-
-export default DashboardBlock;

@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { hexy } from "hexy";
 
-import JsonView from "@/frontend/components/beta/common/JsonView";
-import CodePreview from "@/frontend/components/utils/CodePreview";
+import { JsonView } from "@/frontend/components/beta/common/JsonView";
+import { CodePreview } from "@/frontend/components/utils/CodePreview";
 import { styled } from "@/frontend/libraries/styles";
 
 const HexArgs = styled("div", {
@@ -28,7 +28,7 @@ const HexArgs = styled("div", {
   },
 });
 
-const CodeArgs: React.FC<{ args: string }> = React.memo(({ args }) => {
+export const CodeArgs: React.FC<{ args: string }> = React.memo(({ args }) => {
   const decodedArgs = Buffer.from(args, "base64");
 
   let prettyArgs: object | string;
@@ -49,5 +49,3 @@ const CodeArgs: React.FC<{ args: string }> = React.memo(({ args }) => {
     </HexArgs>
   );
 });
-
-export default CodeArgs;

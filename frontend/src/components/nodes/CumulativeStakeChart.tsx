@@ -47,30 +47,30 @@ interface Props {
 
 export const FRACTION_DIGITS = 2;
 
-const CumulativeStakeChart: React.FC<Props> = React.memo(({ percents }) => {
-  const { t } = useTranslation();
-  if (!percents) {
+export const CumulativeStakeChart: React.FC<Props> = React.memo(
+  ({ percents }) => {
+    const { t } = useTranslation();
+    if (!percents) {
+      return (
+        <Wrapper>
+          <Label>{t("common.state.not_available")}</Label>
+        </Wrapper>
+      );
+    }
+    const accumulatedPercent = (
+      (percents.cumulativePercent - percents.ownPercent) *
+      100
+    ).toFixed(FRACTION_DIGITS);
+    const ownPercent = (percents.ownPercent * 100).toFixed(FRACTION_DIGITS);
+    const cumulativePercent = (percents.cumulativePercent * 100).toFixed(
+      FRACTION_DIGITS
+    );
     return (
       <Wrapper>
-        <Label>{t("common.state.not_available")}</Label>
+        <Value type="accumulated" style={{ width: `${accumulatedPercent}%` }} />
+        <Value type="own" style={{ width: `${ownPercent}%` }} />
+        <Label>{`${cumulativePercent}%`}</Label>
       </Wrapper>
     );
   }
-  const accumulatedPercent = (
-    (percents.cumulativePercent - percents.ownPercent) *
-    100
-  ).toFixed(FRACTION_DIGITS);
-  const ownPercent = (percents.ownPercent * 100).toFixed(FRACTION_DIGITS);
-  const cumulativePercent = (percents.cumulativePercent * 100).toFixed(
-    FRACTION_DIGITS
-  );
-  return (
-    <Wrapper>
-      <Value type="accumulated" style={{ width: `${accumulatedPercent}%` }} />
-      <Value type="own" style={{ width: `${ownPercent}%` }} />
-      <Label>{`${cumulativePercent}%`}</Label>
-    </Wrapper>
-  );
-});
-
-export default CumulativeStakeChart;
+);

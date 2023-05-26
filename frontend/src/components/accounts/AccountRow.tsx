@@ -4,10 +4,10 @@ import { useTranslation } from "next-i18next";
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import { TRPCQueryOutput } from "@/common/types/trpc";
-import Balance from "@/frontend/components/utils/Balance";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import Link from "@/frontend/components/utils/Link";
+import { Balance } from "@/frontend/components/utils/Balance";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { Link } from "@/frontend/components/utils/Link";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";
@@ -49,7 +49,7 @@ export interface Props {
   account: TRPCQueryOutput<"account.listByTimestamp">[number];
 }
 
-const AccountRow: React.FC<Props> = React.memo(({ account }) => {
+export const AccountRow: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
   const balanceQuery = trpc.account.nonStakedBalance.useQuery({
     id: account.id,
@@ -117,5 +117,3 @@ const AccountRow: React.FC<Props> = React.memo(({ account }) => {
     </Link>
   );
 });
-
-export default AccountRow;

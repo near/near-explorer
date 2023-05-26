@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ValidatorsList from "@/frontend/components/nodes/ValidatorsList";
+import { ValidatorsList } from "@/frontend/components/nodes/ValidatorsList";
 import { renderElement } from "@/frontend/testing/utils";
 
 import { VALIDATORS_LIST } from "./validators";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import TransactionLink from "@/frontend/components/utils/TransactionLink";
+import { TransactionLink } from "@/frontend/components/utils/TransactionLink";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<TransactionLink />", () => {

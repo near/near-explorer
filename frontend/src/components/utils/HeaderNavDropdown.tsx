@@ -4,7 +4,7 @@ import { StyledComponent } from "@stitches/react/types/styled-component";
 import { useTranslation } from "next-i18next";
 import { Dropdown } from "react-bootstrap";
 
-import Link from "@/frontend/components/utils/Link";
+import { Link } from "@/frontend/components/utils/Link";
 import { globalCss, styled } from "@/frontend/libraries/styles";
 import IconAccounts from "@/frontend/public/static/images/icon-accounts.svg";
 import IconBlocks from "@/frontend/public/static/images/icon-blocks.svg";
@@ -101,7 +101,7 @@ const globalStyles = globalCss({
   },
 });
 
-const HeaderNavDropdown: React.FC = React.memo(() => {
+export const HeaderNavDropdown: React.FC = React.memo(() => {
   const { t } = useTranslation();
   globalStyles();
   return (
@@ -140,5 +140,3 @@ const HeaderNavDropdown: React.FC = React.memo(() => {
     </Dropdown>
   );
 });
-
-export default HeaderNavDropdown;

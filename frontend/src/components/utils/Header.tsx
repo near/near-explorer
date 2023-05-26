@@ -5,12 +5,12 @@ import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
 import { BetaSwitch } from "@/frontend/components/utils/BetaSwitch";
-import HeaderNavDropdown from "@/frontend/components/utils/HeaderNavDropdown";
-import HeaderNetworkDropdown from "@/frontend/components/utils/HeaderNetworkDropdown";
-import LanguageToggle from "@/frontend/components/utils/LanguageToggle";
-import Link from "@/frontend/components/utils/Link";
-import MobileHeaderNavDropdown from "@/frontend/components/utils/MobileHeaderNavDropdown";
-import Search from "@/frontend/components/utils/Search";
+import { HeaderNavDropdown } from "@/frontend/components/utils/HeaderNavDropdown";
+import { HeaderNetworkDropdown } from "@/frontend/components/utils/HeaderNetworkDropdown";
+import { LanguageToggle } from "@/frontend/components/utils/LanguageToggle";
+import { Link } from "@/frontend/components/utils/Link";
+import { MobileHeaderNavDropdown } from "@/frontend/components/utils/MobileHeaderNavDropdown";
+import { Search } from "@/frontend/components/utils/Search";
 import { ServiceStatusView } from "@/frontend/components/utils/ServiceStatus";
 import { useBetaOptions } from "@/frontend/hooks/use-beta-options";
 import { useIsBetaPage } from "@/frontend/hooks/use-is-beta-page";
@@ -60,7 +60,7 @@ const HeaderHome = styled(Link, {
   fontWeight: 500,
 });
 
-const Header: React.FC = React.memo(() => {
+export const Header: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const router = useRouter();
   const { network } = useNetworkContext();
@@ -142,5 +142,3 @@ const Header: React.FC = React.memo(() => {
     </HeaderContainer>
   );
 });
-
-export default Header;

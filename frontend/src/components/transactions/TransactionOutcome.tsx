@@ -5,8 +5,8 @@ import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
 import { TransactionOutcomeOld } from "@/common/types/procedures";
-import Balance from "@/frontend/components/utils/Balance";
-import Gas from "@/frontend/components/utils/Gas";
+import { Balance } from "@/frontend/components/utils/Balance";
+import { Gas } from "@/frontend/components/utils/Gas";
 import { styled } from "@/frontend/libraries/styles";
 
 const TransactionOutcomeRow = styled(Row, {
@@ -38,7 +38,7 @@ export interface Props {
   outcome: TransactionOutcomeOld;
 }
 
-const TransactionOutcomeView: React.FC<Props> = React.memo(({ outcome }) => {
+export const TransactionOutcome: React.FC<Props> = React.memo(({ outcome }) => {
   const { t } = useTranslation();
   const gasBurnt = JSBI.BigInt(outcome.gasBurnt);
   return (
@@ -75,5 +75,3 @@ const TransactionOutcomeView: React.FC<Props> = React.memo(({ outcome }) => {
     </Row>
   );
 });
-
-export default TransactionOutcomeView;

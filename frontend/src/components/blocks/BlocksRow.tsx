@@ -4,8 +4,8 @@ import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
 import { BlockBase } from "@/common/types/procedures";
-import Link from "@/frontend/components/utils/Link";
-import Timer from "@/frontend/components/utils/Timer";
+import { Link } from "@/frontend/components/utils/Link";
+import { Timer } from "@/frontend/components/utils/Timer";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -61,7 +61,7 @@ export interface Props {
   block: BlockBase;
 }
 
-const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
+export const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const latestBlockSub = subscriptions.latestBlock.useSubscription();
   return (
@@ -112,5 +112,3 @@ const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
     </Link>
   );
 });
-
-export default BlocksRow;

@@ -3,7 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
-import ProgressBar from "@/frontend/components/utils/ProgressBar";
+import { ProgressBar } from "@/frontend/components/utils/ProgressBar";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
@@ -40,7 +40,7 @@ const NodesEpochCircleProgressLabel = styled("span", {
   color: "#d5d4d8",
 });
 
-const NodesEpoch = React.memo(() => {
+export const NodesEpoch = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockSub = subscriptions.latestBlock.useSubscription();
   const format = useDateFormat();
@@ -128,5 +128,3 @@ const NodesEpoch = React.memo(() => {
     </NodesEpochRow>
   );
 });
-
-export default NodesEpoch;

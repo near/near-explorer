@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ActionMessage from "@/frontend/components/transactions/ActionMessage";
+import { ActionMessage } from "@/frontend/components/transactions/ActionMessage";
 import { renderElement } from "@/frontend/testing/utils";
 
 import { TRANSACTIONS } from "./common";

@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import Link from "@/frontend/components/utils/Link";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { Link } from "@/frontend/components/utils/Link";
 import { shortenString } from "@/frontend/libraries/formatting";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -13,7 +13,7 @@ export interface Props {
   hash: string;
 }
 
-const TransactionLink: React.FC<Props> = React.memo(({ hash }) => (
+export const TransactionLink: React.FC<Props> = React.memo(({ hash }) => (
   <>
     <TransactionLinkWrapper href={`/transactions/${hash}`}>
       {shortenString(hash)}
@@ -27,5 +27,3 @@ const TransactionLink: React.FC<Props> = React.memo(({ hash }) => (
     />
   </>
 ));
-
-export default TransactionLink;

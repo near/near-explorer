@@ -3,15 +3,15 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { Receipt } from "@/common/types/procedures";
-import Receipts from "@/frontend/components/receipts/Receipts";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
-import Placeholder from "@/frontend/components/utils/Placeholder";
+import { Receipts } from "@/frontend/components/receipts/Receipts";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
+import { Placeholder } from "@/frontend/components/utils/Placeholder";
 
 interface Props {
   receiptsList?: Receipt[];
 }
 
-const ReceiptsList: React.FC<Props> = React.memo(({ receiptsList }) => {
+export const ReceiptsList: React.FC<Props> = React.memo(({ receiptsList }) => {
   const { t } = useTranslation();
   return (
     <>
@@ -27,5 +27,3 @@ const ReceiptsList: React.FC<Props> = React.memo(({ receiptsList }) => {
     </>
   );
 });
-
-export default ReceiptsList;

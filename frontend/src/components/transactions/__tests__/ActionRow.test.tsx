@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import { Action } from "@/common/types/procedures";
-import ActionRow from "@/frontend/components/transactions/ActionRow";
-import TransactionExecutionStatus from "@/frontend/components/transactions/TransactionExecutionStatus";
-import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
-import TransactionLink from "@/frontend/components/utils/TransactionLink";
+import { ActionRow } from "@/frontend/components/transactions/ActionRow";
+import { TransactionExecutionStatus } from "@/frontend/components/transactions/TransactionExecutionStatus";
+import { ReceiptLink } from "@/frontend/components/utils/ReceiptLink";
+import { TransactionLink } from "@/frontend/components/utils/TransactionLink";
 import { renderElement } from "@/frontend/testing/utils";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";

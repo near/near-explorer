@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 import { useAnalyticsTrack } from "@/frontend/hooks/analytics/use-analytics-track";
 import { CSS, styled } from "@/frontend/libraries/styles";
 
-const StyledLink = styled(Link, {
+const StyledLink = styled(NextLink, {
   textDecoration: "none",
   color: "inherit",
   "&:hover": {
@@ -22,7 +22,7 @@ const StyledLink = styled(Link, {
   },
 });
 
-type LinkProps = React.ComponentProps<typeof Link>;
+type LinkProps = React.ComponentProps<typeof NextLink>;
 
 type Props = Omit<LinkProps, "href"> & {
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
@@ -31,7 +31,7 @@ type Props = Omit<LinkProps, "href"> & {
   href?: LinkProps["href"];
 };
 
-const LinkWrapper = React.memo<Props>(
+export const Link = React.memo<Props>(
   ({
     onClick: onClickRaw,
     shallow = true,
@@ -69,5 +69,3 @@ const LinkWrapper = React.memo<Props>(
     );
   }
 );
-
-export default LinkWrapper;

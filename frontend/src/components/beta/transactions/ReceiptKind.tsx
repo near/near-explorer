@@ -3,7 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { Action } from "@/common/types/procedures";
-import CodeArgs from "@/frontend/components/beta/common/CodeArgs";
+import { CodeArgs } from "@/frontend/components/beta/common/CodeArgs";
 import { NearAmount } from "@/frontend/components/utils/NearAmount";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -96,7 +96,7 @@ const ExpandSign = styled("span", {
   marginLeft: 8,
 });
 
-const ReceiptKind: React.FC<Props> = React.memo(
+export const ReceiptKind: React.FC<Props> = React.memo(
   ({ action, onClick, isTxTypeActive }) => {
     const { t } = useTranslation();
 
@@ -148,5 +148,3 @@ const ReceiptKind: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ReceiptKind;

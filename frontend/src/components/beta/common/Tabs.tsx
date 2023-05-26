@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import LinkWrapper from "@/frontend/components/utils/Link";
+import { Link } from "@/frontend/components/utils/Link";
 import { styled } from "@/frontend/libraries/styles";
 
 const PADDING = 36;
@@ -119,7 +119,7 @@ export const Tabs = React.memo(<T extends string>(props: Props<T>) => {
                 ref={(element) => (labelsRecordRef.current[id] = element)}
                 disabled={Boolean(disabled)}
               >
-                {href ? <LinkWrapper href={href}>{label}</LinkWrapper> : label}
+                {href ? <Link href={href}>{label}</Link> : label}
               </TabHeader>
             );
           })}

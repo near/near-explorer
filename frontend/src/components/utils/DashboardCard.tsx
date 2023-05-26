@@ -47,7 +47,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const DashboardCard: React.FC<Props> = React.memo(
+export const DashboardCard: React.FC<Props> = React.memo(
   ({ iconPath, title, headerRight, className, dataTestId, children }) => (
     <DashboardCardWrapper
       noGutters
@@ -69,5 +69,3 @@ const DashboardCard: React.FC<Props> = React.memo(
     </DashboardCardWrapper>
   )
 );
-
-export default DashboardCard;

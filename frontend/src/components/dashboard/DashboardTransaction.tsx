@@ -3,12 +3,12 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import DashboardTransactionsHistoryChart from "@/frontend/components/dashboard/DashboardTransactionsHistoryChart";
-import DashboardCard from "@/frontend/components/utils/DashboardCard";
-import GasPrice from "@/frontend/components/utils/GasPrice";
-import Link from "@/frontend/components/utils/Link";
-import LongCardCell from "@/frontend/components/utils/LongCardCell";
-import Term from "@/frontend/components/utils/Term";
+import { DashboardTransactionsHistoryChart } from "@/frontend/components/dashboard/DashboardTransactionsHistoryChart";
+import { DashboardCard } from "@/frontend/components/utils/DashboardCard";
+import { GasPrice } from "@/frontend/components/utils/GasPrice";
+import { Link } from "@/frontend/components/utils/Link";
+import { LongCardCell } from "@/frontend/components/utils/LongCardCell";
+import { Term } from "@/frontend/components/utils/Term";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
@@ -19,7 +19,7 @@ const TransactionCardNumber = styled(Row, {
   },
 });
 
-const DashboardTransaction: React.FC = React.memo(() => {
+export const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const recentTransactionsCountSub =
     subscriptions.recentTransactionsCount.useSubscription();
@@ -81,5 +81,3 @@ const DashboardTransaction: React.FC = React.memo(() => {
     </DashboardCard>
   );
 });
-
-export default DashboardTransaction;

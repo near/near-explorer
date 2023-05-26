@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import TransactionDetails from "@/frontend/components/transactions/TransactionDetails";
+import { TransactionDetails } from "@/frontend/components/transactions/TransactionDetails";
 import { renderElement } from "@/frontend/testing/utils";
 
 import { TRANSACTIONS } from "./common";

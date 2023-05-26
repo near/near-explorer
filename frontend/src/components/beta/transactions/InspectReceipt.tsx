@@ -4,9 +4,9 @@ import JSBI from "jsbi";
 
 import { Action, TransactionReceipt } from "@/common/types/procedures";
 import * as RPC from "@/common/types/rpc";
-import AccountLink from "@/frontend/components/beta/common/AccountLink";
-import BlockLink from "@/frontend/components/beta/common/BlockLink";
-import Gas from "@/frontend/components/utils/Gas";
+import { AccountLink } from "@/frontend/components/beta/common/AccountLink";
+import { BlockLink } from "@/frontend/components/beta/common/BlockLink";
+import { Gas } from "@/frontend/components/utils/Gas";
 import { NearAmount } from "@/frontend/components/utils/NearAmount";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
@@ -59,7 +59,7 @@ const getGasAttached = (actions: Action[]): JSBI => {
   );
 };
 
-const InspectReceipt: React.FC<Props> = React.memo(
+export const InspectReceipt: React.FC<Props> = React.memo(
   ({ receipt: { id, ...receipt } }) => {
     const { data: predecessorBalance } =
       trpc.transaction.accountBalanceChange.useQuery({
@@ -178,5 +178,3 @@ const InspectReceipt: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default InspectReceipt;

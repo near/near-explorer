@@ -2,16 +2,14 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import { TransactionStatus } from "@/common/types/procedures";
+import { TransactionStatus as StatusType } from "@/common/types/procedures";
 
 export interface Props {
-  status: TransactionStatus;
+  status: StatusType;
 }
-const TransactionExecutionStatusComponent: React.FC<Props> = React.memo(
+export const TransactionExecutionStatus: React.FC<Props> = React.memo(
   ({ status }) => {
     const { t } = useTranslation();
     return <>{t(`common.transactions.status.${status}`)}</>;
   }
 );
-
-export default TransactionExecutionStatusComponent;

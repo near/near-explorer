@@ -5,10 +5,10 @@ import { Spinner } from "react-bootstrap";
 
 import { AccountNonFungibleTokenElement } from "@/common/types/procedures";
 import { TRPCInfiniteQueryOutput } from "@/common/types/trpc";
-import AccountNonFungibleTokensHistory from "@/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
-import NFTMedia from "@/frontend/components/beta/common/NFTMedia";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import ListHandler from "@/frontend/components/utils/ListHandler";
+import { AccountNonFungibleTokensHistory } from "@/frontend/components/beta/accounts/AccountNonFungibleTokensHistory";
+import { NFTMedia } from "@/frontend/components/beta/common/NFTMedia";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { NonFungibleTokensAccountPageOptions } from "@/frontend/hooks/use-account-page-options";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";
@@ -214,7 +214,7 @@ type Props = {
   options: NonFungibleTokensAccountPageOptions;
 };
 
-const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
+export const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
   ({ options }) => {
     const [selectedContract, setContract] = React.useState<string | null>(null);
     const setActiveContract = React.useCallback<
@@ -268,5 +268,3 @@ const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default AccountNonFungibleTokensView;

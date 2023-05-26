@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactElement;
 };
 
-const StringConditionalOverlay: React.FC<Props> = ({
+export const StringConditionalOverlay: React.FC<Props> = ({
   value,
   tooltipId,
   children,
@@ -27,5 +27,3 @@ const StringConditionalOverlay: React.FC<Props> = ({
     </OverlayTrigger>
   );
 };
-
-export default StringConditionalOverlay;

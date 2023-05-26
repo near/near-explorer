@@ -4,9 +4,9 @@ import Image from "next/legacy/image";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
 import { AccountFungibleToken } from "@/common/types/procedures";
-import AccountFungibleTokenHistory from "@/frontend/components/beta/accounts/AccountFungibleTokenHistory";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import LinkWrapper from "@/frontend/components/utils/Link";
+import { AccountFungibleTokenHistory } from "@/frontend/components/beta/accounts/AccountFungibleTokenHistory";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { Link } from "@/frontend/components/utils/Link";
 import { TokenAmount } from "@/frontend/components/utils/TokenAmount";
 import {
   FungibleTokensAccountPageOptions,
@@ -32,7 +32,7 @@ const Tokens = styled("div", {
   flexDirection: "column",
 });
 
-const Token = styled(LinkWrapper, {
+const Token = styled(Link, {
   cursor: "pointer",
   display: "flex",
   justifyContent: "space-between",
@@ -136,53 +136,53 @@ type Props = {
   options: FungibleTokensAccountPageOptions;
 };
 
-const AccountFungibleTokensView: React.FC<Props> = React.memo(({ options }) => {
-  const tokensQuery = trpc.account.fungibleTokens.useQuery({
-    accountId: options.accountId,
-  });
-  if (tokensQuery.status === "loading") {
+export const AccountFungibleTokens: React.FC<Props> = React.memo(
+  ({ options }) => {
+    const tokensQuery = trpc.account.fungibleTokens.useQuery({
+      accountId: options.accountId,
+    });
+    if (tokensQuery.status === "loading") {
+      return (
+        <Wrapper>
+          <Spinner animation="border" />
+        </Wrapper>
+      );
+    }
+    if (tokensQuery.status === "error") {
+      return (
+        <Wrapper>
+          <ErrorMessage onRetry={tokensQuery.refetch}>
+            {tokensQuery.error.message}
+          </ErrorMessage>
+        </Wrapper>
+      );
+    }
+    const tokens = tokensQuery.data;
+    if (tokens.length === 0) {
+      return <div>No fungible tokens yet!</div>;
+    }
+    const selectedToken = tokens.find(
+      (token) => token.authorAccountId === options.token
+    );
     return (
       <Wrapper>
-        <Spinner animation="border" />
-      </Wrapper>
-    );
-  }
-  if (tokensQuery.status === "error") {
-    return (
-      <Wrapper>
-        <ErrorMessage onRetry={tokensQuery.refetch}>
-          {tokensQuery.error.message}
-        </ErrorMessage>
-      </Wrapper>
-    );
-  }
-  const tokens = tokensQuery.data;
-  if (tokens.length === 0) {
-    return <div>No fungible tokens yet!</div>;
-  }
-  const selectedToken = tokens.find(
-    (token) => token.authorAccountId === options.token
-  );
-  return (
-    <Wrapper>
-      <Tokens>
-        {tokens.map((token) => (
-          <AccountFungibleTokenView
-            key={token.authorAccountId}
-            token={token}
-            options={options}
-            selected={token.authorAccountId === options.token}
+        <Tokens>
+          {tokens.map((token) => (
+            <AccountFungibleTokenView
+              key={token.authorAccountId}
+              token={token}
+              options={options}
+              selected={token.authorAccountId === options.token}
+            />
+          ))}
+        </Tokens>
+        {selectedToken ? (
+          <AccountFungibleTokenHistory
+            accountId={options.accountId}
+            token={selectedToken}
           />
-        ))}
-      </Tokens>
-      {selectedToken ? (
-        <AccountFungibleTokenHistory
-          accountId={options.accountId}
-          token={selectedToken}
-        />
-      ) : null}
-    </Wrapper>
-  );
-});
-
-export default AccountFungibleTokensView;
+        ) : null}
+      </Wrapper>
+    );
+  }
+);

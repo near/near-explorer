@@ -5,12 +5,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import ActionsList from "@/frontend/components/transactions/ActionsList";
-import ReceiptRow from "@/frontend/components/transactions/ReceiptRow";
-import TransactionDetails from "@/frontend/components/transactions/TransactionDetails";
-import TransactionOutcome from "@/frontend/components/transactions/TransactionOutcome";
-import Content from "@/frontend/components/utils/Content";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { ActionsList } from "@/frontend/components/transactions/ActionsList";
+import { ReceiptRow } from "@/frontend/components/transactions/ReceiptRow";
+import { TransactionDetails } from "@/frontend/components/transactions/TransactionDetails";
+import { TransactionOutcome } from "@/frontend/components/transactions/TransactionOutcome";
+import { Content } from "@/frontend/components/utils/Content";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { useBeta } from "@/frontend/hooks/use-beta";
 import { styled } from "@/frontend/libraries/styles";

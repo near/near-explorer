@@ -5,16 +5,17 @@ import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
 import { Block } from "@/common/types/procedures";
-import AccountLink from "@/frontend/components/utils/AccountLink";
-import BlockLink from "@/frontend/components/utils/BlockLink";
-import CardCell, {
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
+import { BlockLink } from "@/frontend/components/utils/BlockLink";
+import {
+  CardCell,
   CardCellText,
   CardCellWrapper,
 } from "@/frontend/components/utils/CardCell";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import Gas from "@/frontend/components/utils/Gas";
-import GasPrice from "@/frontend/components/utils/GasPrice";
-import Term from "@/frontend/components/utils/Term";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { Gas } from "@/frontend/components/utils/Gas";
+import { GasPrice } from "@/frontend/components/utils/GasPrice";
+import { Term } from "@/frontend/components/utils/Term";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { useFormatNumber } from "@/frontend/hooks/use-format-number";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
@@ -53,7 +54,7 @@ export interface Props {
   block: Block;
 }
 
-const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
+export const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const latestBlockSub = subscriptions.latestBlock.useSubscription();
   const gasUsed = React.useMemo(
@@ -204,5 +205,3 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
     </Row>
   );
 });
-
-export default BlockDetails;

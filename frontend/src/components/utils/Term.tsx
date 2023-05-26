@@ -24,7 +24,7 @@ interface Props {
   href?: string;
 }
 
-const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
+export const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
   const { t } = useTranslation();
   const [isModalShown, setModalShown] = React.useState(false);
   const track = useAnalyticsTrack();
@@ -73,5 +73,3 @@ const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
     </>
   );
 });
-
-export default Term;

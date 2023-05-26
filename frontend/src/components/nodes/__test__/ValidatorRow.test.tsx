@@ -3,7 +3,7 @@ import * as React from "react";
 import JSBI from "jsbi";
 
 import { ValidatorFullData } from "@/common/types/procedures";
-import ValidatorRow from "@/frontend/components/nodes/ValidatorRow";
+import { ValidatorRow } from "@/frontend/components/nodes/ValidatorRow";
 import * as BI from "@/frontend/libraries/bigint";
 import { renderElement } from "@/frontend/testing/utils";
 

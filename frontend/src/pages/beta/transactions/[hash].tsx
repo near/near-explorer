@@ -7,8 +7,8 @@ import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
 import { TRPCQueryResult } from "@/common/types/trpc";
-import TransactionActionsList from "@/frontend/components/beta/transactions/TransactionActionsList";
-import TransactionHeader from "@/frontend/components/beta/transactions/TransactionHeader";
+import { TransactionActionsList } from "@/frontend/components/beta/transactions/TransactionActionsList";
+import { TransactionHeader } from "@/frontend/components/beta/transactions/TransactionHeader";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";

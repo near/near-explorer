@@ -5,11 +5,11 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import DashboardBlock from "@/frontend/components/dashboard/DashboardBlock";
-import DashboardNode from "@/frontend/components/dashboard/DashboardNode";
-import DashboardTransaction from "@/frontend/components/dashboard/DashboardTransaction";
+import { DashboardBlock } from "@/frontend/components/dashboard/DashboardBlock";
+import { DashboardNode } from "@/frontend/components/dashboard/DashboardNode";
+import { DashboardTransaction } from "@/frontend/components/dashboard/DashboardTransaction";
 import { DashboardCardWrapper } from "@/frontend/components/utils/DashboardCard";
-import Search, { getRedirectPage } from "@/frontend/components/utils/Search";
+import { Search, getRedirectPage } from "@/frontend/components/utils/Search";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { getNearNetworkName } from "@/frontend/libraries/config";
 import { styled } from "@/frontend/libraries/styles";

@@ -118,6 +118,7 @@ module.exports = {
                 tsx: "never",
             },
         ],
+        "import/no-default-export": "error",
     },
     overrides: [
         {
@@ -127,6 +128,22 @@ module.exports = {
                 (acc, rule) => ({ ...acc, [rule]: "off" }),
                 {}
             ),
+        },
+        {
+            files: [
+                "frontend/src/pages/**/*",
+                "backend/src/database/models/**/*",
+                "frontend/utils/stitches-plugin/plugin.ts",
+                "frontend/src/testing/svg-mock.ts",
+                "frontend/src/testing/env.ts",
+                "frontend/src/__mocks__/**/*",
+                "frontend/playwright.config.ts",
+                "frontend/next.config.ts",
+                "frontend/jest.config.ts",
+            ],
+            rules: {
+                "import/no-default-export": "off",
+            },
         },
         {
             files: ["backend/src/database/models*/**/*"],

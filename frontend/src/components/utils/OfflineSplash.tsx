@@ -19,7 +19,7 @@ const Capitalize = styled("span", {
   textTransform: "capitalize",
 });
 
-const OfflineSplash: React.FC = React.memo(() => {
+export const OfflineSplash: React.FC = React.memo(() => {
   const { networkName } = useNetworkContext();
   return (
     <Wrapper>
@@ -53,5 +53,3 @@ const OfflineSplash: React.FC = React.memo(() => {
     </Wrapper>
   );
 });
-
-export default OfflineSplash;

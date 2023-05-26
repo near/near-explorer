@@ -9,9 +9,9 @@ import {
   AccountFungibleToken,
   AccountFungibleTokenHistoryElement,
 } from "@/common/types/procedures";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import LinkWrapper from "@/frontend/components/utils/Link";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { Link } from "@/frontend/components/utils/Link";
 import { TokenAmount } from "@/frontend/components/utils/TokenAmount";
 import { buildAccountUrl } from "@/frontend/hooks/use-account-page-options";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
@@ -78,7 +78,7 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
     const router = useRouter();
     return (
       <TableRow>
-        <LinkWrapper
+        <Link
           href={
             item.counterparty
               ? buildAccountUrl({
@@ -96,7 +96,7 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
               ? "MINT"
               : "BURN"}
           </TableElement>
-        </LinkWrapper>
+        </Link>
         <TableElement>
           <TokenAmount
             token={{
@@ -110,11 +110,9 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
         <TableElement>
           <TokenAmount token={{ ...token, balance }} noSymbol />
         </TableElement>
-        <LinkWrapper
-          href={`/transactions/${item.transactionHash}#${item.receiptId}`}
-        >
+        <Link href={`/transactions/${item.transactionHash}#${item.receiptId}`}>
           <TableElement>{shortenString(item.receiptId)}</TableElement>
-        </LinkWrapper>
+        </Link>
         <TableElement>
           {format(item.timestamp, t("common.date_time.date_format"))}
           <CopyToClipboard
@@ -132,7 +130,7 @@ type Props = {
   token: AccountFungibleToken;
 };
 
-const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
+export const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
   ({ accountId, token }) => {
     const tokenHistoryQuery = trpc.account.fungibleTokenHistory.useQuery({
       accountId,
@@ -189,5 +187,3 @@ const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default AccountFungibleTokenHistory;

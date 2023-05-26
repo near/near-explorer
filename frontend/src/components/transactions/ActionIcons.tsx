@@ -6,7 +6,7 @@ import addKey from "@/frontend/public/static/images/icon-t-key-new.svg";
 import stake from "@/frontend/public/static/images/icon-t-stake.svg";
 import transfer from "@/frontend/public/static/images/icon-t-transfer.svg";
 
-export default {
+export const icons = {
   createAccount,
   deleteAccount,
   deployContract,

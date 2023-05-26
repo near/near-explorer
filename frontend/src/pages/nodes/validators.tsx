@@ -4,11 +4,11 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { Container } from "react-bootstrap";
 
-import NodesCard from "@/frontend/components/nodes/NodesCard";
-import NodesContentHeader from "@/frontend/components/nodes/NodesContentHeader";
-import NodesEpoch from "@/frontend/components/nodes/NodesEpoch";
-import Validators from "@/frontend/components/nodes/Validators";
-import Content, { ContentHeader } from "@/frontend/components/utils/Content";
+import { NodesCard } from "@/frontend/components/nodes/NodesCard";
+import { NodesContentHeader } from "@/frontend/components/nodes/NodesContentHeader";
+import { NodesEpoch } from "@/frontend/components/nodes/NodesEpoch";
+import { Validators } from "@/frontend/components/nodes/Validators";
+import { Content, ContentHeader } from "@/frontend/components/utils/Content";
 import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analytics-track-on-mount";
 import { styled } from "@/frontend/libraries/styles";
 

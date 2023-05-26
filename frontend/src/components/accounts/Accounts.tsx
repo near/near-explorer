@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import { id } from "@/common/utils/utils";
-import AccountRow from "@/frontend/components/accounts/AccountRow";
-import FlipMove from "@/frontend/components/utils/FlipMove";
-import ListHandler from "@/frontend/components/utils/ListHandler";
+import { AccountRow } from "@/frontend/components/accounts/AccountRow";
+import { FlipMove } from "@/frontend/components/utils/FlipMove";
+import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { trpc } from "@/frontend/libraries/trpc";
 
 const ACCOUNTS_PER_PAGE = 15;
 
-const Accounts: React.FC = React.memo(() => {
+export const Accounts: React.FC = React.memo(() => {
   const query = trpc.account.listByTimestamp.useInfiniteQuery(
     { limit: ACCOUNTS_PER_PAGE },
     {
@@ -33,5 +33,3 @@ const Accounts: React.FC = React.memo(() => {
     </ListHandler>
   );
 });
-
-export default Accounts;

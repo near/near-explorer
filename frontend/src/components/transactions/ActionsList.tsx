@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Action } from "@/common/types/procedures";
-import ActionRow from "@/frontend/components/transactions/ActionRow";
+import { ActionRow } from "@/frontend/components/transactions/ActionRow";
 import {
   ViewMode,
   DetalizationMode,
@@ -18,7 +18,7 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const ActionList: React.FC<Props> = React.memo(
+export const ActionsList: React.FC<Props> = React.memo(
   ({
     actions,
     blockTimestamp,
@@ -47,5 +47,3 @@ const ActionList: React.FC<Props> = React.memo(
     </>
   )
 );
-
-export default ActionList;

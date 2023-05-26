@@ -2,10 +2,10 @@ import * as React from "react";
 
 import { useTranslation } from "react-i18next";
 
-import ShortenValue from "@/frontend/components/beta/common/ShortenValue";
-import Timestamp from "@/frontend/components/beta/common/Timestamp";
-import TransactionLink from "@/frontend/components/beta/common/TransactionLink";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { ShortenValue } from "@/frontend/components/beta/common/ShortenValue";
+import { Timestamp } from "@/frontend/components/beta/common/Timestamp";
+import { TransactionLink } from "@/frontend/components/beta/common/TransactionLink";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";
 
@@ -30,7 +30,7 @@ export const SmallHeader = styled("div", {
   color: "#c9c9c9",
 });
 
-const AccountContract: React.FC<Props> = React.memo(({ id }) => {
+export const AccountContract: React.FC<Props> = React.memo(({ id }) => {
   const { t } = useTranslation();
   const contractQuery = trpc.contract.byId.useQuery({ id });
   if (contractQuery.status === "loading" || contractQuery.data === null) {
@@ -78,5 +78,3 @@ const AccountContract: React.FC<Props> = React.memo(({ id }) => {
     </ContractInfo>
   );
 });
-
-export default AccountContract;
