@@ -29,6 +29,7 @@ import {
 import * as nearApi from "@/backend/utils/near";
 import { SECOND, MINUTE } from "@/backend/utils/time";
 import * as RPC from "@/common/types/rpc";
+import { EMPTY_CODE_HASH } from "@/common/utils/constants";
 import { wait } from "@/common/utils/promise";
 
 export const latestBlockCheck: RegularCheckFn = {
@@ -580,9 +581,7 @@ const updatePoolInfoMap = async (
         finality: "final",
       });
 
-      // 'code_hash' === 11111111111111111111111111111111 is when the validator
-      // does not have a staking-pool contract on it (common on testnet)
-      if (account.code_hash === "11111111111111111111111111111111") {
+      if (account.code_hash === EMPTY_CODE_HASH) {
         return {
           fee: null,
           delegatorsCount: null,

@@ -1,4 +1,5 @@
 import { Receipt, TransactionOld } from "@/common/types/procedures";
+import { EMPTY_CODE_HASH } from "@/common/utils/constants";
 
 export const TRANSACTIONS: TransactionOld[] = [
   // no action has deposit
@@ -242,11 +243,11 @@ export const TRANSACTIONS: TransactionOld[] = [
 ];
 
 export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: TransactionOld = {
-  hash: "T1111111111111111111111111111111111111111111",
+  hash: `T${EMPTY_CODE_HASH}`,
   signerId: "signer.test",
   receiverId: "receiver.test",
   status: "success",
-  blockHash: "B111111111111111111111111111111111111111111",
+  blockHash: `B${EMPTY_CODE_HASH}`,
   blockTimestamp: +new Date(2019, 1, 1),
   actions: [
     {
@@ -305,7 +306,7 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: TransactionOld = {
       tokensBurnt: "612157772373200000000",
     },
     predecessorId: "signer.test",
-    id: "R1111111111111111111111111111111111111111111",
+    id: `R${EMPTY_CODE_HASH}`,
     receiverId: "receiver.test",
   },
   outcome: {
@@ -315,11 +316,11 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: TransactionOld = {
 };
 
 export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
-  hash: "T1111111111111111111111111111111111111111111",
+  hash: `T${EMPTY_CODE_HASH}`,
   signerId: "signer.test",
   receiverId: "receiver.test",
   status: "success",
-  blockHash: "B111111111111111111111111111111111111111111",
+  blockHash: `B${EMPTY_CODE_HASH}`,
   blockTimestamp: +new Date(2019, 1, 1),
   actions: [
     {
@@ -474,7 +475,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
       tokensBurnt: "2087691790109200000000",
     },
     predecessorId: "signer.test",
-    id: "R1111111111111111111111111111111111111111111",
+    id: `R${EMPTY_CODE_HASH}`,
     receiverId: "receiver.test",
   },
   outcome: {
@@ -484,11 +485,11 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
 };
 
 export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
-  hash: "T1111111111111111111111111111111111111111111",
+  hash: `T${EMPTY_CODE_HASH}`,
   signerId: "signer.test",
   receiverId: "receiver.test",
   status: "failure",
-  blockHash: "B111111111111111111111111111111111111111111",
+  blockHash: `B${EMPTY_CODE_HASH}`,
   blockTimestamp: +new Date(2019, 1, 1),
   actions: [
     {
@@ -514,7 +515,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
       },
     ],
     outcome: {
-      blockHash: "B111111111111111111111111111111111111111111",
+      blockHash: `B${EMPTY_CODE_HASH}`,
       logs: ["000028066 listings not found"],
       nestedReceipts: [
         {
@@ -555,7 +556,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
       tokensBurnt: "338053723011200000000",
     },
     predecessorId: "signer.test",
-    id: "R1111111111111111111111111111111111111111111",
+    id: `R${EMPTY_CODE_HASH}`,
     receiverId: "receiver.test",
   },
   outcome: {
