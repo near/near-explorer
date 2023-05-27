@@ -19,7 +19,7 @@ interface InfoCardProps {
 interface InfoCardCellProps {
   children: React.ReactNode;
   className?: string;
-  title: string | React.ReactNode;
+  title: React.ReactNode;
   cellOptions?: object;
 }
 

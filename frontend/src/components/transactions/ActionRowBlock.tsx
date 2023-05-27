@@ -134,7 +134,7 @@ export interface Props {
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
   icon: React.ReactNode;
-  title: React.ReactNode | string;
+  title: React.ReactNode;
   children?: React.ReactNode;
   status?: React.ReactNode;
   isFinal?: boolean;
