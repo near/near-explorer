@@ -4,7 +4,6 @@ import { useTranslation } from "next-i18next";
 
 import { id } from "@/common/utils/utils";
 import { BlocksRow } from "@/frontend/components/blocks/BlocksRow";
-import { FlipMove } from "@/frontend/components/utils/FlipMove";
 import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { Placeholder } from "@/frontend/components/utils/Placeholder";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
@@ -47,15 +46,9 @@ export const Blocks: React.FC = React.memo(() => {
         </Placeholder>
       }
     >
-      {(items) => (
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          {items.map((block) => (
-            <div key={block.hash}>
-              <BlocksRow block={block} />
-            </div>
-          ))}
-        </FlipMove>
-      )}
+      {(items) =>
+        items.map((block) => <BlocksRow key={block.hash} block={block} />)
+      }
     </ListHandler>
   );
 });
