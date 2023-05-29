@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { useIntersectionObserver } from "@react-hookz/web";
 import { useTranslation } from "next-i18next";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import { Unpacked } from "@/common/types/common";
 import {
@@ -46,7 +46,6 @@ export type Props<
   query: TRPCInfiniteQueryResult<K>;
   parser: (input: TRPCInfiniteQueryOutput<K>) => T[];
   children: (items: T[]) => React.ReactNode;
-  prependChildren?: React.ReactNode;
 };
 
 export const ListHandler = typedMemo(
@@ -54,7 +53,6 @@ export const ListHandler = typedMemo(
     query,
     parser,
     children,
-    prependChildren,
   }: Props<K, T>) => {
     const { t } = useTranslation();
     const allItems =
@@ -62,42 +60,61 @@ export const ListHandler = typedMemo(
         (acc, page) => [...acc, ...parser(page)],
         []
       ) ?? [];
-    const { fetchNextPage } = query;
-    const fetchMore = React.useCallback(() => fetchNextPage(), [fetchNextPage]);
+    const { fetchNextPage, hasNextPage, isFetching, isError } = query;
+    const fetchNextPageNoParams = React.useCallback(
+      () => fetchNextPage(),
+      [fetchNextPage]
+    );
 
-    if (query.error && !query.data) {
+    const waypointRef = React.useRef<HTMLDivElement>(null);
+    const intersection = useIntersectionObserver(waypointRef.current);
+    React.useEffect(() => {
+      if (
+        !intersection?.isIntersecting ||
+        !hasNextPage ||
+        isFetching ||
+        isError
+      ) {
+        return;
+      }
+      fetchNextPage();
+    }, [
+      fetchNextPage,
+      hasNextPage,
+      isFetching,
+      isError,
+      intersection?.isIntersecting,
+    ]);
+
+    if (query.data) {
       return (
-        <ErrorMessage onRetry={fetchMore}>{query.error.message}</ErrorMessage>
+        <>
+          {children(allItems)}
+          <div ref={waypointRef} />
+          {isFetching ? (
+            <PaginationSpinner />
+          ) : query.error ? (
+            <ErrorMessage onRetry={fetchNextPageNoParams}>
+              {query.error.message}
+            </ErrorMessage>
+          ) : (
+            <LoadButton onClick={fetchNextPageNoParams} visible={hasNextPage}>
+              {t("button.load_more")}
+            </LoadButton>
+          )}
+        </>
       );
     }
-    if (query.isFetching && !query.isFetchingNextPage) {
-      return <PaginationSpinner />;
+
+    switch (query.status) {
+      case "error":
+        return (
+          <ErrorMessage onRetry={fetchNextPageNoParams}>
+            {query.error.message}
+          </ErrorMessage>
+        );
+      case "loading":
+        return <PaginationSpinner />;
     }
-    return (
-      <>
-        {prependChildren}
-        <InfiniteScroll
-          dataLength={allItems.length}
-          next={fetchMore}
-          hasMore={query.hasNextPage ?? true}
-          loader={
-            query.isFetchingNextPage ? (
-              <PaginationSpinner />
-            ) : query.error ? (
-              <ErrorMessage onRetry={fetchMore}>
-                {query.error.message}
-              </ErrorMessage>
-            ) : (
-              <LoadButton onClick={fetchMore} visible={query.hasNextPage}>
-                {t("button.load_more")}
-              </LoadButton>
-            )
-          }
-          style={{ overflowX: "hidden" }}
-        >
-          {children(allItems)}
-        </InfiniteScroll>
-      </>
-    );
   }
 );
