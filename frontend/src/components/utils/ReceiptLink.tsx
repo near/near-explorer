@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Link from "@/frontend/components/utils/Link";
+import { Link } from "@/frontend/components/utils/Link";
 
 export interface Props {
   transactionHash: string;
@@ -9,7 +9,7 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-const ReceiptLink: React.FC<Props> = React.memo(
+export const ReceiptLink: React.FC<Props> = React.memo(
   ({ transactionHash, receiptId, truncate = true }) => {
     const children = truncate ? `${receiptId.substring(0, 7)}...` : receiptId;
     return (
@@ -19,5 +19,3 @@ const ReceiptLink: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ReceiptLink;

@@ -1,9 +1,10 @@
 import * as React from "react";
 
 import { Action } from "@/common/types/procedures";
-import actionIcons from "@/frontend/components/transactions/ActionIcons";
-import ActionMessage from "@/frontend/components/transactions/ActionMessage";
-import ActionRowBlock, {
+import { icons } from "@/frontend/components/transactions/ActionIcons";
+import { ActionMessage } from "@/frontend/components/transactions/ActionMessage";
+import {
+  ActionRowBlock,
   ViewMode,
   DetalizationMode,
 } from "@/frontend/components/transactions/ActionRowBlock";
@@ -21,7 +22,7 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const ActionRow: React.FC<Props> = React.memo(
+export const ActionRow: React.FC<Props> = React.memo(
   ({
     viewMode = "sparse",
     detalizationMode = "detailed",
@@ -34,7 +35,7 @@ const ActionRow: React.FC<Props> = React.memo(
     status,
     isFinal,
   }) => {
-    const ActionIcon = actionIcons[action.kind];
+    const ActionIcon = icons[action.kind];
     return (
       <ActionRowBlock
         viewMode={viewMode}
@@ -56,5 +57,3 @@ const ActionRow: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ActionRow;

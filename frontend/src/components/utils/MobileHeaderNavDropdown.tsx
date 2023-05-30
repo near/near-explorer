@@ -4,8 +4,8 @@ import { StyledComponent } from "@stitches/react/types/styled-component";
 import { useTranslation } from "next-i18next";
 
 import { BetaSwitch } from "@/frontend/components/utils/BetaSwitch";
-import LanguageToggle from "@/frontend/components/utils/LanguageToggle";
-import Link from "@/frontend/components/utils/Link";
+import { LanguageToggle } from "@/frontend/components/utils/LanguageToggle";
+import { Link } from "@/frontend/components/utils/Link";
 import { useBetaOptions } from "@/frontend/hooks/use-beta-options";
 import { useIsBetaPage } from "@/frontend/hooks/use-is-beta-page";
 import { styled } from "@/frontend/libraries/styles";
@@ -114,7 +114,7 @@ const LinkWrapper = styled(Link, {
   width: "100%",
 });
 
-const MobileNavDropdown: React.FC = React.memo(() => {
+export const MobileHeaderNavDropdown: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const [isMenuShown, setMenuShown] = React.useState(false);
   const dropdownWrapperRef = React.useRef<HTMLDivElement>(null);
@@ -215,5 +215,3 @@ const MobileNavDropdown: React.FC = React.memo(() => {
     </MobileHeaderNav>
   );
 });
-
-export default MobileNavDropdown;

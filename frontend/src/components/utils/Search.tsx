@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 import { Button, FormControl, InputGroup, Row, Spinner } from "react-bootstrap";
 
 import { TRPCMutationOutput } from "@/common/types/trpc";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
 import { useAnalyticsTrack } from "@/frontend/hooks/analytics/use-analytics-track";
 import { useQueryParam } from "@/frontend/hooks/use-query-param";
 import { styled } from "@/frontend/libraries/styles";
@@ -236,7 +236,7 @@ interface Props {
   dashboard?: boolean;
 }
 
-const Search: React.FC<Props> = React.memo(({ dashboard }) => {
+export const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const router = useRouter();
 
   const { t } = useTranslation();
@@ -337,5 +337,3 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
     </>
   );
 });
-
-export default Search;

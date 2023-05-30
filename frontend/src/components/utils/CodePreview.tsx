@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import Expandable from "@/frontend/components/utils/Expandable";
+import { Expandable } from "@/frontend/components/utils/Expandable";
 import { styled } from "@/frontend/libraries/styles";
 
 const Wrapper = styled("div", {
@@ -44,7 +44,7 @@ export interface Props {
   maxHeight: number;
 }
 
-const CodePreview: React.FC<Props> = React.memo((props) => (
+export const CodePreview: React.FC<Props> = React.memo((props) => (
   <Wrapper>
     <Expandable
       collapseHeight={props.collapseHeight}
@@ -60,5 +60,3 @@ const CodePreview: React.FC<Props> = React.memo((props) => (
     </Expandable>
   </Wrapper>
 ));
-
-export default CodePreview;

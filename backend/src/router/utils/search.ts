@@ -1,7 +1,7 @@
 import { z, ZodType } from "zod";
 
 import { indexerDatabase } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
 const blockInput = z.union([
@@ -88,7 +88,7 @@ const validateAndFetch = async <T, V extends ZodType<any, any, any>>(
   return fetchedResult;
 };
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(z.strictObject({ value: z.string() }))
   .mutation(({ input: { value } }) =>
     Promise.any([

@@ -59,92 +59,94 @@ interface Props {
   description?: ValidatorDescription;
 }
 
-const ValidatorMetadataRow: React.FC<Props> = React.memo(({ description }) => {
-  const { t } = useTranslation();
+export const ValidatorMetadataRow: React.FC<Props> = React.memo(
+  ({ description }) => {
+    const { t } = useTranslation();
 
-  if (!description) {
+    if (!description) {
+      return (
+        <ValidatorNodesContentRow noGutters>
+          <ValidatorNodesContentCell>
+            <p className="text-center">
+              <Trans
+                t={t}
+                i18nKey="component.nodes.ValidatorMetadataRow.pool_info_tip"
+                components={{
+                  poolLink: (
+                    <a
+                      href="https://github.com/zavodil/near-pool-details#description"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
+                  ),
+                }}
+              />
+            </p>
+          </ValidatorNodesContentCell>
+        </ValidatorNodesContentRow>
+      );
+    }
+
     return (
       <ValidatorNodesContentRow noGutters>
-        <ValidatorNodesContentCell>
-          <p className="text-center">
-            <Trans
-              t={t}
-              i18nKey="component.nodes.ValidatorMetadataRow.pool_info_tip"
-              components={{
-                poolLink: (
-                  <a
-                    href="https://github.com/zavodil/near-pool-details#description"
-                    target="_blank"
-                    rel="noreferrer"
-                  />
-                ),
-              }}
-            />
-          </p>
-        </ValidatorNodesContentCell>
+        <ValidatorMetadataElement
+          header={t("component.nodes.ValidatorMetadataRow.pool_info.website")}
+        >
+          {description.url && (
+            <a
+              href={
+                description.url.startsWith("http")
+                  ? description.url
+                  : `http://${description.url}`
+              }
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              {description.url}
+            </a>
+          )}
+        </ValidatorMetadataElement>
+        <ValidatorMetadataElement
+          header={t("component.nodes.ValidatorMetadataRow.pool_info.email")}
+        >
+          {description.email && (
+            <a href={`mailto:${description.email}`}>{description.email}</a>
+          )}
+        </ValidatorMetadataElement>
+        <ValidatorMetadataElement
+          header={t("component.nodes.ValidatorMetadataRow.pool_info.twitter")}
+        >
+          {description.twitter && (
+            <a
+              href={`https://twitter.com/${description.twitter}`}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              {description.twitter}
+            </a>
+          )}
+        </ValidatorMetadataElement>
+        <ValidatorMetadataElement
+          header={t("component.nodes.ValidatorMetadataRow.pool_info.discord")}
+        >
+          {description.discord && (
+            <a
+              href={description.discord}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              {description.discord}
+            </a>
+          )}
+        </ValidatorMetadataElement>
+        <ValidatorMetadataElement
+          header={t(
+            "component.nodes.ValidatorMetadataRow.pool_info.description"
+          )}
+        >
+          {description.description && <small>{description.description}</small>}
+        </ValidatorMetadataElement>
       </ValidatorNodesContentRow>
     );
   }
-
-  return (
-    <ValidatorNodesContentRow noGutters>
-      <ValidatorMetadataElement
-        header={t("component.nodes.ValidatorMetadataRow.pool_info.website")}
-      >
-        {description.url && (
-          <a
-            href={
-              description.url.startsWith("http")
-                ? description.url
-                : `http://${description.url}`
-            }
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            {description.url}
-          </a>
-        )}
-      </ValidatorMetadataElement>
-      <ValidatorMetadataElement
-        header={t("component.nodes.ValidatorMetadataRow.pool_info.email")}
-      >
-        {description.email && (
-          <a href={`mailto:${description.email}`}>{description.email}</a>
-        )}
-      </ValidatorMetadataElement>
-      <ValidatorMetadataElement
-        header={t("component.nodes.ValidatorMetadataRow.pool_info.twitter")}
-      >
-        {description.twitter && (
-          <a
-            href={`https://twitter.com/${description.twitter}`}
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            {description.twitter}
-          </a>
-        )}
-      </ValidatorMetadataElement>
-      <ValidatorMetadataElement
-        header={t("component.nodes.ValidatorMetadataRow.pool_info.discord")}
-      >
-        {description.discord && (
-          <a
-            href={description.discord}
-            rel="noreferrer noopener"
-            target="_blank"
-          >
-            {description.discord}
-          </a>
-        )}
-      </ValidatorMetadataElement>
-      <ValidatorMetadataElement
-        header={t("component.nodes.ValidatorMetadataRow.pool_info.description")}
-      >
-        {description.description && <small>{description.description}</small>}
-      </ValidatorMetadataElement>
-    </ValidatorNodesContentRow>
-  );
-});
-
-export default ValidatorMetadataRow;
+);

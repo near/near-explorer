@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { Table as BaseTable } from "react-bootstrap";
 
-import Pagination, {
+import {
+  Pagination,
   Props as PaginationProps,
 } from "@/frontend/components/utils/Pagination";
 import { styled } from "@/frontend/libraries/styles";

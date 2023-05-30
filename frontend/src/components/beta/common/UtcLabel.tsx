@@ -14,6 +14,4 @@ const UTC = styled("div", {
   textTransform: "uppercase",
 });
 
-const UtcLabel = React.memo(() => <UTC>utc</UTC>);
-
-export default UtcLabel;
+export const UtcLabel = React.memo(() => <UTC>utc</UTC>);

@@ -17,7 +17,7 @@ type Props = {
 
 const SHOW_COPY_OK_TIME = 2000;
 
-const CopyToClipboard: React.FC<Props> = React.memo(
+export const CopyToClipboard: React.FC<Props> = React.memo(
   ({ onCopy: onCopyRaw, text, css }) => {
     const [copiedCounter, setCopiedCounter] = React.useState(0);
     const onCopy = React.useCallback<
@@ -65,5 +65,3 @@ const CopyToClipboard: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default CopyToClipboard;

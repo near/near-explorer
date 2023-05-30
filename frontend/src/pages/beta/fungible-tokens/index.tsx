@@ -5,9 +5,9 @@ import Head from "next/head";
 import { Spinner } from "react-bootstrap";
 
 import { id } from "@/common/utils/utils";
-import Content from "@/frontend/components/utils/Content";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import ListHandler from "@/frontend/components/utils/ListHandler";
+import { Content } from "@/frontend/components/utils/Content";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { TokenAmount } from "@/frontend/components/utils/TokenAmount";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";

@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Img } from "react-image";
 
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { styled } from "@/frontend/libraries/styles";
 
 const Image = styled(Img, {
@@ -24,7 +24,7 @@ const getVideoState = (mediaUrl: string) => {
 type Props = {
   src: string | null;
 };
-const NFTMedia: React.FC<Props> = React.memo(({ src }) => {
+export const NFTMedia: React.FC<Props> = React.memo(({ src }) => {
   const [mediaUrl, setMediaUrl] = React.useState(src ?? null);
   const handleMediaUrl = React.useCallback(
     () => setMediaUrl("/static/images/failed_to_load.svg"),
@@ -66,5 +66,3 @@ const NFTMedia: React.FC<Props> = React.memo(({ src }) => {
     </>
   );
 });
-
-export default NFTMedia;

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { indexerDatabase } from "@/backend/database/databases";
 import { div } from "@/backend/database/utils";
 import { validateBase64Image } from "@/backend/router/account/fungible-tokens";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 
@@ -58,7 +58,7 @@ const buildMediaUrl = (
 };
 
 export const procedures = {
-  nonFungibleTokenContracts: t.procedure
+  nonFungibleTokenContracts: commonProcedure
     .input(z.strictObject({ accountId: validators.accountId }))
     .query(async ({ input: { accountId } }) => {
       const selection = await indexerDatabase
@@ -69,7 +69,7 @@ export const procedures = {
         .execute();
       return selection.map((row) => row.contractId);
     }),
-  nonFungibleTokens: t.procedure
+  nonFungibleTokens: commonProcedure
     .input(
       z.strictObject({
         contractId: validators.accountId,
@@ -120,7 +120,7 @@ export const procedures = {
         cursor: lastItem ? lastItem.index + 1 : undefined,
       };
     }),
-  nonFungibleTokensCount: t.procedure
+  nonFungibleTokensCount: commonProcedure
     .input(z.strictObject({ accountId: validators.accountId }))
     .query(async ({ input: { accountId } }) => {
       const selection = await indexerDatabase
@@ -142,7 +142,7 @@ export const procedures = {
         0
       );
     }),
-  nonFungibleTokenHistory: t.procedure
+  nonFungibleTokenHistory: commonProcedure
     .input(
       z.strictObject({
         tokenAuthorAccountId: validators.accountId,

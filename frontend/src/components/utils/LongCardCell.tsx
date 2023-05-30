@@ -62,7 +62,7 @@ export interface Props<K extends TRPCSubscriptionKey> {
   textCss?: CSS;
 }
 
-const LongCardCell = typedMemo(
+export const LongCardCell = typedMemo(
   <K extends TRPCSubscriptionKey>({
     title,
     subscription,
@@ -93,5 +93,3 @@ const LongCardCell = typedMemo(
     </LongCardCellWrapper>
   )
 );
-
-export default LongCardCell;

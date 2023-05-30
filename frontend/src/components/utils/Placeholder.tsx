@@ -18,10 +18,10 @@ export type Props = {
   children: React.ReactNode;
 } & React.ComponentProps<typeof PlaceholderWrapper>;
 
-const Placeholder: React.FC<Props> = React.memo(({ children, ...props }) => (
-  <PlaceholderWrapper {...props}>
-    <PlaceholderText>{children}</PlaceholderText>
-  </PlaceholderWrapper>
-));
-
-export default Placeholder;
+export const Placeholder: React.FC<Props> = React.memo(
+  ({ children, ...props }) => (
+    <PlaceholderWrapper {...props}>
+      <PlaceholderText>{children}</PlaceholderText>
+    </PlaceholderWrapper>
+  )
+);

@@ -103,7 +103,7 @@ const NearkatWrapper = styled("div", {
   },
 });
 
-const Footer: React.FC = React.memo(() => {
+export const Footer: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
@@ -164,5 +164,3 @@ const Footer: React.FC = React.memo(() => {
     </FooterContainer>
   );
 });
-
-export default Footer;

@@ -2,7 +2,7 @@ import * as React from "react";
 
 import JSBI from "jsbi";
 
-import BlockDetails from "@/frontend/components/blocks/BlockDetails";
+import { BlockDetails } from "@/frontend/components/blocks/BlockDetails";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<BlockDetails />", () => {

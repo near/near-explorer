@@ -41,7 +41,7 @@ const formatStoreSize = (value: number, t: TFunction): string => {
 interface Props {
   value: number;
 }
-const StorageSize: React.FC<Props> = React.memo(({ value }) => {
+export const StorageSize: React.FC<Props> = React.memo(({ value }) => {
   const { t } = useTranslation();
 
   return (
@@ -59,5 +59,3 @@ const StorageSize: React.FC<Props> = React.memo(({ value }) => {
     </OverlayTrigger>
   );
 });
-
-export default StorageSize;

@@ -8,7 +8,7 @@ import { Tabs, Tab } from "react-bootstrap";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import * as BI from "@/frontend/libraries/bigint";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
@@ -115,7 +115,7 @@ const getGasCostInNear = (
   return JSBI.toNumber(gasInNearWithPrecision) / precisionMultiplier;
 };
 
-const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
+export const GasUsedByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const latestGasPriceSub = subscriptions.latestGasPrice.useSubscription();
   const gasUsedHistorySub = subscriptions.gasUsedHistory.useSubscription();
@@ -184,5 +184,3 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
     </Tabs>
   );
 });
-
-export default GasUsedByDateChart;

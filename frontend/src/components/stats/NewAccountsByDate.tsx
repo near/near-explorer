@@ -7,7 +7,7 @@ import { Tabs, Tab } from "react-bootstrap";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
 
@@ -90,61 +90,61 @@ const getOption = (
   ],
 });
 
-const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const accountsHistorySub = subscriptions.accountsHistory.useSubscription();
+export const NewAccountsByDate: React.FC<Props> = React.memo(
+  ({ chartStyle }) => {
+    const { t } = useTranslation();
+    const accountsHistorySub = subscriptions.accountsHistory.useSubscription();
 
-  const options = React.useMemo(() => {
-    if (!accountsHistorySub.data) {
-      return;
-    }
-    return {
-      daily: getOption(
-        t("component.stats.NewAccountsByDate.daily_number_of_new_accounts"),
-        t("component.stats.NewAccountsByDate.new_accounts"),
-        accountsHistorySub.data.newAccounts
-      ),
-      cumulative: getOption(
-        t("component.stats.NewAccountsByDate.total_number_of_new_accounts"),
-        t("component.stats.NewAccountsByDate.new_accounts"),
-        getCumulativeArray(
-          accountsHistorySub.data.newAccounts,
-          ([accountsCount]) => accountsCount
-        )
-      ),
-      live: getOption(
-        t("component.stats.NewAccountsByDate.daily_number_of_live_accounts"),
-        t("component.stats.NewAccountsByDate.new_accounts"),
-        accountsHistorySub.data.liveAccounts
-      ),
-    };
-  }, [accountsHistorySub.data, t]);
+    const options = React.useMemo(() => {
+      if (!accountsHistorySub.data) {
+        return;
+      }
+      return {
+        daily: getOption(
+          t("component.stats.NewAccountsByDate.daily_number_of_new_accounts"),
+          t("component.stats.NewAccountsByDate.new_accounts"),
+          accountsHistorySub.data.newAccounts
+        ),
+        cumulative: getOption(
+          t("component.stats.NewAccountsByDate.total_number_of_new_accounts"),
+          t("component.stats.NewAccountsByDate.new_accounts"),
+          getCumulativeArray(
+            accountsHistorySub.data.newAccounts,
+            ([accountsCount]) => accountsCount
+          )
+        ),
+        live: getOption(
+          t("component.stats.NewAccountsByDate.daily_number_of_live_accounts"),
+          t("component.stats.NewAccountsByDate.new_accounts"),
+          accountsHistorySub.data.liveAccounts
+        ),
+      };
+    }, [accountsHistorySub.data, t]);
 
-  return (
-    <Tabs defaultActiveKey="daily" id="newAccountsByDate">
-      <Tab eventKey="daily" title={t("common.stats.daily")}>
-        {options ? (
-          <ReactEcharts option={options.daily} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-      <Tab eventKey="live" title={t("common.stats.live")}>
-        {options ? (
-          <ReactEcharts option={options.live} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-      <Tab eventKey="total" title={t("common.stats.total")}>
-        {options ? (
-          <ReactEcharts option={options.cumulative} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-    </Tabs>
-  );
-});
-
-export default NewAccountsByDate;
+    return (
+      <Tabs defaultActiveKey="daily" id="newAccountsByDate">
+        <Tab eventKey="daily" title={t("common.stats.daily")}>
+          {options ? (
+            <ReactEcharts option={options.daily} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+        <Tab eventKey="live" title={t("common.stats.live")}>
+          {options ? (
+            <ReactEcharts option={options.live} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+        <Tab eventKey="total" title={t("common.stats.total")}>
+          {options ? (
+            <ReactEcharts option={options.cumulative} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+      </Tabs>
+    );
+  }
+);

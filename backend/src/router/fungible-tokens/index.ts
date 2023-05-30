@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { t } from "@/backend/router/trpc";
+import { t, commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 
@@ -16,12 +16,12 @@ export type FungibleTokenMetadata = {
 };
 
 export const router = t.router({
-  amount: t.procedure.query(async () => {
+  amount: commonProcedure.query(async () => {
     // TODO: add data from Enhanced API
     const selection = { amount: "0" };
     return parseInt(selection.amount, 10);
   }),
-  list: t.procedure
+  list: commonProcedure
     .input(
       z.strictObject({
         limit: validators.limit,

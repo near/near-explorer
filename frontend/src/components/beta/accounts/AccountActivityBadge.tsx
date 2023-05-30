@@ -58,15 +58,15 @@ const Wrapper = styled("div", {
   },
 });
 
-const AccountActivityBadge: React.FC<Props> = React.memo(({ action }) => {
-  const { t } = useTranslation();
-  return (
-    <Wrapper kind={action.kind}>
-      {t(`pages.account.activity.type.${action.kind}`, {
-        quantity: action.kind === "batch" ? action.actions.length : undefined,
-      })}
-    </Wrapper>
-  );
-});
-
-export default AccountActivityBadge;
+export const AccountActivityBadge: React.FC<Props> = React.memo(
+  ({ action }) => {
+    const { t } = useTranslation();
+    return (
+      <Wrapper kind={action.kind}>
+        {t(`pages.account.activity.type.${action.kind}`, {
+          quantity: action.kind === "batch" ? action.actions.length : undefined,
+        })}
+      </Wrapper>
+    );
+  }
+);

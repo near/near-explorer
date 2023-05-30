@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 import { indexerDatabase } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 
-export const procedure = t.procedure
+export const procedure = commonProcedure
   .input(z.strictObject({ id: validators.receiptId }))
   .query(async ({ input: { id } }) => {
     const row = await indexerDatabase

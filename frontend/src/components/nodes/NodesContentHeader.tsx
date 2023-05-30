@@ -3,7 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
-import NodeNav from "@/frontend/components/nodes/NodeNav";
+import { NodeNav } from "@/frontend/components/nodes/NodeNav";
 import { styled } from "@/frontend/libraries/styles";
 
 const NodesContentHeaderWrapper = styled("h1", {
@@ -17,7 +17,7 @@ const NodesIcon = styled("img", {
   marginRight: 11,
 });
 
-const NodesContentHeader: React.FC = React.memo(() => {
+export const NodesContentHeader: React.FC = React.memo(() => {
   const { t } = useTranslation();
   return (
     <Row noGutters>
@@ -35,5 +35,3 @@ const NodesContentHeader: React.FC = React.memo(() => {
     </Row>
   );
 });
-
-export default NodesContentHeader;

@@ -4,8 +4,8 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { Spinner } from "react-bootstrap";
 
-import NearBadge from "@/frontend/components/nodes/NearBadge";
-import Balance, { formatWithCommas } from "@/frontend/components/utils/Balance";
+import { NearBadge } from "@/frontend/components/nodes/NearBadge";
+import { Balance, formatWithCommas } from "@/frontend/components/utils/Balance";
 import {
   InfoCard,
   InfoCardCell as Cell,
@@ -34,7 +34,7 @@ const BalanceSuffix = styled("span", {
   alignSelf: "flex-end",
 });
 
-const ProtocolConfigInfo: React.FC = React.memo(() => {
+export const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const epochStartBlockSub = subscriptions.epochStartBlock.useSubscription();
   const protocolConfigSub = subscriptions.protocolConfig.useSubscription();
@@ -181,5 +181,3 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
     </>
   );
 });
-
-export default ProtocolConfigInfo;

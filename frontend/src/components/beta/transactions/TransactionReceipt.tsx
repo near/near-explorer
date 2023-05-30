@@ -1,14 +1,14 @@
 import * as React from "react";
 
-import { TransactionReceipt } from "@/common/types/procedures";
-import ReceiptInfo from "@/frontend/components/beta/transactions/ReceiptInfo";
-import ReceiptKind from "@/frontend/components/beta/transactions/ReceiptKind";
+import { TransactionReceipt as TransactionReceiptType } from "@/common/types/procedures";
+import { ReceiptInfo } from "@/frontend/components/beta/transactions/ReceiptInfo";
+import { ReceiptKind } from "@/frontend/components/beta/transactions/ReceiptKind";
 import { styled } from "@/frontend/libraries/styles";
 
 type Props = {
-  receipt: TransactionReceipt;
+  receipt: TransactionReceiptType;
   convertionReceipt: boolean;
-  fellowOutgoingReceipts: TransactionReceipt[];
+  fellowOutgoingReceipts: TransactionReceiptType[];
   className: string;
   customCss?: React.CSSProperties;
   expandAll: boolean;
@@ -97,7 +97,7 @@ const ReceiptInfoWrapper = styled("div", {
   marginLeft: 8.5,
 });
 
-const TransactionReceiptView: React.FC<Props> = React.memo(
+export const TransactionReceipt: React.FC<Props> = React.memo(
   ({
     receipt,
     convertionReceipt,
@@ -116,7 +116,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
     const remainingFellowOutgoingReceipts = fellowOutgoingReceipts.slice(0, -1);
     const lastFellowOutgoingReceipt = fellowOutgoingReceipts.at(-1);
     const filterRefundNestedReceipts = receipt.outcome.nestedReceipts.filter(
-      (nestedReceipt): nestedReceipt is TransactionReceipt =>
+      (nestedReceipt): nestedReceipt is TransactionReceiptType =>
         "outcome" in nestedReceipt && nestedReceipt.predecessorId !== "system"
     );
     const nonRefundNestedReceipts = filterRefundNestedReceipts.slice(0, -1);
@@ -136,7 +136,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
           ) : null}
 
           {lastFellowOutgoingReceipt ? (
-            <TransactionReceiptView
+            <TransactionReceipt
               receipt={lastFellowOutgoingReceipt}
               convertionReceipt={false}
               fellowOutgoingReceipts={remainingFellowOutgoingReceipts}
@@ -167,7 +167,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
           </Receiver>
         </ReceiptWrapper>
         {lastNonRefundNestedReceipt ? (
-          <TransactionReceiptView
+          <TransactionReceipt
             receipt={lastNonRefundNestedReceipt}
             convertionReceipt={false}
             fellowOutgoingReceipts={nonRefundNestedReceipts}
@@ -179,5 +179,3 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default TransactionReceiptView;

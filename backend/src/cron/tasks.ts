@@ -157,28 +157,30 @@ export const onlineNodesCountCheck: RegularCheckFn = {
 
 export const genesisProtocolInfoFetch: RegularCheckFn = {
   description: "genesis protocol info",
-  fn: async (publish, context) => {
-    const [genesisProtocolConfig, genesisAccountCount] = await Promise.all([
-      nearApi.sendJsonRpc("EXPERIMENTAL_genesis_config", { finality: "final" }),
-      indexerDatabase
-        .selectFrom("accounts")
-        .select((eb) => count(eb, "id").as("count"))
-        .where("created_by_receipt_id", "is", null)
-        .executeTakeFirstOrThrow(),
-    ]);
-    context.state.genesisConfig = {
-      minStakeRatio: genesisProtocolConfig.minimum_stake_ratio,
-      accountCount: Number(genesisAccountCount.count),
-    };
-    publish("genesisConfig", {
-      height: genesisProtocolConfig.genesis_height,
-      timestamp: new Date(genesisProtocolConfig.genesis_time).valueOf(),
-      protocolVersion: genesisProtocolConfig.protocol_version,
-      totalSupply: genesisProtocolConfig.total_supply,
-      accountCount: Number(genesisAccountCount.count),
-    });
-    return Infinity;
-  },
+  fn: publishOnChange(
+    "genesisConfig",
+    async () => {
+      const [genesisProtocolConfig, genesisAccountCount] = await Promise.all([
+        nearApi.sendJsonRpc("EXPERIMENTAL_genesis_config", {
+          finality: "final",
+        }),
+        indexerDatabase
+          .selectFrom("accounts")
+          .select((eb) => count(eb, "id").as("count"))
+          .where("created_by_receipt_id", "is", null)
+          .executeTakeFirstOrThrow(),
+      ]);
+      return {
+        height: genesisProtocolConfig.genesis_height,
+        timestamp: new Date(genesisProtocolConfig.genesis_time).valueOf(),
+        protocolVersion: genesisProtocolConfig.protocol_version,
+        totalSupply: genesisProtocolConfig.total_supply,
+        accountCount: Number(genesisAccountCount.count),
+        minStakeRatio: genesisProtocolConfig.minimum_stake_ratio,
+      };
+    },
+    Infinity
+  ),
 };
 
 export const transactionsHistoryCheck: RegularCheckFn = {
@@ -367,10 +369,11 @@ export const accountsHistoryCheck: RegularCheckFn = {
     if (!analyticsDatabase) {
       return Infinity;
     }
-    const publishIfChanged = getPublishIfChanged(publish, context);
-    if (!context.state.genesisConfig) {
-      return 10 * SECOND;
+    const { genesisConfig } = context.subscriptionsCache;
+    if (!genesisConfig) {
+      return 3 * SECOND;
     }
+    const publishIfChanged = getPublishIfChanged(publish, context);
     const [newAccounts, deletedAccounts] = await Promise.all([
       (
         await analyticsDatabase
@@ -432,7 +435,7 @@ export const accountsHistoryCheck: RegularCheckFn = {
             ],
           ];
         },
-        [[0, context.state.genesisConfig.accountCount]]
+        [[0, genesisConfig.accountCount]]
       )
       .slice(1);
     publishIfChanged("accountsHistory", { newAccounts, liveAccounts });
@@ -713,8 +716,7 @@ export const epochStartBlockCheck: RegularCheckFn = {
 export const epochStatsCheck: RegularCheckFn = {
   description: "epoch stats info",
   fn: async (publish, context) => {
-    const { genesisConfig } = context.state;
-    const { protocolConfig } = context.subscriptionsCache;
+    const { protocolConfig, genesisConfig } = context.subscriptionsCache;
     if (!protocolConfig || !genesisConfig) {
       // Protocol config or genesis config are not fetched yet, probably will be available in a few seconds
       return 3 * SECOND;

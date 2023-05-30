@@ -5,7 +5,7 @@ import ReactEcharts from "echarts-for-react";
 import { useTranslation } from "next-i18next";
 import { Tabs, Tab } from "react-bootstrap";
 
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
 
@@ -90,7 +90,7 @@ export interface Props {
   chartStyle: object;
 }
 
-const TransactionsByDateChart: React.FC<Props> = React.memo(
+export const TransactionsByDate: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
     const { t } = useTranslation();
     const transactionsHistorySub =
@@ -134,5 +134,3 @@ const TransactionsByDateChart: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default TransactionsByDateChart;

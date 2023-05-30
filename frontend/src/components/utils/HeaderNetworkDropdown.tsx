@@ -116,7 +116,7 @@ const IconRight = styled("img", {
   marginTop: -3,
 });
 
-const HeaderNetworkDropdown: React.FC = React.memo(() => {
+export const HeaderNetworkDropdown: React.FC = React.memo(() => {
   const { networkName, networks } = useNetworkContext();
   return (
     <Dropdown>
@@ -138,5 +138,3 @@ const HeaderNetworkDropdown: React.FC = React.memo(() => {
     </Dropdown>
   );
 });
-
-export default HeaderNetworkDropdown;

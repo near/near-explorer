@@ -1,11 +1,9 @@
 import * as React from "react";
 
-import analytics, {
-  AnalyticsEvent,
-} from "@/frontend/hooks/analytics/analytics";
+import { track, AnalyticsEvent } from "@/frontend/hooks/analytics/analytics";
 
 export const useAnalyticsTrack = () =>
   React.useCallback<(event: string, args?: AnalyticsEvent) => void>(
-    (event, args) => analytics.track(event, args),
+    (event, args) => track(event, args),
     []
   );

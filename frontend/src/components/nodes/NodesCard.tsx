@@ -4,7 +4,7 @@ import JSBI from "jsbi";
 import { useTranslation } from "next-i18next";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import NearBadge from "@/frontend/components/nodes/NearBadge";
+import { NearBadge } from "@/frontend/components/nodes/NearBadge";
 import { getTotalStake } from "@/frontend/components/nodes/ValidatorsList";
 import {
   showInYocto,
@@ -100,7 +100,7 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
   );
 });
 
-const NodesCard = React.memo(() => {
+export const NodesCard = React.memo(() => {
   const { t } = useTranslation();
   const epochStatsSub = subscriptions.epochStats.useSubscription();
   const epochStartBlockSub = subscriptions.epochStartBlock.useSubscription();
@@ -157,5 +157,3 @@ const NodesCard = React.memo(() => {
     </NodesCardWrapper>
   );
 });
-
-export default NodesCard;

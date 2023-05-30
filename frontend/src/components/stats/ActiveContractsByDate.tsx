@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 
 const getOption = (
@@ -86,28 +86,28 @@ const getOption = (
   ],
 });
 
-const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const activeContractsHistorySub =
-    subscriptions.activeContractsHistory.useSubscription();
+export const ActiveContractsByDate: React.FC<Props> = React.memo(
+  ({ chartStyle }) => {
+    const { t } = useTranslation();
+    const activeContractsHistorySub =
+      subscriptions.activeContractsHistory.useSubscription();
 
-  const option = React.useMemo(() => {
-    if (!activeContractsHistorySub.data) {
-      return;
+    const option = React.useMemo(() => {
+      if (!activeContractsHistorySub.data) {
+        return;
+      }
+      return getOption(
+        t(
+          "component.stats.ActiveContractsByDate.daily_number_of_active_contracts"
+        ),
+        t("component.stats.ActiveContractsByDate.active_contracts"),
+        activeContractsHistorySub.data
+      );
+    }, [activeContractsHistorySub.data, t]);
+
+    if (!option) {
+      return <PaginationSpinner />;
     }
-    return getOption(
-      t(
-        "component.stats.ActiveContractsByDate.daily_number_of_active_contracts"
-      ),
-      t("component.stats.ActiveContractsByDate.active_contracts"),
-      activeContractsHistorySub.data
-    );
-  }, [activeContractsHistorySub.data, t]);
-
-  if (!option) {
-    return <PaginationSpinner />;
+    return <ReactEcharts option={option} style={chartStyle} />;
   }
-  return <ReactEcharts option={option} style={chartStyle} />;
-});
-
-export default ActiveContractsByDate;
+);

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Link from "@/frontend/components/utils/Link";
+import { Link } from "@/frontend/components/utils/Link";
 import { shortenString } from "@/frontend/libraries/formatting";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -12,10 +12,8 @@ export interface Props {
   accountId: string;
 }
 
-const AccountLink: React.FC<Props> = React.memo(({ accountId }) => (
+export const AccountLink: React.FC<Props> = React.memo(({ accountId }) => (
   <AccountLinkWrapper href={`/accounts/${accountId}`}>
     {shortenString(accountId)}
   </AccountLinkWrapper>
 ));
-
-export default AccountLink;

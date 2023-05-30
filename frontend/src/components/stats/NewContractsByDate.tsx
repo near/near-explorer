@@ -7,7 +7,7 @@ import { Tabs, Tab } from "react-bootstrap";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { getCumulativeArray } from "@/frontend/libraries/stats";
 
@@ -90,66 +90,70 @@ const getOption = (
   ],
 });
 
-const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const contractsHistorySub = subscriptions.contractsHistory.useSubscription();
+export const NewContractsByDate: React.FC<Props> = React.memo(
+  ({ chartStyle }) => {
+    const { t } = useTranslation();
+    const contractsHistorySub =
+      subscriptions.contractsHistory.useSubscription();
 
-  const options = React.useMemo(() => {
-    if (!contractsHistorySub.data) {
-      return;
-    }
-    return {
-      daily: getOption(
-        t("component.stats.NewContractsByDate.daily_number_of_new_contracts"),
-        t("component.stats.NewContractsByDate.new_contracts"),
-        contractsHistorySub.data.newContracts
-      ),
-      cumulative: getOption(
-        t("component.stats.NewContractsByDate.total_number_of_new_contracts"),
-        t("component.stats.NewContractsByDate.new_contracts"),
-        getCumulativeArray(
-          contractsHistorySub.data.newContracts,
-          ([newContracts]) => newContracts
-        )
-      ),
-      cumulativeUnique: getOption(
-        t(
-          "component.stats.NewContractsByDate.total_number_of_unique_contracts"
+    const options = React.useMemo(() => {
+      if (!contractsHistorySub.data) {
+        return;
+      }
+      return {
+        daily: getOption(
+          t("component.stats.NewContractsByDate.daily_number_of_new_contracts"),
+          t("component.stats.NewContractsByDate.new_contracts"),
+          contractsHistorySub.data.newContracts
         ),
-        t("component.stats.NewContractsByDate.new_contracts"),
-        getCumulativeArray(
-          contractsHistorySub.data.uniqueContracts,
-          ([uniqueContracts]) => uniqueContracts
-        )
-      ),
-    };
-  }, [contractsHistorySub.data, t]);
+        cumulative: getOption(
+          t("component.stats.NewContractsByDate.total_number_of_new_contracts"),
+          t("component.stats.NewContractsByDate.new_contracts"),
+          getCumulativeArray(
+            contractsHistorySub.data.newContracts,
+            ([newContracts]) => newContracts
+          )
+        ),
+        cumulativeUnique: getOption(
+          t(
+            "component.stats.NewContractsByDate.total_number_of_unique_contracts"
+          ),
+          t("component.stats.NewContractsByDate.new_contracts"),
+          getCumulativeArray(
+            contractsHistorySub.data.uniqueContracts,
+            ([uniqueContracts]) => uniqueContracts
+          )
+        ),
+      };
+    }, [contractsHistorySub.data, t]);
 
-  return (
-    <Tabs defaultActiveKey="daily" id="newContractsByDate">
-      <Tab eventKey="daily" title={t("common.stats.daily")}>
-        {options ? (
-          <ReactEcharts option={options.daily} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-      <Tab eventKey="total" title={t("common.stats.total")}>
-        {options ? (
-          <ReactEcharts option={options.cumulative} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-      <Tab eventKey="unique" title={t("common.stats.unique")}>
-        {options ? (
-          <ReactEcharts option={options.cumulativeUnique} style={chartStyle} />
-        ) : (
-          <PaginationSpinner />
-        )}
-      </Tab>
-    </Tabs>
-  );
-});
-
-export default NewContractsByDate;
+    return (
+      <Tabs defaultActiveKey="daily" id="newContractsByDate">
+        <Tab eventKey="daily" title={t("common.stats.daily")}>
+          {options ? (
+            <ReactEcharts option={options.daily} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+        <Tab eventKey="total" title={t("common.stats.total")}>
+          {options ? (
+            <ReactEcharts option={options.cumulative} style={chartStyle} />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+        <Tab eventKey="unique" title={t("common.stats.unique")}>
+          {options ? (
+            <ReactEcharts
+              option={options.cumulativeUnique}
+              style={chartStyle}
+            />
+          ) : (
+            <PaginationSpinner />
+          )}
+        </Tab>
+      </Tabs>
+    );
+  }
+);

@@ -13,3 +13,5 @@ export const t = initTRPC.context<RequestContext>().create({
         }
       : shape,
 });
+
+export const commonProcedure = t.procedure;

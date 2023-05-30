@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import AccountLink from "@/frontend/components/utils/AccountLink";
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
 import { renderElement } from "@/frontend/testing/utils";
 
 describe("<AccountLink />", () => {

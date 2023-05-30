@@ -78,7 +78,7 @@ interface Props {
   type: StakingStatus;
 }
 
-const ValidatingLabel: React.FC<Props> = React.memo(({ type }) => {
+export const ValidatingLabel: React.FC<Props> = React.memo(({ type }) => {
   const { t } = useTranslation();
   return (
     <OverlayTrigger
@@ -91,5 +91,3 @@ const ValidatingLabel: React.FC<Props> = React.memo(({ type }) => {
     </OverlayTrigger>
   );
 });
-
-export default ValidatingLabel;

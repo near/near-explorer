@@ -12,7 +12,7 @@ const MGAS = JSBI.exponentiate(BI.ten, JSBI.BigInt(6));
 const GGAS = JSBI.multiply(MGAS, JSBI.BigInt(1000));
 export const TGAS = JSBI.multiply(GGAS, JSBI.BigInt(1000));
 
-const Gas: React.FC<Props> = React.memo(({ gas }) => {
+export const Gas: React.FC<Props> = React.memo(({ gas }) => {
   let gasShow;
   if (JSBI.greaterThan(gas, TGAS)) {
     gasShow = `${JSBI.divide(gas, TGAS).toString()} Tgas`;
@@ -25,5 +25,3 @@ const Gas: React.FC<Props> = React.memo(({ gas }) => {
   }
   return <>{gasShow}</>;
 });
-
-export default Gas;

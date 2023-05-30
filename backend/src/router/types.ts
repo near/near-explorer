@@ -84,6 +84,7 @@ export type SubscriptionTopicTypes = {
     protocolVersion: number;
     totalSupply: string;
     accountCount: number;
+    minStakeRatio: [number, number];
   };
   protocolConfig: {
     version: number;

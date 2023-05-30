@@ -3,7 +3,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { Badge, Col, Row } from "react-bootstrap";
 
-import Link from "@/frontend/components/utils/Link";
+import { Link } from "@/frontend/components/utils/Link";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -39,7 +39,7 @@ const NodeLink = styled(Link, {
   },
 });
 
-const NodeNav: React.FC = React.memo(() => {
+export const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const currentValidatorsCountSub =
     subscriptions.currentValidatorsCount.useSubscription();
@@ -57,5 +57,3 @@ const NodeNav: React.FC = React.memo(() => {
     </Row>
   );
 });
-
-export default NodeNav;

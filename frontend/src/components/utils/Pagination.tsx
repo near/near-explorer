@@ -85,7 +85,7 @@ const Arrow: React.FC = React.memo(() => (
   </svg>
 ));
 
-const Pagination: React.FC<Props> = React.memo(
+export const Pagination: React.FC<Props> = React.memo(
   ({
     overrideComponent,
     pageCount,
@@ -106,5 +106,3 @@ const Pagination: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default Pagination;

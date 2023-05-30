@@ -3,10 +3,10 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 
 import { Transaction } from "@/common/types/procedures";
-import StringConditionalOverlay from "@/frontend/components/beta/common/StringConditionalOverlay";
-import UtcLabel from "@/frontend/components/beta/common/UtcLabel";
-import TransactionStatus from "@/frontend/components/beta/transactions/TransactionStatus";
-import CopyToClipboard from "@/frontend/components/utils/CopyToClipboard";
+import { StringConditionalOverlay } from "@/frontend/components/beta/common/StringConditionalOverlay";
+import { UtcLabel } from "@/frontend/components/beta/common/UtcLabel";
+import { TransactionStatus } from "@/frontend/components/beta/transactions/TransactionStatus";
+import { CopyToClipboard } from "@/frontend/components/utils/CopyToClipboard";
 import { NearAmount } from "@/frontend/components/utils/NearAmount";
 import { useDateFormat } from "@/frontend/hooks/use-date-format";
 import { shortenString } from "@/frontend/libraries/formatting";
@@ -98,78 +98,78 @@ const Amount = styled("div", {
   marginTop: 16,
 });
 
-const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
-  const { t } = useTranslation();
-  const format = useDateFormat();
-  return (
-    <Wrapper>
-      <BaseInfo>
-        <div>
-          <CenteredContainer>
-            <StringConditionalOverlay
-              tooltipId="accountId"
-              value={transaction.signerId}
-            >
-              <Author>
-                <span>{shortenString(transaction.signerId)}</span>
-              </Author>
-            </StringConditionalOverlay>
-            <Divider src="/static/images/icon-from-arrow-right.svg" />
-            <StringConditionalOverlay
-              tooltipId="accountId"
-              value={transaction.receiverId}
-            >
-              <Author>
-                <span>{shortenString(transaction.receiverId)}</span>
-              </Author>
-            </StringConditionalOverlay>
-          </CenteredContainer>
-          <BaseInfoDetails>
-            <TransactionHash>
-              {shortenString(transaction.hash)}
-              <TransactionCopy>
-                <CopyToClipboard text={transaction.hash} />
-              </TransactionCopy>
-            </TransactionHash>
-            <TransactionStatus status={transaction.status} />
-          </BaseInfoDetails>
-        </div>
-      </BaseInfo>
-      <CenteredContainer>
-        <div>
-          <AmountHeader>{t("pages.transaction.header.amount")}</AmountHeader>
-          <Amount>
-            <NearAmount amount={transaction.amount} decimalPlaces={2} />
-          </Amount>
-        </div>
-        <NumericDivider />
-        <div>
-          <AmountHeader>{t("pages.transaction.header.fee")}</AmountHeader>
-          <Amount>
-            <NearAmount amount={transaction.fee} decimalPlaces={2} />
-          </Amount>
-        </div>
-        <NumericDivider />
-        <div>
-          <AmountHeader>{t("pages.transaction.header.when")}</AmountHeader>
-          <Amount>
+export const TransactionHeader: React.FC<Props> = React.memo(
+  ({ transaction }) => {
+    const { t } = useTranslation();
+    const format = useDateFormat();
+    return (
+      <Wrapper>
+        <BaseInfo>
+          <div>
             <CenteredContainer>
-              {format(
-                transaction.timestamp,
-                t("common.date_time.transaction_date_format"),
-                { utc: true }
-              )}
-              <UtcLabel />
-              <CopyToClipboard
-                css={{ marginLeft: 8 }}
-                text={String(transaction.timestamp)}
-              />
+              <StringConditionalOverlay
+                tooltipId="accountId"
+                value={transaction.signerId}
+              >
+                <Author>
+                  <span>{shortenString(transaction.signerId)}</span>
+                </Author>
+              </StringConditionalOverlay>
+              <Divider src="/static/images/icon-from-arrow-right.svg" />
+              <StringConditionalOverlay
+                tooltipId="accountId"
+                value={transaction.receiverId}
+              >
+                <Author>
+                  <span>{shortenString(transaction.receiverId)}</span>
+                </Author>
+              </StringConditionalOverlay>
             </CenteredContainer>
-          </Amount>
-        </div>
-      </CenteredContainer>
-    </Wrapper>
-  );
-});
-
-export default TransactionHeader;
+            <BaseInfoDetails>
+              <TransactionHash>
+                {shortenString(transaction.hash)}
+                <TransactionCopy>
+                  <CopyToClipboard text={transaction.hash} />
+                </TransactionCopy>
+              </TransactionHash>
+              <TransactionStatus status={transaction.status} />
+            </BaseInfoDetails>
+          </div>
+        </BaseInfo>
+        <CenteredContainer>
+          <div>
+            <AmountHeader>{t("pages.transaction.header.amount")}</AmountHeader>
+            <Amount>
+              <NearAmount amount={transaction.amount} decimalPlaces={2} />
+            </Amount>
+          </div>
+          <NumericDivider />
+          <div>
+            <AmountHeader>{t("pages.transaction.header.fee")}</AmountHeader>
+            <Amount>
+              <NearAmount amount={transaction.fee} decimalPlaces={2} />
+            </Amount>
+          </div>
+          <NumericDivider />
+          <div>
+            <AmountHeader>{t("pages.transaction.header.when")}</AmountHeader>
+            <Amount>
+              <CenteredContainer>
+                {format(
+                  transaction.timestamp,
+                  t("common.date_time.transaction_date_format"),
+                  { utc: true }
+                )}
+                <UtcLabel />
+                <CopyToClipboard
+                  css={{ marginLeft: 8 }}
+                  text={String(transaction.timestamp)}
+                />
+              </CenteredContainer>
+            </Amount>
+          </div>
+        </CenteredContainer>
+      </Wrapper>
+    );
+  }
+);

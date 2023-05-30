@@ -11,10 +11,6 @@ export type GlobalState = {
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
   poolIds: string[];
-  genesisConfig: {
-    minStakeRatio: [number, number];
-    accountCount: number;
-  } | null;
   validatorsPromise?: Promise<RPC.EpochValidatorInfo>;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;
@@ -33,7 +29,6 @@ export const initGlobalState = (): GlobalState => ({
     promisesMap: new Map(),
   },
   poolIds: [],
-  genesisConfig: null,
   rpcStatus: { timestamp: Date.now(), ok: true },
   indexerStatus: { timestamp: Date.now(), ok: true },
 });

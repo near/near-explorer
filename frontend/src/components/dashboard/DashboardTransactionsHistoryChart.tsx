@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 import { Col, Row } from "react-bootstrap";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -118,7 +118,7 @@ const TransactionCharts = styled(Row, {
   },
 });
 
-const DashboardTransactionsHistoryChart: React.FC = React.memo(() => {
+export const DashboardTransactionsHistoryChart: React.FC = React.memo(() => {
   const transactionHistorySub =
     subscriptions.transactionsHistory.useSubscription({ amountOfDays: 14 });
   const { t } = useTranslation();
@@ -149,5 +149,3 @@ const DashboardTransactionsHistoryChart: React.FC = React.memo(() => {
     </TransactionCharts>
   );
 });
-
-export default DashboardTransactionsHistoryChart;

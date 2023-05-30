@@ -6,12 +6,12 @@ import { Row, Col } from "react-bootstrap";
 
 import { NestedReceiptWithOutcomeOld } from "@/common/types/procedures";
 import { Args } from "@/frontend/components/transactions/ActionMessage";
-import ActionRow from "@/frontend/components/transactions/ActionRow";
-import AccountLink from "@/frontend/components/utils/AccountLink";
-import Balance from "@/frontend/components/utils/Balance";
-import BlockLink from "@/frontend/components/utils/BlockLink";
-import Gas from "@/frontend/components/utils/Gas";
-import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
+import { ActionRow } from "@/frontend/components/transactions/ActionRow";
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
+import { Balance } from "@/frontend/components/utils/Balance";
+import { BlockLink } from "@/frontend/components/utils/BlockLink";
+import { Gas } from "@/frontend/components/utils/Gas";
+import { ReceiptLink } from "@/frontend/components/utils/ReceiptLink";
 import * as BI from "@/frontend/libraries/bigint";
 import { styled } from "@/frontend/libraries/styles";
 
@@ -87,7 +87,7 @@ export interface Props {
   transactionHash: string;
 }
 
-const ReceiptRow: React.FC<Props> = React.memo(
+export const ReceiptRow: React.FC<Props> = React.memo(
   ({ receipt, transactionHash }) => {
     const { t } = useTranslation();
     let statusInfo;
@@ -254,5 +254,3 @@ const ReceiptRow: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ReceiptRow;

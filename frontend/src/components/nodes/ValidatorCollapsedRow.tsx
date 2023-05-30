@@ -4,11 +4,12 @@ import {
   ValidatorDescription,
   ValidationProgress,
 } from "@/common/types/procedures";
-import ValidatorMetadataRow, {
+import {
+  ValidatorMetadataRow,
   ValidatorNodesContentRow,
 } from "@/frontend/components/nodes/ValidatorMetadataRow";
-import ValidatorProgressElement from "@/frontend/components/nodes/ValidatorProgressElement";
-import ValidatorTelemetryElements from "@/frontend/components/nodes/ValidatorTelemetryElements";
+import { ValidatorProgressElement } from "@/frontend/components/nodes/ValidatorProgressElement";
+import { ValidatorTelemetryElements } from "@/frontend/components/nodes/ValidatorTelemetryElements";
 import { TableCollapseRow } from "@/frontend/components/utils/Table";
 
 interface Props {
@@ -18,7 +19,7 @@ interface Props {
   description?: ValidatorDescription;
 }
 
-const ValidatorCollapsedRow: React.FC<Props> = React.memo(
+export const ValidatorCollapsedRow: React.FC<Props> = React.memo(
   ({ isRowActive, progress, description, accountId }) => (
     <TableCollapseRow collapse={isRowActive}>
       <td colSpan={8}>
@@ -32,5 +33,3 @@ const ValidatorCollapsedRow: React.FC<Props> = React.memo(
     </TableCollapseRow>
   )
 );
-
-export default ValidatorCollapsedRow;

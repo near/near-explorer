@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 
 import { TRPCSubscriptionOutput } from "@/common/types/trpc";
 import { Props } from "@/frontend/components/stats/TransactionsByDate";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { truncateAccountId } from "@/frontend/libraries/formatting";
 
@@ -43,26 +43,26 @@ const getOption = (
   ],
 });
 
-const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const activeContractsListSub =
-    subscriptions.activeContractsList.useSubscription();
+export const ActiveContractsList: React.FC<Props> = React.memo(
+  ({ chartStyle }) => {
+    const { t } = useTranslation();
+    const activeContractsListSub =
+      subscriptions.activeContractsList.useSubscription();
 
-  const option = React.useMemo(() => {
-    if (activeContractsListSub.status !== "success") {
-      return;
+    const option = React.useMemo(() => {
+      if (activeContractsListSub.status !== "success") {
+        return;
+      }
+      return getOption(
+        t("component.stats.ActiveContractsList.title"),
+        t("common.receipts.receipts"),
+        activeContractsListSub.data.reverse()
+      );
+    }, [activeContractsListSub.data, activeContractsListSub.status, t]);
+
+    if (!option) {
+      return <PaginationSpinner />;
     }
-    return getOption(
-      t("component.stats.ActiveContractsList.title"),
-      t("common.receipts.receipts"),
-      activeContractsListSub.data.reverse()
-    );
-  }, [activeContractsListSub.data, activeContractsListSub.status, t]);
-
-  if (!option) {
-    return <PaginationSpinner />;
+    return <ReactEcharts option={option} style={chartStyle} />;
   }
-  return <ReactEcharts option={option} style={chartStyle} />;
-});
-
-export default ActiveContractsList;
+);

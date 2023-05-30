@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Link from "@/frontend/components/utils/Link";
+import { Link } from "@/frontend/components/utils/Link";
 import { styled } from "@/frontend/libraries/styles";
 
 export interface Props {
@@ -12,8 +12,8 @@ const LinkWrapper = styled(Link, {
   whiteSpace: "nowrap",
 });
 
-const BlockLink: React.FC<Props> = React.memo(({ blockHash, blockHeight }) => (
-  <LinkWrapper href={`/blocks/${blockHash}`}>{`#${blockHeight}`}</LinkWrapper>
-));
-
-export default BlockLink;
+export const BlockLink: React.FC<Props> = React.memo(
+  ({ blockHash, blockHeight }) => (
+    <LinkWrapper href={`/blocks/${blockHash}`}>{`#${blockHeight}`}</LinkWrapper>
+  )
+);

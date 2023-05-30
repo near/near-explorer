@@ -1,7 +1,7 @@
 import { indexerDatabase } from "@/backend/database/databases";
-import { t } from "@/backend/router/trpc";
+import { commonProcedure } from "@/backend/router/trpc";
 
-export const procedure = t.procedure.query(async () => {
+export const procedure = commonProcedure.query(async () => {
   const selection = await indexerDatabase
     .selectFrom("aggregated__circulating_supply")
     .select([

@@ -7,11 +7,11 @@ import {
   AccountNonFungibleTokenElement,
   AccountNonFungibleTokenHistoryElement,
 } from "@/common/types/procedures";
-import NFTMedia from "@/frontend/components/beta/common/NFTMedia";
-import AccountLink from "@/frontend/components/utils/AccountLink";
-import ErrorMessage from "@/frontend/components/utils/ErrorMessage";
-import ReceiptLink from "@/frontend/components/utils/ReceiptLink";
-import Timer from "@/frontend/components/utils/Timer";
+import { NFTMedia } from "@/frontend/components/beta/common/NFTMedia";
+import { AccountLink } from "@/frontend/components/utils/AccountLink";
+import { ErrorMessage } from "@/frontend/components/utils/ErrorMessage";
+import { ReceiptLink } from "@/frontend/components/utils/ReceiptLink";
+import { Timer } from "@/frontend/components/utils/Timer";
 import { styled } from "@/frontend/libraries/styles";
 import { trpc } from "@/frontend/libraries/trpc";
 
@@ -133,7 +133,7 @@ type Props = {
   onClick: React.ReactEventHandler;
 };
 
-const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
+export const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
   ({ token, onClick }) => {
     const tokenHistoryQuery = trpc.account.nonFungibleTokenHistory.useQuery({
       tokenAuthorAccountId: token.authorAccountId,
@@ -189,5 +189,3 @@ const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default AccountNonFungibleTokensHistory;

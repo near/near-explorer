@@ -1,11 +1,12 @@
 import * as React from "react";
 
 import { Receipt, TransactionPreview } from "@/common/types/procedures";
-import ActionRow from "@/frontend/components/transactions/ActionRow";
-import ActionRowBlock, {
+import { ActionRow } from "@/frontend/components/transactions/ActionRow";
+import {
+  ActionRowBlock,
   ViewMode,
 } from "@/frontend/components/transactions/ActionRowBlock";
-import ActionsList from "@/frontend/components/transactions/ActionsList";
+import { ActionsList } from "@/frontend/components/transactions/ActionsList";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import BatchTransactionIcon from "@/frontend/public/static/images/icon-m-batch.svg";
 
@@ -18,7 +19,7 @@ interface Props {
   icon?: React.ReactNode;
 }
 
-const ActionGroup: React.FC<Props> = React.memo(
+export const ActionGroup: React.FC<Props> = React.memo(
   ({ actionGroup, detailsLink, status, viewMode, title, icon }) => {
     const latestBlockSub = subscriptions.latestBlock.useSubscription();
 
@@ -69,5 +70,3 @@ const ActionGroup: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default ActionGroup;

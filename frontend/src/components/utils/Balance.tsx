@@ -69,7 +69,7 @@ interface Props {
   fracDigits?: number;
 }
 
-const Balance: React.FC<Props> = React.memo(
+export const Balance: React.FC<Props> = React.memo(
   ({
     amount,
     label = null,
@@ -103,5 +103,3 @@ const Balance: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default Balance;

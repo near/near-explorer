@@ -2,11 +2,12 @@ import * as React from "react";
 
 import { useTranslation } from "next-i18next";
 
-import ValidatorsList, {
+import {
+  ValidatorsList,
   ITEMS_PER_PAGE,
 } from "@/frontend/components/nodes/ValidatorsList";
 import { PaginateWrapper } from "@/frontend/components/utils/Pagination";
-import PaginationSpinner from "@/frontend/components/utils/PaginationSpinner";
+import { PaginationSpinner } from "@/frontend/components/utils/PaginationSpinner";
 import { Table, OnPageChange } from "@/frontend/components/utils/Table";
 import { subscriptions } from "@/frontend/hooks/use-subscription";
 import { styled } from "@/frontend/libraries/styles";
@@ -15,7 +16,7 @@ const ValidatorNodePagination = styled(PaginateWrapper, {
   backgroundColor: "#ffffff",
 });
 
-const Validators: React.FC = React.memo(() => {
+export const Validators: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const [selectedPageIndex, setSelectedPageIndex] = React.useState(0);
 
@@ -73,5 +74,3 @@ const Validators: React.FC = React.memo(() => {
     </Table>
   );
 });
-
-export default Validators;

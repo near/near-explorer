@@ -34,7 +34,7 @@ export type Props = React.PropsWithChildren<{
   className?: string;
 }>;
 
-const Content: React.FC<Props> = React.memo(
+export const Content: React.FC<Props> = React.memo(
   ({
     border = true,
     icon,
@@ -77,5 +77,3 @@ const Content: React.FC<Props> = React.memo(
     );
   }
 );
-
-export default Content;

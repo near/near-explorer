@@ -10,7 +10,7 @@ import { isEqual } from "lodash";
 import { z } from "zod";
 
 import { RequestContext } from "@/backend/context";
-import { t } from "@/backend/router/trpc";
+import { t, commonProcedure } from "@/backend/router/trpc";
 import {
   SubscriptionEventMap,
   SubscriptionTopicType,
@@ -79,7 +79,7 @@ const getSubscriptionProcedure = <T extends SubscriptionTopicType>(
   topic: T,
   mapFn: MapFunction<T>
 ) =>
-  t.procedure.input(getInput(topic)).subscription(({ ctx, input }) =>
+  commonProcedure.input(getInput(topic)).subscription(({ ctx, input }) =>
     observable<MappedSubscriptionTopicType<T>>((emit) => {
       const typedInput = input as SubscriptionInput<T>;
       const onData: SubscriptionEventMap[T] = ((nextData, prevData) => {
@@ -109,7 +109,7 @@ const getQueryProcedure = <T extends SubscriptionTopicType>(
   topic: T,
   mapFn: MapFunction<T>
 ) =>
-  t.procedure.input(getInput(topic)).query(async ({ ctx, input }) => {
+  commonProcedure.input(getInput(topic)).query(async ({ ctx, input }) => {
     const typedInput = input as SubscriptionInput<T>;
     if (!ctx.subscriptionsCache[topic]) {
       return new Promise((resolve) => {
