@@ -133,6 +133,7 @@ module.exports = {
             files: [
                 "frontend/src/pages/**/*",
                 "backend/src/database/models/**/*",
+                "backend/src/database/models-original/**/*",
                 "frontend/utils/stitches-plugin/plugin.ts",
                 "frontend/src/testing/svg-mock.ts",
                 "frontend/src/testing/env.ts",

@@ -61,6 +61,7 @@ typings/
 backend/config/*-local
 backend/db
 backend/build
+backend/src/database/models-original
 
 # E2E tests
 /test-results/
