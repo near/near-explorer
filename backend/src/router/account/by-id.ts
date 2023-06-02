@@ -9,6 +9,7 @@ import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
 import { ignoreIfDoesNotExist } from "@/backend/utils/near";
+import { EMPTY_CODE_HASH } from "@/common/utils/constants";
 
 const getLockupAccountId = async (
   accountId: string
@@ -166,7 +167,7 @@ export const procedures = {
       return {
         id,
         isContract: nearCoreAccount
-          ? nearCoreAccount.code_hash !== "11111111111111111111111111111111"
+          ? nearCoreAccount.code_hash !== EMPTY_CODE_HASH
           : false,
         created: accountInfo.created,
         storageUsed: accountDetails.storageUsage,
