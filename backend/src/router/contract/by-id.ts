@@ -9,6 +9,7 @@ import { div } from "@/backend/database/utils";
 import { commonProcedure } from "@/backend/router/trpc";
 import { validators } from "@/backend/router/validators";
 import * as nearApi from "@/backend/utils/near";
+import { EMPTY_CODE_HASH } from "@/common/utils/constants";
 
 const queryContractFromIndexer = async (accountId: string) => {
   // find the latest update in analytics db
@@ -119,7 +120,7 @@ export const procedure = commonProcedure
       })
       .catch(nearApi.ignoreIfDoesNotExist);
     // see https://github.com/near/near-explorer/pull/841#discussion_r783205960
-    if (!account || account.code_hash === "11111111111111111111111111111111") {
+    if (!account || account.code_hash === EMPTY_CODE_HASH) {
       return null;
     }
     const [contractInfo, accessKeys] = await Promise.all([

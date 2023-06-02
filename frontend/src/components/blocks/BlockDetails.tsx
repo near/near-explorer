@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import { Row, Col } from "react-bootstrap";
 
 import { Block } from "@/common/types/procedures";
+import { EMPTY_CODE_HASH } from "@/common/utils/constants";
 import { AccountLink } from "@/frontend/components/utils/AccountLink";
 import { BlockLink } from "@/frontend/components/utils/BlockLink";
 import {
@@ -189,7 +190,7 @@ export const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 />
               }
               text={
-                block.prevHash === "11111111111111111111111111111111" ? (
+                block.prevHash === EMPTY_CODE_HASH ? (
                   "Genesis"
                 ) : (
                   <BlockLink blockHash={block.prevHash}>
