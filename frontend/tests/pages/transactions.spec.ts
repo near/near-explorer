@@ -16,7 +16,7 @@ test.describe("Transactions page", () => {
   test(`There are ${transactionsPerPage} transaction rows on load`, async ({
     page,
   }) => {
-    await expect(page.getByTestId("transaction-item")).toHaveCount(
+    await expect(page.locator("class=ActionRow")).toHaveCount(
       transactionsPerPage
     );
   });
