@@ -43,9 +43,9 @@ export const Blocks: React.FC = React.memo(() => {
               : null}
             {t("utils.Update.refresh")}
           </Placeholder>
-          {(items) =>
-            items.map((block) => <BlocksRow key={block.hash} block={block} />)
-          }
+          {items.map((block) => (
+            <BlocksRow key={block.hash} block={block} />
+          ))}
         </>
       )}
     </ListHandler>
