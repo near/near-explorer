@@ -6,7 +6,6 @@ import { useTranslation } from "next-i18next";
 import { TransactionListResponse } from "@/common/types/procedures";
 import { TRPCInfiniteQueryResult } from "@/common/types/trpc";
 import { TransactionAction } from "@/frontend/components/transactions/TransactionAction";
-import { FlipMove } from "@/frontend/components/utils/FlipMove";
 import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { Placeholder } from "@/frontend/components/utils/Placeholder";
 
@@ -45,15 +44,13 @@ export const Transactions: React.FC<Props> = React.memo(({ query }) => {
             </Placeholder>
           );
         }
-        return (
-          <FlipMove duration={1000} staggerDurationBy={0}>
-            {items.map((transaction) => (
-              <div key={transaction.hash} data-testid="transaction-item">
-                <TransactionAction transaction={transaction} />
-              </div>
-            ))}
-          </FlipMove>
-        );
+        return items.map((transaction) => (
+          <TransactionAction
+            transaction={transaction}
+            key={transaction.hash}
+            data-testid="transaction-item"
+          />
+        ));
       }}
     </ListHandler>
   );

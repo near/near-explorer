@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { id } from "@/common/utils/utils";
 import { AccountRow } from "@/frontend/components/accounts/AccountRow";
-import { FlipMove } from "@/frontend/components/utils/FlipMove";
 import { ListHandler } from "@/frontend/components/utils/ListHandler";
 import { trpc } from "@/frontend/libraries/trpc";
 
@@ -23,13 +22,11 @@ export const Accounts: React.FC = React.memo(() => {
   );
   return (
     <ListHandler<"account.listByTimestamp"> query={query} parser={id}>
-      {(items) => (
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          {items.map((account) => (
-            <AccountRow key={account.id} account={account} />
-          ))}
-        </FlipMove>
-      )}
+      {(items) =>
+        items.map((account) => (
+          <AccountRow key={account.id} account={account} />
+        ))
+      }
     </ListHandler>
   );
 });
