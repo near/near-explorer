@@ -33,28 +33,25 @@ export const Blocks: React.FC = React.memo(() => {
   const onRefetchClick = React.useCallback(() => refetch(), [refetch]);
 
   return (
-    <ListHandler<"block.list">
-      query={query}
-      parser={id}
-      prependChildren={
-        <Placeholder onClick={onRefetchClick}>
-          {latestBlockSub.status === "success"
-            ? t("utils.ListHandler.last_block", {
-                height: latestBlockSub.data.height,
-              })
-            : null}
-          {t("utils.Update.refresh")}
-        </Placeholder>
-      }
-    >
+    <ListHandler<"block.list"> query={query} parser={id}>
       {(items) => (
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          {items.map((block) => (
-            <div key={block.hash}>
-              <BlocksRow block={block} />
-            </div>
-          ))}
-        </FlipMove>
+        <>
+          <Placeholder onClick={onRefetchClick}>
+            {latestBlockSub.status === "success"
+              ? t("utils.ListHandler.last_block", {
+                  height: latestBlockSub.data.height,
+                })
+              : null}
+            {t("utils.Update.refresh")}
+          </Placeholder>
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            {items.map((block) => (
+              <div key={block.hash}>
+                <BlocksRow block={block} />
+              </div>
+            ))}
+          </FlipMove>
+        </>
       )}
     </ListHandler>
   );
