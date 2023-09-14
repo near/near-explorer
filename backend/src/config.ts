@@ -35,7 +35,7 @@ export const config = merge(
       checkLatestBlock: SECOND,
       checkLatestGasPrice: 15 * SECOND,
       checkBlockProductionSpeed: 5 * SECOND,
-      checkRecentTransactions: SECOND,
+      checkRecentTransactions: SECOND * 30,
       checkNetworkInfo: SECOND,
       checkProtocolInfo: HOUR,
       checkOnlineNodesCount: SECOND,
