@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
+import ExplorerSunsetBanner from "@/frontend/components/common/ExplorerSunsetBanner";
 import { DashboardBlock } from "@/frontend/components/dashboard/DashboardBlock";
 import { DashboardNode } from "@/frontend/components/dashboard/DashboardNode";
 import { DashboardTransaction } from "@/frontend/components/dashboard/DashboardTransaction";
@@ -14,6 +15,8 @@ import { useAnalyticsTrackOnMount } from "@/frontend/hooks/analytics/use-analyti
 import { getNearNetworkName } from "@/frontend/libraries/config";
 import { styled } from "@/frontend/libraries/styles";
 import { getTrpcClient } from "@/frontend/libraries/trpc";
+
+// Import the ExplorerSunsetBanner component
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -61,6 +64,7 @@ const Dashboard: NextPage = React.memo(() => {
         <title>NEAR Explorer | Dashboard</title>
       </Head>
       <DashboardContainer>
+        <ExplorerSunsetBanner /> {/* Add the banner component here */}
         <Header>
           <ExplorerTitle>{t("page.home.title.explore")}</ExplorerTitle>
           {t("page.home.title.near_blockchain")}
