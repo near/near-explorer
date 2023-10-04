@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import ExplorerSunsetBanner from "@/frontend/components/common/ExplorerSunsetBanner";
+import { ExplorerSunsetBanner } from "@/frontend/components/common/ExplorerSunsetBanner";
 import { DashboardBlock } from "@/frontend/components/dashboard/DashboardBlock";
 import { DashboardNode } from "@/frontend/components/dashboard/DashboardNode";
 import { DashboardTransaction } from "@/frontend/components/dashboard/DashboardTransaction";
