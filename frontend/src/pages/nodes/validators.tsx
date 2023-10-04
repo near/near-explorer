@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { Container } from "react-bootstrap";
 
+import { ExplorerSunsetBanner } from "@/frontend/components/common/ExplorerSunsetBanner";
 import { NodesCard } from "@/frontend/components/nodes/NodesCard";
 import { NodesContentHeader } from "@/frontend/components/nodes/NodesContentHeader";
 import { NodesEpoch } from "@/frontend/components/nodes/NodesEpoch";
@@ -45,6 +46,9 @@ const ValidatorsPage: NextPage = React.memo(() => {
       <Head>
         <title>NEAR Explorer | Nodes</title>
       </Head>
+      <div style={{ maxWidth: "1110px", margin: "0 auto" }}>
+        <ExplorerSunsetBanner /> {/* Add the banner component here */}
+      </div>
 
       <Container fluid>
         <NodesEpoch />

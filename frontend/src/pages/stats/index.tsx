@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 
+import { ExplorerSunsetBanner } from "@/frontend/components/common/ExplorerSunsetBanner";
 import { ActiveAccountsByDate } from "@/frontend/components/stats/ActiveAccountsByDate";
 import { ActiveAccountsList } from "@/frontend/components/stats/ActiveAccountsList";
 import { ActiveContractsByDate } from "@/frontend/components/stats/ActiveContractsByDate";
@@ -35,6 +36,9 @@ const Stats: NextPage = React.memo(() => {
       <Head>
         <title>NEAR Explorer | Stats</title>
       </Head>
+      <div style={{ maxWidth: "1110px", margin: "0 auto" }}>
+        <ExplorerSunsetBanner /> {/* Add the banner component here */}
+      </div>
       <Content title={<h1>{t("common.stats.title")}</h1>}>
         <div id="protocolConfiguration">
           <ProtocolConfigInfo />

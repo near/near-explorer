@@ -98,7 +98,7 @@ const ContentWrapper = styled.div`
 //    }
 // `;
 
-const ExplorerSunsetBanner = () => 
+const ExplorerSunsetBanner = () => (
   // const migrationBannerCloseTime = localStorage.getItem('migrationBannerCloseTime');
   // const [showBanner, setShowBanner] = useState(true);
   // const EXPIRY_DATE = 604800000; // 7 days in milliseconds
@@ -118,28 +118,26 @@ const ExplorerSunsetBanner = () =>
   //        localStorage.setItem('migrationBannerCloseTime', Date.now());
   //    };
 
-   (
-    <StyledContainer id="migration-banner">
-      <ContentWrapper>
-        <div className="content">
-          <div className="alert-container" style={{ marginRight: "10px" }}>
-            <AlertTriangleIcon color="#FFA01C" />
-          </div>
-          <div className="message-container" style={{ whiteSpace: "normal" }}>
-            <p>
-              As of January 31, 2024, NEAR Explorer will be discontinued. We
-              recommend using <a href="https://nearblocks.io">nearblocks.io</a>{" "}
-              for your exploration needs. For more details, explore our{" "}
-              <a href="https://docs.near.org/tools/indexer-for-explorer#what-is-the-timeline">
-                documentation
-              </a>
-              .
-            </p>
-          </div>
+  <StyledContainer id="migration-banner">
+    <ContentWrapper>
+      <div className="content">
+        <div className="alert-container" style={{ marginRight: "10px" }}>
+          <AlertTriangleIcon color="#FFA01C" />
         </div>
-      </ContentWrapper>
-    </StyledContainer>
-  )
-;
-
+        <div className="message-container" style={{ whiteSpace: "normal" }}>
+          <p>
+            As of January 31, 2024, NEAR Explorer will be discontinued. This URL
+            will continue to function, but we recommend using{" "}
+            <a href="https://nearblocks.io">nearblocks.io</a> for your
+            exploration needs. For more details, explore our{" "}
+            <a href="https://docs.near.org/tools/indexer-for-explorer#what-is-the-timeline">
+              blog post.
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    </ContentWrapper>
+  </StyledContainer>
+);
 export { ExplorerSunsetBanner };
