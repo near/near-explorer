@@ -128,10 +128,17 @@ const ExplorerSunsetBanner = () => (
           <p>
             As of January 31, 2024, NEAR Explorer will be discontinued. This URL
             will continue to function, but we recommend using{" "}
-            <a href="https://nearblocks.io">nearblocks.io</a> for your
-            exploration needs. For more details, explore our{" "}
-            <a href="https://docs.near.org/tools/indexer-for-explorer#what-is-the-timeline">
-              blog post.
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a href="https://nearblocks.io" target="_blank">
+              nearblocks.io
+            </a>{" "}
+            for your exploration needs. For more details, see our{" "}
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a
+              href="https://docs.near.org/tools/indexer-for-explorer#near-explorer-sunsetting"
+              target="_blank"
+            >
+              blog post
             </a>
             .
           </p>
