@@ -133,7 +133,6 @@ const ExplorerSunsetBanner = () => (
             <a href="https://docs.near.org/tools/indexer-for-explorer#what-is-the-timeline">
               blog post.
             </a>
-            .
           </p>
         </div>
       </div>
