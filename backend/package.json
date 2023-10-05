@@ -45,7 +45,7 @@
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^4.1.2",
     "ws": "^8.6.0",
-    "zod": "^3.16.0",
+    "zod": "^3.22.3",
     "zod-error": "^1.1.0"
   },
   "devDependencies": {
