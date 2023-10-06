@@ -87,7 +87,7 @@ export default defineConfig({
       cwd: "..",
       command: "npm run -w backend start:mainnet",
       reuseExistingServer: !(process.env.CI || process.env.PW_SERVER),
-      url: `${BACKEND_BASE_URL}/global-state`,
+      url: `${BACKEND_BASE_URL}/ping`,
       env: {
         DB_NAME_PREFIX: "test",
       },
