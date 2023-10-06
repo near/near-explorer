@@ -107,7 +107,7 @@ jobs:
       - uses: ./.github/actions/setup-node
       - uses: ./.github/actions/install-packages
       - name: Run unit tests
-        run:  npm run -w frontend test -- --updateSnapshot
+        run: npm run -w frontend test -- --updateSnapshot
 
   e2e-test:
     name: e2e testing
