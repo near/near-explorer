@@ -135,7 +135,7 @@ const ExplorerSunsetBanner = () => (
             for your exploration needs. For more details, see our{" "}
             {/* eslint-disable-next-line react/jsx-no-target-blank */}
             <a
-              href="https://docs.near.org/tools/indexer-for-explorer#near-explorer-sunsetting"
+              href="https://pages.near.org/blog/an-update-on-near-ecosystem-block-explorers/"
               target="_blank"
             >
               blog post
