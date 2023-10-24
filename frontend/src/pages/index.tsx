@@ -16,44 +16,41 @@ import { getNearNetworkName } from "@/frontend/libraries/config";
 import { styled } from "@/frontend/libraries/styles";
 import { getTrpcClient } from "@/frontend/libraries/trpc";
 
-// Import the ExplorerSunsetBanner component
 
-const InnerContent = styled(Row, {
+const InnerContent = React.memo(styled(Row, {
   margin: "71px 185px",
   "@media (max-width: 1200px)": {
     margin: "32px 100px",
   },
-
   "@media (max-width: 990px)": {
     margin: "32px auto",
   },
-});
+}));
 
-const SearchRowWrapper = styled(Row, {
+const SearchRowWrapper = React.memo(styled(Row, {
   marginBottom: 50,
-});
+}));
 
-const Header = styled("h1", {
+const Header = React.memo(styled("h1", {
   fontSize: 38,
   lineHeight: "46px",
   whiteSpace: "pre-line",
   marginTop: 72,
   marginLeft: 25,
-});
+}));
 
-const ExplorerTitle = styled("span", {
+const ExplorerTitle = React.memo(styled("span", {
   color: "#00C1DE",
-});
+}));
 
-const DashboardContainer = styled(Container, {
+const DashboardContainer = React.memo(styled(Container, {
   "@media (max-width: 415px)": {
     padding: "0 1px 0 0",
     [`& ${DashboardCardWrapper}`]: {
       boxShadow: "none",
     },
   },
-});
-
+}));
 const Dashboard: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Landing Page");
@@ -64,7 +61,7 @@ const Dashboard: NextPage = React.memo(() => {
         <title>NEAR Explorer | Dashboard</title>
       </Head>
       <DashboardContainer>
-        <ExplorerSunsetBanner /> {/* Add the banner component here */}
+      <ExplorerSunsetBanner /> {/* Add the banner component here */}
         <Header>
           <ExplorerTitle>{t("page.home.title.explore")}</ExplorerTitle>
           {t("page.home.title.near_blockchain")}
@@ -81,7 +78,6 @@ const Dashboard: NextPage = React.memo(() => {
                 <DashboardNode />
               </Col>
               <Col xs="12" md="6" className="mt-4">
-                <DashboardBlock />
               </Col>
             </Row>
           </Col>

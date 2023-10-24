@@ -184,42 +184,42 @@ export const ServiceStatusView: React.FC = () => {
   const indexerStatusSub = subscriptions.indexerStatus.useSubscription();
 
   const status = getStatusWithMessage(rpcStatusSub, indexerStatusSub);
-  const previousStatus = usePrevious(status);
+  // const previousStatus = usePrevious(status);
 
-  const [runningToasts, setRunningToasts] = React.useState<
-    {
-      id: string;
-      message: string;
-    }[]
-  >([]);
-  React.useEffect(() => {
-    if (status.timestamp === previousStatus?.timestamp) {
-      return;
-    }
-    if (status.type === "success") {
-      runningToasts.forEach(({ id }) => toast.dismiss(id));
-      setRunningToasts([]);
-      return;
-    }
-    if (
-      runningToasts.some(
-        (runningToast) => runningToast.message === status.message
-      )
-    ) {
-      return;
-    }
-    const toastId =
-      status.type === "error"
-        ? toast.error(status.message, { duration: MINUTE })
-        : toast.custom(status.message, { duration: MINUTE });
-    setRunningToasts((toasts) => [
-      ...toasts,
-      {
-        id: toastId,
-        message: status.message,
-      },
-    ]);
-  }, [status, previousStatus, setRunningToasts, runningToasts]);
+  // const [runningToasts, setRunningToasts] = React.useState<
+  //   {
+  //     id: string;
+  //     message: string;
+  //   }[]
+  // >([]);
+  // React.useEffect(() => {
+  //   if (status.timestamp === previousStatus?.timestamp) {
+  //     return;
+  //   }
+  //   if (status.type === "success") {
+  //     runningToasts.forEach(({ id }) => toast.dismiss(id));
+  //     setRunningToasts([]);
+  //     return;
+  //   }
+  //   if (
+  //     runningToasts.some(
+  //       (runningToast) => runningToast.message === status.message
+  //     )
+  //   ) {
+  //     return;
+  //   }
+  //   const toastId =
+  //     status.type === "error"
+  //       ? toast.error(status.message, { duration: MINUTE })
+  //       : toast.custom(status.message, { duration: MINUTE });
+  //   setRunningToasts((toasts) => [
+  //     ...toasts,
+  //     {
+  //       id: toastId,
+  //       message: status.message,
+  //     },
+  //   ]);
+  // }, [status, previousStatus, setRunningToasts, runningToasts]);
 
   const renderOverlay = React.useCallback<
     Exclude<
@@ -244,3 +244,4 @@ export const ServiceStatusView: React.FC = () => {
     </OverlayTrigger>
   );
 };
+

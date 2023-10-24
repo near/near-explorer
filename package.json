@@ -39,7 +39,9 @@
     "@explorer/frontend": "*",
     "dotenv-cli": "^5.0.0",
     "gleap": "^8.4.7",
-    "patch-package": "^6.4.7"
+    "patch-package": "^6.4.7",
+    "react-devtools": "^4.28.4",
+    "wait-on": "^7.0.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.3.1",
