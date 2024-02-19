@@ -28,6 +28,7 @@ const defaultBackendConfig: BackendConfig = {
     shardnet: "localhost",
     guildnet: "localhost",
     localnet: "localhost",
+    statelessnet: "localhost",
   },
   port: 10000,
   secure: false,

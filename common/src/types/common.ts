@@ -3,6 +3,7 @@ export type NetworkName =
   | "testnet"
   | "shardnet"
   | "guildnet"
+  | "statelessnet"
   | "localnet";
 
 // Workaround of Omit breaking discriminated unions
